@@ -1,4 +1,4 @@
-# pollicam-desktop-app
+# PolliCAM Desktop App
 
 ## Commands
 ### Project setup
