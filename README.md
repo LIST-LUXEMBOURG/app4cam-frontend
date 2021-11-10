@@ -1,29 +1,31 @@
 # pollicam-desktop-app
 
-## Project setup
-```
-npm install
-```
+## Commands
+### Project setup
+`npm install`
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+### Compile and hot-reload for development
+`npm run serve`
 
-### Compiles and minifies for production
-```
-npm run build
-```
+### Compile and minify for production
+`npm run build`
 
 ### Run your unit tests
-```
-npm run test:unit
-```
+`npm run test:unit`
 
-### Lints and fixes files
-```
-npm run lint
-```
+### Lint and fix files
+`npm run lint`
 
-### Customize configuration
+### Build electron app
+`npm run electron:build`
+
+### Start electron development server
+`npm run electron:serve`
+
+### Rebuild native node modules against electron's packaged node version
+`npm run postinstall`
+
+`npm run postuninstall`
+
+## Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
