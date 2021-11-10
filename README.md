@@ -29,3 +29,8 @@
 
 ## Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## Recommended plugins for Visual Studio Code
+- EditorConfig for VS Code
+- ESLint
+- Vetur
