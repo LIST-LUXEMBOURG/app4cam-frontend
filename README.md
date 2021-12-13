@@ -1,4 +1,4 @@
-# PolliCAM Desktop App
+# PolliCAM Frontend
 
 ## Project setup
 ```
