@@ -8,7 +8,8 @@
     "preview": "vite preview",
     "test": "jest src",
     "lint": "eslint --ext .js,.ts,.vue src",
-    "format": "prettier .  --write"
+    "format": "prettier .  --write",
+    "prepare": "husky install"
   },
   "dependencies": {
     "vue": "^3.2.25"
@@ -21,11 +22,16 @@
     "eslint": "^8.6.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-vue": "^8.2.0",
+    "husky": "^7.0.4",
     "jest": "^27.4.7",
+    "lint-staged": "^12.1.7",
     "prettier": "2.5.1",
     "ts-jest": "^27.1.2",
     "typescript": "^4.4.4",
     "vite": "^2.7.2",
     "vue-tsc": "^0.29.8"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
   }
 }
