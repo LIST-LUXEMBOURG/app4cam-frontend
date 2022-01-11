@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { QBtn, QIcon } from 'quasar'
+import { QBtn } from 'quasar'
 import HelloWorld from './HelloWorld.vue'
 
 describe('HelloWorld', () => {
