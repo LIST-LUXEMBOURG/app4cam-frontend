@@ -6,12 +6,15 @@
 
 ## Development
 
-- `npm run dev`
-- `npm run build` & `npm run preview`
+- Start dev server: `npm run dev`
+- Build for production: `npm run build`
+- Locally preview production build: `npm run preview`
+- Run unit tests: `npm run test`
+- Lint files: `npm run lint`
 
 ## Specificities
 
-## Technology stack
+### Technology stack
 
 - [TypeScript](https://www.typescriptlang.org/)
 - [Vue.js](https://v3.vuejs.org/)
@@ -27,7 +30,7 @@ Since TypeScript cannot handle type information for `.vue` imports, they are shi
 
 ## Recommended plugins for Visual Studio Code
 
-- EditorConfig for VS Code
-- ESLint
-- Vetur
+- [EditorConfig for VS Code](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
+- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+- [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 - [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
