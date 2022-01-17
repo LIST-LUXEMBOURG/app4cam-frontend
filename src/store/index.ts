@@ -1,45 +1,28 @@
-import {
-  ActionContext,
-  createStore as vuexCreateStore,
-  MutationTree,
-  StoreOptions,
-} from 'vuex'
-import FilesService from '../services/FilesService'
-import { SET_FILES } from './mutation-types'
+import { createStore as vuexCreateStore, StoreOptions } from 'vuex'
+import actions from './actions'
+import mutations from './mutations'
 
-interface File {
+export interface File {
   name: string
   creationTime: Date
 }
 
-interface State {
+export interface State {
+  deviceId: string
   files: File[]
+  siteName: string
 }
 
 const state: State = {
+  deviceId: '',
   files: [],
-}
-
-export const mutations: MutationTree<State> = {
-  [SET_FILES](state: State, files: File[]) {
-    state.files = files
-  },
+  siteName: '',
 }
 
 const store: StoreOptions<State> = {
   state,
   mutations,
-  actions: {
-    fetchFiles({ commit }: ActionContext<State, State>) {
-      return FilesService.getFiles()
-        .then((response) => {
-          commit(SET_FILES, response.data)
-        })
-        .catch((error) => {
-          throw error
-        })
-    },
-  },
+  actions,
 }
 
 const defaultStoreOverrides = {
