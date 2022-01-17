@@ -2,12 +2,13 @@
 import { useQuasar } from 'quasar'
 import { computed } from 'vue'
 import { useStore } from 'vuex'
+import { Actions } from '../store/action-types'
 
-const $q = useQuasar()
-
+const quasar = useQuasar()
 const store = useStore()
-store.dispatch('fetchFiles').catch((error) => {
-  $q.notify({
+
+store.dispatch(Actions.FETCH_FILES).catch((error) => {
+  quasar.notify({
     message: 'The files could not be loaded.',
     caption: error.message ? error.message : '',
     color: 'negative',
@@ -19,7 +20,7 @@ const files = computed(() => store.state.files)
 
 <template>
   <h5 class="q-my-md">Shots</h5>
-  <div v-for="(file, $index) in files" :key="$index" class="q-px-md">
+  <div v-for="(file, index) in files" :key="index" class="q-px-md">
     <q-item v-ripple clickable :dark="false" data-testid="file">
       <q-item-section>
         <q-item-label>{{ file.name }}</q-item-label>
