@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useQuasar } from 'quasar'
 import { computed } from 'vue'
-import { useStore } from 'vuex'
+import { useStore } from '../store'
 import { Actions } from '../store/action-types'
 
 const quasar = useQuasar()
