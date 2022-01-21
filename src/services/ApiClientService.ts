@@ -22,10 +22,12 @@ export default {
   getFiles(): Promise<File[]> {
     return unwrapAxiosResponse(apiClient.get('/files'))
   },
-  getSettings(): Promise<Settings> {
+
+  getSettings(): Promise<SettingsDto> {
     return unwrapAxiosResponse(apiClient.get('/settings'))
   },
-  patchSettings(settings: Partial<Settings>): Promise<void> {
+
+  patchSettings(settings: Partial<SettingsDto>): Promise<void> {
     return unwrapAxiosResponse(apiClient.patch('/settings', settings))
   },
 }
