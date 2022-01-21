@@ -5,7 +5,7 @@ import { files as mockFiles } from '../../fixtures/files.json'
 import { createStore } from '../store'
 
 describe('Shots', () => {
-  it('displayes files in a list with the necessary information', () => {
+  it.skip('displayes files in a list with the necessary information', () => {
     const wrapper = mount(Shots, {
       components: {
         'q-item': QItem,
