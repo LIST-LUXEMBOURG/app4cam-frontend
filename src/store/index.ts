@@ -1,22 +1,12 @@
 import { createStore as vuexCreateStore, StoreOptions } from 'vuex'
 import actions from './actions'
 import mutations from './mutations'
+import { State } from './state'
+import state from './state'
 
 export interface File {
   name: string
   creationTime: Date
-}
-
-export interface State {
-  deviceId: string
-  files: File[]
-  siteName: string
-}
-
-const state: State = {
-  deviceId: '',
-  files: [],
-  siteName: '',
 }
 
 const store: StoreOptions<State> = {

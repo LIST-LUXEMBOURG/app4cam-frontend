@@ -9,11 +9,6 @@ jest.mock('../services/ApiClientService')
 
 const mockFiles = convertJsonToFiles(files)
 
-const mockSettings: Settings = {
-  deviceId: 'd',
-  siteName: 's',
-}
-
 describe('actions', () => {
   it(Actions.FETCH_FILES, async () => {
     jest.spyOn(ApiClientService, 'getFiles').mockImplementation(() => {
@@ -26,6 +21,12 @@ describe('actions', () => {
   })
 
   it(Actions.FETCH_SETTINGS, async () => {
+    const systemTime = new Date()
+    const mockSettings: SettingsDto = {
+      deviceId: 'd',
+      siteName: 's',
+      systemTime: systemTime.toISOString(),
+    }
     jest.spyOn(ApiClientService, 'getSettings').mockImplementation(() => {
       return Promise.resolve(mockSettings)
     })
@@ -40,6 +41,7 @@ describe('actions', () => {
       Mutations.SET_SITE_NAME,
       mockSettings.siteName,
     )
+    expect(commit).toHaveBeenCalledWith(Mutations.SET_SYSTEM_TIME, systemTime)
   })
 
   describe(Actions.SAVE_SETTINGS, () => {
@@ -49,16 +51,25 @@ describe('actions', () => {
         .mockImplementation(() => Promise.resolve())
       const commit = jest.fn()
       const state = {}
+      const mockSettingsWithoutSystemTime = {
+        deviceId: 'd',
+        siteName: 's',
+      }
       // @ts-ignore
-      await actions[Actions.SAVE_SETTINGS]({ commit, state }, mockSettings)
-      expect(ApiClientService.patchSettings).toHaveBeenCalledWith(mockSettings)
+      await actions[Actions.SAVE_SETTINGS](
+        { commit, state },
+        mockSettingsWithoutSystemTime,
+      )
+      expect(ApiClientService.patchSettings).toHaveBeenCalledWith(
+        mockSettingsWithoutSystemTime,
+      )
       expect(commit).toHaveBeenCalledWith(
         Mutations.SET_DEVICE_ID,
-        mockSettings.deviceId,
+        mockSettingsWithoutSystemTime.deviceId,
       )
       expect(commit).toHaveBeenCalledWith(
         Mutations.SET_SITE_NAME,
-        mockSettings.siteName,
+        mockSettingsWithoutSystemTime.siteName,
       )
     })
 
