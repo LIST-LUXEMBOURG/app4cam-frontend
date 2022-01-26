@@ -1,24 +1,24 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import Dashboard from '../views/Dashboard.vue'
-import Settings from '../views/Settings.vue'
-import Shots from '../views/Shots.vue'
+import DashboardView from '../views/DashboardView.vue'
+import SettingsView from '../views/SettingsView.vue'
+import ShotsView from '../views/ShotsView.vue'
 
 const routes = [
   {
     path: '/',
     name: 'Dashboard',
-    component: Dashboard,
+    component: DashboardView,
   },
   {
     path: '/settings',
     name: 'Settings',
-    component: Settings,
+    component: SettingsView,
   },
   {
     path: '/shots',
     name: 'Shots',
-    component: Shots,
+    component: ShotsView,
   },
 ]
 

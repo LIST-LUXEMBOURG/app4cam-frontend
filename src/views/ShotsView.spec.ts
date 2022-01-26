@@ -1,12 +1,12 @@
 import { mount } from '@vue/test-utils'
 import { QItem, QItemLabel, QItemSection, Ripple } from 'quasar'
-import Shots from './Shots.vue'
+import ShotsView from './ShotsView.vue'
 import { files as mockFiles } from '../../fixtures/files.json'
 import { createStore } from '../store'
 
 describe('Shots', () => {
   it.skip('displayes files in a list with the necessary information', () => {
-    const wrapper = mount(Shots, {
+    const wrapper = mount(ShotsView, {
       components: {
         'q-item': QItem,
         'q-item-label': QItemLabel,
