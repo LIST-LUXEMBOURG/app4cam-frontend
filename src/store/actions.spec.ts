@@ -10,38 +10,42 @@ jest.mock('../services/ApiClientService')
 const mockFiles = convertJsonToFiles(files)
 
 describe('actions', () => {
-  it(Actions.FETCH_FILES, async () => {
-    jest.spyOn(ApiClientService, 'getFiles').mockImplementation(() => {
-      return Promise.resolve(mockFiles)
+  describe(Actions.FETCH_FILES, () => {
+    it('commits after fetching', async () => {
+      jest.spyOn(ApiClientService, 'getFiles').mockImplementation(() => {
+        return Promise.resolve(mockFiles)
+      })
+      const commit = jest.fn()
+      // @ts-ignore
+      await actions[Actions.FETCH_FILES]({ commit })
+      expect(commit).toHaveBeenCalledWith(Mutations.SET_FILES, mockFiles)
     })
-    const commit = jest.fn()
-    // @ts-ignore
-    await actions[Actions.FETCH_FILES]({ commit })
-    expect(commit).toHaveBeenCalledWith(Mutations.SET_FILES, mockFiles)
   })
 
-  it(Actions.FETCH_SETTINGS, async () => {
-    const systemTime = new Date()
-    const mockSettings: SettingsDto = {
-      deviceId: 'd',
-      siteName: 's',
-      systemTime: systemTime.toISOString(),
-    }
-    jest.spyOn(ApiClientService, 'getSettings').mockImplementation(() => {
-      return Promise.resolve(mockSettings)
+  describe(Actions.FETCH_SETTINGS, () => {
+    it('commits after fetching', async () => {
+      const systemTime = new Date()
+      const mockSettings: SettingsDto = {
+        deviceId: 'd',
+        siteName: 's',
+        systemTime: systemTime.toISOString(),
+      }
+      jest.spyOn(ApiClientService, 'getSettings').mockImplementation(() => {
+        return Promise.resolve(mockSettings)
+      })
+      const commit = jest.fn()
+      // @ts-ignore
+      await actions[Actions.FETCH_SETTINGS]({ commit })
+      expect(commit).toHaveBeenCalledWith(
+        Mutations.SET_DEVICE_ID,
+        mockSettings.deviceId,
+      )
+      expect(commit).toHaveBeenCalledWith(
+        Mutations.SET_SITE_NAME,
+        mockSettings.siteName,
+      )
+      expect(commit).toHaveBeenCalledWith(Mutations.SET_SYSTEM_TIME, systemTime)
     })
-    const commit = jest.fn()
-    // @ts-ignore
-    await actions[Actions.FETCH_SETTINGS]({ commit })
-    expect(commit).toHaveBeenCalledWith(
-      Mutations.SET_DEVICE_ID,
-      mockSettings.deviceId,
-    )
-    expect(commit).toHaveBeenCalledWith(
-      Mutations.SET_SITE_NAME,
-      mockSettings.siteName,
-    )
-    expect(commit).toHaveBeenCalledWith(Mutations.SET_SYSTEM_TIME, systemTime)
   })
 
   describe(Actions.SAVE_SETTINGS, () => {

@@ -3,6 +3,15 @@ extends:
   - eslint:recommended
   - plugin:jest/recommended
   - plugin:vue/vue3-recommended
+  - '@vue/typescript/recommended'
   - prettier
 env:
+  browser: true
   jest: true
+parserOptions:
+  ecmaVersion: latest
+  sourceType: module
+rules:
+  jest/valid-title:
+    - error
+    - ignoreTypeOfDescribeName: true

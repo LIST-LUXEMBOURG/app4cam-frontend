@@ -18,26 +18,34 @@ describe('mutations', () => {
     }
   })
 
-  it(Mutations.SET_DEVICE_ID, () => {
-    const deviceId = 'a'
-    mutations[Mutations.SET_DEVICE_ID](state, deviceId)
-    expect(state.deviceId).toBe(deviceId)
+  describe(Mutations.SET_DEVICE_ID, () => {
+    it('sets', () => {
+      const deviceId = 'a'
+      mutations[Mutations.SET_DEVICE_ID](state, deviceId)
+      expect(state.deviceId).toBe(deviceId)
+    })
   })
 
-  it(Mutations.SET_FILES, () => {
-    mutations[Mutations.SET_FILES](state, mockFiles)
-    expect(state.files).toBe(mockFiles)
+  describe(Mutations.SET_FILES, () => {
+    it('sets', () => {
+      mutations[Mutations.SET_FILES](state, mockFiles)
+      expect(state.files).toBe(mockFiles)
+    })
   })
 
-  it(Mutations.SET_SITE_NAME, () => {
-    const siteName = 'b'
-    mutations[Mutations.SET_SITE_NAME](state, siteName)
-    expect(state.siteName).toBe(siteName)
+  describe(Mutations.SET_SITE_NAME, () => {
+    it('sets', () => {
+      const siteName = 'b'
+      mutations[Mutations.SET_SITE_NAME](state, siteName)
+      expect(state.siteName).toBe(siteName)
+    })
   })
 
-  it(Mutations.SET_SYSTEM_TIME, () => {
-    const systemTime = '2022-01-18T13:48:37.000Z'
-    mutations[Mutations.SET_SYSTEM_TIME](state, systemTime)
-    expect(state.systemTime).toBe(systemTime)
+  describe(Mutations.SET_SYSTEM_TIME, () => {
+    it('sets', () => {
+      const systemTime = '2022-01-18T13:48:37.000Z'
+      mutations[Mutations.SET_SYSTEM_TIME](state, systemTime)
+      expect(state.systemTime).toBe(systemTime)
+    })
   })
 })

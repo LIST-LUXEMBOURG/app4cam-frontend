@@ -10,6 +10,7 @@
 - Build for production: `npm run build`
 - Locally preview production build: `npm run preview`
 - Run unit tests: `npm run test`
+- Rerun unit tests automatically: `npm run test:watch`
 - Lint files: `npm run lint`
 
 ## Specificities
