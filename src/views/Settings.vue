@@ -3,6 +3,7 @@ import { debounce, useQuasar } from 'quasar'
 import { computed, ref } from 'vue'
 import { useStore } from '../store'
 import { Actions } from '../store/action-types'
+import FilenameCreator from '../services/FilenameCreator'
 
 const quasar = useQuasar()
 const store = useStore()
@@ -36,13 +37,12 @@ const time = computed({
     systemTime.value = date
   }, 500),
 })
-const filenamePreview = computed(
-  () =>
-    systemTime.value.toISOString() +
-    ' ' +
-    siteName.value +
-    ' ' +
+const filenamePreview = computed(() =>
+  FilenameCreator.createFilename(
     deviceId.value,
+    siteName.value,
+    systemTime.value,
+  ),
 )
 
 store
