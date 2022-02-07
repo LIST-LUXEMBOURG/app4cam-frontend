@@ -6,8 +6,7 @@ import {
 } from 'vuex'
 import actions from './actions'
 import mutations from './mutations'
-import { State } from './state'
-import state from './state'
+import state, { State } from './state'
 import { InjectionKey } from 'vue'
 
 export interface File {
