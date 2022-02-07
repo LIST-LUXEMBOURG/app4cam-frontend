@@ -21,7 +21,7 @@ const files = computed(() => store.state.files)
 <template>
   <h5 class="q-my-md">Shots</h5>
   <div v-for="(file, index) in files" :key="index" class="q-px-md">
-    <q-item v-ripple clickable :dark="false" data-testid="file">
+    <q-item v-ripple clickable :dark="false" data-test-id="file">
       <q-item-section>
         <q-item-label>{{ file.name }}</q-item-label>
         <q-item-label caption>{{ file.creationTime }}</q-item-label>

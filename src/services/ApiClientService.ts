@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
-import { File } from '../store/index'
+import { File } from '../store'
 
 const BASE_URL = 'http://localhost:3001'
 

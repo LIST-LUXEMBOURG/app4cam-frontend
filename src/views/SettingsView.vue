@@ -114,6 +114,7 @@ function onSubmit() {
             type="date"
             label="Date"
             stack-label
+            :disable="isLoading"
           />
         </div>
         <div>
@@ -123,11 +124,12 @@ function onSubmit() {
             type="time"
             label="Time"
             stack-label
+            :disable="isLoading"
           />
         </div>
       </div>
       <h6 class="q-mb-md q-mt-lg">Filename preview</h6>
-      <p>{{ filenamePreview }}</p>
+      <p data-test-id="filenamePreview">{{ filenamePreview }}</p>
       <q-btn label="Save" type="submit" color="primary" />
     </q-form>
   </div>
