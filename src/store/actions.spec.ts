@@ -12,7 +12,7 @@ const mockFiles = convertJsonToFiles(files)
 describe('actions', () => {
   describe(Actions.FETCH_FILES, () => {
     it('commits after fetching', async () => {
-      jest.spyOn(ApiClientService, 'getFiles').mockImplementation(() => {
+      jest.spyOn(ApiClientService, 'getFileList').mockImplementation(() => {
         return Promise.resolve(mockFiles)
       })
       const commit = jest.fn()

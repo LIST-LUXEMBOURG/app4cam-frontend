@@ -37,10 +37,11 @@ it('displays correct file name preview', async () => {
   const input = wrapper.find('[data-test-id=filenamePreview]')
   expect(input.text()).toBe(
     store.state.siteName +
-      ' ' +
+      '_' +
       store.state.deviceId +
-      ' ' +
+      '_' +
       SYSTEM_TIME_ISO_WITHOUT_SPECIAL_CHARS +
       '.extension',
   )
+  wrapper.unmount()
 })
