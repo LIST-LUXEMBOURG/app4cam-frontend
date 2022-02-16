@@ -6,7 +6,7 @@ import { Mutations } from './mutation-types'
 
 const actions: ActionTree<State, State> = {
   [Actions.FETCH_FILES]({ commit }: ActionContext<State, State>) {
-    return ApiClientService.getFiles()
+    return ApiClientService.getFileList()
       .then((files) => {
         commit(Mutations.SET_FILES, files)
       })

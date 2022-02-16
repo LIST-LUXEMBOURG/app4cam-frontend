@@ -7,7 +7,7 @@ export default class FilenameCreator {
     const time = FilenameCreator.stripHyphensColonsDots(
       systemTime.toISOString(),
     )
-    return siteName + ' ' + deviceId + ' ' + time + '.extension'
+    return siteName + '_' + deviceId + '_' + time + '.extension'
   }
 
   static stripHyphensColonsDots(input: string) {

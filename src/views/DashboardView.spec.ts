@@ -22,4 +22,5 @@ it('displays device ID and site name', async () => {
   await nextTick()
   const input = wrapper.find('[data-test-id=deviceInformation]')
   expect(input.text()).toBe(store.state.siteName + ' ' + store.state.deviceId)
+  wrapper.unmount()
 })

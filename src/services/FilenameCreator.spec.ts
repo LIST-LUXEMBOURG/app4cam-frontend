@@ -10,9 +10,9 @@ describe('createFilename', () => {
     const systemTime = new Date(SYSTEM_TIME_ISO)
     expect(FilenameCreator.createFilename(deviceId, siteName, systemTime)).toBe(
       siteName +
-        ' ' +
+        '_' +
         deviceId +
-        ' ' +
+        '_' +
         SYSTEM_TIME_ISO_WITHOUT_SPECIAL_CHARS +
         '.extension',
     )
