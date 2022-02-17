@@ -21,26 +21,34 @@ const siteName = ref('')
 const systemTime = ref(new Date())
 
 const date = computed({
-  get: () => systemTime.value.toISOString().slice(0, 10),
+  get: () => {
+    return (
+      systemTime.value.getFullYear() +
+      '-' +
+      (systemTime.value.getMonth() + 1).toString().padStart(2, '0') +
+      '-' +
+      systemTime.value.getDate()
+    )
+  },
   set: (value) => {
     const year = parseInt(value.slice(0, 4))
     const month = parseInt(value.slice(5, 7))
     const day = parseInt(value.slice(8, 10))
     const date = new Date(systemTime.value.valueOf())
-    date.setUTCFullYear(year)
-    date.setUTCMonth(month - 1)
-    date.setUTCDate(day)
+    date.setFullYear(year)
+    date.setMonth(month - 1)
+    date.setDate(day)
     systemTime.value = date
   },
 })
 const time = computed({
-  get: () => systemTime.value.toISOString().slice(11, 16),
+  get: () => systemTime.value.getHours() + ':' + systemTime.value.getMinutes(),
   set: debounce((value) => {
     const hours = parseInt(value.slice(0, 2))
     const minutes = parseInt(value.slice(3, 5))
     const date = new Date(systemTime.value.valueOf())
-    date.setUTCHours(hours)
-    date.setUTCMinutes(minutes)
+    date.setHours(hours)
+    date.setMinutes(minutes)
     systemTime.value = date
   }, 500),
 })
@@ -139,6 +147,10 @@ function onSubmit() {
           />
         </div>
       </div>
+      <p class="text-left text-grey-7">
+        The date and and time shown above are in your host's system time zone.
+        The trap internally uses UTC time.
+      </p>
       <h6 class="q-mb-md q-mt-lg">Filename preview</h6>
       <p data-test-id="filenamePreview">{{ filenamePreview }}</p>
       <q-btn label="Save" type="submit" color="primary" />
