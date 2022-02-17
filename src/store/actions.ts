@@ -30,7 +30,7 @@ const actions: ActionTree<State, State> = {
   [Actions.SAVE_SETTINGS](
     { commit, state }: ActionContext<State, State>,
     settings: Settings,
-  ) {
+  ): Promise<void> {
     const settingsToUpdate: Partial<SettingsDto> = {}
     if (state.deviceId !== settings.deviceId) {
       settingsToUpdate.deviceId = settings.deviceId
@@ -40,6 +40,9 @@ const actions: ActionTree<State, State> = {
     }
     if (state.systemTime !== settings.systemTime) {
       settingsToUpdate.systemTime = settings.systemTime.toISOString()
+    }
+    if (Object.keys(settingsToUpdate).length === 0) {
+      return Promise.resolve()
     }
     return ApiClientService.patchSettings(settingsToUpdate)
       .then(() => {
