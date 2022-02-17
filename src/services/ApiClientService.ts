@@ -17,15 +17,13 @@ const apiClient = axios.create({
   },
 })
 
-async function unwrapAxiosResponse(
-  axiosResponse: Promise<AxiosResponse<any, any>>,
-) {
+async function unwrapAxiosResponse(axiosResponse: Promise<AxiosResponse>) {
   const data = (await axiosResponse).data
   return data
 }
 
 function convertAxiosResponseToFileDownloadResponse(
-  response: AxiosResponse<any, any>,
+  response: AxiosResponse,
 ): FileDownloadResponse {
   const contentDisposition = response.headers['content-disposition']
   const name = contentDisposition.split('"')[1]

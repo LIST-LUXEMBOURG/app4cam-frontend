@@ -43,6 +43,7 @@ function onDownloadButtonClick() {
     URL.revokeObjectURL(anchorElement.href)
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function handleFileDownloadError(error: any): void {
     quasar.notify({
       message: 'The shots could not be downloaded.',
