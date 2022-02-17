@@ -4,7 +4,7 @@ import ShotsView from './ShotsView.vue'
 import { files as mockFiles } from '../../fixtures/files.json'
 import { key } from '../store'
 
-let wrapper: VueWrapper<any>
+let wrapper: VueWrapper
 
 beforeAll(() => {
   const store = {
