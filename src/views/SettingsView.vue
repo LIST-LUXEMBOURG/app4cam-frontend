@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { debounce, useQuasar } from 'quasar'
+import { debounce, useQuasar, ValidationRule } from 'quasar'
 import { computed, ref } from 'vue'
 import { useStore } from '../store'
 import { Actions } from '../store/action-types'
@@ -7,6 +7,13 @@ import FilenameCreator from '../services/FilenameCreator'
 
 const quasar = useQuasar()
 const store = useStore()
+
+const notEmptyAndNoSpecialCharactersRules: ValidationRule<any>[] = [
+  (val) => (val !== null && val !== '') || 'Please enter something.',
+  (val) =>
+    /^[a-zA-Z0-9_-]+$/.test(val) ||
+    'Please only use letters, numbers, underscores and hyphens.',
+]
 
 const deviceId = ref('')
 const isLoading = ref(true)
@@ -99,12 +106,16 @@ function onSubmit() {
         outlined
         :disable="isLoading"
         label="Site name"
+        lazy-rules
+        :rules="notEmptyAndNoSpecialCharactersRules"
       />
       <q-input
         v-model="deviceId"
         outlined
         :disable="isLoading"
         label="Device ID"
+        lazy-rules
+        :rules="notEmptyAndNoSpecialCharactersRules"
       />
       <div class="row">
         <div class="q-mr-md">
