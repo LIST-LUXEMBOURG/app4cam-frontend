@@ -49,12 +49,13 @@ describe('actions', () => {
   })
 
   describe(Actions.SAVE_SETTINGS, () => {
+    const commit = jest.fn()
+    const patchSettingsSpy = jest
+      .spyOn(ApiClientService, 'patchSettings')
+      .mockImplementation(() => Promise.resolve())
+    const state = {}
+
     it('saves all settings', async () => {
-      jest
-        .spyOn(ApiClientService, 'patchSettings')
-        .mockImplementation(() => Promise.resolve())
-      const commit = jest.fn()
-      const state = {}
       const mockSettingsWithoutSystemTime = {
         deviceId: 'd',
         siteName: 's',
@@ -79,11 +80,6 @@ describe('actions', () => {
 
     it('saves one setting', async () => {
       const oneSetting = { siteName: 'ss' }
-      jest
-        .spyOn(ApiClientService, 'patchSettings')
-        .mockImplementation(() => Promise.resolve())
-      const commit = jest.fn()
-      const state = {}
       // @ts-ignore
       await actions[Actions.SAVE_SETTINGS]({ commit, state }, oneSetting)
       expect(ApiClientService.patchSettings).toHaveBeenCalledWith(oneSetting)
@@ -91,6 +87,18 @@ describe('actions', () => {
         Mutations.SET_SITE_NAME,
         oneSetting.siteName,
       )
+    })
+
+    it('ignores unnecessary triggers', async () => {
+      // @ts-ignore
+      await actions[Actions.SAVE_SETTINGS]({ commit, state }, {})
+      expect(ApiClientService.patchSettings).toHaveBeenCalledTimes(0)
+      expect(commit).toHaveBeenCalledTimes(0)
+    })
+
+    afterEach(() => {
+      commit.mockClear()
+      patchSettingsSpy.mockClear()
     })
   })
 })
