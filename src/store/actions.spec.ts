@@ -5,6 +5,7 @@ import { files } from '../../fixtures/files.json'
 import { convertJsonToFiles } from './test-helpers'
 import { Actions } from './action-types'
 
+jest.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
 jest.mock('../services/ApiClientService')
 
 const mockFiles = convertJsonToFiles(files)

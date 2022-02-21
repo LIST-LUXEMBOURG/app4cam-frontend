@@ -4,6 +4,8 @@ import ShotsView from './ShotsView.vue'
 import { files as mockFiles } from '../../fixtures/files.json'
 import { key } from '../store'
 
+jest.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
+
 let wrapper: VueWrapper
 
 beforeAll(() => {

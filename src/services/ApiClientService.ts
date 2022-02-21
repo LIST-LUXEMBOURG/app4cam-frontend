@@ -1,7 +1,6 @@
 import axios, { AxiosResponse } from 'axios'
+import { CONFIG } from '../config'
 import { File } from '../store'
-
-const BASE_URL = 'http://localhost:3001'
 
 export interface FileDownloadResponse {
   contentType: string
@@ -10,7 +9,7 @@ export interface FileDownloadResponse {
 }
 
 const apiClient = axios.create({
-  baseURL: BASE_URL,
+  baseURL: CONFIG.API_SERVER_URL,
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
