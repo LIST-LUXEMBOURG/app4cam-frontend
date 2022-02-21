@@ -3,6 +3,8 @@ import DashboardView from './DashboardView.vue'
 import { key } from '../store'
 import { nextTick } from 'vue'
 
+jest.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
+
 it('displays device ID and site name', async () => {
   const store = {
     state: {

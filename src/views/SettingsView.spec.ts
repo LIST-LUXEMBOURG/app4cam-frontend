@@ -4,6 +4,8 @@ import { key } from '../store'
 import { QBtn, QForm } from 'quasar'
 import { nextTick } from 'vue'
 
+jest.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
+
 const SYSTEM_TIME_ISO = '2022-01-18T13:48:37.000Z'
 const SYSTEM_TIME_ISO_WITHOUT_SPECIAL_CHARS = '20220118T134837000Z'
 

@@ -3,6 +3,34 @@
 ## Setup
 
 1. Install dependencies: `npm install`
+2. Copy the config file `.env.sample` to `.env.development`.
+3. Edit the latter config file as needed.
+
+For continuous deployment (CD), a service needs to be created on the remote server:
+
+1. Create the `pollicam-frontend` service by creating the following file: `/etc/systemd/system/pollicam-frontend.service`
+
+```
+[Unit]
+Description=Service that keeps running pollicam-frontend from startup
+After=network.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=npx vite preview --host
+WorkingDirectory=/home/pi/pollicam-frontend
+Restart=always
+RestartSec=5
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=%n
+```
+
+2. Run: `sudo systemctl daemon-reload`
+3. Run: `sudo systemctl enable pollicam-frontend`
 
 ## Development
 
