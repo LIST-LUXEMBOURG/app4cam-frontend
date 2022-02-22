@@ -3,7 +3,7 @@
 ## Setup
 
 1. Install dependencies: `npm install`
-2. Copy the config file `.env.sample` to `.env.development`.
+2. Copy the config file `.env.sample` to `.env.development.local`.
 3. Edit the latter config file as needed.
 
 For continuous deployment (CD), a service needs to be created on the remote server:
