@@ -11,7 +11,7 @@ const store = useStore()
 const notEmptyAndNoSpecialCharactersRules: ValidationRule[] = [
   (val) => (val !== null && val !== '') || 'Please enter something.',
   (val) =>
-    /^[a-zA-Z0-9_-]+$/.test(val) ||
+    /^[a-zA-Z0-9-]+$/.test(val) ||
     'Please only use letters, numbers, underscores and hyphens.',
 ]
 
