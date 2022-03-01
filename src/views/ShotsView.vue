@@ -21,7 +21,10 @@ store.dispatch(Actions.FETCH_FILES).catch((error) => {
 const selectedFiles: string[] = reactive([])
 
 const files = computed(() => store.state.files)
-const isDownloadButtonDisabled = computed(() => selectedFiles.length === 0)
+const areAllFilesSelected = computed(
+  () => selectedFiles.length === files.value.length,
+)
+const isNoFileSelected = computed(() => selectedFiles.length === 0)
 
 function onSelectionClick(filename: string) {
   const filenameIndex = selectedFiles.indexOf(filename)
@@ -64,34 +67,67 @@ function onDownloadButtonClick() {
       .catch(handleFileDownloadError)
   }
 }
+
+function onSelectAllButtonClick() {
+  selectedFiles.splice(0)
+  const allFileNames = files.value.map((file) => file.name)
+  selectedFiles.push(...allFileNames)
+}
+
+function onUnselectAllButtonClick() {
+  selectedFiles.splice(0)
+}
 </script>
 
 <template>
-  <h5 class="q-my-md">Shots</h5>
-  <div class="q-mx-auto" style="max-width: 400px">
-    <div v-for="(file, index) in files" :key="index" class="q-px-md">
-      <q-item
-        v-ripple
-        :active="selectedFiles.includes(file.name)"
-        clickable
-        :dark="false"
-        data-test-id="file"
-        active-class="bg-blue-1 text-blue-10"
-        @click="onSelectionClick(file.name)"
-      >
-        <q-item-section>
-          <q-item-label>{{ file.name }}</q-item-label>
-          <q-item-label caption>{{ file.creationTime }}</q-item-label>
-        </q-item-section>
-      </q-item>
+  <div class="q-mx-auto wrapper">
+    <h5 class="q-my-md">Shots</h5>
+    <div>
+      <div v-for="(file, index) in files" :key="index">
+        <q-item
+          v-ripple
+          :active="selectedFiles.includes(file.name)"
+          clickable
+          :dark="false"
+          data-test-id="file"
+          active-class="bg-blue-1 text-blue-10"
+          @click="onSelectionClick(file.name)"
+        >
+          <q-item-section>
+            <q-item-label>{{ file.name }}</q-item-label>
+            <q-item-label caption>{{ file.creationTime }}</q-item-label>
+          </q-item-section>
+        </q-item>
+      </div>
+    </div>
+    <div class="row justify-between q-px-md q-my-md">
+      <q-btn
+        color="primary"
+        label="Select all"
+        :disable="areAllFilesSelected"
+        data-test-id="select-all-button"
+        @click="onSelectAllButtonClick"
+      />
+      <q-btn
+        color="primary"
+        label="Unselect all"
+        :disable="isNoFileSelected"
+        data-test-id="unselect-all-button"
+        @click="onUnselectAllButtonClick"
+      />
+      <q-btn
+        color="primary"
+        label="Download"
+        :disable="isNoFileSelected"
+        data-test-id="download-button"
+        @click="onDownloadButtonClick"
+      />
     </div>
   </div>
-  <q-btn
-    class="q-my-md"
-    color="primary"
-    label="Download"
-    :disable="isDownloadButtonDisabled"
-    data-test-id="download-button"
-    @click="onDownloadButtonClick"
-  />
 </template>
+
+<style>
+.wrapper {
+  max-width: 400px;
+}
+</style>
