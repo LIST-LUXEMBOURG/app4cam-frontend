@@ -4,6 +4,7 @@ import { computed, ref } from 'vue'
 import { useStore } from '../store'
 import { Actions } from '../store/action-types'
 import FilenameCreator from '../services/FilenameCreator'
+import DateConverter from '../services/DateConverter'
 
 const quasar = useQuasar()
 const store = useStore()
@@ -21,15 +22,7 @@ const siteName = ref('')
 const systemTime = ref(new Date())
 
 const date = computed({
-  get: () => {
-    return (
-      systemTime.value.getFullYear() +
-      '-' +
-      (systemTime.value.getMonth() + 1).toString().padStart(2, '0') +
-      '-' +
-      systemTime.value.getDate()
-    )
-  },
+  get: () => DateConverter.convertDateToIso8601Date(systemTime.value),
   set: (value) => {
     const year = parseInt(value.slice(0, 4))
     const month = parseInt(value.slice(5, 7))
