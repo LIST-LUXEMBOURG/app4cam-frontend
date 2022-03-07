@@ -81,7 +81,6 @@ function onUnselectAllButtonClick() {
 
 <template>
   <div class="q-mx-auto wrapper">
-    <h5 class="q-my-md">Shots</h5>
     <div>
       <div v-for="(file, index) in files" :key="index">
         <q-item

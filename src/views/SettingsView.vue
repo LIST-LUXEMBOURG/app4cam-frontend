@@ -93,7 +93,6 @@ function onSubmit() {
 </script>
 
 <template>
-  <h5 class="q-my-md">Settings</h5>
   <div class="q-pa-md q-mx-auto" style="max-width: 400px">
     <q-form
       autocapitalize="off"
