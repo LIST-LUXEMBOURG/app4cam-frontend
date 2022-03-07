@@ -119,6 +119,18 @@ describe('download button', () => {
   })
 })
 
+describe('delete button', () => {
+  it('changes the delete button disabled state depending on if a file is selected', async () => {
+    const deleteButton = wrapper.find('[data-test-id="delete-button"]')
+    expect(deleteButton.element.hasAttribute('disabled')).toBeTruthy()
+    const files = wrapper.findAll('[data-test-id="file"]')
+    await files[0].trigger('click')
+    expect(deleteButton.element.hasAttribute('disabled')).toBeFalsy()
+    await files[0].trigger('click')
+    expect(deleteButton.element.hasAttribute('disabled')).toBeTruthy()
+  })
+})
+
 afterEach(() => {
   wrapper.unmount()
 })

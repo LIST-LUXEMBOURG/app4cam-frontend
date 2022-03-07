@@ -17,6 +17,7 @@ cache:
 test:
   tags:
     - hdce_docker
+  stage: test
   script:
     - npm install
     - npm run test
@@ -24,6 +25,7 @@ test:
 deploy:
   tags:
     - hdce_docker
+  stage: deploy
   script:
     ## Install ssh-agent if not already installed, it is required by Docker.
     ## (change apt-get to yum if you use an RPM-based image)

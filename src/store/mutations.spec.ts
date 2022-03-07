@@ -18,6 +18,18 @@ describe('mutations', () => {
     }
   })
 
+  describe(Mutations.DELETE_FILE, () => {
+    it('deletes', () => {
+      const filename = 'a'
+      state.files.push({
+        name: filename,
+        creationTime: new Date(),
+      })
+      mutations[Mutations.DELETE_FILE](state, filename)
+      expect(state.files).toHaveLength(0)
+    })
+  })
+
   describe(Mutations.SET_DEVICE_ID, () => {
     it('sets', () => {
       const deviceId = 'a'

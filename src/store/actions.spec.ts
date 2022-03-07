@@ -4,6 +4,7 @@ import { Mutations } from './mutation-types'
 import { files } from '../../fixtures/files.json'
 import { convertJsonToFiles } from './test-helpers'
 import { Actions } from './action-types'
+import { FilesDeletedResponse } from '../services/ApiTypings'
 
 jest.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
 jest.mock('../services/ApiClientService')
@@ -11,6 +12,34 @@ jest.mock('../services/ApiClientService')
 const mockFiles = convertJsonToFiles(files)
 
 describe('actions', () => {
+  describe(Actions.DELETE_FILE, () => {
+    it('commits after deleting a file', async () => {
+      const filename = 'a'
+      jest
+        .spyOn(ApiClientService, 'deleteFile')
+        .mockImplementation(() => Promise.resolve())
+      const commit = jest.fn()
+      // @ts-ignore
+      await actions[Actions.DELETE_FILE]({ commit }, filename)
+      expect(commit).toHaveBeenCalledWith(Mutations.DELETE_FILE, filename)
+    })
+  })
+
+  describe(Actions.DELETE_FILES, () => {
+    it('commits two files after deleting two of three files', async () => {
+      const filenames = ['a', 'b', 'c']
+      jest.spyOn(ApiClientService, 'deleteFiles').mockImplementation(() => {
+        const response: FilesDeletedResponse = { a: false, b: true, c: true }
+        return Promise.resolve(response)
+      })
+      const commit = jest.fn()
+      // @ts-ignore
+      await actions[Actions.DELETE_FILES]({ commit }, filenames)
+      expect(commit).toHaveBeenCalledWith(Mutations.DELETE_FILE, filenames[1])
+      expect(commit).toHaveBeenCalledWith(Mutations.DELETE_FILE, filenames[2])
+    })
+  })
+
   describe(Actions.FETCH_FILES, () => {
     it('commits after fetching', async () => {
       jest.spyOn(ApiClientService, 'getFileList').mockImplementation(() => {
