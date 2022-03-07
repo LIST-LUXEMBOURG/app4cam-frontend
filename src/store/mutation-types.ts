@@ -1,4 +1,5 @@
 export enum Mutations {
+  DELETE_FILE = 'DELETE_FILE',
   SET_DEVICE_ID = 'SET_DEVICE_ID',
   SET_FILES = 'SET_FILES',
   SET_SITE_NAME = 'SET_SITE_NAME',

@@ -4,6 +4,11 @@ import { Mutations } from './mutation-types'
 import { State } from './state'
 
 const mutations: MutationTree<State> = {
+  [Mutations.DELETE_FILE](state: State, filename: string) {
+    const index = state.files.findIndex((file) => file.name === filename)
+    state.files.splice(index, 1)
+  },
+
   [Mutations.SET_DEVICE_ID](state: State, deviceId: string) {
     state.deviceId = deviceId
   },

@@ -1,12 +1,7 @@
 import axios, { AxiosResponse } from 'axios'
 import { CONFIG } from '../config'
 import { File } from '../store'
-
-export interface FileDownloadResponse {
-  contentType: string
-  data: string
-  filename: string
-}
+import { FileDownloadResponse, FilesDeletedResponse } from './ApiTypings'
 
 const apiClient = axios.create({
   baseURL: CONFIG.API_SERVER_URL,
@@ -34,6 +29,16 @@ function convertAxiosResponseToFileDownloadResponse(
 }
 
 export default {
+  deleteFile(filename: string): Promise<void> {
+    return unwrapAxiosResponse(apiClient.delete('/files/' + filename))
+  },
+
+  deleteFiles(filenames: string[]): Promise<FilesDeletedResponse> {
+    return unwrapAxiosResponse(
+      apiClient.delete('/files/', { data: { filenames } }),
+    )
+  },
+
   getFileList(): Promise<File[]> {
     return unwrapAxiosResponse(apiClient.get('/files'))
   },
@@ -47,7 +52,7 @@ export default {
 
   async getFiles(filenames: string[]): Promise<FileDownloadResponse> {
     const response = await apiClient.post(
-      '/files/download',
+      '/files',
       { filenames },
       {
         responseType: 'blob',

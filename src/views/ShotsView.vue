@@ -35,6 +35,41 @@ function onSelectionClick(filename: string) {
   }
 }
 
+function onDeleteButtonClick() {
+  function handleFileDeleteSuccess(): void {
+    quasar.notify({
+      message: 'Successfully deleted',
+      color: 'positive',
+    })
+  }
+
+  if (selectedFiles.length === 0) {
+    return
+  } else if (selectedFiles.length === 1) {
+    store
+      .dispatch(Actions.DELETE_FILE, selectedFiles[0])
+      .then(handleFileDeleteSuccess)
+      .catch((error) => {
+        quasar.notify({
+          message: 'The file could not be deleted.',
+          caption: error.message ? error.message : '',
+          color: 'negative',
+        })
+      })
+  } else {
+    store
+      .dispatch(Actions.DELETE_FILES, selectedFiles)
+      .then(handleFileDeleteSuccess)
+      .catch((error) => {
+        quasar.notify({
+          message: 'One or more files could not be deleted.',
+          caption: error.message ? error.message : '',
+          color: 'negative',
+        })
+      })
+  }
+}
+
 function onDownloadButtonClick() {
   function handleFileDownloadResponse(response: FileDownloadResponse): void {
     const file = new Blob([response.data], { type: response.contentType })
@@ -100,9 +135,10 @@ function onUnselectAllButtonClick() {
         </q-item>
       </div>
     </div>
-    <div class="row justify-between q-px-md q-my-md">
+    <div class="row justify-center q-my-md">
       <q-btn
         color="primary"
+        class="q-mr-sm"
         label="Select all"
         :disable="areAllFilesSelected"
         data-test-id="select-all-button"
@@ -115,12 +151,22 @@ function onUnselectAllButtonClick() {
         data-test-id="unselect-all-button"
         @click="onUnselectAllButtonClick"
       />
+    </div>
+    <div class="row justify-center q-my-md">
       <q-btn
         color="primary"
+        class="q-mr-sm"
         label="Download"
         :disable="isNoFileSelected"
         data-test-id="download-button"
         @click="onDownloadButtonClick"
+      />
+      <q-btn
+        color="primary"
+        label="Delete"
+        :disable="isNoFileSelected"
+        data-test-id="delete-button"
+        @click="onDeleteButtonClick"
       />
     </div>
   </div>
