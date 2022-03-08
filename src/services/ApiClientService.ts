@@ -22,7 +22,7 @@ function convertAxiosResponseToFileDownloadResponse(
   const contentDisposition = response.headers['content-disposition']
   const name = contentDisposition.split('"')[1]
   return {
-    contentType: response.headers['Content-Type'],
+    contentType: response.headers['content-type'],
     data: response.data,
     filename: name,
   }
@@ -67,5 +67,12 @@ export default {
 
   patchSettings(settings: Partial<SettingsDto>): Promise<void> {
     return unwrapAxiosResponse(apiClient.patch('/settings', settings))
+  },
+
+  async getSnapshot(): Promise<FileDownloadResponse> {
+    const response = await apiClient.get('/snapshots', {
+      responseType: 'blob',
+    })
+    return convertAxiosResponseToFileDownloadResponse(response)
   },
 }
