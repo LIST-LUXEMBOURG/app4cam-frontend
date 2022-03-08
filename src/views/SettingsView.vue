@@ -5,6 +5,11 @@ import { useStore } from '../store'
 import { Actions } from '../store/action-types'
 import FilenameCreator from '../services/FilenameCreator'
 import DateConverter from '../services/DateConverter'
+import ApiClientService from '../services/ApiClientService'
+import { FileDownloader } from '../services/FileDownloader'
+import { cloneDeep } from '../services/ObjectHelper'
+
+const EXPORT_FILENAME_SUFFIX = 'settings'
 
 const quasar = useQuasar()
 const store = useStore()
@@ -50,6 +55,7 @@ const filenamePreview = computed(() =>
     deviceId.value,
     siteName.value,
     systemTime.value,
+    'extension',
   ),
 )
 
@@ -68,6 +74,33 @@ store
       color: 'negative',
     })
   })
+
+function onExportButtonClick() {
+  ApiClientService.getSettings()
+    .then((settings) => {
+      const settingsToExport: Partial<SettingsDto> = cloneDeep(settings)
+      delete settingsToExport.systemTime
+      const filename = FilenameCreator.createFilename(
+        deviceId.value,
+        siteName.value,
+        new Date(),
+        'json',
+        EXPORT_FILENAME_SUFFIX,
+      )
+      FileDownloader.downloadFile(
+        [JSON.stringify(settingsToExport)],
+        'text/json',
+        filename,
+      )
+    })
+    .catch((error) => {
+      quasar.notify({
+        message: 'The settings could not be exported.',
+        caption: error.message ? error.message : '',
+        color: 'negative',
+      })
+    })
+}
 
 function onSubmit() {
   store
@@ -147,5 +180,11 @@ function onSubmit() {
       <p data-test-id="filenamePreview">{{ filenamePreview }}</p>
       <q-btn label="Save" type="submit" color="primary" />
     </q-form>
+    <q-btn
+      class="q-my-md"
+      label="Export"
+      color="primary"
+      @click="onExportButtonClick"
+    />
   </div>
 </template>

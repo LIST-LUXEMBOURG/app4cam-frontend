@@ -8,13 +8,44 @@ describe('createFilename', () => {
     const deviceId = 'd'
     const siteName = 's'
     const systemTime = new Date(SYSTEM_TIME_ISO)
-    expect(FilenameCreator.createFilename(deviceId, siteName, systemTime)).toBe(
+    const extension = 'e'
+    expect(
+      FilenameCreator.createFilename(deviceId, siteName, systemTime, extension),
+    ).toBe(
       siteName +
         '_' +
         deviceId +
         '_' +
         SYSTEM_TIME_ISO_WITHOUT_SPECIAL_CHARS +
-        '.extension',
+        '.' +
+        extension,
+    )
+  })
+
+  it('returns a valid filename with a suffix', async () => {
+    const deviceId = 'd'
+    const siteName = 's'
+    const systemTime = new Date(SYSTEM_TIME_ISO)
+    const extension = 'e'
+    const suffix = 'x'
+    expect(
+      FilenameCreator.createFilename(
+        deviceId,
+        siteName,
+        systemTime,
+        extension,
+        suffix,
+      ),
+    ).toBe(
+      siteName +
+        '_' +
+        deviceId +
+        '_' +
+        SYSTEM_TIME_ISO_WITHOUT_SPECIAL_CHARS +
+        '_' +
+        suffix +
+        '.' +
+        extension,
     )
   })
 })

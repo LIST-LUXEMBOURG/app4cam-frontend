@@ -3,9 +3,9 @@ import { useQuasar } from 'quasar'
 import { computed, reactive } from 'vue'
 import { useStore } from '../store'
 import { Actions } from '../store/action-types'
-import ApiClientService, {
-  FileDownloadResponse,
-} from '../services/ApiClientService'
+import ApiClientService from '../services/ApiClientService'
+import { FileDownloader } from '../services/FileDownloader'
+import { FileDownloadResponse } from '../services/ApiTypings'
 
 const quasar = useQuasar()
 const store = useStore()
@@ -72,13 +72,11 @@ function onDeleteButtonClick() {
 
 function onDownloadButtonClick() {
   function handleFileDownloadResponse(response: FileDownloadResponse): void {
-    const file = new Blob([response.data], { type: response.contentType })
-    const fileUrl = URL.createObjectURL(file)
-    const anchorElement = document.createElement('a')
-    anchorElement.download = response.filename
-    anchorElement.href = fileUrl
-    anchorElement.click()
-    URL.revokeObjectURL(anchorElement.href)
+    FileDownloader.downloadFile(
+      [response.data],
+      response.contentType,
+      response.filename,
+    )
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
