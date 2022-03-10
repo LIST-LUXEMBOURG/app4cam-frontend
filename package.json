@@ -14,14 +14,14 @@
   },
   "dependencies": {
     "@quasar/extras": "1.13.0",
-    "axios": "0.26.0",
+    "axios": "0.26.1",
     "quasar": "2.5.5",
     "vue": "3.2.31",
     "vue-router": "4.0.13",
     "vuex": "4.0.2"
   },
   "devDependencies": {
-    "@quasar/vite-plugin": "1.0.5",
+    "@quasar/vite-plugin": "1.0.6",
     "@rushstack/eslint-patch": "1.1.0",
     "@types/jest": "27.4.1",
     "@vitejs/plugin-vue": "2.2.4",
