@@ -69,6 +69,10 @@ export default {
     return unwrapAxiosResponse(apiClient.patch('/settings', settings))
   },
 
+  putSettings(settings: ApplicationSettings) {
+    return unwrapAxiosResponse(apiClient.put('/settings', settings))
+  },
+
   async getSnapshot(): Promise<FileDownloadResponse> {
     const response = await apiClient.get('/snapshots', {
       responseType: 'blob',

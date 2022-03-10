@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import SettingsView from './SettingsView.vue'
 import { key } from '../store'
-import { QBtn, QForm } from 'quasar'
+import { QBtn, QFile, QForm, QIcon } from 'quasar'
 import { nextTick } from 'vue'
 
 jest.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
@@ -22,6 +22,7 @@ it('displays correct file name preview', async () => {
     components: {
       'q-btn': QBtn,
       'q-form': QForm,
+      'q-icon': QIcon,
     },
     global: {
       provide: {
@@ -29,6 +30,9 @@ it('displays correct file name preview', async () => {
         [key as symbol]: store,
       },
       stubs: {
+        'q-file': {
+          template: '<i />',
+        },
         'q-input': {
           template: '<i />',
         },

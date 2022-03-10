@@ -78,7 +78,7 @@ describe('actions', () => {
     })
   })
 
-  describe(Actions.SAVE_SETTINGS, () => {
+  describe(Actions.PATCH_SETTINGS, () => {
     const commit = jest.fn()
     const patchSettingsSpy = jest
       .spyOn(ApiClientService, 'patchSettings')
@@ -91,7 +91,7 @@ describe('actions', () => {
         siteName: 's',
       }
       // @ts-ignore
-      await actions[Actions.SAVE_SETTINGS](
+      await actions[Actions.PATCH_SETTINGS](
         { commit, state },
         mockSettingsWithoutSystemTime,
       )
@@ -111,7 +111,7 @@ describe('actions', () => {
     it('saves one setting', async () => {
       const oneSetting = { siteName: 'ss' }
       // @ts-ignore
-      await actions[Actions.SAVE_SETTINGS]({ commit, state }, oneSetting)
+      await actions[Actions.PATCH_SETTINGS]({ commit, state }, oneSetting)
       expect(ApiClientService.patchSettings).toHaveBeenCalledWith(oneSetting)
       expect(commit).toHaveBeenCalledWith(
         Mutations.SET_SITE_NAME,
@@ -121,7 +121,7 @@ describe('actions', () => {
 
     it('ignores unnecessary triggers', async () => {
       // @ts-ignore
-      await actions[Actions.SAVE_SETTINGS]({ commit, state }, {})
+      await actions[Actions.PATCH_SETTINGS]({ commit, state }, {})
       expect(ApiClientService.patchSettings).toHaveBeenCalledTimes(0)
       expect(commit).toHaveBeenCalledTimes(0)
     })
@@ -129,6 +129,37 @@ describe('actions', () => {
     afterEach(() => {
       commit.mockClear()
       patchSettingsSpy.mockClear()
+    })
+  })
+
+  describe(Actions.PATCH_SETTINGS, () => {
+    const commit = jest.fn()
+    const putSettingsSpy = jest
+      .spyOn(ApiClientService, 'putSettings')
+      .mockImplementation(() => Promise.resolve())
+    const state = {}
+
+    it('saves all settings', async () => {
+      const settings = {
+        deviceId: 'd',
+        siteName: 's',
+      }
+      // @ts-ignore
+      await actions[Actions.PUT_SETTINGS]({ commit, state }, settings)
+      expect(ApiClientService.putSettings).toHaveBeenCalledWith(settings)
+      expect(commit).toHaveBeenCalledWith(
+        Mutations.SET_DEVICE_ID,
+        settings.deviceId,
+      )
+      expect(commit).toHaveBeenCalledWith(
+        Mutations.SET_SITE_NAME,
+        settings.siteName,
+      )
+    })
+
+    afterEach(() => {
+      commit.mockClear()
+      putSettingsSpy.mockClear()
     })
   })
 })
