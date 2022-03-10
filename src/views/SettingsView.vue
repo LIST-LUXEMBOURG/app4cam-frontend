@@ -103,26 +103,33 @@ function onExportButtonClick() {
     })
 }
 
-function logFile(event) {
-  const str = event.target.result
-  const json = JSON.parse(str)
-  store
-    .dispatch(Actions.PUT_SETTINGS, json)
-    .then(() => {
-      deviceId.value = store.state.deviceId
-      siteName.value = store.state.siteName
-      quasar.notify({
-        message: 'The settings were imported.',
-        color: 'positive',
+function importSettings(event: ProgressEvent<FileReader>) {
+  const string = event.target?.result
+  if (typeof string === 'string') {
+    const json = JSON.parse(string)
+    store
+      .dispatch(Actions.PUT_SETTINGS, json)
+      .then(() => {
+        deviceId.value = store.state.deviceId
+        siteName.value = store.state.siteName
+        quasar.notify({
+          message: 'The settings were imported.',
+          color: 'positive',
+        })
       })
-    })
-    .catch((error) => {
-      quasar.notify({
-        message: 'The settings could not be imported.',
-        caption: error.message ? error.message : '',
-        color: 'negative',
+      .catch((error) => {
+        quasar.notify({
+          message: 'The settings could not be imported.',
+          caption: error.message ? error.message : '',
+          color: 'negative',
+        })
       })
+  } else {
+    quasar.notify({
+      message: 'The settings could not be imported.',
+      color: 'negative',
     })
+  }
 }
 
 function onImportButtonClick() {
@@ -130,7 +137,7 @@ function onImportButtonClick() {
     return
   }
   const reader = new FileReader()
-  reader.onload = logFile
+  reader.onload = importSettings
   reader.readAsText(file.value)
 }
 
