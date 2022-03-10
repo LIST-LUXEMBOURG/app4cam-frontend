@@ -25,6 +25,7 @@
 ### Fixed
 
 - Fix date field by prepending zero to single-digit days
+- Reset selected files after deletion
 
 ### Security
 

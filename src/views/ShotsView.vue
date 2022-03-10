@@ -37,6 +37,7 @@ function onSelectionClick(filename: string) {
 
 function onDeleteButtonClick() {
   function handleFileDeleteSuccess(): void {
+    selectedFiles.splice(0)
     quasar.notify({
       message: 'Successfully deleted',
       color: 'positive',
