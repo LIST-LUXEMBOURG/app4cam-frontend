@@ -14,6 +14,8 @@ interface SystemTimeDto {
   systemTime: string
 }
 
-type Settings = DeviceId & SiteName & SystemTime
+type ApplicationSettings = DeviceId & SiteName
 
-type SettingsDto = DeviceId & SiteName & SystemTimeDto
+type Settings = ApplicationSettings & SystemTime
+
+type SettingsDto = ApplicationSettings & SystemTimeDto

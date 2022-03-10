@@ -44,7 +44,7 @@ const actions: ActionTree<State, State> = {
     })
   },
 
-  [Actions.SAVE_SETTINGS](
+  [Actions.PATCH_SETTINGS](
     { commit, state }: ActionContext<State, State>,
     settings: Settings,
   ): Promise<void> {
@@ -70,6 +70,23 @@ const actions: ActionTree<State, State> = {
       }
       if (state.systemTime !== settings.systemTime) {
         commit(Mutations.SET_SYSTEM_TIME, settings.systemTime)
+      }
+    })
+  },
+
+  [Actions.PUT_SETTINGS](
+    { commit, state }: ActionContext<State, State>,
+    settings: ApplicationSettings,
+  ): Promise<void> {
+    if (Object.keys(settings).length === 0) {
+      return Promise.resolve()
+    }
+    return ApiClientService.putSettings(settings).then(() => {
+      if (state.deviceId !== settings.deviceId) {
+        commit(Mutations.SET_DEVICE_ID, settings.deviceId)
+      }
+      if (state.siteName !== settings.siteName) {
+        commit(Mutations.SET_SITE_NAME, settings.siteName)
       }
     })
   },

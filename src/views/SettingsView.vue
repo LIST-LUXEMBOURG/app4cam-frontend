@@ -22,6 +22,7 @@ const notEmptyAndNoSpecialCharactersRules: ValidationRule[] = [
 ]
 
 const deviceId = ref('')
+const file = ref(null)
 const isLoading = ref(true)
 const siteName = ref('')
 const systemTime = ref(new Date())
@@ -102,9 +103,40 @@ function onExportButtonClick() {
     })
 }
 
+function logFile(event) {
+  const str = event.target.result
+  const json = JSON.parse(str)
+  store
+    .dispatch(Actions.PUT_SETTINGS, json)
+    .then(() => {
+      deviceId.value = store.state.deviceId
+      siteName.value = store.state.siteName
+      quasar.notify({
+        message: 'The settings were imported.',
+        color: 'positive',
+      })
+    })
+    .catch((error) => {
+      quasar.notify({
+        message: 'The settings could not be imported.',
+        caption: error.message ? error.message : '',
+        color: 'negative',
+      })
+    })
+}
+
+function onImportButtonClick() {
+  if (!file.value) {
+    return
+  }
+  const reader = new FileReader()
+  reader.onload = logFile
+  reader.readAsText(file.value)
+}
+
 function onSubmit() {
   store
-    .dispatch(Actions.SAVE_SETTINGS, {
+    .dispatch(Actions.PATCH_SETTINGS, {
       deviceId: deviceId.value,
       siteName: siteName.value,
       systemTime: systemTime.value,
@@ -126,12 +158,13 @@ function onSubmit() {
 </script>
 
 <template>
-  <div class="q-pa-md q-mx-auto" style="max-width: 400px">
+  <div class="q-pa-md q-mx-auto text-left" style="max-width: 400px">
+    <h5 class="q-mb-lg q-mt-none">General settings</h5>
     <q-form
       autocapitalize="off"
       autocomplete="off"
       autocorrect="off"
-      class="q-gutter-md"
+      class="q-gutter-sm"
       @submit="onSubmit"
     >
       <q-input
@@ -180,11 +213,22 @@ function onSubmit() {
       <p data-test-id="filenamePreview">{{ filenamePreview }}</p>
       <q-btn label="Save" type="submit" color="primary" />
     </q-form>
-    <q-btn
-      class="q-my-md"
-      label="Export"
-      color="primary"
-      @click="onExportButtonClick"
-    />
+
+    <h5 class="q-mt-xl q-mb-md">Export & import</h5>
+    <q-btn label="Export" color="primary" @click="onExportButtonClick" />
+    <q-file
+      v-model="file"
+      accept="application/json"
+      class="q-mt-md"
+      outlined
+      label="Settings file"
+    >
+      <template #prepend>
+        <q-icon name="upload" @click.stop />
+      </template>
+      <template #after>
+        <q-btn label="Import" color="primary" @click="onImportButtonClick" />
+      </template>
+    </q-file>
   </div>
 </template>
