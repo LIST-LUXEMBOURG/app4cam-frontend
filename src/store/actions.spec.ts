@@ -48,6 +48,7 @@ describe('actions', () => {
       const commit = jest.fn()
       // @ts-ignore
       await actions[Actions.FETCH_FILES]({ commit })
+      expect(commit).toHaveBeenCalledWith(Mutations.SET_FILES, [])
       expect(commit).toHaveBeenCalledWith(Mutations.SET_FILES, mockFiles)
     })
   })
