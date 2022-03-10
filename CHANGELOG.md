@@ -26,6 +26,7 @@
 
 - Fix date field by prepending zero to single-digit days
 - Reset selected files after deletion
+- Remove files from state before fetching new file list
 
 ### Security
 

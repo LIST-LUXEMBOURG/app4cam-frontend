@@ -31,6 +31,7 @@ const actions: ActionTree<State, State> = {
   },
 
   [Actions.FETCH_FILES]({ commit }: ActionContext<State, State>) {
+    commit(Mutations.SET_FILES, [])
     return ApiClientService.getFileList().then((files) => {
       commit(Mutations.SET_FILES, files)
     })
