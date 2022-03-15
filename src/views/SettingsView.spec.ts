@@ -1,33 +1,36 @@
-import { mount } from '@vue/test-utils'
+import { mount, VueWrapper } from '@vue/test-utils'
 import SettingsView from './SettingsView.vue'
-import { key } from '../store'
-import { QBtn, QFile, QForm, QIcon } from 'quasar'
-import { nextTick } from 'vue'
+import { QBtn, QForm, QIcon } from 'quasar'
+import { createTestingPinia } from '@pinia/testing'
+import ApiClientService from '../services/ApiClientService'
 
 jest.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
 
 const SYSTEM_TIME_ISO = '2022-01-18T13:48:37.000Z'
 const SYSTEM_TIME_ISO_WITHOUT_SPECIAL_CHARS = '20220118T134837000Z'
 
-it('displays correct file name preview', async () => {
-  const store = {
-    state: {
-      deviceId: 'd',
-      siteName: 's',
-      systemTime: new Date(SYSTEM_TIME_ISO),
-    },
-    dispatch: jest.fn(() => Promise.resolve()),
-  }
-  const wrapper = mount(SettingsView, {
+const SETTINGS: SettingsDto = {
+  deviceId: 'd',
+  siteName: 's',
+  systemTime: SYSTEM_TIME_ISO,
+}
+jest.spyOn(ApiClientService, 'getSettings').mockImplementation(() => {
+  return Promise.resolve(SETTINGS)
+})
+
+let wrapper: VueWrapper
+
+beforeEach(() => {
+  wrapper = mount(SettingsView, {
     components: {
       'q-btn': QBtn,
       'q-form': QForm,
       'q-icon': QIcon,
     },
     global: {
+      plugins: [createTestingPinia({ stubActions: false })],
       provide: {
         _q_: undefined,
-        [key as symbol]: store,
       },
       stubs: {
         'q-file': {
@@ -39,15 +42,22 @@ it('displays correct file name preview', async () => {
       },
     },
   })
-  await nextTick()
-  const input = wrapper.find('[data-test-id=filenamePreview]')
-  expect(input.text()).toBe(
-    store.state.siteName +
-      '_' +
-      store.state.deviceId +
-      '_' +
-      SYSTEM_TIME_ISO_WITHOUT_SPECIAL_CHARS +
-      '.extension',
-  )
+})
+
+describe('file name preview', () => {
+  it('displays correctly', async () => {
+    const input = wrapper.find('[data-test-id=filenamePreview]')
+    expect(input.text()).toBe(
+      SETTINGS.siteName +
+        '_' +
+        SETTINGS.deviceId +
+        '_' +
+        SYSTEM_TIME_ISO_WITHOUT_SPECIAL_CHARS +
+        '.extension',
+    )
+  })
+})
+
+afterEach(() => {
   wrapper.unmount()
 })

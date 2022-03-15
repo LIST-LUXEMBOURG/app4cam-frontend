@@ -1,20 +1,22 @@
 import { DOMWrapper, mount, VueWrapper } from '@vue/test-utils'
 import { QBtn, QItem, QItemLabel, QItemSection, Ripple } from 'quasar'
 import ShotsView from './ShotsView.vue'
-import { files as mockFiles } from '../../fixtures/files.json'
-import { key } from '../store'
+import { files } from '../../fixtures/files.json'
+import { convertJsonToFiles } from '../test-helpers'
+import { createTestingPinia } from '@pinia/testing'
+import ApiClientService from '../services/ApiClientService'
+
+const mockFiles = convertJsonToFiles(files)
 
 jest.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
+
+jest.spyOn(ApiClientService, 'getFileList').mockImplementation(() => {
+  return Promise.resolve(mockFiles)
+})
 
 let wrapper: VueWrapper
 
 beforeEach(() => {
-  const store = {
-    state: {
-      files: mockFiles,
-    },
-    dispatch: jest.fn(() => Promise.resolve()),
-  }
   wrapper = mount(ShotsView, {
     components: {
       'q-btn': QBtn,
@@ -26,9 +28,13 @@ beforeEach(() => {
       Ripple,
     },
     global: {
+      plugins: [
+        createTestingPinia({
+          stubActions: false,
+        }),
+      ],
       provide: {
         _q_: undefined,
-        [key as symbol]: store,
       },
     },
   })
@@ -41,7 +47,9 @@ describe('display', () => {
     files.forEach((file, i) => {
       const fileText = file.text()
       expect(fileText).toContain(mockFiles[i].name)
-      expect(fileText).toContain(mockFiles[i].creationTime)
+      expect(fileText).toContain(
+        mockFiles[i].creationTime.getUTCFullYear().toString(),
+      )
     })
   })
 })

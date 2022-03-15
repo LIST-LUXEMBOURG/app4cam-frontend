@@ -1,6 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
 import { CONFIG } from '../config'
-import { File } from '../store'
 import { FileDownloadResponse, FilesDeletedResponse } from './ApiTypings'
 
 const apiClient = axios.create({
@@ -39,7 +38,7 @@ export default {
     )
   },
 
-  getFileList(): Promise<File[]> {
+  getFileList(): Promise<FileInfo[]> {
     return unwrapAxiosResponse(apiClient.get('/files'))
   },
 
