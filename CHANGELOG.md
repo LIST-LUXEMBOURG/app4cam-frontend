@@ -15,13 +15,14 @@
 - Reject underscore in device ID and site name
 - Change endpoint to download multiple files from POST /files/download to POST /files
 - Only deploy after passing tests by using stages in Gitlab pipeline
-- Remove page headings on shots and settings pages
 - Update dependencies
 - Replace Vuex with Pinia state management
 
 ### Deprecated
 
 ### Removed
+
+- Remove page headings on shots and settings pages
 
 ### Fixed
 
