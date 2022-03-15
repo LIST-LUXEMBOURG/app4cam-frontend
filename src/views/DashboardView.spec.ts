@@ -1,20 +1,24 @@
-import { mount } from '@vue/test-utils'
+import { mount, VueWrapper } from '@vue/test-utils'
 import DashboardView from './DashboardView.vue'
-import { key } from '../store'
-import { nextTick } from 'vue'
 import { ClosePopup, QBtn, QCard, QCardSection, QDialog, QSpace } from 'quasar'
+import { createTestingPinia } from '@pinia/testing'
+import ApiClientService from '../services/ApiClientService'
 
 jest.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
 
-it('displays device ID and site name', async () => {
-  const store = {
-    state: {
-      deviceId: 'd',
-      siteName: 's',
-    },
-    dispatch: jest.fn(() => Promise.resolve()),
-  }
-  const wrapper = mount(DashboardView, {
+const SETTINGS: SettingsDto = {
+  deviceId: 'd',
+  siteName: 's',
+  systemTime: new Date().toISOString(),
+}
+jest.spyOn(ApiClientService, 'getSettings').mockImplementation(() => {
+  return Promise.resolve(SETTINGS)
+})
+
+let wrapper: VueWrapper
+
+beforeEach(() => {
+  wrapper = mount(DashboardView, {
     components: {
       'q-btn': QBtn,
       'q-card': QCard,
@@ -26,14 +30,21 @@ it('displays device ID and site name', async () => {
       ClosePopup,
     },
     global: {
+      plugins: [createTestingPinia({ stubActions: false })],
       provide: {
         _q_: undefined,
-        [key as symbol]: store,
       },
     },
   })
-  await nextTick()
-  const input = wrapper.find('[data-test-id=deviceInformation]')
-  expect(input.text()).toBe(store.state.siteName + ' ' + store.state.deviceId)
+})
+
+describe('heading', () => {
+  it('displays device ID and site name', async () => {
+    const input = wrapper.find('[data-test-id=deviceInformation]')
+    expect(input.text()).toBe(SETTINGS.siteName + ' ' + SETTINGS.deviceId)
+  })
+})
+
+afterEach(() => {
   wrapper.unmount()
 })

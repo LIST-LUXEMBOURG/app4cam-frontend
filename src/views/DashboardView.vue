@@ -3,11 +3,10 @@ import { useQuasar } from 'quasar'
 import { ref } from 'vue'
 import ApiClientService from '../services/ApiClientService'
 import { FileDownloadResponse } from '../services/ApiTypings'
-import { useStore } from '../store'
-import { Actions } from '../store/action-types'
+import { useSettingsStore } from '../stores/settings'
 
 const quasar = useQuasar()
-const store = useStore()
+const store = useSettingsStore()
 
 const deviceId = ref('')
 const siteName = ref('')
@@ -15,10 +14,10 @@ const isSnapshotDialogOpen = ref(false)
 const snapshotUrl = ref('')
 
 store
-  .dispatch(Actions.FETCH_SETTINGS)
+  .fetchSettings()
   .then(() => {
-    deviceId.value = store.state.deviceId
-    siteName.value = store.state.siteName
+    deviceId.value = store.deviceId
+    siteName.value = store.siteName
   })
   .catch((error) => {
     quasar.notify({

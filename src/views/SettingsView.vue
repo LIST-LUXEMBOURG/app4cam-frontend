@@ -1,18 +1,17 @@
 <script setup lang="ts">
 import { debounce, useQuasar, ValidationRule } from 'quasar'
 import { computed, ref } from 'vue'
-import { useStore } from '../store'
-import { Actions } from '../store/action-types'
 import FilenameCreator from '../services/FilenameCreator'
 import DateConverter from '../services/DateConverter'
 import ApiClientService from '../services/ApiClientService'
 import { FileDownloader } from '../services/FileDownloader'
 import { cloneDeep } from '../services/ObjectHelper'
+import { useSettingsStore } from '../stores/settings'
 
 const EXPORT_FILENAME_SUFFIX = 'settings'
 
 const quasar = useQuasar()
-const store = useStore()
+const store = useSettingsStore()
 
 const notEmptyAndNoSpecialCharactersRules: ValidationRule[] = [
   (val) => (val !== null && val !== '') || 'Please enter something.',
@@ -61,12 +60,12 @@ const filenamePreview = computed(() =>
 )
 
 store
-  .dispatch(Actions.FETCH_SETTINGS)
+  .fetchSettings()
   .then(() => {
     isLoading.value = false
-    deviceId.value = store.state.deviceId
-    siteName.value = store.state.siteName
-    systemTime.value = store.state.systemTime
+    deviceId.value = store.deviceId
+    siteName.value = store.siteName
+    systemTime.value = store.systemTime
   })
   .catch((error) => {
     quasar.notify({
@@ -108,10 +107,10 @@ function importSettings(event: ProgressEvent<FileReader>) {
   if (typeof string === 'string') {
     const json = JSON.parse(string)
     store
-      .dispatch(Actions.PUT_SETTINGS, json)
+      .putSettings(json)
       .then(() => {
-        deviceId.value = store.state.deviceId
-        siteName.value = store.state.siteName
+        deviceId.value = store.deviceId
+        siteName.value = store.siteName
         quasar.notify({
           message: 'The settings were imported.',
           color: 'positive',
@@ -143,7 +142,7 @@ function onImportButtonClick() {
 
 function onSubmit() {
   store
-    .dispatch(Actions.PATCH_SETTINGS, {
+    .patchSettings({
       deviceId: deviceId.value,
       siteName: siteName.value,
       systemTime: systemTime.value,

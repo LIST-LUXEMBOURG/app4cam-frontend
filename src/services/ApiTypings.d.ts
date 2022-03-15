@@ -5,5 +5,5 @@ export interface FileDownloadResponse {
 }
 
 export interface FilesDeletedResponse {
-  [key: string]: boolean
+  [filename: string]: boolean
 }

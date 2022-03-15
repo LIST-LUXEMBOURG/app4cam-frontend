@@ -1,16 +1,15 @@
 <script setup lang="ts">
 import { useQuasar } from 'quasar'
 import { computed, reactive } from 'vue'
-import { useStore } from '../store'
-import { Actions } from '../store/action-types'
 import ApiClientService from '../services/ApiClientService'
 import { FileDownloader } from '../services/FileDownloader'
 import { FileDownloadResponse } from '../services/ApiTypings'
+import { useFilesStore } from '../stores/files'
 
 const quasar = useQuasar()
-const store = useStore()
+const store = useFilesStore()
 
-store.dispatch(Actions.FETCH_FILES).catch((error) => {
+store.fetchFiles().catch((error) => {
   quasar.notify({
     message: 'The files could not be loaded.',
     caption: error.message ? error.message : '',
@@ -20,7 +19,7 @@ store.dispatch(Actions.FETCH_FILES).catch((error) => {
 
 const selectedFiles: string[] = reactive([])
 
-const files = computed(() => store.state.files)
+const files = computed(() => store.files)
 const areAllFilesSelected = computed(
   () => selectedFiles.length === files.value.length,
 )
@@ -48,7 +47,7 @@ function onDeleteButtonClick() {
     return
   } else if (selectedFiles.length === 1) {
     store
-      .dispatch(Actions.DELETE_FILE, selectedFiles[0])
+      .deleteFile(selectedFiles[0])
       .then(handleFileDeleteSuccess)
       .catch((error) => {
         quasar.notify({
@@ -59,7 +58,7 @@ function onDeleteButtonClick() {
       })
   } else {
     store
-      .dispatch(Actions.DELETE_FILES, selectedFiles)
+      .deleteFiles(selectedFiles)
       .then(handleFileDeleteSuccess)
       .catch((error) => {
         quasar.notify({

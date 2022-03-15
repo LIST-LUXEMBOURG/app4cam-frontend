@@ -1,12 +1,12 @@
 import { createApp } from 'vue'
 import { Notify, Quasar } from 'quasar'
+import { createPinia } from 'pinia'
 
 import '@quasar/extras/material-icons/material-icons.css'
 import 'quasar/dist/quasar.css'
 
 import App from './App.vue'
 import router from './router/index'
-import store, { key } from './store/index'
 
 createApp(App)
   .use(Quasar, {
@@ -15,5 +15,5 @@ createApp(App)
     },
   })
   .use(router)
-  .use(store, key)
+  .use(createPinia())
   .mount('#app')
