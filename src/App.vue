@@ -1,15 +1,31 @@
-<script setup lang="ts"></script>
+<script
+  setup
+  lang="ts"
+></script>
 
 <template>
   <q-layout view="hHh lpR fFf">
-    <q-header bordered class="bg-primary text-white" height-hint="98">
+    <q-header
+      bordered
+      class="bg-primary text-white"
+      height-hint="98"
+    >
       <q-toolbar>
         <q-toolbar-title> PolliCAM </q-toolbar-title>
       </q-toolbar>
       <q-tabs>
-        <q-route-tab :to="{ name: 'Dashboard' }" label="Dashboard" />
-        <q-route-tab :to="{ name: 'Shots' }" label="Shots" />
-        <q-route-tab :to="{ name: 'Settings' }" label="Settings" />
+        <q-route-tab
+          :to="{ name: 'Dashboard' }"
+          label="Dashboard"
+        />
+        <q-route-tab
+          :to="{ name: 'Shots' }"
+          label="Shots"
+        />
+        <q-route-tab
+          :to="{ name: 'Settings' }"
+          label="Settings"
+        />
       </q-tabs>
     </q-header>
     <q-page-container>

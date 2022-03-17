@@ -1,4 +1,7 @@
-<script setup lang="ts">
+<script
+  setup
+  lang="ts"
+>
 import { useQuasar } from 'quasar'
 import { computed, reactive } from 'vue'
 import ApiClientService from '../services/ApiClientService'
@@ -115,7 +118,10 @@ function onUnselectAllButtonClick() {
 <template>
   <div class="q-mx-auto wrapper">
     <div>
-      <div v-for="(file, index) in files" :key="index">
+      <div
+        v-for="(file, index) in files"
+        :key="index"
+      >
         <q-item
           v-ripple
           :active="selectedFiles.includes(file.name)"
