@@ -9,6 +9,7 @@
 - Take and view snapshot
 - Export settings
 - Import settings
+- Display disk space usage
 
 ### Changed
 
