@@ -1,4 +1,7 @@
-<script setup lang="ts">
+<script
+  setup
+  lang="ts"
+>
 import DiskUsage from '../components/DiskUsage.vue'
 import Snapshot from '../components/Snapshot.vue'
 import SiteNameDeviceIdHeading from '../components/SiteNameDeviceIdHeading.vue'

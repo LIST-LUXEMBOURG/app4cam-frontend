@@ -1,4 +1,7 @@
-<script setup lang="ts">
+<script
+  setup
+  lang="ts"
+>
 import { useQuasar } from 'quasar'
 import { ref } from 'vue'
 import { useSettingsStore } from '../stores/settings'
@@ -24,7 +27,10 @@ siteName.value = store.siteName
 </script>
 
 <template>
-  <h5 class="q-mt-none" data-test-id="deviceInformation">
+  <h5
+    class="q-mt-none"
+    data-test-id="deviceInformation"
+  >
     {{ siteName }} {{ deviceId }}
   </h5>
 </template>

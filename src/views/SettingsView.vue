@@ -1,4 +1,7 @@
-<script setup lang="ts">
+<script
+  setup
+  lang="ts"
+>
 import { debounce, useQuasar, ValidationRule } from 'quasar'
 import { computed, ref } from 'vue'
 import FilenameCreator from '../services/FilenameCreator'
@@ -164,7 +167,10 @@ function onSubmit() {
 </script>
 
 <template>
-  <div class="q-pa-md q-mx-auto text-left" style="max-width: 400px">
+  <div
+    class="q-pa-md q-mx-auto text-left"
+    style="max-width: 400px"
+  >
     <h5 class="q-mb-lg q-mt-none">General settings</h5>
     <q-form
       autocapitalize="off"
@@ -217,11 +223,19 @@ function onSubmit() {
       </p>
       <h6 class="q-mb-md q-mt-lg">Filename preview</h6>
       <p data-test-id="filenamePreview">{{ filenamePreview }}</p>
-      <q-btn label="Save" type="submit" color="primary" />
+      <q-btn
+        label="Save"
+        type="submit"
+        color="primary"
+      />
     </q-form>
 
     <h5 class="q-mt-xl q-mb-md">Export & import</h5>
-    <q-btn label="Export" color="primary" @click="onExportButtonClick" />
+    <q-btn
+      label="Export"
+      color="primary"
+      @click="onExportButtonClick"
+    />
     <q-file
       v-model="file"
       accept="application/json"
@@ -230,10 +244,17 @@ function onSubmit() {
       label="Settings file"
     >
       <template #prepend>
-        <q-icon name="upload" @click.stop />
+        <q-icon
+          name="upload"
+          @click.stop
+        />
       </template>
       <template #after>
-        <q-btn label="Import" color="primary" @click="onImportButtonClick" />
+        <q-btn
+          label="Import"
+          color="primary"
+          @click="onImportButtonClick"
+        />
       </template>
     </q-file>
   </div>

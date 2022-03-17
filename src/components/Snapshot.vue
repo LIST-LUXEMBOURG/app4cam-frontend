@@ -1,4 +1,7 @@
-<script setup lang="ts">
+<script
+  setup
+  lang="ts"
+>
 import { useQuasar } from 'quasar'
 import { ref } from 'vue'
 import ApiClientService from '../services/ApiClientService'
@@ -33,15 +36,27 @@ function onTakeSnapshotButtonClick() {
     label="Take snapshot"
     @click="onTakeSnapshotButtonClick"
   />
-  <q-dialog v-model="isSnapshotDialogOpen" full-width>
+  <q-dialog
+    v-model="isSnapshotDialogOpen"
+    full-width
+  >
     <q-card>
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6">Snapshot</div>
         <q-space />
-        <q-btn v-close-popup icon="close" flat round dense />
+        <q-btn
+          v-close-popup
+          icon="close"
+          flat
+          round
+          dense
+        />
       </q-card-section>
       <q-card-section class="q-pt-none">
-        <img class="snapshot" :src="snapshotUrl" />
+        <img
+          class="snapshot"
+          :src="snapshotUrl"
+        />
       </q-card-section>
     </q-card>
   </q-dialog>

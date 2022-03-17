@@ -1,4 +1,7 @@
-<script setup lang="ts">
+<script
+  setup
+  lang="ts"
+>
 import { useQuasar } from 'quasar'
 import { reactive, ref } from 'vue'
 import { useStorageStore } from '../stores/storage'
