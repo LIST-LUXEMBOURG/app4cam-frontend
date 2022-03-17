@@ -7,3 +7,8 @@ export interface FileDownloadResponse {
 export interface FilesDeletedResponse {
   [filename: string]: boolean
 }
+
+export interface DiskSpaceUsageResponse {
+  capacityKb: number
+  usedPercentage: number
+}

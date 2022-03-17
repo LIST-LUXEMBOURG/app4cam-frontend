@@ -1,0 +1,57 @@
+<script setup lang="ts">
+import { useQuasar } from 'quasar'
+import { reactive, ref } from 'vue'
+import { useStorageStore } from '../stores/storage'
+
+const quasar = useQuasar()
+const store = useStorageStore()
+
+const capacityMb = ref(0)
+const chartOptions = reactive({
+  labels: ['used', 'available'],
+  plotOptions: {
+    pie: {
+      expandOnClick: false,
+    },
+  },
+  theme: {
+    palette: 'palette7',
+  },
+})
+const chartSeries: number[] = reactive([])
+
+function convertKbToGb(input: number): number {
+  return input / 1024 / 1024
+}
+
+try {
+  await store.fetchStorage()
+} catch (error: any) {
+  quasar.notify({
+    message: 'The disk space usage data could not be loaded.',
+    caption: error.message ? error.message : '',
+    color: 'negative',
+  })
+}
+
+chartSeries.splice(0)
+const usedKb = (store.capacityKb * store.usedPercentage) / 100
+const usedMb = convertKbToGb(usedKb)
+const availableKb = store.capacityKb - usedKb
+const availableMb = convertKbToGb(availableKb)
+chartSeries.push(usedMb, availableMb)
+chartOptions.labels[0] = `used (${Math.round(usedMb)} GB)`
+chartOptions.labels[1] = `available (${Math.round(availableMb)} GB)`
+capacityMb.value = Math.round(usedMb + availableMb)
+</script>
+
+<template>
+  <h6 class="q-mb-sm">Disk storage</h6>
+  <p>Total capacity: {{ capacityMb }} GB</p>
+  <apexchart
+    width="400"
+    type="pie"
+    :options="chartOptions"
+    :series="chartSeries"
+  />
+</template>

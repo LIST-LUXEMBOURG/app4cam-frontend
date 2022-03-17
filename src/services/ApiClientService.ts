@@ -1,6 +1,10 @@
 import axios, { AxiosResponse } from 'axios'
 import { CONFIG } from '../config'
-import { FileDownloadResponse, FilesDeletedResponse } from './ApiTypings'
+import {
+  DiskSpaceUsageResponse,
+  FileDownloadResponse,
+  FilesDeletedResponse,
+} from './ApiTypings'
 
 const apiClient = axios.create({
   baseURL: CONFIG.API_SERVER_URL,
@@ -77,5 +81,9 @@ export default {
       responseType: 'blob',
     })
     return convertAxiosResponseToFileDownloadResponse(response)
+  },
+
+  getStorage(): Promise<DiskSpaceUsageResponse> {
+    return unwrapAxiosResponse(apiClient.get('/storage'))
   },
 }

@@ -1,74 +1,61 @@
 <script setup lang="ts">
+import DiskUsage from '../components/DiskUsage.vue'
+import Snapshot from '../components/Snapshot.vue'
+import SiteNameDeviceIdHeading from '../components/SiteNameDeviceIdHeading.vue'
+import { onErrorCaptured, Ref, ref } from 'vue'
 import { useQuasar } from 'quasar'
-import { ref } from 'vue'
-import ApiClientService from '../services/ApiClientService'
-import { FileDownloadResponse } from '../services/ApiTypings'
-import { useSettingsStore } from '../stores/settings'
 
 const quasar = useQuasar()
-const store = useSettingsStore()
 
-const deviceId = ref('')
-const siteName = ref('')
-const isSnapshotDialogOpen = ref(false)
-const snapshotUrl = ref('')
+const error: Ref<Error | null> = ref(null)
 
-store
-  .fetchSettings()
-  .then(() => {
-    deviceId.value = store.deviceId
-    siteName.value = store.siteName
+onErrorCaptured((e) => {
+  error.value = e
+  quasar.notify({
+    message: 'Loading one or more components failed.',
+    caption: e.message ? e.message : '',
+    color: 'negative',
   })
-  .catch((error) => {
-    quasar.notify({
-      message: 'The site name and device ID could not be loaded.',
-      caption: error.message ? error.message : '',
-      color: 'negative',
-    })
-  })
-
-function onTakeSnapshotButtonClick() {
-  ApiClientService.getSnapshot()
-    .then((response: FileDownloadResponse) => {
-      const file = new Blob([response.data], { type: response.contentType })
-      snapshotUrl.value = URL.createObjectURL(file)
-      isSnapshotDialogOpen.value = true
-    })
-    .catch((error) => {
-      quasar.notify({
-        message: 'Taking or displaying the snapshot failed.',
-        caption: error.message ? error.message : '',
-        color: 'negative',
-      })
-    })
-}
+})
 </script>
 
 <template>
-  <h5 class="q-my-md" data-test-id="deviceInformation">
-    {{ siteName }} {{ deviceId }}
-  </h5>
-  <q-btn
-    color="primary"
-    label="Take snapshot"
-    @click="onTakeSnapshotButtonClick"
-  />
-  <q-dialog v-model="isSnapshotDialogOpen" full-width>
-    <q-card>
-      <q-card-section class="row items-center q-pb-none">
-        <div class="text-h6">Snapshot</div>
-        <q-space />
-        <q-btn v-close-popup icon="close" flat round dense />
-      </q-card-section>
-      <q-card-section class="q-pt-none">
-        <img class="snapshot" :src="snapshotUrl" />
-      </q-card-section>
-    </q-card>
-  </q-dialog>
+  <div class="q-mx-auto wrapper text-left">
+    <Suspense v-if="!error">
+      <template #default>
+        <div>
+          <site-name-device-id-heading />
+          <disk-usage />
+          <snapshot />
+        </div>
+      </template>
+      <template #fallback>
+        <div>
+          <span class="material-icons"> sync </span>
+          Loading...
+        </div>
+      </template>
+    </Suspense>
+  </div>
 </template>
 
 <style scoped>
-.snapshot {
-  max-width: 100%;
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.material-icons {
+  font-size: 36px;
+  animation: rotation infinite 1s ease-in-out;
+}
+
+.wrapper {
+  max-width: 400px;
 }
 </style>
