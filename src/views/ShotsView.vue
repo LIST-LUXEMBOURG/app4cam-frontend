@@ -165,7 +165,7 @@ function onUnselectAllButtonClick() {
         @click="onDownloadButtonClick"
       />
       <q-btn
-        color="primary"
+        color="red"
         label="Delete"
         :disable="isNoFileSelected"
         data-test-id="delete-button"
