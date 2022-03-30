@@ -20,11 +20,22 @@ store.fetchFiles().catch((error) => {
   })
 })
 
+const typeFilterOptions = ['Pictures', 'Videos']
+
 const isDeleteConfirmationDialogOpen = ref(false)
+const typeFilterSelectedOption = ref(null)
 
 const selectedFiles: string[] = reactive([])
 
-const files = computed(() => store.files)
+const files = computed(() => {
+  if (typeFilterSelectedOption.value === 'Pictures') {
+    return store.files.filter((f) => f.name.endsWith('jpg'))
+  } else if (typeFilterSelectedOption.value === 'Videos') {
+    return store.files.filter((f) => f.name.endsWith('mkv'))
+  } else {
+    return store.files
+  }
+})
 const areAllFilesSelected = computed(
   () => selectedFiles.length === files.value.length,
 )
@@ -128,6 +139,14 @@ function onUnselectAllButtonClick() {
 
 <template>
   <div class="q-mx-auto wrapper">
+    <q-select
+      v-model="typeFilterSelectedOption"
+      outlined
+      :options="typeFilterOptions"
+      label="Filter by type"
+      class="q-mb-md q-mx-xl"
+      clearable
+    />
     <div>
       <div
         v-for="(file, index) in files"
