@@ -14,7 +14,7 @@ const version = __APP_VERSION__
       height-hint="98"
     >
       <q-toolbar>
-        <q-toolbar-title> PolliCAM </q-toolbar-title>
+        <q-toolbar-title>App4Cam</q-toolbar-title>
       </q-toolbar>
       <q-tabs>
         <q-route-tab
