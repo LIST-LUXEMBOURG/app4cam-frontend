@@ -1,5 +1,6 @@
 import { DOMWrapper, mount, VueWrapper } from '@vue/test-utils'
 import {
+  ClosePopup,
   QAvatar,
   QBtn,
   QCard,
@@ -41,6 +42,7 @@ beforeEach(() => {
       'q-item-section': QItemSection,
     },
     directives: {
+      ClosePopup,
       Ripple,
     },
     global: {
@@ -51,6 +53,11 @@ beforeEach(() => {
       ],
       provide: {
         _q_: undefined,
+      },
+      stubs: {
+        'q-select': {
+          template: '<i />',
+        },
       },
     },
   })
