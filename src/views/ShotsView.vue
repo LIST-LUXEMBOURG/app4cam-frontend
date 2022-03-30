@@ -3,7 +3,7 @@
   lang="ts"
 >
 import { useQuasar } from 'quasar'
-import { computed, reactive } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import ApiClientService from '../services/ApiClientService'
 import { FileDownloader } from '../services/FileDownloader'
 import { FileDownloadResponse } from '../services/ApiTypings'
@@ -19,6 +19,8 @@ store.fetchFiles().catch((error) => {
     color: 'negative',
   })
 })
+
+const isDeleteConfirmationDialogOpen = ref(false)
 
 const selectedFiles: string[] = reactive([])
 
@@ -38,6 +40,13 @@ function onSelectionClick(filename: string) {
 }
 
 function onDeleteButtonClick() {
+  if (selectedFiles.length === 0) {
+    return
+  }
+  isDeleteConfirmationDialogOpen.value = true
+}
+
+function onConfirmDeleteButtonClick() {
   function handleFileDeleteSuccess(): void {
     selectedFiles.splice(0)
     quasar.notify({
@@ -45,6 +54,8 @@ function onDeleteButtonClick() {
       color: 'positive',
     })
   }
+
+  isDeleteConfirmationDialogOpen.value = false
 
   if (selectedFiles.length === 0) {
     return
@@ -173,6 +184,39 @@ function onUnselectAllButtonClick() {
       />
     </div>
   </div>
+  <q-dialog
+    v-model="isDeleteConfirmationDialogOpen"
+    persistent
+  >
+    <q-card>
+      <q-card-section class="row items-center">
+        <q-avatar
+          icon="warning"
+          color="red-8"
+          text-color="white"
+        />
+        <span class="q-ml-sm"
+          >Do you really want to delete the selected shot{{
+            selectedFiles.length > 1 ? 's' : ''
+          }}?</span
+        >
+      </q-card-section>
+      <q-card-actions align="right">
+        <q-btn
+          v-close-popup
+          flat
+          label="No"
+          color="primary"
+        />
+        <q-btn
+          flat
+          label="Yes"
+          color="red-8"
+          @click="onConfirmDeleteButtonClick"
+        />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 
 <style>
