@@ -4,7 +4,8 @@
 
 ### Added
 
-- Frontend version number at bottom of each page
+- Display frontend version number at bottom of each page
+- Display commit hash at bottom of each page
 
 ### Changed
 
