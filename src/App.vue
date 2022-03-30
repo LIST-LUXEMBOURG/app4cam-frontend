@@ -2,6 +2,7 @@
   setup
   lang="ts"
 >
+const commitHash = __COMMIT_HASH__
 const version = __APP_VERSION__
 </script>
 
@@ -33,7 +34,9 @@ const version = __APP_VERSION__
     <q-page-container>
       <router-view />
     </q-page-container>
-    <p class="q-mt-xl text-grey-7 text-caption">version {{ version }}</p>
+    <p class="q-mt-xl text-grey-7 text-caption">
+      version {{ version }} - {{ commitHash }}
+    </p>
   </q-layout>
 </template>
 
