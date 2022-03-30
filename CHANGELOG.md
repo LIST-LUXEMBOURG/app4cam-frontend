@@ -9,6 +9,7 @@
 ### Changed
 
 - Change delete button color to red
+- Maximize snapshot view dialog
 
 ### Deprecated
 

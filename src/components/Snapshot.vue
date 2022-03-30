@@ -38,7 +38,7 @@ function onTakeSnapshotButtonClick() {
   />
   <q-dialog
     v-model="isSnapshotDialogOpen"
-    full-width
+    maximized
   >
     <q-card>
       <q-card-section class="row items-center q-pb-none">
