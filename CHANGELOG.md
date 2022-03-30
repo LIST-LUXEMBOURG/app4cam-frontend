@@ -7,6 +7,7 @@
 - Display frontend version number at bottom of each page
 - Display commit hash at bottom of each page
 - Add delete confirmation dialog
+- Filter shots by type
 
 ### Changed
 
