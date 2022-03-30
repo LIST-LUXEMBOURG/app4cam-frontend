@@ -14,6 +14,7 @@
 - Change delete button color to red
 - Maximize snapshot view dialog
 - Update dependencies
+- Rename from PolliCAM to App4Cam
 
 ### Deprecated
 
