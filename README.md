@@ -1,4 +1,4 @@
-# PolliCAM Frontend
+# App4Cam Frontend
 
 ## Setup
 
@@ -8,11 +8,11 @@
 
 For continuous deployment (CD), a service needs to be created on the remote server:
 
-1. Create the `pollicam-frontend` service by creating the following file: `/etc/systemd/system/pollicam-frontend.service`
+1. Create the `app4cam-frontend` service by creating the following file: `/etc/systemd/system/app4cam-frontend.service`
 
 ```
 [Unit]
-Description=Service that keeps running pollicam-frontend from startup
+Description=Service that keeps running app4cam-frontend from startup
 After=network.target
 
 [Install]
@@ -21,7 +21,7 @@ WantedBy=multi-user.target
 [Service]
 Type=simple
 ExecStart=npx vite preview --host
-WorkingDirectory=/home/pi/pollicam-frontend
+WorkingDirectory=/home/pi/app4cam-frontend
 Restart=always
 RestartSec=5
 StandardOutput=syslog
@@ -30,7 +30,7 @@ SyslogIdentifier=%n
 ```
 
 2. Run: `sudo systemctl daemon-reload`
-3. Run: `sudo systemctl enable pollicam-frontend`
+3. Run: `sudo systemctl enable app4cam-frontend`
 
 ## Development
 
