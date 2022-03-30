@@ -1,7 +1,9 @@
 <script
   setup
   lang="ts"
-></script>
+>
+const version = __APP_VERSION__
+</script>
 
 <template>
   <q-layout view="hHh lpR fFf">
@@ -31,6 +33,7 @@
     <q-page-container>
       <router-view />
     </q-page-container>
+    <p class="q-mt-xl text-grey-7 text-caption">version {{ version }}</p>
   </q-layout>
 </template>
 

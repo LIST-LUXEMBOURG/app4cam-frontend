@@ -1,5 +1,23 @@
 # Changelog
 
+## Sprint 4
+
+### Added
+
+- Frontend version number at bottom of each page
+
+### Changed
+
+- Change delete button color to red
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
 ## Sprint 3
 
 ### Added
@@ -19,8 +37,6 @@
 - Update dependencies
 - Replace Vuex with Pinia state management
 
-### Deprecated
-
 ### Removed
 
 - Remove page headings on shots and settings pages
@@ -30,8 +46,6 @@
 - Fix date field by prepending zero to single-digit days
 - Reset selected files after deletion
 - Remove files from state before fetching new file list
-
-### Security
 
 ## Sprint 2
 

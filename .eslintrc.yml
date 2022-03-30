@@ -15,3 +15,4 @@ rules:
   jest/valid-title:
     - error
     - ignoreTypeOfDescribeName: true
+  no-undef: off
