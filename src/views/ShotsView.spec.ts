@@ -1,5 +1,16 @@
 import { DOMWrapper, mount, VueWrapper } from '@vue/test-utils'
-import { QBtn, QItem, QItemLabel, QItemSection, Ripple } from 'quasar'
+import {
+  QAvatar,
+  QBtn,
+  QCard,
+  QCardActions,
+  QCardSection,
+  QDialog,
+  QItem,
+  QItemLabel,
+  QItemSection,
+  Ripple,
+} from 'quasar'
 import ShotsView from './ShotsView.vue'
 import { files } from '../../fixtures/files.json'
 import { convertJsonToFiles } from '../test-helpers'
@@ -19,7 +30,12 @@ let wrapper: VueWrapper
 beforeEach(() => {
   wrapper = mount(ShotsView, {
     components: {
+      'q-avatar': QAvatar,
       'q-btn': QBtn,
+      'q-card': QCard,
+      'q-card-actions': QCardActions,
+      'q-card-section': QCardSection,
+      'q-dialog': QDialog,
       'q-item': QItem,
       'q-item-label': QItemLabel,
       'q-item-section': QItemSection,
