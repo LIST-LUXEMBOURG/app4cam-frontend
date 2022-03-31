@@ -8,6 +8,7 @@
 - Display commit hash at bottom of each page
 - Add delete confirmation dialog
 - Filter shots by type
+- Show loading bar on API calls
 
 ### Changed
 
