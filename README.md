@@ -1,14 +1,46 @@
-# App4Cam Frontend
+# App4Cam frontend
+
+App4Cam is the software used on non-lethal camera traps to configure the trap and to download the shots taken.
+Its development started within the scope of the PolliCAM project for the traps Aurinion and DiMon.
+It is a web application consisting of both backend and frontend parts.
+
+## Specificities
+
+### Technology stack
+
+- [Quasar](https://quasar.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Vite](https://vitejs.dev/)
+- [Vue.js](https://vuejs.org/)
+
+### Single File Components
+
+Vue 3 `<script setup>` Single File Components (SFCs) are used; Check out the [script setup docs](https://vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
 
 ## Setup
+
+### Development setup
 
 1. Install dependencies: `npm install`
 2. Copy the config file `.env.sample` to `.env.development.local`.
 3. Edit the latter config file as needed.
 
-For continuous deployment (CD), a service needs to be created on the remote server:
+#### Recommended plugins for Visual Studio Code
 
-1. Create the `app4cam-frontend` service by creating the following file: `/etc/systemd/system/app4cam-frontend.service`
+- [EditorConfig for VS Code](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
+- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+- [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+- [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
+
+#### Type support for `.vue` imports in TypeScript with Volar
+
+Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's `.vue` type support plugin by running `Volar: Switch TS Plugin on/off` from VSCode command palette.
+
+### Production setup
+
+For continuous deployment (CD) and for production, a service needs to be created on the remote server:
+
+1. Create the `app4cam-frontend` service by creating the file `/etc/systemd/system/app4cam-frontend.service` with the following content:
 
 ```
 [Unit]
@@ -32,34 +64,15 @@ SyslogIdentifier=%n
 2. Run: `sudo systemctl daemon-reload`
 3. Run: `sudo systemctl enable app4cam-frontend`
 
-## Development
+For CD only: Make sure to have run the following command once (maybe already done during backend setup): `ssh-keyscan -t ed25519 git.list.lu >> ~/.ssh/known_hosts`
+
+Finally, run the commands sent via SSH to the server found in the `.gitlab-ci.yml` file.
+
+## Development commands
 
 - Start dev server: `npm run dev`
 - Build for production: `npm run build`
 - Locally preview production build: `npm run preview`
 - Run unit tests: `npm run test`
-- Rerun unit tests automatically: `npm run test:watch`
+- Rerun unit tests automatically on file changes: `npm run test:watch`
 - Lint files: `npm run lint`
-
-## Specificities
-
-### Technology stack
-
-- [TypeScript](https://www.typescriptlang.org/)
-- [Vue.js](https://v3.vuejs.org/)
-- [Quasar](https://quasar.dev/)
-
-### Single File Components
-
-This template should help get you started developing with Vue 3 and Typescript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
-
-### Type Support For `.vue` Imports in TS
-
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's `.vue` type support plugin by running `Volar: Switch TS Plugin on/off` from VSCode command palette.
-
-## Recommended plugins for Visual Studio Code
-
-- [EditorConfig for VS Code](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
-- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
-- [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
-- [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
