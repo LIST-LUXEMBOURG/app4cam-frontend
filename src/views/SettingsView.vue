@@ -3,15 +3,12 @@
   lang="ts"
 >
 import { debounce, useQuasar, ValidationRule } from 'quasar'
-import { computed, ref } from 'vue'
-import FilenameCreator from '../services/FilenameCreator'
+import { computed, Ref, ref } from 'vue'
 import DateConverter from '../services/DateConverter'
 import ApiClientService from '../services/ApiClientService'
-import { FileDownloader } from '../services/FileDownloader'
-import { cloneDeep } from '../services/ObjectHelper'
 import { useSettingsStore } from '../stores/settings'
-
-const EXPORT_FILENAME_SUFFIX = 'settings'
+import ExportImport from '../components/ExportImport.vue'
+import FilenamePreview from '../components/FilenamePreview.vue'
 
 const quasar = useQuasar()
 const store = useSettingsStore()
@@ -23,14 +20,24 @@ const notEmptyAndNoSpecialCharactersRules: ValidationRule[] = [
     'Please only use letters, numbers, underscores and hyphens.',
 ]
 
+const noTimeZoneSelected: ValidationRule[] = [
+  (val) => (val !== null && val !== '') || 'Please select a time zone.',
+]
+
+const availableTimeZones: Ref<string[]> = ref([])
 const deviceId = ref('')
-const file = ref(null)
-const isLoading = ref(true)
+const filteredTimeZones: Ref<string[]> = ref([])
+const isLoadingSettings = ref(true)
 const siteName = ref('')
 const systemTime = ref(new Date())
+const timeZone = ref('')
 
 const date = computed({
-  get: () => DateConverter.convertDateToIso8601Date(systemTime.value),
+  get: () =>
+    DateConverter.formatDateAsDashedYearMonthDayInTimeZone(
+      systemTime.value,
+      timeZone.value,
+    ),
   set: (value) => {
     const year = parseInt(value.slice(0, 4))
     const month = parseInt(value.slice(5, 7))
@@ -43,7 +50,11 @@ const date = computed({
   },
 })
 const time = computed({
-  get: () => systemTime.value.getHours() + ':' + systemTime.value.getMinutes(),
+  get: () =>
+    DateConverter.formatDateAsHoursColonMinutesInTimeZone(
+      systemTime.value,
+      timeZone.value,
+    ),
   set: debounce((value) => {
     const hours = parseInt(value.slice(0, 2))
     const minutes = parseInt(value.slice(3, 5))
@@ -53,22 +64,12 @@ const time = computed({
     systemTime.value = date
   }, 500),
 })
-const filenamePreview = computed(() =>
-  FilenameCreator.createFilename(
-    deviceId.value,
-    siteName.value,
-    systemTime.value,
-    'extension',
-  ),
-)
 
 store
   .fetchSettings()
   .then(() => {
-    isLoading.value = false
-    deviceId.value = store.deviceId
-    siteName.value = store.siteName
-    systemTime.value = store.systemTime
+    isLoadingSettings.value = false
+    loadSettingsFromStore()
   })
   .catch((error) => {
     quasar.notify({
@@ -78,69 +79,36 @@ store
     })
   })
 
-function onExportButtonClick() {
-  ApiClientService.getSettings()
-    .then((settings) => {
-      const settingsToExport: Partial<SettingsDto> = cloneDeep(settings)
-      delete settingsToExport.systemTime
-      const filename = FilenameCreator.createFilename(
-        deviceId.value,
-        siteName.value,
-        new Date(),
-        'json',
-        EXPORT_FILENAME_SUFFIX,
-      )
-      FileDownloader.downloadFile(
-        [JSON.stringify(settingsToExport)],
-        'text/json',
-        filename,
-      )
-    })
-    .catch((error) => {
-      quasar.notify({
-        message: 'The settings could not be exported.',
-        caption: error.message ? error.message : '',
-        color: 'negative',
-      })
-    })
-}
-
-function importSettings(event: ProgressEvent<FileReader>) {
-  const string = event.target?.result
-  if (typeof string === 'string') {
-    const json = JSON.parse(string)
-    store
-      .putSettings(json)
-      .then(() => {
-        deviceId.value = store.deviceId
-        siteName.value = store.siteName
-        quasar.notify({
-          message: 'The settings were imported.',
-          color: 'positive',
-        })
-      })
-      .catch((error) => {
-        quasar.notify({
-          message: 'The settings could not be imported.',
-          caption: error.message ? error.message : '',
-          color: 'negative',
-        })
-      })
-  } else {
+ApiClientService.getAvailableTimeZones()
+  .then((data) => {
+    availableTimeZones.value = data.timeZones
+    filteredTimeZones.value = data.timeZones
+  })
+  .catch((error) => {
     quasar.notify({
-      message: 'The settings could not be imported.',
+      message: 'The time zones available could not be loaded.',
+      caption: error.message ? error.message : '',
       color: 'negative',
     })
-  }
+  })
+
+function filterTimeZones(
+  val: string,
+  update: (callbackFn: () => void) => void,
+) {
+  update(() => {
+    const needle = val.toLowerCase()
+    filteredTimeZones.value = availableTimeZones.value.filter(
+      (v) => v.toLowerCase().indexOf(needle) > -1,
+    )
+  })
 }
 
-function onImportButtonClick() {
-  if (!file.value) {
-    return
-  }
-  const reader = new FileReader()
-  reader.onload = importSettings
-  reader.readAsText(file.value)
+function loadSettingsFromStore() {
+  deviceId.value = store.deviceId
+  siteName.value = store.siteName
+  systemTime.value = store.systemTime
+  timeZone.value = store.timeZone
 }
 
 function onSubmit() {
@@ -149,6 +117,7 @@ function onSubmit() {
       deviceId: deviceId.value,
       siteName: siteName.value,
       systemTime: systemTime.value,
+      timeZone: timeZone.value,
     })
     .then(() => {
       quasar.notify({
@@ -176,86 +145,79 @@ function onSubmit() {
       autocapitalize="off"
       autocomplete="off"
       autocorrect="off"
-      class="q-gutter-sm"
+      class="q-gutter-sm q-mb-xl"
       @submit="onSubmit"
     >
       <q-input
         v-model="siteName"
-        outlined
-        :disable="isLoading"
+        :disable="isLoadingSettings"
         label="Site name"
         lazy-rules
+        outlined
         :rules="notEmptyAndNoSpecialCharactersRules"
       />
       <q-input
         v-model="deviceId"
-        outlined
-        :disable="isLoading"
+        :disable="isLoadingSettings"
         label="Device ID"
         lazy-rules
+        outlined
         :rules="notEmptyAndNoSpecialCharactersRules"
       />
-      <div class="row">
+      <div class="row q-mb-lg">
         <div class="q-mr-md">
           <q-input
             v-model="date"
-            outlined
-            type="date"
+            :disable="isLoadingSettings"
             label="Date"
+            outlined
             stack-label
-            :disable="isLoading"
+            type="date"
           />
         </div>
         <div>
           <q-input
             v-model="time"
-            outlined
-            type="time"
+            :disable="isLoadingSettings"
             label="Time"
+            outlined
             stack-label
-            :disable="isLoading"
+            type="time"
           />
         </div>
       </div>
-      <p class="text-left text-grey-7">
-        The date and and time shown above are in your host's system time zone.
-        The trap internally uses UTC time.
-      </p>
-      <h6 class="q-mb-md q-mt-lg">Filename preview</h6>
-      <p data-test-id="filenamePreview">{{ filenamePreview }}</p>
+      <q-select
+        v-model="timeZone"
+        :disable="isLoadingSettings"
+        fill-input
+        hide-selected
+        input-debounce="0"
+        label="Time zone"
+        lazy-rules
+        :options="filteredTimeZones"
+        outlined
+        :rules="noTimeZoneSelected"
+        use-input
+        @filter="filterTimeZones"
+      >
+        <template #no-option>
+          <q-item>
+            <q-item-section>No results</q-item-section>
+          </q-item>
+        </template>
+      </q-select>
+      <FilenamePreview
+        :device-id="deviceId"
+        :site-name="siteName"
+        :system-time="systemTime"
+        :time-zone="timeZone"
+      />
       <q-btn
+        color="primary"
         label="Save"
         type="submit"
-        color="primary"
       />
     </q-form>
-
-    <h5 class="q-mt-xl q-mb-md">Export & import</h5>
-    <q-btn
-      label="Export"
-      color="primary"
-      @click="onExportButtonClick"
-    />
-    <q-file
-      v-model="file"
-      accept="application/json"
-      class="q-mt-md"
-      outlined
-      label="Settings file"
-    >
-      <template #prepend>
-        <q-icon
-          name="upload"
-          @click.stop
-        />
-      </template>
-      <template #after>
-        <q-btn
-          label="Import"
-          color="primary"
-          @click="onImportButtonClick"
-        />
-      </template>
-    </q-file>
+    <ExportImport @imported="loadSettingsFromStore" />
   </div>
 </template>

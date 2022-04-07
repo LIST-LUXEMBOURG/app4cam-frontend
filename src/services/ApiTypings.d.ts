@@ -12,3 +12,7 @@ export interface DiskSpaceUsageResponse {
   capacityKb: number
   usedPercentage: number
 }
+
+export interface AvailableTimeZones {
+  timeZones: string[]
+}

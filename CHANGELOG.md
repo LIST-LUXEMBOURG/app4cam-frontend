@@ -9,6 +9,7 @@
 - Add delete confirmation dialog
 - Filter shots by type
 - Show loading bar on API calls
+- Add time zone setting
 
 ### Changed
 
@@ -20,6 +21,8 @@
 ### Deprecated
 
 ### Removed
+
+- Remove info paragraph about UTC and local times on settings page
 
 ### Fixed
 

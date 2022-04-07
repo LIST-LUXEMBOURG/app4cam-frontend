@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from 'axios'
 import { CONFIG } from '../config'
 import {
+  AvailableTimeZones,
   DiskSpaceUsageResponse,
   FileDownloadResponse,
   FilesDeletedResponse,
@@ -40,6 +41,10 @@ export default {
     return unwrapAxiosResponse(
       apiClient.delete('/files/', { data: { filenames } }),
     )
+  },
+
+  getAvailableTimeZones(): Promise<AvailableTimeZones> {
+    return unwrapAxiosResponse(apiClient.get('/settings/timezones'))
   },
 
   getFileList(): Promise<FileInfo[]> {

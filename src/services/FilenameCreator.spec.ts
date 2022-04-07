@@ -1,7 +1,7 @@
 import FilenameCreator from './FilenameCreator'
 
 const SYSTEM_TIME_ISO = '2022-01-18T13:48:37.000Z'
-const SYSTEM_TIME_ISO_WITHOUT_SPECIAL_CHARS = '20220118T134837000Z'
+const SYSTEM_TIME_ISO_REDUCED = '20220118T134837'
 
 describe('createFilename', () => {
   it('returns a valid filename', async () => {
@@ -10,13 +10,19 @@ describe('createFilename', () => {
     const systemTime = new Date(SYSTEM_TIME_ISO)
     const extension = 'e'
     expect(
-      FilenameCreator.createFilename(deviceId, siteName, systemTime, extension),
+      FilenameCreator.createFilename(
+        deviceId,
+        siteName,
+        systemTime,
+        'UTC',
+        extension,
+      ),
     ).toBe(
       siteName +
         '_' +
         deviceId +
         '_' +
-        SYSTEM_TIME_ISO_WITHOUT_SPECIAL_CHARS +
+        SYSTEM_TIME_ISO_REDUCED +
         '.' +
         extension,
     )
@@ -33,6 +39,7 @@ describe('createFilename', () => {
         deviceId,
         siteName,
         systemTime,
+        'UTC',
         extension,
         suffix,
       ),
@@ -41,19 +48,11 @@ describe('createFilename', () => {
         '_' +
         deviceId +
         '_' +
-        SYSTEM_TIME_ISO_WITHOUT_SPECIAL_CHARS +
+        SYSTEM_TIME_ISO_REDUCED +
         '_' +
         suffix +
         '.' +
         extension,
-    )
-  })
-})
-
-describe('stripHyphensColonsDots', () => {
-  it('removes all characters', async () => {
-    expect(FilenameCreator.stripHyphensColonsDots(SYSTEM_TIME_ISO)).toBe(
-      SYSTEM_TIME_ISO_WITHOUT_SPECIAL_CHARS,
     )
   })
 })
