@@ -19,6 +19,11 @@ Vue 3 `<script setup>` Single File Components (SFCs) are used; Check out the [sc
 
 ## Setup
 
+### Prerequisites
+
+- Git
+- \>= Node.js 14.x
+
 ### Development setup
 
 1. Install dependencies: `npm install`
@@ -67,6 +72,7 @@ SyslogIdentifier=%n
 For CD only: Make sure to have run the following command once (maybe already done during backend setup): `ssh-keyscan -t ed25519 git.list.lu >> ~/.ssh/known_hosts`
 
 Finally, run the commands sent via SSH to the server found in the `.gitlab-ci.yml` file.
+You may need to adapt the options in the .env file used.
 
 ## Development commands
 
