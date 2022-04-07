@@ -8,6 +8,7 @@ export const useSettingsStore = defineStore('settings', {
     deviceId: '',
     siteName: '',
     systemTime: new Date(),
+    timeZone: '',
   }),
 
   actions: {
@@ -16,6 +17,7 @@ export const useSettingsStore = defineStore('settings', {
         this.deviceId = settings.deviceId
         this.siteName = settings.siteName
         this.systemTime = new Date(settings.systemTime)
+        this.timeZone = settings.timeZone
       })
     },
 
@@ -30,6 +32,9 @@ export const useSettingsStore = defineStore('settings', {
       if (this.systemTime !== settings.systemTime) {
         settingsToUpdate.systemTime = settings.systemTime.toISOString()
       }
+      if (this.timeZone !== settings.timeZone) {
+        settingsToUpdate.timeZone = settings.timeZone
+      }
       if (Object.keys(settingsToUpdate).length === 0) {
         return Promise.resolve()
       }
@@ -42,6 +47,9 @@ export const useSettingsStore = defineStore('settings', {
         }
         if (this.systemTime !== settings.systemTime) {
           this.systemTime = new Date(settings.systemTime)
+        }
+        if (this.timeZone !== settings.timeZone) {
+          this.timeZone = settings.timeZone
         }
       })
     },
@@ -56,6 +64,9 @@ export const useSettingsStore = defineStore('settings', {
         }
         if (this.siteName !== settings.siteName) {
           this.siteName = settings.siteName
+        }
+        if (this.timeZone !== settings.timeZone) {
+          this.timeZone = settings.timeZone
         }
       })
     },

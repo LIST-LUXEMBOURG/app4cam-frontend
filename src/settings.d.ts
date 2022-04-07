@@ -1,9 +1,7 @@
-interface DeviceId {
+interface ApplicationSettings {
   deviceId: string
-}
-
-interface SiteName {
   siteName: string
+  timeZone: string
 }
 
 interface SystemTime {
@@ -13,8 +11,6 @@ interface SystemTime {
 interface SystemTimeDto {
   systemTime: string
 }
-
-type ApplicationSettings = DeviceId & SiteName
 
 type Settings = ApplicationSettings & SystemTime
 
