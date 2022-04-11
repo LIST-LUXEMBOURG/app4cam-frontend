@@ -5,12 +5,12 @@ import { useStorageStore } from './storage'
 
 jest.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
 
-describe('settings store', () => {
+describe('storage store', () => {
   beforeEach(() => {
     setActivePinia(createPinia())
   })
 
-  describe('fetch settings', () => {
+  describe('fetch storage details', () => {
     const settings: DiskSpaceUsageResponse = {
       capacityKb: 1,
       usedPercentage: 2,
@@ -21,7 +21,7 @@ describe('settings store', () => {
         return Promise.resolve(settings)
       })
 
-    it('saves settings after fetching', async () => {
+    it('saves storage details after fetching', async () => {
       const store = useStorageStore()
       await store.fetchStorage()
       expect(store.capacityKb).toBe(settings.capacityKb)

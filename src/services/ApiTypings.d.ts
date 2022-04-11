@@ -16,3 +16,8 @@ export interface DiskSpaceUsageResponse {
 export interface AvailableTimeZones {
   timeZones: string[]
 }
+
+export interface VersionResponse {
+  commitHash: string
+  version: string
+}

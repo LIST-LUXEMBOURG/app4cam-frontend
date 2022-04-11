@@ -4,12 +4,13 @@
 
 ### Added
 
-- Display frontend version number at bottom of each page
-- Display commit hash at bottom of each page
+- Display frontend version at bottom of each page
+- Display frontend commit hash at bottom of each page
 - Add delete confirmation dialog
 - Filter shots by type
 - Show loading bar on API calls
 - Add time zone setting
+- Display backend commit hash and version at bottom of each page
 
 ### Changed
 
