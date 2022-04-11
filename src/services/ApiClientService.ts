@@ -5,6 +5,7 @@ import {
   DiskSpaceUsageResponse,
   FileDownloadResponse,
   FilesDeletedResponse,
+  VersionResponse,
 } from './ApiTypings'
 
 const apiClient = axios.create({
@@ -90,5 +91,9 @@ export default {
 
   getStorage(): Promise<DiskSpaceUsageResponse> {
     return unwrapAxiosResponse(apiClient.get('/storage'))
+  },
+
+  getVersion(): Promise<VersionResponse> {
+    return unwrapAxiosResponse(apiClient.get('/version'))
   },
 }
