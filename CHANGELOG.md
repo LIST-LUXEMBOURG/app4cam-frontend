@@ -18,6 +18,7 @@
 - Maximize snapshot view dialog
 - Update dependencies
 - Rename from PolliCAM to App4Cam
+- Move time zone field before date and time field on settings page
 
 ### Deprecated
 
