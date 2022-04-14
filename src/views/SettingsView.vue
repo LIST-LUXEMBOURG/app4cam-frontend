@@ -164,6 +164,26 @@ function onSubmit() {
         outlined
         :rules="notEmptyAndNoSpecialCharactersRules"
       />
+      <q-select
+        v-model="timeZone"
+        :disable="isLoadingSettings"
+        fill-input
+        hide-selected
+        input-debounce="0"
+        label="Time zone"
+        lazy-rules
+        :options="filteredTimeZones"
+        outlined
+        :rules="noTimeZoneSelected"
+        use-input
+        @filter="filterTimeZones"
+      >
+        <template #no-option>
+          <q-item>
+            <q-item-section>No results</q-item-section>
+          </q-item>
+        </template>
+      </q-select>
       <div class="row q-mb-lg">
         <div class="q-mr-md">
           <q-input
@@ -186,26 +206,6 @@ function onSubmit() {
           />
         </div>
       </div>
-      <q-select
-        v-model="timeZone"
-        :disable="isLoadingSettings"
-        fill-input
-        hide-selected
-        input-debounce="0"
-        label="Time zone"
-        lazy-rules
-        :options="filteredTimeZones"
-        outlined
-        :rules="noTimeZoneSelected"
-        use-input
-        @filter="filterTimeZones"
-      >
-        <template #no-option>
-          <q-item>
-            <q-item-section>No results</q-item-section>
-          </q-item>
-        </template>
-      </q-select>
       <FilenamePreview
         :device-id="deviceId"
         :site-name="siteName"
