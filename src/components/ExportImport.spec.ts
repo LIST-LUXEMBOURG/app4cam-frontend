@@ -1,5 +1,5 @@
 import { createTestingPinia } from '@pinia/testing'
-import { mount, VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { QBtn, QForm, QIcon } from 'quasar'
 import ApiClientService from '../services/ApiClientService'
 import ExportImport from './ExportImport.vue'
@@ -20,7 +20,8 @@ jest.spyOn(ApiClientService, 'getSettings').mockImplementation(() => {
 })
 
 describe(ExportImport.name, () => {
-  let wrapper: VueWrapper
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let wrapper: any
 
   beforeEach(() => {
     wrapper = mount(ExportImport, {
