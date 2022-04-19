@@ -3,13 +3,14 @@ extends:
   - eslint:recommended
   - plugin:jest/recommended
   - plugin:vue/vue3-recommended
-  - '@vue/typescript/recommended'
+  - '@vue/eslint-config-typescript/recommended'
   - prettier
 env:
   browser: true
   jest: true
+  'vue/setup-compiler-macros': true
 parserOptions:
-  ecmaVersion: latest
+  ecmaVersion: 2020
   sourceType: module
 rules:
   jest/valid-title:

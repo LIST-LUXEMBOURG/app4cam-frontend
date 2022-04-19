@@ -29,6 +29,7 @@ function convertKbToGb(input: number): number {
 
 try {
   await store.fetchStorage()
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 } catch (error: any) {
   quasar.notify({
     message: 'The disk space usage data could not be loaded.',
