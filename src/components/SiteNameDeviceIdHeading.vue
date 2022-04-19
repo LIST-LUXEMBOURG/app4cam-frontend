@@ -14,6 +14,7 @@ const siteName = ref('')
 
 try {
   await store.fetchSettings()
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 } catch (error: any) {
   quasar.notify({
     message: 'The site name and device ID could not be loaded.',
