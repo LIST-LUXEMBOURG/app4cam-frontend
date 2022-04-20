@@ -22,7 +22,7 @@ describe(FilenamePreview.name, () => {
   it('displays filename correctly', async () => {
     const input = wrapper.find('[data-test-id=filenamePreview]')
     expect(input.text()).toMatch(
-      /^[a-zA-Z0-9-]+_[a-zA-Z0-9-]+_[0-9]{8}T[0-9]{6}.extension$/,
+      /^[a-zA-Z0-9-]+_[a-zA-Z0-9-]+_[0-9]{8}T[0-9]{6}_Europe-Luxembourg.extension$/,
     )
   })
 

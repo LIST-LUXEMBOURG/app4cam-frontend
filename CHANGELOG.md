@@ -12,6 +12,7 @@
 - Add time zone setting
 - Display backend commit hash and version at bottom of each page
 - Explain different times used on shots page
+- Include time zone in filenames
 
 ### Changed
 
