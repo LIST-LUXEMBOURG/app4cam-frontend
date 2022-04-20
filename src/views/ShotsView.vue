@@ -139,6 +139,10 @@ function onUnselectAllButtonClick() {
 
 <template>
   <div class="q-mx-auto wrapper">
+    <p class="text-grey-10">
+      The filenames include the local time of the trap while the time below
+      shows their creation UTC time.
+    </p>
     <q-select
       v-model="typeFilterSelectedOption"
       outlined
