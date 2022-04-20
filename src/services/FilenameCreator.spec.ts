@@ -8,13 +8,14 @@ describe('createFilename', () => {
     const deviceId = 'd'
     const siteName = 's'
     const systemTime = new Date(SYSTEM_TIME_ISO)
+    const timeZone = 'UTC'
     const extension = 'e'
     expect(
       FilenameCreator.createFilename(
         deviceId,
         siteName,
         systemTime,
-        'UTC',
+        timeZone,
         extension,
       ),
     ).toBe(
@@ -23,6 +24,8 @@ describe('createFilename', () => {
         deviceId +
         '_' +
         SYSTEM_TIME_ISO_REDUCED +
+        '_' +
+        timeZone +
         '.' +
         extension,
     )
@@ -32,6 +35,7 @@ describe('createFilename', () => {
     const deviceId = 'd'
     const siteName = 's'
     const systemTime = new Date(SYSTEM_TIME_ISO)
+    const timeZone = 'UTC'
     const extension = 'e'
     const suffix = 'x'
     expect(
@@ -39,7 +43,7 @@ describe('createFilename', () => {
         deviceId,
         siteName,
         systemTime,
-        'UTC',
+        timeZone,
         extension,
         suffix,
       ),
@@ -49,6 +53,8 @@ describe('createFilename', () => {
         deviceId +
         '_' +
         SYSTEM_TIME_ISO_REDUCED +
+        '_' +
+        timeZone +
         '_' +
         suffix +
         '.' +

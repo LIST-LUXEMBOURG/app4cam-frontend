@@ -10,7 +10,10 @@ export default class FilenameCreator {
     suffix = '',
   ): string {
     const time = DateConverter.formatDateIsoLikeInTimeZone(systemTime, timeZone)
-    let name = `${siteName}_${deviceId}_${time}`
+    let name = `${siteName}_${deviceId}_${time}_${timeZone.replaceAll(
+      '/',
+      '-',
+    )}`
     if (suffix) {
       name += `_${suffix}`
     }
