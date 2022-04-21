@@ -9,6 +9,8 @@ import { FileDownloader } from '../services/FileDownloader'
 import { FileDownloadResponse } from '../services/ApiTypings'
 import { useFilesStore } from '../stores/files'
 
+const DISPLAY_DOWNLOAD_MULTIPLE_FILES_DIALOG_THRESHOLD = 10
+
 const quasar = useQuasar()
 const store = useFilesStore()
 
@@ -23,6 +25,7 @@ store.fetchFiles().catch((error) => {
 const typeFilterOptions = ['Pictures', 'Videos']
 
 const isDeleteConfirmationDialogOpen = ref(false)
+const isDownloadConfirmationDialogOpen = ref(false)
 const typeFilterSelectedOption = ref(null)
 
 const selectedFiles: string[] = reactive([])
@@ -96,6 +99,14 @@ function onConfirmDeleteButtonClick() {
 }
 
 function onDownloadButtonClick() {
+  if (selectedFiles.length > DISPLAY_DOWNLOAD_MULTIPLE_FILES_DIALOG_THRESHOLD) {
+    isDownloadConfirmationDialogOpen.value = true
+  } else {
+    onConfirmDownloadButtonClick()
+  }
+}
+
+function onConfirmDownloadButtonClick() {
   function handleFileDownloadResponse(response: FileDownloadResponse): void {
     FileDownloader.downloadFile(
       [response.data],
@@ -236,6 +247,32 @@ function onUnselectAllButtonClick() {
           label="Yes"
           color="red-8"
           @click="onConfirmDeleteButtonClick"
+        />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
+  <q-dialog
+    v-model="isDownloadConfirmationDialogOpen"
+    persistent
+  >
+    <q-card>
+      <q-card-section>
+        Downloading multiple files may take a lot of time as they need to be
+        zipped first. Consider downloading multiple files via FTP. Do you still
+        want to continue?
+      </q-card-section>
+      <q-card-actions align="right">
+        <q-btn
+          v-close-popup
+          flat
+          label="No"
+          color="primary"
+        />
+        <q-btn
+          flat
+          label="Yes"
+          color="orange-8"
+          @click="onConfirmDownloadButtonClick"
         />
       </q-card-actions>
     </q-card>
