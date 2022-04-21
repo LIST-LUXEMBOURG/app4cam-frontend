@@ -13,6 +13,7 @@
 - Display backend commit hash and version at bottom of each page
 - Explain different times used on shots page
 - Include time zone in filenames
+- Display warning dialog when downloading more than 10 files at the same time
 
 ### Changed
 
