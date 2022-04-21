@@ -1,6 +1,20 @@
 # Changelog
 
-## Sprint 4
+## Sprint 4 - upcoming version
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## Sprint 4 - version 1.0.0
 
 ### Added
 
@@ -23,15 +37,9 @@
 - Rename from PolliCAM to App4Cam
 - Move time zone field before date and time field on settings page
 
-### Deprecated
-
 ### Removed
 
 - Remove info paragraph about UTC and local times on settings page
-
-### Fixed
-
-### Security
 
 ## Sprint 3
 
@@ -64,6 +72,10 @@
 
 ## Sprint 2
 
+_See commits_
+
 ## Sprint 1
+
+_See commits_
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/).
