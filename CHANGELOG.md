@@ -13,6 +13,7 @@
 ### Fixed
 
 - Close multiple file download warning popup on confirmation
+- Ignore tags for CI/CD
 
 ### Security
 
