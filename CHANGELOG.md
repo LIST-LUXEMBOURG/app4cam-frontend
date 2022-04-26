@@ -1,6 +1,6 @@
 # Changelog
 
-## Sprint 4 - upcoming version
+## Sprint 5 - upcoming version
 
 ### Added
 
@@ -11,6 +11,8 @@
 ### Removed
 
 ### Fixed
+
+- Close multiple file download warning popup on confirmation
 
 ### Security
 

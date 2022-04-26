@@ -107,21 +107,8 @@ function onDownloadButtonClick() {
 }
 
 function onConfirmDownloadButtonClick() {
-  function handleFileDownloadResponse(response: FileDownloadResponse): void {
-    FileDownloader.downloadFile(
-      [response.data],
-      response.contentType,
-      response.filename,
-    )
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function handleFileDownloadError(error: any): void {
-    quasar.notify({
-      message: 'The shots could not be downloaded.',
-      caption: error.message ? error.message : '',
-      color: 'negative',
-    })
+  if (isDownloadConfirmationDialogOpen.value) {
+    isDownloadConfirmationDialogOpen.value = false
   }
 
   if (selectedFiles.length === 0) {
@@ -135,6 +122,23 @@ function onConfirmDownloadButtonClick() {
       .then(handleFileDownloadResponse)
       .catch(handleFileDownloadError)
   }
+}
+
+function handleFileDownloadResponse(response: FileDownloadResponse): void {
+  FileDownloader.downloadFile(
+    [response.data],
+    response.contentType,
+    response.filename,
+  )
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function handleFileDownloadError(error: any): void {
+  quasar.notify({
+    message: 'The shots could not be downloaded.',
+    caption: error.message ? error.message : '',
+    color: 'negative',
+  })
 }
 
 function onSelectAllButtonClick() {
