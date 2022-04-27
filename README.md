@@ -43,36 +43,15 @@ Since TypeScript cannot handle type information for `.vue` imports, they are shi
 
 ### Production setup
 
-For continuous deployment (CD) and for production, a service needs to be created on the remote server:
-
-1. Create the `app4cam-frontend` service by creating the file `/etc/systemd/system/app4cam-frontend.service` with the following content:
-
-```
-[Unit]
-Description=Service that keeps running app4cam-frontend from startup
-After=network.target
-
-[Install]
-WantedBy=multi-user.target
-
-[Service]
-Type=simple
-ExecStart=npx vite preview --host
-WorkingDirectory=/home/pi/app4cam-frontend
-Restart=always
-RestartSec=5
-StandardOutput=syslog
-StandardError=syslog
-SyslogIdentifier=%n
-```
-
-2. Run: `sudo systemctl daemon-reload`
-3. Run: `sudo systemctl enable app4cam-frontend`
-
-For CD only: Make sure to have run the following command once (maybe already done during backend setup): `ssh-keyscan -t ed25519 git.list.lu >> ~/.ssh/known_hosts`
-
-Finally, run the commands sent via SSH to the server found in the `.gitlab-ci.yml` file.
-You may need to adapt the options in the .env file used.
+1. Install Apache web server: `sudo apt install apache2 -y`
+2. For continuous deployment (CD) only: Make sure to have run the following command once (maybe already done during backend setup): `ssh-keyscan -t ed25519 git.list.lu >> ~/.ssh/known_hosts`
+3. Clone this repository: `git clone --single-branch --branch main https://git.list.lu/host/mechatronics/app4cam-frontend.git`
+4. Change into the directory: `cd app4cam-frontend`
+5. Install dependencies: `npm ci`
+6. You may want to adapt the options in the `.env.app4cam` file used.
+7. Build: `npx vite build --mode app4cam`
+8. Delete old files Apache is serving: `sudo rm -r /var/www/html/*`
+9. Copy the build to Apache's serving folder: `sudo cp -r ~/app4cam-frontend/dist/. /var/www/html/`
 
 ## Development commands
 
