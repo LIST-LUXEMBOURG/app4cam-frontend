@@ -57,12 +57,12 @@ deploy:
     # Make sure you have created the frontend service.
     # Make sure you have executed once the following command: ssh-keyscan -t ed25519 git.list.lu >> ~/.ssh/known_hosts
     - ssh pi@10.131.10.28 "
-      sudo systemctl stop $CI_PROJECT_NAME &&
       rm --recursive --force $CI_PROJECT_NAME || true &&
       git clone --single-branch --branch $CI_COMMIT_BRANCH $CI_REPOSITORY_URL &&
       cd $CI_PROJECT_NAME &&
       npm ci &&
-      npx vite build --mode aurinion &&
-      sudo systemctl start $CI_PROJECT_NAME &&
+      npx vite build --mode app4cam &&
+      sudo rm -r /var/www/html/* &&
+      sudo cp -r ~/app4cam-frontend/dist/. /var/www/html/ &&
       exit
       "
