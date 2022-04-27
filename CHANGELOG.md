@@ -4,9 +4,12 @@
 
 ### Added
 
+- Use a dedicated config file for gitlab CI/CD
+
 ### Changed
 
 - Use Apache instead of vite for serving this application
+- Set IP address in app4cam config to 10.0.0.5
 
 ### Deprecated
 

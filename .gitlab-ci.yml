@@ -61,7 +61,7 @@ deploy:
       git clone --single-branch --branch $CI_COMMIT_BRANCH $CI_REPOSITORY_URL &&
       cd $CI_PROJECT_NAME &&
       npm ci &&
-      npx vite build --mode app4cam &&
+      npx vite build --mode gitlab &&
       sudo rm -r /var/www/html/* &&
       sudo cp -r ~/app4cam-frontend/dist/. /var/www/html/ &&
       exit
