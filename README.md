@@ -48,10 +48,9 @@ Since TypeScript cannot handle type information for `.vue` imports, they are shi
 3. Clone this repository: `git clone --single-branch --branch main https://git.list.lu/host/mechatronics/app4cam-frontend.git`
 4. Change into the directory: `cd app4cam-frontend`
 5. Install dependencies: `npm ci`
-6. You may want to adapt the options in the `.env.app4cam` file used.
-7. Build: `npx vite build --mode app4cam`
-8. Delete old files Apache is serving: `sudo rm -r /var/www/html/*`
-9. Copy the build to Apache's serving folder: `sudo cp -r dist/. /var/www/html/`
+6. Build with the configuration needed (see .env files): `npx vite build --mode app4cam`
+7. Delete old files Apache is serving: `sudo rm -r /var/www/html/*`
+8. Copy the build to Apache's serving folder: `sudo cp -r dist/. /var/www/html/`
 
 ## Development commands
 
