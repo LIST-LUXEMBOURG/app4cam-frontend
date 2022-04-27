@@ -6,6 +6,8 @@
 
 ### Changed
 
+- Use Apache instead of vite for serving this application
+
 ### Deprecated
 
 ### Removed
