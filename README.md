@@ -51,7 +51,7 @@ Since TypeScript cannot handle type information for `.vue` imports, they are shi
 6. You may want to adapt the options in the `.env.app4cam` file used.
 7. Build: `npx vite build --mode app4cam`
 8. Delete old files Apache is serving: `sudo rm -r /var/www/html/*`
-9. Copy the build to Apache's serving folder: `sudo cp -r ~/app4cam-frontend/dist/. /var/www/html/`
+9. Copy the build to Apache's serving folder: `sudo cp -r dist/. /var/www/html/`
 
 ## Development commands
 
