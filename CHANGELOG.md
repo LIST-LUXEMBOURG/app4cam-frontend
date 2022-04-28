@@ -5,6 +5,7 @@
 ### Added
 
 - Use a dedicated config file for gitlab CI/CD
+- Add Static Application Security Testing (SAST) as manual job to gitlab CI/CD
 
 ### Changed
 
