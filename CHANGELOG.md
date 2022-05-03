@@ -1,6 +1,20 @@
 # Changelog
 
-## Sprint 5 - upcoming version
+## Upcoming version
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## Sprint 5 - version 1.1.0
 
 ### Added
 
@@ -12,16 +26,10 @@
 - Use Apache instead of vite for serving this application
 - Set IP address in app4cam config to 10.0.0.5
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 
 - Close multiple file download warning popup on confirmation
 - Ignore tags for CI/CD
-
-### Security
 
 ## Sprint 4 - version 1.0.0
 
