@@ -4,8 +4,6 @@
 
 ### Added
 
-- Let npm fail if the required Node.js version is not met
-
 ### Changed
 
 ### Deprecated
@@ -14,9 +12,13 @@
 
 ### Fixed
 
-- Require Node.js 16 or later
-
 ### Security
+
+## Sprint 5 - version 1.1.1
+
+### Fixed
+
+- Require Node.js 16 or later
 
 ## Sprint 5 - version 1.1.0
 
