@@ -22,7 +22,7 @@ Vue 3 `<script setup>` Single File Components (SFCs) are used; Check out the [sc
 ### Prerequisites
 
 - Git
-- \>= Node.js 14.x
+- \>= Node.js 16.x
 
 ### Development setup
 
