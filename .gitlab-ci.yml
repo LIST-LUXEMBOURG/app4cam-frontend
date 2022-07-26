@@ -44,6 +44,8 @@ deploy:
   tags:
     - hdce_docker
   stage: deploy
+  environment:
+    name: testing
   script:
     ## Install ssh-agent if not already installed, it is required by Docker.
     ## (change apt-get to yum if you use an RPM-based image)
