@@ -6,6 +6,8 @@
 
 ### Changed
 
+- Move code build from Pi to CI/CD runner
+
 ### Deprecated
 
 ### Removed
