@@ -44,13 +44,14 @@ Since TypeScript cannot handle type information for `.vue` imports, they are shi
 ### Production setup
 
 1. Install Apache web server: `sudo apt install apache2 -y`
-2. For continuous deployment (CD) only: Make sure to have run the following command once (maybe already done during backend setup): `ssh-keyscan -t ed25519 git.list.lu >> ~/.ssh/known_hosts`
-3. Clone this repository: `git clone --single-branch --branch main https://git.list.lu/host/mechatronics/app4cam-frontend.git`
-4. Change into the directory: `cd app4cam-frontend`
-5. Install dependencies: `npm ci`
-6. Build with the configuration needed (see .env files): `npx vite build --mode app4cam`
-7. Delete old files Apache is serving: `sudo rm -r /var/www/html/*`
-8. Copy the build to Apache's serving folder: `sudo cp -r dist/. /var/www/html/`
+2. Transfer ownership to your user: `sudo chown -R pi /var/www/html`
+3. For continuous deployment (CD) only: Make sure to have run the following command once (maybe already done during backend setup): `ssh-keyscan -t ed25519 git.list.lu >> ~/.ssh/known_hosts`
+4. Clone this repository: `git clone --single-branch --branch main https://git.list.lu/host/mechatronics/app4cam-frontend.git`
+5. Change into the directory: `cd app4cam-frontend`
+6. Install dependencies: `npm ci`
+7. Build with the configuration needed (see .env files): `npx vite build --mode app4cam`
+8. Delete old files Apache is serving: `sudo rm -r /var/www/html/*`
+9. Copy the build to Apache's serving folder: `sudo cp -r dist/. /var/www/html/`
 
 ## Development commands
 
