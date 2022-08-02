@@ -14,6 +14,32 @@ describe('files store', () => {
     setActivePinia(createPinia())
   })
 
+  describe('when two pictures and one video are present', () => {
+    it('filters the pictures', () => {
+      const store = useFilesStore()
+      store.files = mockFiles
+      expect(store.pictures).toStrictEqual([mockFiles[0], mockFiles[1]])
+    })
+
+    it('filters the videos', () => {
+      const store = useFilesStore()
+      store.files = mockFiles
+      expect(store.videos).toStrictEqual([mockFiles[2]])
+    })
+
+    it('returns the picture count', () => {
+      const store = useFilesStore()
+      store.files = mockFiles
+      expect(store.pictureCount).toBe(2)
+    })
+
+    it('returns the video count', () => {
+      const store = useFilesStore()
+      store.files = mockFiles
+      expect(store.videoCount).toBe(1)
+    })
+  })
+
   describe('delete file', () => {
     jest
       .spyOn(ApiClientService, 'deleteFile')

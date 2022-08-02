@@ -32,9 +32,9 @@ const selectedFiles: string[] = reactive([])
 
 const files = computed(() => {
   if (typeFilterSelectedOption.value === 'Pictures') {
-    return store.files.filter((f) => f.name.endsWith('jpg'))
+    return store.pictures
   } else if (typeFilterSelectedOption.value === 'Videos') {
-    return store.files.filter((f) => f.name.endsWith('mkv'))
+    return store.videos
   } else {
     return store.files
   }
