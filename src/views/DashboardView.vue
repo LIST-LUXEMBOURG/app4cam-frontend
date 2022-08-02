@@ -4,6 +4,7 @@
 >
 import DiskUsage from '../components/DiskUsage.vue'
 import Snapshot from '../components/Snapshot.vue'
+import ShotCounts from '../components/ShotCounts.vue'
 import SiteNameDeviceIdHeading from '../components/SiteNameDeviceIdHeading.vue'
 import { onErrorCaptured, Ref, ref } from 'vue'
 import { useQuasar } from 'quasar'
@@ -29,6 +30,7 @@ onErrorCaptured((e) => {
         <div>
           <site-name-device-id-heading />
           <disk-usage />
+          <shot-counts />
           <snapshot />
         </div>
       </template>

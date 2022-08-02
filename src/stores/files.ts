@@ -11,6 +11,20 @@ export const useFilesStore = defineStore('files', {
     files: [],
   }),
 
+  getters: {
+    pictures: (state) => state.files.filter((f) => f.name.endsWith('jpg')),
+
+    pictureCount() {
+      return this.pictures.length
+    },
+
+    videos: (state) => state.files.filter((f) => f.name.endsWith('mkv')),
+
+    videoCount() {
+      return this.videos.length
+    },
+  },
+
   actions: {
     deleteFile(filename: string) {
       return ApiClientService.deleteFile(filename).then(() => {
