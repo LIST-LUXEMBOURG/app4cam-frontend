@@ -85,4 +85,4 @@ deploy:
     # Deploy.
     - ssh pi@$SERVER_HOST "sudo rm --force --recursive /var/www/html/* && exit"
     - apk add rsync
-    - rsync --recursive dist/ pi@$SERVER_HOST:/var/www/html
+    - rsync --recursive dist/spa/ pi@$SERVER_HOST:/var/www/html
