@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
-import ApiClientService from '../services/ApiClientService'
-import { FilesDeletedResponse } from '../services/ApiTypings'
+import ApiClientService from '../helpers/ApiClientService'
+import { FilesDeletedResponse } from '../helpers/ApiTypings'
 
 interface State {
   files: FileInfo[]

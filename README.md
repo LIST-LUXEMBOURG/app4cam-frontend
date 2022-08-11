@@ -27,8 +27,9 @@ Vue 3 `<script setup>` Single File Components (SFCs) are used; Check out the [sc
 ### Development setup
 
 1. Install dependencies: `npm install`
-2. Copy the config file `.env.sample` to `.env.development.local`.
+2. Copy the config file `.env.sample` to `.env`.
 3. Edit the latter config file as needed.
+4. Start app in development mode: `quasar dev` or `npm run dev`
 
 #### Recommended plugins for Visual Studio Code
 
@@ -49,15 +50,15 @@ Since TypeScript cannot handle type information for `.vue` imports, they are shi
 4. Clone this repository: `git clone --single-branch --branch main https://git.list.lu/host/mechatronics/app4cam-frontend.git`
 5. Change into the directory: `cd app4cam-frontend`
 6. Install dependencies: `npm ci`
-7. Build with the configuration needed (see .env files): `npx vite build --mode app4cam`
-8. Delete old files Apache is serving: `sudo rm -r /var/www/html/*`
-9. Copy the build to Apache's serving folder: `sudo cp -r dist/. /var/www/html/`
+7. Copy the config file `.env.app4cam` to `.env`.
+8. Edit the latter config file as needed.
+9. Build app for production: `quasar build` or `npm run build`
+10. Delete old files Apache is serving: `sudo rm -r /var/www/html/*`
+11. Copy the build to Apache's serving folder: `sudo cp -r dist/. /var/www/html/`
 
 ## Development commands
 
-- Start dev server: `npm run dev`
-- Build for production: `npm run build`
-- Locally preview production build: `npm run preview`
-- Run unit tests: `npm run test`
-- Rerun unit tests automatically on file changes: `npm run test:watch`
+- Run unit tests: `npm run test:unit`
+- Rerun unit tests automatically on file changes: `npm run test:unit:watch` or `npm run test:unit:watchAll`
 - Lint files: `npm run lint`
+- Format files: `npm run format`

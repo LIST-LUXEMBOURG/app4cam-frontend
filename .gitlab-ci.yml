@@ -28,7 +28,7 @@ test:
     - hdce_docker
   script:
     - npm ci
-    - npm run test
+    - npm run test:unit:ci
 
 sast:
   stage: analyse
@@ -47,7 +47,8 @@ build:
     - hdce_docker
   script:
     - apk add git
-    - npx vite build --mode testing
+    - cp .env.testing .env
+    - npm run build
   artifacts:
     paths:
       - dist/

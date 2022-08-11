@@ -1,4 +1,4 @@
-interface ApplicationSettings {
+export interface ApplicationSettings {
   deviceId: string
   siteName: string
   timeZone: string
@@ -12,6 +12,6 @@ interface SystemTimeDto {
   systemTime: string
 }
 
-type Settings = ApplicationSettings & SystemTime
+export type Settings = ApplicationSettings & SystemTime
 
-type SettingsDto = ApplicationSettings & SystemTimeDto
+export type SettingsDto = ApplicationSettings & SystemTimeDto
