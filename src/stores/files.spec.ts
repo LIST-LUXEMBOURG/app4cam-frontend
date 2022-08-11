@@ -1,9 +1,9 @@
 import { createPinia, setActivePinia } from 'pinia'
-import ApiClientService from '../services/ApiClientService'
+import ApiClientService from '../helpers/ApiClientService'
 import { useFilesStore } from './files'
 import { files } from '../../fixtures/files.json'
 import { convertJsonToFiles } from '../test-helpers'
-import { FilesDeletedResponse } from '../services/ApiTypings'
+import { FilesDeletedResponse } from '../helpers/ApiTypings'
 
 const mockFiles = convertJsonToFiles(files)
 

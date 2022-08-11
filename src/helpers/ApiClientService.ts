@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
+import { ApplicationSettings, SettingsDto } from 'src/settings'
 import { CONFIG } from '../config'
 import {
   AvailableTimeZones,

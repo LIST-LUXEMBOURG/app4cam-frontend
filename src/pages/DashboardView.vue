@@ -1,9 +1,6 @@
-<script
-  setup
-  lang="ts"
->
+<script setup lang="ts">
 import DiskUsage from '../components/DiskUsage.vue'
-import Snapshot from '../components/Snapshot.vue'
+import SnapshotSection from '../components/SnapshotSection.vue'
 import ShotCounts from '../components/ShotCounts.vue'
 import SiteNameDeviceIdHeading from '../components/SiteNameDeviceIdHeading.vue'
 import { onErrorCaptured, Ref, ref } from 'vue'
@@ -31,7 +28,7 @@ onErrorCaptured((e) => {
           <site-name-device-id-heading />
           <disk-usage />
           <shot-counts />
-          <snapshot />
+          <snapshot-section />
         </div>
       </template>
       <template #fallback>

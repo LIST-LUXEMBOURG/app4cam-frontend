@@ -1,6 +1,6 @@
 import { createPinia, setActivePinia } from 'pinia'
-import ApiClientService from '../services/ApiClientService'
-import { VersionResponse } from '../services/ApiTypings'
+import ApiClientService from '../helpers/ApiClientService'
+import { VersionResponse } from '../helpers/ApiTypings'
 import { useVersionStore } from './version'
 
 jest.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))

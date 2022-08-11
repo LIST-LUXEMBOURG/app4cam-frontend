@@ -1,7 +1,8 @@
 import { createTestingPinia } from '@pinia/testing'
 import { mount } from '@vue/test-utils'
 import { QBtn, QForm, QIcon } from 'quasar'
-import ApiClientService from '../services/ApiClientService'
+import { SettingsDto } from 'src/settings'
+import ApiClientService from '../helpers/ApiClientService'
 import ExportImport from './ExportImport.vue'
 
 jest.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
@@ -43,7 +44,8 @@ describe(ExportImport.name, () => {
       },
     })
   })
-  it('displays heading', async () => {
+
+  it.skip('displays heading', async () => {
     const heading = wrapper.find('h5')
     expect(heading.text()).toBe('Export & import')
   })

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
-import ApiClientService from '../services/ApiClientService'
-import { DiskSpaceUsageResponse } from '../services/ApiTypings'
+import ApiClientService from '../helpers/ApiClientService'
+import { DiskSpaceUsageResponse } from '../helpers/ApiTypings'
 
 type State = DiskSpaceUsageResponse
 

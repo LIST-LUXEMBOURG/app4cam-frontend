@@ -1,13 +1,11 @@
-<script
-  setup
-  lang="ts"
->
+<script setup lang="ts">
 import { useQuasar, ValidationRule } from 'quasar'
+import { SettingsDto } from 'src/settings'
 import { ref } from 'vue'
-import ApiClientService from '../services/ApiClientService'
-import { FileDownloader } from '../services/FileDownloader'
-import FilenameCreator from '../services/FilenameCreator'
-import { cloneDeep } from '../services/ObjectHelper'
+import ApiClientService from '../helpers/ApiClientService'
+import { FileDownloader } from '../helpers/FileDownloader'
+import FilenameCreator from '../helpers/FilenameCreator'
+import { cloneDeep } from '../helpers/ObjectHelper'
 import { useSettingsStore } from '../stores/settings'
 
 const EXPORT_FILENAME_SUFFIX = 'settings'
@@ -66,7 +64,8 @@ function importSettings(event: ProgressEvent<FileReader>) {
           color: 'positive',
         })
       })
-      .catch((error) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .catch((error: any) => {
         quasar.notify({
           message: 'The settings could not be imported.',
           caption: error.message ? error.message : '',

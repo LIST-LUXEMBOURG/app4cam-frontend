@@ -1,12 +1,9 @@
-<script
-  setup
-  lang="ts"
->
+<script setup lang="ts">
 import { useQuasar } from 'quasar'
 import { computed, reactive, ref } from 'vue'
-import ApiClientService from '../services/ApiClientService'
-import { FileDownloader } from '../services/FileDownloader'
-import { FileDownloadResponse } from '../services/ApiTypings'
+import ApiClientService from '../helpers/ApiClientService'
+import { FileDownloader } from '../helpers/FileDownloader'
+import { FileDownloadResponse } from '../helpers/ApiTypings'
 import { useFilesStore } from '../stores/files'
 
 const DISPLAY_DOWNLOAD_MULTIPLE_FILES_DIALOG_THRESHOLD = 10

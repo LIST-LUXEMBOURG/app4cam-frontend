@@ -1,5 +1,6 @@
 import { createPinia, setActivePinia } from 'pinia'
-import ApiClientService from '../services/ApiClientService'
+import { SettingsDto } from 'src/settings'
+import ApiClientService from '../helpers/ApiClientService'
 import { useSettingsStore } from './settings'
 
 jest.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))

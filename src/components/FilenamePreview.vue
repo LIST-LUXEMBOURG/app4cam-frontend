@@ -1,9 +1,6 @@
-<script
-  setup
-  lang="ts"
->
+<script setup lang="ts">
 import { computed } from 'vue'
-import FilenameCreator from '../services/FilenameCreator'
+import FilenameCreator from '../helpers/FilenameCreator'
 
 const props = defineProps<{
   deviceId: string

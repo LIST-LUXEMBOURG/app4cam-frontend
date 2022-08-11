@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
-import ApiClientService from '../services/ApiClientService'
-import { VersionResponse } from '../services/ApiTypings'
+import ApiClientService from '../helpers/ApiClientService'
+import { VersionResponse } from '../helpers/ApiTypings'
 
 type State = VersionResponse
 

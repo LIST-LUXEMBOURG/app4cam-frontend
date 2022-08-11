@@ -1,11 +1,8 @@
-<script
-  setup
-  lang="ts"
->
+<script setup lang="ts">
 import { useQuasar } from 'quasar'
 import { ref } from 'vue'
-import ApiClientService from '../services/ApiClientService'
-import { FileDownloadResponse } from '../services/ApiTypings'
+import ApiClientService from '../helpers/ApiClientService'
+import { FileDownloadResponse } from '../helpers/ApiTypings'
 
 const quasar = useQuasar()
 
