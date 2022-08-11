@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { useQuasar, ValidationRule } from 'quasar'
-import { SettingsDto } from 'src/settings'
 import { ref } from 'vue'
 import ApiClientService from '../helpers/ApiClientService'
 import { FileDownloader } from '../helpers/FileDownloader'
 import FilenameCreator from '../helpers/FilenameCreator'
 import { cloneDeep } from '../helpers/ObjectHelper'
 import { useSettingsStore } from '../stores/settings'
+import { SettingsDto } from 'src/settings'
 
 const EXPORT_FILENAME_SUFFIX = 'settings'
 

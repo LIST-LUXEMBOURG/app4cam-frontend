@@ -1,5 +1,4 @@
 import axios, { AxiosResponse } from 'axios'
-import { ApplicationSettings, SettingsDto } from 'src/settings'
 import { CONFIG } from '../config'
 import {
   AvailableTimeZones,
@@ -8,6 +7,7 @@ import {
   FilesDeletedResponse,
   VersionResponse,
 } from './ApiTypings'
+import { ApplicationSettings, SettingsDto } from 'src/settings'
 
 const apiClient = axios.create({
   baseURL: CONFIG.API_SERVER_URL,

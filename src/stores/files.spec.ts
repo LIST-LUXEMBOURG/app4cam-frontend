@@ -1,9 +1,9 @@
 import { createPinia, setActivePinia } from 'pinia'
-import ApiClientService from '../helpers/ApiClientService'
-import { useFilesStore } from './files'
 import { files } from '../../fixtures/files.json'
-import { convertJsonToFiles } from '../test-helpers'
+import ApiClientService from '../helpers/ApiClientService'
 import { FilesDeletedResponse } from '../helpers/ApiTypings'
+import { convertJsonToFiles } from '../test-helpers'
+import { useFilesStore } from './files'
 
 const mockFiles = convertJsonToFiles(files)
 
@@ -41,9 +41,7 @@ describe('files store', () => {
   })
 
   describe('delete file', () => {
-    jest
-      .spyOn(ApiClientService, 'deleteFile')
-      .mockImplementation(() => Promise.resolve())
+    jest.spyOn(ApiClientService, 'deleteFile').mockResolvedValue()
 
     it('removes a file', async () => {
       const filename = 'a'

@@ -41,6 +41,10 @@ module.exports = {
 
     // https://github.com/jest-community/eslint-plugin-jest
     'plugin:jest/recommended',
+
+    // https://github.com/import-js/eslint-plugin-import
+    'plugin:import/recommended',
+    'plugin:import/typescript',
   ],
 
   plugins: [
@@ -56,7 +60,17 @@ module.exports = {
     // add it as an extension for your IDE
 
     'jest',
+
+    'import',
   ],
+
+  settings: {
+    'import/resolver': {
+      typescript: {
+        alwaysTryTypes: true,
+      },
+    },
+  },
 
   globals: {
     ga: 'readonly', // Google Analytics
@@ -90,6 +104,13 @@ module.exports = {
     // allow debugger during development only
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 
+    'jest/prefer-mock-promise-shorthand': 'warn',
+
     'jest/valid-title': ['off', { ignoreTypeOfDescribeName: true }],
+
+    'import/order': [
+      'error',
+      { alphabetize: { order: 'asc', caseInsensitive: true } },
+    ],
   },
 }

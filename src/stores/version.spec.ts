@@ -17,9 +17,7 @@ describe('version store', () => {
     }
     const getSettingsSpy = jest
       .spyOn(ApiClientService, 'getVersion')
-      .mockImplementation(() => {
-        return Promise.resolve(VERSION)
-      })
+      .mockResolvedValue(VERSION)
 
     it('saves version after fetching', async () => {
       const store = useVersionStore()

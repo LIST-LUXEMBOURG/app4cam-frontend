@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { useQuasar } from 'quasar'
+import { onErrorCaptured, Ref, ref } from 'vue'
 import DiskUsage from '../components/DiskUsage.vue'
-import SnapshotSection from '../components/SnapshotSection.vue'
 import ShotCounts from '../components/ShotCounts.vue'
 import SiteNameDeviceIdHeading from '../components/SiteNameDeviceIdHeading.vue'
-import { onErrorCaptured, Ref, ref } from 'vue'
-import { useQuasar } from 'quasar'
+import SnapshotSection from '../components/SnapshotSection.vue'
 
 const quasar = useQuasar()
 

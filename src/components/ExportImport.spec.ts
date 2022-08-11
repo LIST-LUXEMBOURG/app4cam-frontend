@@ -1,8 +1,8 @@
 import { createTestingPinia } from '@pinia/testing'
 import { mount } from '@vue/test-utils'
 import { QBtn, QForm, QIcon } from 'quasar'
-import { SettingsDto } from 'src/settings'
 import ApiClientService from '../helpers/ApiClientService'
+import { SettingsDto } from '../settings'
 import ExportImport from './ExportImport.vue'
 
 jest.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
@@ -16,9 +16,7 @@ const SETTINGS: SettingsDto = {
   timeZone: 'Europe/Luxembourg',
 }
 
-jest.spyOn(ApiClientService, 'getSettings').mockImplementation(() => {
-  return Promise.resolve(SETTINGS)
-})
+jest.spyOn(ApiClientService, 'getSettings').mockResolvedValue(SETTINGS)
 
 describe(ExportImport.name, () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

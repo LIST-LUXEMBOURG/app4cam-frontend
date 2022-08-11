@@ -1,7 +1,7 @@
 import { createPinia, setActivePinia } from 'pinia'
-import { SettingsDto } from 'src/settings'
 import ApiClientService from '../helpers/ApiClientService'
 import { useSettingsStore } from './settings'
+import { SettingsDto } from 'src/settings'
 
 jest.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
 
@@ -20,9 +20,7 @@ describe('settings store', () => {
     }
     const getSettingsSpy = jest
       .spyOn(ApiClientService, 'getSettings')
-      .mockImplementation(() => {
-        return Promise.resolve(settings)
-      })
+      .mockResolvedValue(settings)
 
     it('saves settings after fetching', async () => {
       const store = useSettingsStore()
@@ -40,7 +38,7 @@ describe('settings store', () => {
   describe('patch settings', () => {
     const patchSettingsSpy = jest
       .spyOn(ApiClientService, 'patchSettings')
-      .mockImplementation(() => Promise.resolve())
+      .mockResolvedValue()
 
     it('saves all settings', async () => {
       const systemTime = new Date()
@@ -110,7 +108,7 @@ describe('settings store', () => {
   describe('put settings', () => {
     const putSettingsSpy = jest
       .spyOn(ApiClientService, 'putSettings')
-      .mockImplementation(() => Promise.resolve())
+      .mockResolvedValue()
 
     it('saves all settings', async () => {
       const settings = {

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
-import { ApplicationSettings, Settings, SettingsDto } from 'src/settings'
 import ApiClientService from '../helpers/ApiClientService'
+import { ApplicationSettings, Settings, SettingsDto } from '../settings'
 
 type State = Settings
 

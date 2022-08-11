@@ -17,9 +17,7 @@ describe('storage store', () => {
     }
     const getSettingsSpy = jest
       .spyOn(ApiClientService, 'getStorage')
-      .mockImplementation(() => {
-        return Promise.resolve(settings)
-      })
+      .mockResolvedValue(settings)
 
     it('saves storage details after fetching', async () => {
       const store = useStorageStore()

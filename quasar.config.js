@@ -8,8 +8,8 @@
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
 
-const { configure } = require('quasar/wrappers')
 const { execSync } = require('child_process')
+const { configure } = require('quasar/wrappers')
 const pkgVersion = require('./package.json').version
 
 const commitHash = execSync('git rev-parse --short HEAD').toString()

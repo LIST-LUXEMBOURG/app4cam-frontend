@@ -1,3 +1,4 @@
+import { createTestingPinia } from '@pinia/testing'
 import { DOMWrapper, mount, VueWrapper } from '@vue/test-utils'
 import {
   ClosePopup,
@@ -12,19 +13,16 @@ import {
   QItemSection,
   Ripple,
 } from 'quasar'
-import ShotsView from './ShotsView.vue'
 import { files } from '../../fixtures/files.json'
-import { convertJsonToFiles } from '../test-helpers'
-import { createTestingPinia } from '@pinia/testing'
 import ApiClientService from '../helpers/ApiClientService'
+import { convertJsonToFiles } from '../test-helpers'
+import ShotsView from './ShotsView.vue'
 
 const mockFiles = convertJsonToFiles(files)
 
 jest.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
 
-jest.spyOn(ApiClientService, 'getFileList').mockImplementation(() => {
-  return Promise.resolve(mockFiles)
-})
+jest.spyOn(ApiClientService, 'getFileList').mockResolvedValue(mockFiles)
 
 let wrapper: VueWrapper
 
