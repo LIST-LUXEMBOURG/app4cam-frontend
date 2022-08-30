@@ -157,13 +157,18 @@ function onUnselectAllButtonClick() {
     </p>
     <q-select
       v-model="typeFilterSelectedOption"
+      class="q-mb-md"
+      clearable
+      dense
+      label="Filter by type"
       outlined
       :options="typeFilterOptions"
-      label="Filter by type"
-      class="q-mb-md q-mx-xl"
-      clearable
+      width="auto"
     />
-    <div>
+    <q-scroll-area
+      class="scroll-area bg-grey-2"
+      visible
+    >
       <div
         v-for="(file, index) in files"
         :key="index"
@@ -183,8 +188,8 @@ function onUnselectAllButtonClick() {
           </q-item-section>
         </q-item>
       </div>
-    </div>
-    <div class="row justify-center q-my-md">
+    </q-scroll-area>
+    <div class="row justify-center q-mt-md">
       <q-btn
         color="primary"
         class="q-mr-sm"
@@ -199,7 +204,7 @@ function onUnselectAllButtonClick() {
         @click="onUnselectAllButtonClick"
       />
     </div>
-    <div class="row justify-center q-my-md">
+    <div class="row justify-center q-mt-sm">
       <q-btn
         color="primary"
         class="q-mr-sm"
@@ -276,8 +281,13 @@ function onUnselectAllButtonClick() {
   </q-dialog>
 </template>
 
-<style>
+<style scoped>
 .wrapper {
   max-width: 400px;
+}
+
+.scroll-area {
+  height: calc(100vh - 370px);
+  min-height: 200px;
 }
 </style>

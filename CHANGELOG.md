@@ -10,6 +10,7 @@
 
 - Move code build from Pi to CI/CD runner
 - Rename environment variable `VITE_API_SERVER_URL` to `API_SERVER_URL`
+- Fix buttons to bottom of screen on shots page
 
 ### Deprecated
 

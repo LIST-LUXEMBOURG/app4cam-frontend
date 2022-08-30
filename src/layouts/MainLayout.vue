@@ -53,10 +53,16 @@ store.fetchVersion().catch((error) => {
         <router-view />
       </div>
     </q-page-container>
-    <p class="q-mt-xl text-grey-7 text-caption text-center">
+    <footer class="q-mt-lg text-grey-7 text-center">
       version: frontend {{ frontendVersion }} &ndash;
       {{ frontendCommitHash }} &mdash; backend {{ backendVersion }} &ndash;
       {{ backendCommitHash }}
-    </p>
+    </footer>
   </q-layout>
 </template>
+
+<style scoped>
+footer {
+  font-size: 11px;
+}
+</style>
