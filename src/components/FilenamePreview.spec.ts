@@ -1,32 +1,31 @@
-import { mount, VueWrapper } from '@vue/test-utils'
+import { installQuasarPlugin } from '@quasar/quasar-app-extension-testing-unit-jest'
+import { render, screen } from '@testing-library/vue'
 import FilenamePreview from './FilenamePreview.vue'
 
-describe(FilenamePreview.name, () => {
-  let wrapper: VueWrapper
+installQuasarPlugin()
 
-  beforeEach(() => {
-    wrapper = mount(FilenamePreview, {
-      props: {
-        deviceId: 'a',
-        siteName: 'b',
-        systemTime: new Date(),
-        timeZone: 'Europe/Luxembourg',
-      },
-    })
+const renderComponent = () =>
+  render(FilenamePreview, {
+    props: {
+      deviceId: 'a',
+      siteName: 'b',
+      systemTime: new Date(),
+      timeZone: 'Europe/Luxembourg',
+    },
   })
-  it('displays heading', async () => {
-    const heading = wrapper.find('h6')
-    expect(heading.text()).toBe('Filename preview')
+
+describe(FilenamePreview.name, () => {
+  it('displays a heading', async () => {
+    renderComponent()
+    const heading = screen.queryByRole('heading', { name: 'Filename preview' })
+    expect(heading).toBeInTheDocument()
   })
 
   it('displays filename correctly', async () => {
-    const input = wrapper.find('[data-test-id=filenamePreview]')
-    expect(input.text()).toMatch(
+    renderComponent()
+    const container = screen.getByTestId('filenamePreview')
+    expect(container).toHaveTextContent(
       /^[a-zA-Z0-9-]+_[a-zA-Z0-9-]+_[0-9]{8}T[0-9]{6}_Europe-Luxembourg.extension$/,
     )
-  })
-
-  afterEach(() => {
-    wrapper.unmount()
   })
 })

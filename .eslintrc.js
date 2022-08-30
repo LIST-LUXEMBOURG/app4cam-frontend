@@ -42,6 +42,12 @@ module.exports = {
     // https://github.com/jest-community/eslint-plugin-jest
     'plugin:jest/recommended',
 
+    // https://github.com/testing-library/eslint-plugin-testing-library
+    'plugin:testing-library/vue',
+
+    // https://github.com/testing-library/eslint-plugin-jest-dom
+    'plugin:jest-dom/recommended',
+
     // https://github.com/import-js/eslint-plugin-import
     'plugin:import/recommended',
     'plugin:import/typescript',
@@ -60,6 +66,10 @@ module.exports = {
     // add it as an extension for your IDE
 
     'jest',
+
+    'testing-library',
+
+    'jest-dom',
 
     'import',
   ],
@@ -112,5 +122,7 @@ module.exports = {
       'error',
       { alphabetize: { order: 'asc', caseInsensitive: true } },
     ],
+
+    'testing-library/prefer-user-event': 'error',
   },
 }

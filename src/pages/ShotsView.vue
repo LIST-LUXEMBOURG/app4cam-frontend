@@ -190,14 +190,12 @@ function onUnselectAllButtonClick() {
         class="q-mr-sm"
         label="Select all"
         :disable="areAllFilesSelected"
-        data-test-id="select-all-button"
         @click="onSelectAllButtonClick"
       />
       <q-btn
         color="primary"
         label="Unselect all"
         :disable="isNoFileSelected"
-        data-test-id="unselect-all-button"
         @click="onUnselectAllButtonClick"
       />
     </div>
@@ -207,14 +205,12 @@ function onUnselectAllButtonClick() {
         class="q-mr-sm"
         label="Download"
         :disable="isNoFileSelected"
-        data-test-id="download-button"
         @click="onDownloadButtonClick"
       />
       <q-btn
         color="red"
         label="Delete"
         :disable="isNoFileSelected"
-        data-test-id="delete-button"
         @click="onDeleteButtonClick"
       />
     </div>

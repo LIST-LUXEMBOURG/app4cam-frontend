@@ -1,9 +1,11 @@
 import { createTestingPinia } from '@pinia/testing'
-import { mount } from '@vue/test-utils'
-import { QBtn, QForm, QIcon } from 'quasar'
+import { installQuasarPlugin } from '@quasar/quasar-app-extension-testing-unit-jest'
+import { render, screen } from '@testing-library/vue'
 import ApiClientService from '../helpers/ApiClientService'
 import { SettingsDto } from '../settings'
 import ExportImport from './ExportImport.vue'
+
+installQuasarPlugin()
 
 jest.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
 
@@ -16,39 +18,21 @@ const SETTINGS: SettingsDto = {
   timeZone: 'Europe/Luxembourg',
 }
 
-jest.spyOn(ApiClientService, 'getSettings').mockResolvedValue(SETTINGS)
+const renderComponent = () =>
+  render(ExportImport, {
+    global: {
+      plugins: [createTestingPinia()],
+    },
+  })
 
 describe(ExportImport.name, () => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let wrapper: any
-
-  beforeEach(() => {
-    wrapper = mount(ExportImport, {
-      components: {
-        'q-btn': QBtn,
-        'q-form': QForm,
-        'q-icon': QIcon,
-      },
-      global: {
-        plugins: [createTestingPinia({ stubActions: false })],
-        provide: {
-          _q_: undefined,
-        },
-        stubs: {
-          'q-file': {
-            template: '<i />',
-          },
-        },
-      },
-    })
+  beforeAll(() => {
+    jest.spyOn(ApiClientService, 'getSettings').mockResolvedValue(SETTINGS)
   })
 
-  it.skip('displays heading', async () => {
-    const heading = wrapper.find('h5')
-    expect(heading.text()).toBe('Export & import')
-  })
-
-  afterEach(() => {
-    wrapper.unmount()
+  it('displays a heading', () => {
+    renderComponent()
+    const heading = screen.queryByRole('heading', { name: 'Export & import' })
+    expect(heading).toBeInTheDocument()
   })
 })

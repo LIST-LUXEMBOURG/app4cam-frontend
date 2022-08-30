@@ -43,10 +43,10 @@ function onTakeSnapshotButtonClick() {
         <q-space />
         <q-btn
           v-close-popup
-          icon="close"
-          flat
-          round
           dense
+          flat
+          icon="close"
+          round
         />
       </q-card-section>
       <q-card-section class="q-pt-none">

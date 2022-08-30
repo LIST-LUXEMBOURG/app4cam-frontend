@@ -4,9 +4,12 @@
 
 ### Added
 
+- Use Testing Library for component unit tests
+
 ### Changed
 
 - Move code build from Pi to CI/CD runner
+- Rename environment variable `VITE_API_SERVER_URL` to `API_SERVER_URL`
 
 ### Deprecated
 

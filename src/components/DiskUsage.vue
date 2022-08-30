@@ -1,7 +1,4 @@
-<script
-  setup
-  lang="ts"
->
+<script setup lang="ts">
 import { useQuasar } from 'quasar'
 import { reactive, ref } from 'vue'
 import { useStorageStore } from '../stores/storage'
@@ -9,7 +6,7 @@ import { useStorageStore } from '../stores/storage'
 const quasar = useQuasar()
 const store = useStorageStore()
 
-const capacityMb = ref(0)
+const capacityGb = ref(0)
 const chartOptions = reactive({
   labels: ['used', 'available'],
   plotOptions: {
@@ -46,12 +43,12 @@ const availableMb = convertKbToGb(availableKb)
 chartSeries.push(usedMb, availableMb)
 chartOptions.labels[0] = `used (${Math.round(usedMb)} GB)`
 chartOptions.labels[1] = `available (${Math.round(availableMb)} GB)`
-capacityMb.value = Math.round(usedMb + availableMb)
+capacityGb.value = Math.round(usedMb + availableMb)
 </script>
 
 <template>
   <h6 class="q-mb-sm">Disk storage</h6>
-  <p>Total capacity: {{ capacityMb }} GB</p>
+  <p>Total capacity: {{ capacityGb }} GB</p>
   <apexchart
     width="400"
     type="pie"

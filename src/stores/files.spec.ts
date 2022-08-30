@@ -79,9 +79,7 @@ describe('files store', () => {
   })
 
   describe('fetch files', () => {
-    jest.spyOn(ApiClientService, 'getFileList').mockImplementation(() => {
-      return Promise.resolve(mockFiles)
-    })
+    jest.spyOn(ApiClientService, 'getFileList').mockResolvedValue(mockFiles)
 
     it('stores files', async () => {
       const store = useFilesStore()
