@@ -1,165 +1,192 @@
 import { createTestingPinia } from '@pinia/testing'
-import { DOMWrapper, mount, VueWrapper } from '@vue/test-utils'
-import {
-  ClosePopup,
-  QAvatar,
-  QBtn,
-  QCard,
-  QCardActions,
-  QCardSection,
-  QDialog,
-  QItem,
-  QItemLabel,
-  QItemSection,
-  Ripple,
-} from 'quasar'
+import { installQuasarPlugin } from '@quasar/quasar-app-extension-testing-unit-jest'
+import userEvent from '@testing-library/user-event'
+import { screen } from '@testing-library/vue'
+import { StateTree } from 'pinia'
 import { files } from '../../fixtures/files.json'
 import ApiClientService from '../helpers/ApiClientService'
 import { convertJsonToFiles } from '../test-helpers'
 import ShotsView from './ShotsView.vue'
+import { renderAsync } from 'app/test/jest/renderAsync'
+
+installQuasarPlugin()
 
 const mockFiles = convertJsonToFiles(files)
 
 jest.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
 
-jest.spyOn(ApiClientService, 'getFileList').mockResolvedValue(mockFiles)
+const SELECTED_FILE_CLASS = 'bg-blue-1'
 
-let wrapper: VueWrapper
-
-beforeEach(() => {
-  wrapper = mount(ShotsView, {
-    components: {
-      'q-avatar': QAvatar,
-      'q-btn': QBtn,
-      'q-card': QCard,
-      'q-card-actions': QCardActions,
-      'q-card-section': QCardSection,
-      'q-dialog': QDialog,
-      'q-item': QItem,
-      'q-item-label': QItemLabel,
-      'q-item-section': QItemSection,
-    },
-    directives: {
-      ClosePopup,
-      Ripple,
-    },
+const renderComponent = (initialState?: StateTree) =>
+  renderAsync(ShotsView, {
     global: {
-      plugins: [
-        createTestingPinia({
-          stubActions: false,
-        }),
-      ],
-      provide: {
-        _q_: undefined,
-      },
-      stubs: {
-        'q-select': {
-          template: '<i />',
-        },
-      },
+      plugins: [createTestingPinia({ initialState, stubActions: false })],
     },
   })
-})
 
-describe('display', () => {
-  it.skip('displays files in a list with the necessary information', () => {
-    const files = wrapper.findAll('[data-test-id="file"]')
-    expect(files).toHaveLength(mockFiles.length)
-    files.forEach((file, i) => {
-      const fileText = file.text()
-      expect(fileText).toContain(mockFiles[i].name)
-      expect(fileText).toContain(
-        mockFiles[i].creationTime.getUTCFullYear().toString(),
-      )
+describe(ShotsView.name, () => {
+  beforeAll(() => {
+    jest.spyOn(ApiClientService, 'getFileList').mockResolvedValue(mockFiles)
+  })
+
+  describe('when page loads', () => {
+    it('displays all files', async () => {
+      await renderComponent()
+      const files = await screen.findAllByTestId('file')
+      expect(files).toHaveLength(mockFiles.length)
+    })
+
+    it('displays files with the necessary information', async () => {
+      await renderComponent()
+      const files = await screen.findAllByTestId('file')
+      files.forEach((file, i) => {
+        expect(file).toHaveTextContent(mockFiles[i].name)
+        expect(file).toHaveTextContent(
+          mockFiles[i].creationTime.getUTCFullYear().toString(),
+        )
+      })
+    })
+
+    it('displays files as not selected', async () => {
+      await renderComponent()
+      const files = await screen.findAllByTestId('file')
+      files.forEach((file) => {
+        expect(file).not.toHaveClass(SELECTED_FILE_CLASS)
+      })
+    })
+
+    it('displays select all button as enabled', async () => {
+      await renderComponent()
+      const button = screen.getByRole('button', { name: 'Select all' })
+      expect(button).toBeEnabled()
+    })
+
+    it('displays unselect all button as disabled', async () => {
+      await renderComponent()
+      const button = screen.getByRole('button', {
+        name: 'Unselect all',
+      })
+      expect(button).toBeDisabled()
+    })
+
+    it('displays download button as disabled', async () => {
+      await renderComponent()
+      const button = screen.getByRole('button', {
+        name: 'Download',
+      })
+      expect(button).toBeDisabled()
+    })
+
+    it('displays delete button as disabled', async () => {
+      await renderComponent()
+      const button = screen.getByRole('button', {
+        name: 'Delete',
+      })
+      expect(button).toBeDisabled()
     })
   })
-})
 
-describe('selection', () => {
-  const backgroundClass = 'bg-blue-1'
+  describe('when first item of multiple is clicked', () => {
+    const user = userEvent.setup()
 
-  it.skip('toggles active state', async () => {
-    const files = wrapper.findAll('[data-test-id="file"]')
-    expect(files[0].classes()).not.toContain(backgroundClass)
-    await files[0].trigger('click')
-    expect(files[0].classes()).toContain(backgroundClass)
-    await files[0].trigger('click')
-    expect(files[0].classes()).not.toContain(backgroundClass)
+    it('toggles its active state', async () => {
+      await renderComponent()
+      const files = await screen.findAllByTestId('file')
+      await user.click(files[0])
+      expect(files[0]).toHaveClass(SELECTED_FILE_CLASS)
+    })
+
+    it('displays select all button as enabled', async () => {
+      await renderComponent()
+      const files = await screen.findAllByTestId('file')
+      await user.click(files[0])
+      const button = screen.getByRole('button', { name: 'Select all' })
+      expect(button).toBeEnabled()
+    })
+
+    it('displays unselect all button as enabled', async () => {
+      await renderComponent()
+      const files = await screen.findAllByTestId('file')
+      await user.click(files[0])
+      const button = screen.getByRole('button', {
+        name: 'Unselect all',
+      })
+      expect(button).toBeEnabled()
+    })
+
+    it('displays download button as enabled', async () => {
+      await renderComponent()
+      const files = await screen.findAllByTestId('file')
+      await user.click(files[0])
+      const button = screen.getByRole('button', {
+        name: 'Download',
+      })
+      expect(button).toBeEnabled()
+    })
+
+    it('displays delete button as enabled', async () => {
+      await renderComponent()
+      const files = await screen.findAllByTestId('file')
+      await user.click(files[0])
+      const button = screen.getByRole('button', {
+        name: 'Delete',
+      })
+      expect(button).toBeEnabled()
+    })
+
+    describe('and when first item is clicked again', () => {
+      it('toggles its active state', async () => {
+        await renderComponent()
+        const files = await screen.findAllByTestId('file')
+        await user.click(files[0])
+        await user.click(files[0])
+        expect(files[0]).not.toHaveClass(SELECTED_FILE_CLASS)
+      })
+
+      it('displays download button as disabled', async () => {
+        await renderComponent()
+        const files = await screen.findAllByTestId('file')
+        await user.click(files[0])
+        await user.click(files[0])
+        const button = screen.getByRole('button', {
+          name: 'Download',
+        })
+        expect(button).toBeDisabled()
+      })
+
+      it('displays delete button as disabled', async () => {
+        await renderComponent()
+        const files = await screen.findAllByTestId('file')
+        await user.click(files[0])
+        await user.click(files[0])
+        const button = screen.getByRole('button', {
+          name: 'Delete',
+        })
+        expect(button).toBeDisabled()
+      })
+    })
+
+    describe('and when unselect all button is clicked', () => {
+      it('displays select all button as disabled', async () => {
+        await renderComponent()
+        const files = await screen.findAllByTestId('file')
+        await user.click(files[0])
+        const button = screen.getByRole('button', {
+          name: 'Unselect all',
+        })
+        await user.click(button)
+        expect(button).toBeDisabled()
+      })
+    })
   })
-})
 
-describe('select all button', () => {
-  let selectAllButton: DOMWrapper<Element>
-
-  beforeEach(() => {
-    selectAllButton = wrapper.find('[data-test-id="select-all-button"]')
+  describe('when select all button is clicked', () => {
+    it('displays select all button as disabled', async () => {
+      const user = userEvent.setup()
+      await renderComponent()
+      const button = screen.getByRole('button', { name: 'Select all' })
+      await user.click(button)
+      expect(button).toBeDisabled()
+    })
   })
-
-  it.skip('is not disabled initially', async () => {
-    expect(selectAllButton.element.hasAttribute('disabled')).toBeFalsy()
-  })
-
-  it.skip('is not disabled after selecting on file', async () => {
-    const files = wrapper.findAll('[data-test-id="file"]')
-    await files[0].trigger('click')
-    expect(selectAllButton.element.hasAttribute('disabled')).toBeFalsy()
-  })
-
-  it.skip('is disabled after selecting all', async () => {
-    await selectAllButton.trigger('click')
-    expect(selectAllButton.element.hasAttribute('disabled')).toBeTruthy()
-  })
-})
-
-describe('unselect all button', () => {
-  let unselectAllButton: DOMWrapper<Element>
-  let files: DOMWrapper<Element>[]
-
-  beforeEach(() => {
-    files = wrapper.findAll('[data-test-id="file"]')
-    unselectAllButton = wrapper.find('[data-test-id="unselect-all-button"]')
-  })
-
-  it.skip('is disabled initially', async () => {
-    expect(unselectAllButton.element.hasAttribute('disabled')).toBeTruthy()
-  })
-
-  it.skip('is not disabled after selecting on file', async () => {
-    await files[0].trigger('click')
-    expect(unselectAllButton.element.hasAttribute('disabled')).toBeFalsy()
-  })
-
-  it.skip('is disabled after unselecting all', async () => {
-    await files[0].trigger('click')
-    await unselectAllButton.trigger('click')
-    expect(unselectAllButton.element.hasAttribute('disabled')).toBeTruthy()
-  })
-})
-
-describe('download button', () => {
-  it.skip('changes the download button disabled state depending on if a file is selected', async () => {
-    const downloadButton = wrapper.find('[data-test-id="download-button"]')
-    expect(downloadButton.element.hasAttribute('disabled')).toBeTruthy()
-    const files = wrapper.findAll('[data-test-id="file"]')
-    await files[0].trigger('click')
-    expect(downloadButton.element.hasAttribute('disabled')).toBeFalsy()
-    await files[0].trigger('click')
-    expect(downloadButton.element.hasAttribute('disabled')).toBeTruthy()
-  })
-})
-
-describe('delete button', () => {
-  it.skip('changes the delete button disabled state depending on if a file is selected', async () => {
-    const deleteButton = wrapper.find('[data-test-id="delete-button"]')
-    expect(deleteButton.element.hasAttribute('disabled')).toBeTruthy()
-    const files = wrapper.findAll('[data-test-id="file"]')
-    await files[0].trigger('click')
-    expect(deleteButton.element.hasAttribute('disabled')).toBeFalsy()
-    await files[0].trigger('click')
-    expect(deleteButton.element.hasAttribute('disabled')).toBeTruthy()
-  })
-})
-
-afterEach(() => {
-  wrapper.unmount()
 })
