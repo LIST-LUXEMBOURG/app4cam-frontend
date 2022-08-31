@@ -11,11 +11,14 @@
 - Move code build from Pi to CI/CD runner
 - Rename environment variable `VITE_API_SERVER_URL` to `API_SERVER_URL`
 - Fix buttons to bottom of screen on shots page
+- Display values rounded to the second decimal place on the right side
 - Update dependencies
 
 ### Deprecated
 
 ### Removed
+
+- Disable storage chart tooltips
 
 ### Fixed
 
