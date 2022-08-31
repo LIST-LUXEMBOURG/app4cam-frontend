@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ApexOptions } from 'apexcharts'
 import { useQuasar } from 'quasar'
 import { reactive, ref } from 'vue'
 import { useStorageStore } from '../stores/storage'
@@ -7,7 +8,7 @@ const quasar = useQuasar()
 const store = useStorageStore()
 
 const capacityGb = ref(0)
-const chartOptions = reactive({
+const chartOptions: ApexOptions = reactive({
   labels: ['used', 'available'],
   plotOptions: {
     pie: {
@@ -16,6 +17,9 @@ const chartOptions = reactive({
   },
   theme: {
     palette: 'palette7',
+  },
+  tooltip: {
+    enabled: false,
   },
 })
 const chartSeries: number[] = reactive([])
@@ -41,8 +45,10 @@ const usedMb = convertKbToGb(usedKb)
 const availableKb = store.capacityKb - usedKb
 const availableMb = convertKbToGb(availableKb)
 chartSeries.push(usedMb, availableMb)
-chartOptions.labels[0] = `used (${Math.round(usedMb)} GB)`
-chartOptions.labels[1] = `available (${Math.round(availableMb)} GB)`
+if (chartOptions.labels) {
+  chartOptions.labels[0] = `${usedMb.toFixed(2)} GB used`
+  chartOptions.labels[1] = `${availableMb.toFixed(2)} GB available`
+}
 capacityGb.value = Math.round(usedMb + availableMb)
 </script>
 
