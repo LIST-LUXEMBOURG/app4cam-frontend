@@ -5,6 +5,7 @@
 ### Added
 
 - Use Testing Library for component unit tests
+- Reintroduce `device ID` as readonly property
 
 ### Changed
 
@@ -13,6 +14,7 @@
 - Fix buttons to bottom of screen on shots page
 - Display values rounded to the second decimal place on the right side
 - Update dependencies
+- Rename `device ID` to `device name`
 
 ### Deprecated
 
