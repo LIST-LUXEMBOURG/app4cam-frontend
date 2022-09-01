@@ -13,7 +13,7 @@ describe('settings store', () => {
   describe('fetch settings', () => {
     const systemTime = new Date()
     const settings: SettingsDto = {
-      deviceId: 'd',
+      deviceName: 'n',
       siteName: 's',
       systemTime: systemTime.toISOString(),
       timeZone: 't',
@@ -25,7 +25,7 @@ describe('settings store', () => {
     it('saves settings after fetching', async () => {
       const store = useSettingsStore()
       await store.fetchSettings()
-      expect(store.deviceId).toBe(settings.deviceId)
+      expect(store.deviceName).toBe(settings.deviceName)
       expect(store.siteName).toBe(settings.siteName)
       expect(store.systemTime).toEqual(systemTime)
     })
@@ -42,23 +42,23 @@ describe('settings store', () => {
 
     it('saves all settings', async () => {
       const systemTime = new Date()
-      const deviceId = 'd'
+      const deviceName = 'd'
       const siteName = 's'
       const timeZone = 't'
       const store = useSettingsStore()
       await store.patchSettings({
-        deviceId,
+        deviceName,
         siteName,
         systemTime,
         timeZone,
       })
       expect(ApiClientService.patchSettings).toHaveBeenCalledWith({
-        deviceId,
+        deviceName,
         siteName,
         systemTime: systemTime.toISOString(),
         timeZone,
       })
-      expect(store.deviceId).toBe(deviceId)
+      expect(store.deviceName).toBe(deviceName)
       expect(store.siteName).toBe(siteName)
       expect(store.systemTime).toEqual(systemTime)
       expect(store.timeZone).toBe(timeZone)
@@ -67,13 +67,13 @@ describe('settings store', () => {
     it('saves one setting', async () => {
       const systemTime = new Date()
       const settings = {
-        deviceId: 'd',
+        deviceName: 'd',
         siteName: 's',
-        systemTime: systemTime,
+        systemTime,
         timeZone: 't',
       }
       const store = useSettingsStore()
-      store.deviceId = settings.deviceId
+      store.deviceName = settings.deviceName
       store.siteName = settings.siteName
       store.timeZone = settings.timeZone
       await store.patchSettings(settings)
@@ -86,13 +86,13 @@ describe('settings store', () => {
     it('ignores unnecessary triggers', async () => {
       const systemTime = new Date()
       const settings = {
-        deviceId: 'd',
+        deviceName: 'd',
         siteName: 's',
-        systemTime: systemTime,
+        systemTime,
         timeZone: 't',
       }
       const store = useSettingsStore()
-      store.deviceId = settings.deviceId
+      store.deviceName = settings.deviceName
       store.siteName = settings.siteName
       store.systemTime = systemTime
       store.timeZone = settings.timeZone
@@ -112,14 +112,14 @@ describe('settings store', () => {
 
     it('saves all settings', async () => {
       const settings = {
-        deviceId: 'd',
+        deviceName: 'd',
         siteName: 's',
         timeZone: 't',
       }
       const store = useSettingsStore()
       await store.putSettings(settings)
       expect(ApiClientService.putSettings).toHaveBeenCalledWith(settings)
-      expect(store.deviceId).toBe(settings.deviceId)
+      expect(store.deviceName).toBe(settings.deviceName)
       expect(store.siteName).toBe(settings.siteName)
       expect(store.timeZone).toBe(settings.timeZone)
     })

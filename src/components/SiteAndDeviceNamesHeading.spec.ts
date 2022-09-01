@@ -3,29 +3,29 @@ import { installQuasarPlugin } from '@quasar/quasar-app-extension-testing-unit-j
 import { screen } from '@testing-library/vue'
 import { StateTree } from 'pinia'
 import { renderAsync } from '../../test/jest/renderAsync'
-import SiteNameDeviceIdHeading from './SiteNameDeviceIdHeading.vue'
+import SiteAndDeviceNamesHeading from './SiteAndDeviceNamesHeading.vue'
 
 installQuasarPlugin()
 
 const renderComponent = (initialState?: StateTree) =>
-  renderAsync(SiteNameDeviceIdHeading, {
+  renderAsync(SiteAndDeviceNamesHeading, {
     global: {
       plugins: [createTestingPinia({ initialState })],
     },
   })
 
-describe(SiteNameDeviceIdHeading.name, () => {
+describe(SiteAndDeviceNamesHeading.name, () => {
   it('displays picture count', async () => {
-    const deviceId = 'a'
+    const deviceName = 'a'
     const siteName = 'b'
     await renderComponent({
       settings: {
-        deviceId,
+        deviceName,
         siteName,
       },
     })
     const pictures = screen.getByRole('heading', {
-      name: `${siteName} ${deviceId}`,
+      name: `${siteName} ${deviceName}`,
     })
     expect(pictures).toBeInTheDocument()
   })

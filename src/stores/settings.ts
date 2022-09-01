@@ -6,7 +6,7 @@ type State = Settings
 
 export const useSettingsStore = defineStore('settings', {
   state: (): State => ({
-    deviceId: '',
+    deviceName: '',
     siteName: '',
     systemTime: new Date(),
     timeZone: '',
@@ -15,7 +15,7 @@ export const useSettingsStore = defineStore('settings', {
   actions: {
     fetchSettings() {
       return ApiClientService.getSettings().then((settings) => {
-        this.deviceId = settings.deviceId
+        this.deviceName = settings.deviceName
         this.siteName = settings.siteName
         this.systemTime = new Date(settings.systemTime)
         this.timeZone = settings.timeZone
@@ -24,8 +24,8 @@ export const useSettingsStore = defineStore('settings', {
 
     patchSettings(settings: Settings): Promise<void> {
       const settingsToUpdate: Partial<SettingsDto> = {}
-      if (this.deviceId !== settings.deviceId) {
-        settingsToUpdate.deviceId = settings.deviceId
+      if (this.deviceName !== settings.deviceName) {
+        settingsToUpdate.deviceName = settings.deviceName
       }
       if (this.siteName !== settings.siteName) {
         settingsToUpdate.siteName = settings.siteName
@@ -40,8 +40,8 @@ export const useSettingsStore = defineStore('settings', {
         return Promise.resolve()
       }
       return ApiClientService.patchSettings(settingsToUpdate).then(() => {
-        if (this.deviceId !== settings.deviceId) {
-          this.deviceId = settings.deviceId
+        if (this.deviceName !== settings.deviceName) {
+          this.deviceName = settings.deviceName
         }
         if (this.siteName !== settings.siteName) {
           this.siteName = settings.siteName
@@ -60,8 +60,8 @@ export const useSettingsStore = defineStore('settings', {
         return Promise.resolve()
       }
       return ApiClientService.putSettings(settings).then(() => {
-        if (this.deviceId !== settings.deviceId) {
-          this.deviceId = settings.deviceId
+        if (this.deviceName !== settings.deviceName) {
+          this.deviceName = settings.deviceName
         }
         if (this.siteName !== settings.siteName) {
           this.siteName = settings.siteName

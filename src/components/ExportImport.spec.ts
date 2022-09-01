@@ -12,7 +12,7 @@ jest.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
 const SYSTEM_TIME_ISO = '2022-01-18T13:48:37.000Z'
 
 const SETTINGS: SettingsDto = {
-  deviceId: 'd',
+  deviceName: 'n',
   siteName: 's',
   systemTime: SYSTEM_TIME_ISO,
   timeZone: 'Europe/Luxembourg',

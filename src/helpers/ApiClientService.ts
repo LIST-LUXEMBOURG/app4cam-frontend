@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from 'axios'
 import { CONFIG } from '../config'
 import {
   AvailableTimeZones,
+  DeviceIdResponse,
   DiskSpaceUsageResponse,
   FileDownloadResponse,
   FilesDeletedResponse,
@@ -49,6 +50,10 @@ export default {
     return unwrapAxiosResponse(apiClient.get('/settings/timezones'))
   },
 
+  getDeviceId(): Promise<DeviceIdResponse> {
+    return unwrapAxiosResponse(apiClient.get('/properties/deviceId'))
+  },
+
   getFileList(): Promise<FileInfo[]> {
     return unwrapAxiosResponse(apiClient.get('/files'))
   },
@@ -79,7 +84,7 @@ export default {
     return unwrapAxiosResponse(apiClient.patch('/settings', settings))
   },
 
-  putSettings(settings: ApplicationSettings) {
+  putSettings(settings: ApplicationSettings): Promise<void> {
     return unwrapAxiosResponse(apiClient.put('/settings', settings))
   },
 
@@ -95,6 +100,6 @@ export default {
   },
 
   getVersion(): Promise<VersionResponse> {
-    return unwrapAxiosResponse(apiClient.get('/version'))
+    return unwrapAxiosResponse(apiClient.get('/properties/version'))
   },
 }

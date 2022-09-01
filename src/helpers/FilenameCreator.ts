@@ -1,23 +1,42 @@
 import DateConverter from './DateConverter'
 
 export default class FilenameCreator {
-  static createFilename(
-    deviceId: string,
-    siteName: string,
-    systemTime: Date,
-    timeZone: string,
-    extension: string,
+  static createFilename({
+    deviceName,
+    extension,
+    siteName,
     suffix = '',
-  ): string {
-    const time = DateConverter.formatDateIsoLikeInTimeZone(systemTime, timeZone)
-    let name = `${siteName}_${deviceId}_${time}_${timeZone.replaceAll(
-      '/',
-      '-',
-    )}`
-    if (suffix) {
-      name += `_${suffix}`
+    systemTime,
+    timeZone,
+  }: {
+    deviceName: string | undefined
+    extension: string
+    siteName: string | undefined
+    suffix?: string
+    systemTime: Date | undefined
+    timeZone: string | undefined
+  }): string {
+    const nameParts: string[] = []
+    if (siteName) {
+      nameParts.push(siteName)
     }
-    name += `.${extension}`
+    if (deviceName) {
+      nameParts.push(deviceName)
+    }
+    let time = ''
+    if (systemTime && timeZone) {
+      time = DateConverter.formatDateIsoLikeInTimeZone(systemTime, timeZone)
+    }
+    if (time) {
+      nameParts.push(time)
+    }
+    if (timeZone) {
+      nameParts.push(timeZone.replaceAll('/', '-'))
+    }
+    if (suffix) {
+      nameParts.push(suffix)
+    }
+    const name = nameParts.join('_') + `.${extension}`
     return name
   }
 }

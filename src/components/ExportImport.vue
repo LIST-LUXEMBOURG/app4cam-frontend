@@ -28,14 +28,14 @@ function onExportButtonClick() {
     .then((settings) => {
       const settingsToExport: Partial<SettingsDto> = cloneDeep(settings)
       delete settingsToExport.systemTime
-      const filename = FilenameCreator.createFilename(
-        store.deviceId,
-        store.siteName,
-        store.systemTime,
-        store.timeZone,
-        'json',
-        EXPORT_FILENAME_SUFFIX,
-      )
+      const filename = FilenameCreator.createFilename({
+        deviceName: store.deviceName,
+        siteName: store.siteName,
+        systemTime: store.systemTime,
+        timeZone: store.timeZone,
+        extension: 'json',
+        suffix: EXPORT_FILENAME_SUFFIX,
+      })
       FileDownloader.downloadFile(
         [JSON.stringify(settingsToExport)],
         'text/json',
