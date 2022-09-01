@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { useQuasar } from 'quasar'
 import { computed } from 'vue'
-import { useVersionStore } from '../stores/version'
+import { usePropertiesStore } from '../stores/properties'
 
 const quasar = useQuasar()
-const store = useVersionStore()
+const store = usePropertiesStore()
 
 // eslint-disable-next-line no-undef
 const frontendCommitHash = __COMMIT_HASH__

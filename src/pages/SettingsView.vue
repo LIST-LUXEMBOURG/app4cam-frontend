@@ -6,9 +6,11 @@ import FilenamePreview from '../components/FilenamePreview.vue'
 import ApiClientService from '../helpers/ApiClientService'
 import DateConverter from '../helpers/DateConverter'
 import { useSettingsStore } from '../stores/settings'
+import { usePropertiesStore } from 'src/stores/properties'
 
+const propertiesStore = usePropertiesStore()
 const quasar = useQuasar()
-const store = useSettingsStore()
+const settingsStore = useSettingsStore()
 
 const notEmptyAndNoSpecialCharactersRules: ValidationRule[] = [
   (val) => (val !== null && val !== '') || 'Please enter something.',
@@ -22,7 +24,7 @@ const noTimeZoneSelected: ValidationRule[] = [
 ]
 
 const availableTimeZones: Ref<string[]> = ref([])
-const deviceId = ref('')
+const deviceName = ref('')
 const filteredTimeZones: Ref<string[]> = ref([])
 const isLoadingSettings = ref(true)
 const siteName = ref('')
@@ -30,11 +32,15 @@ const systemTime = ref(new Date())
 const timeZone = ref('')
 
 const date = computed({
-  get: () =>
-    DateConverter.formatDateAsDashedYearMonthDayInTimeZone(
+  get: () => {
+    if (!systemTime.value || !timeZone.value) {
+      return ''
+    }
+    return DateConverter.formatDateAsDashedYearMonthDayInTimeZone(
       systemTime.value,
       timeZone.value,
-    ),
+    )
+  },
   set: (value) => {
     const year = parseInt(value.slice(0, 4))
     const month = parseInt(value.slice(5, 7))
@@ -47,11 +53,15 @@ const date = computed({
   },
 })
 const time = computed({
-  get: () =>
-    DateConverter.formatDateAsHoursColonMinutesInTimeZone(
+  get: () => {
+    if (!systemTime.value || !timeZone.value) {
+      return ''
+    }
+    return DateConverter.formatDateAsHoursColonMinutesInTimeZone(
       systemTime.value,
       timeZone.value,
-    ),
+    )
+  },
   set: debounce((value) => {
     const hours = parseInt(value.slice(0, 2))
     const minutes = parseInt(value.slice(3, 5))
@@ -62,7 +72,15 @@ const time = computed({
   }, 500),
 })
 
-store
+propertiesStore.fetchDeviceId().catch((error) => {
+  quasar.notify({
+    message: 'The device ID could not be loaded.',
+    caption: error.message ? error.message : '',
+    color: 'negative',
+  })
+})
+
+settingsStore
   .fetchSettings()
   .then(() => {
     isLoadingSettings.value = false
@@ -102,16 +120,16 @@ function filterTimeZones(
 }
 
 function loadSettingsFromStore() {
-  deviceId.value = store.deviceId
-  siteName.value = store.siteName
-  systemTime.value = store.systemTime
-  timeZone.value = store.timeZone
+  deviceName.value = settingsStore.deviceName
+  siteName.value = settingsStore.siteName
+  systemTime.value = settingsStore.systemTime
+  timeZone.value = settingsStore.timeZone
 }
 
 function onSubmit() {
-  store
+  settingsStore
     .patchSettings({
-      deviceId: deviceId.value,
+      deviceName: deviceName.value,
       siteName: siteName.value,
       systemTime: systemTime.value,
       timeZone: timeZone.value,
@@ -154,12 +172,19 @@ function onSubmit() {
         :rules="notEmptyAndNoSpecialCharactersRules"
       />
       <q-input
-        v-model="deviceId"
+        v-model="deviceName"
         :disable="isLoadingSettings"
-        label="Device ID"
+        label="Device name"
         lazy-rules
         outlined
         :rules="notEmptyAndNoSpecialCharactersRules"
+      />
+      <q-input
+        v-model="propertiesStore.deviceId"
+        class="q-pb-md"
+        label="Device ID"
+        outlined
+        readonly
       />
       <q-select
         v-model="timeZone"
@@ -204,7 +229,7 @@ function onSubmit() {
         </div>
       </div>
       <FilenamePreview
-        :device-id="deviceId"
+        :device-name="deviceName"
         :site-name="siteName"
         :system-time="systemTime"
         :time-zone="timeZone"

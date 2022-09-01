@@ -1,5 +1,5 @@
 export interface ApplicationSettings {
-  deviceId: string
+  deviceName: string
   siteName: string
   timeZone: string
 }

@@ -3,20 +3,20 @@ import { computed } from 'vue'
 import FilenameCreator from '../helpers/FilenameCreator'
 
 const props = defineProps<{
-  deviceId: string
-  siteName: string
-  systemTime: Date
-  timeZone: string
+  deviceName: string | undefined
+  siteName: string | undefined
+  systemTime: Date | undefined
+  timeZone: string | undefined
 }>()
 
 const filenamePreview = computed(() =>
-  FilenameCreator.createFilename(
-    props.deviceId,
-    props.siteName,
-    props.systemTime,
-    props.timeZone,
-    'extension',
-  ),
+  FilenameCreator.createFilename({
+    deviceName: props.deviceName,
+    siteName: props.siteName,
+    systemTime: props.systemTime,
+    timeZone: props.timeZone,
+    extension: 'extension',
+  }),
 )
 </script>
 

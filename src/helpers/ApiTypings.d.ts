@@ -1,3 +1,7 @@
+export interface DeviceIdResponse {
+  deviceId: string
+}
+
 export interface FileDownloadResponse {
   contentType: string
   data: string

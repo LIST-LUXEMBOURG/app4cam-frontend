@@ -1,13 +1,9 @@
 <script setup lang="ts">
 import { useQuasar } from 'quasar'
-import { ref } from 'vue'
 import { useSettingsStore } from '../stores/settings'
 
 const quasar = useQuasar()
 const store = useSettingsStore()
-
-const deviceId = ref('')
-const siteName = ref('')
 
 try {
   await store.fetchSettings()
@@ -19,11 +15,8 @@ try {
     color: 'negative',
   })
 }
-
-deviceId.value = store.deviceId
-siteName.value = store.siteName
 </script>
 
 <template>
-  <h5 class="q-mt-none">{{ siteName }} {{ deviceId }}</h5>
+  <h5 class="q-mt-none">{{ store.siteName }} {{ store.deviceName }}</h5>
 </template>

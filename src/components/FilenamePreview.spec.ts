@@ -7,7 +7,7 @@ installQuasarPlugin()
 const renderComponent = () =>
   render(FilenamePreview, {
     props: {
-      deviceId: 'a',
+      deviceName: 'a',
       siteName: 'b',
       systemTime: new Date(),
       timeZone: 'Europe/Luxembourg',
