@@ -101,7 +101,7 @@ ApiClientService.getAvailableTimeZones()
   })
   .catch((error) => {
     quasar.notify({
-      message: 'The time zones available could not be loaded.',
+      message: 'The available time zones could not be loaded.',
       caption: error.message ? error.message : '',
       color: 'negative',
     })
