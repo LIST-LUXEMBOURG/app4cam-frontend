@@ -7,6 +7,7 @@ type State = Settings
 export const useSettingsStore = defineStore('settings', {
   state: (): State => ({
     deviceName: '',
+    shotTypes: [],
     siteName: '',
     systemTime: new Date(),
     timeZone: '',
@@ -15,10 +16,21 @@ export const useSettingsStore = defineStore('settings', {
   actions: {
     fetchSettings() {
       return ApiClientService.getSettings().then((settings) => {
-        this.deviceName = settings.deviceName
-        this.siteName = settings.siteName
-        this.systemTime = new Date(settings.systemTime)
-        this.timeZone = settings.timeZone
+        if (settings.deviceName) {
+          this.deviceName = settings.deviceName
+        }
+        if (settings.shotTypes) {
+          this.shotTypes = settings.shotTypes
+        }
+        if (settings.siteName) {
+          this.siteName = settings.siteName
+        }
+        if (settings.systemTime) {
+          this.systemTime = new Date(settings.systemTime)
+        }
+        if (settings.timeZone) {
+          this.timeZone = settings.timeZone
+        }
       })
     },
 
@@ -26,6 +38,9 @@ export const useSettingsStore = defineStore('settings', {
       const settingsToUpdate: Partial<SettingsDto> = {}
       if (this.deviceName !== settings.deviceName) {
         settingsToUpdate.deviceName = settings.deviceName
+      }
+      if (this.shotTypes.toString() !== settings.shotTypes.toString()) {
+        settingsToUpdate.shotTypes = settings.shotTypes
       }
       if (this.siteName !== settings.siteName) {
         settingsToUpdate.siteName = settings.siteName
@@ -42,6 +57,9 @@ export const useSettingsStore = defineStore('settings', {
       return ApiClientService.patchSettings(settingsToUpdate).then(() => {
         if (this.deviceName !== settings.deviceName) {
           this.deviceName = settings.deviceName
+        }
+        if (this.shotTypes.toString() !== settings.shotTypes.toString()) {
+          this.shotTypes = settings.shotTypes
         }
         if (this.siteName !== settings.siteName) {
           this.siteName = settings.siteName
@@ -62,6 +80,9 @@ export const useSettingsStore = defineStore('settings', {
       return ApiClientService.putSettings(settings).then(() => {
         if (this.deviceName !== settings.deviceName) {
           this.deviceName = settings.deviceName
+        }
+        if (this.shotTypes !== settings.shotTypes) {
+          this.shotTypes = settings.shotTypes
         }
         if (this.siteName !== settings.siteName) {
           this.siteName = settings.siteName

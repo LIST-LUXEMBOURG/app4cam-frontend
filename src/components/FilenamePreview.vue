@@ -21,6 +21,6 @@ const filenamePreview = computed(() =>
 </script>
 
 <template>
-  <h6 class="q-mb-sm">Filename preview</h6>
-  <p data-test-id="filenamePreview">{{ filenamePreview }}</p>
+  <h6 class="q-mt-none q-mb-sm">Filename preview</h6>
+  <div data-test-id="filenamePreview">{{ filenamePreview }}</div>
 </template>

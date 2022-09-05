@@ -1,5 +1,8 @@
+export type ShotType = 'pictures' | 'videos'
+
 export interface ApplicationSettings {
   deviceName: string
+  shotTypes: ShotType[]
   siteName: string
   timeZone: string
 }
