@@ -1,16 +1,28 @@
 <script setup lang="ts">
-import { debounce, useQuasar, ValidationRule } from 'quasar'
-import { computed, Ref, ref } from 'vue'
+import { debounce, QOptionGroupProps, useQuasar, ValidationRule } from 'quasar'
+import { computed, ref } from 'vue'
 import ExportImport from '../components/ExportImport.vue'
 import FilenamePreview from '../components/FilenamePreview.vue'
 import ApiClientService from '../helpers/ApiClientService'
 import DateConverter from '../helpers/DateConverter'
 import { useSettingsStore } from '../stores/settings'
+import { ShotType } from 'src/settings'
 import { usePropertiesStore } from 'src/stores/properties'
 
 const propertiesStore = usePropertiesStore()
 const quasar = useQuasar()
 const settingsStore = useSettingsStore()
+
+const SHOT_TYPE_OPTIONS: QOptionGroupProps['options'] = [
+  {
+    label: 'Pictures',
+    value: 'pictures',
+  },
+  {
+    label: 'Videos',
+    value: 'videos',
+  },
+]
 
 const notEmptyAndNoSpecialCharactersRules: ValidationRule[] = [
   (val) => (val !== null && val !== '') || 'Please enter something.',
@@ -23,10 +35,11 @@ const noTimeZoneSelected: ValidationRule[] = [
   (val) => (val !== null && val !== '') || 'Please select a time zone.',
 ]
 
-const availableTimeZones: Ref<string[]> = ref([])
+const availableTimeZones = ref<string[]>([])
 const deviceName = ref('')
-const filteredTimeZones: Ref<string[]> = ref([])
+const filteredTimeZones = ref<string[]>([])
 const isLoadingSettings = ref(true)
+const shotTypes = ref<ShotType[]>([])
 const siteName = ref('')
 const systemTime = ref(new Date())
 const timeZone = ref('')
@@ -121,6 +134,7 @@ function filterTimeZones(
 
 function loadSettingsFromStore() {
   deviceName.value = settingsStore.deviceName
+  shotTypes.value = settingsStore.shotTypes
   siteName.value = settingsStore.siteName
   systemTime.value = settingsStore.systemTime
   timeZone.value = settingsStore.timeZone
@@ -130,6 +144,7 @@ function onSubmit() {
   settingsStore
     .patchSettings({
       deviceName: deviceName.value,
+      shotTypes: shotTypes.value,
       siteName: siteName.value,
       systemTime: systemTime.value,
       timeZone: timeZone.value,
@@ -155,7 +170,6 @@ function onSubmit() {
     class="q-pa-md q-mx-auto text-left"
     style="max-width: 400px"
   >
-    <h5 class="q-mb-lg q-mt-none">General settings</h5>
     <q-form
       autocapitalize="off"
       autocomplete="off"
@@ -163,83 +177,119 @@ function onSubmit() {
       class="q-gutter-sm q-mb-xl"
       @submit="onSubmit"
     >
-      <q-input
-        v-model="siteName"
-        :disable="isLoadingSettings"
-        label="Site name"
-        lazy-rules
-        outlined
-        :rules="notEmptyAndNoSpecialCharactersRules"
-      />
-      <q-input
-        v-model="deviceName"
-        :disable="isLoadingSettings"
-        label="Device name"
-        lazy-rules
-        outlined
-        :rules="notEmptyAndNoSpecialCharactersRules"
-      />
-      <q-input
-        v-model="propertiesStore.deviceId"
-        class="q-pb-md"
-        label="Device ID"
-        outlined
-        readonly
-      />
-      <q-select
-        v-model="timeZone"
-        :disable="isLoadingSettings"
-        fill-input
-        hide-selected
-        input-debounce="0"
-        label="Time zone"
-        lazy-rules
-        :options="filteredTimeZones"
-        outlined
-        :rules="noTimeZoneSelected"
-        use-input
-        @filter="filterTimeZones"
-      >
-        <template #no-option>
-          <q-item>
-            <q-item-section>No results</q-item-section>
-          </q-item>
-        </template>
-      </q-select>
-      <div class="row q-mb-lg">
-        <div class="q-mr-md">
-          <q-input
-            v-model="date"
-            :disable="isLoadingSettings"
-            label="Date"
-            outlined
-            stack-label
-            type="date"
-          />
-        </div>
-        <div>
-          <q-input
-            v-model="time"
-            :disable="isLoadingSettings"
-            label="Time"
-            outlined
-            stack-label
-            type="time"
-          />
-        </div>
-      </div>
-      <FilenamePreview
-        :device-name="deviceName"
-        :site-name="siteName"
-        :system-time="systemTime"
-        :time-zone="timeZone"
-      />
+      <q-list bordered>
+        <q-expansion-item
+          default-opened
+          group="settings"
+          icon="settings"
+          label="General settings"
+        >
+          <q-card>
+            <q-card-section>
+              <q-input
+                v-model="siteName"
+                :disable="isLoadingSettings"
+                label="Site name"
+                lazy-rules
+                outlined
+                :rules="notEmptyAndNoSpecialCharactersRules"
+              />
+              <q-input
+                v-model="deviceName"
+                :disable="isLoadingSettings"
+                label="Device name"
+                lazy-rules
+                outlined
+                :rules="notEmptyAndNoSpecialCharactersRules"
+              />
+              <q-input
+                v-model="propertiesStore.deviceId"
+                class="q-pb-md"
+                label="Device ID"
+                outlined
+                readonly
+              />
+              <q-select
+                v-model="timeZone"
+                :disable="isLoadingSettings"
+                fill-input
+                hide-selected
+                input-debounce="0"
+                label="Time zone"
+                lazy-rules
+                :options="filteredTimeZones"
+                outlined
+                :rules="noTimeZoneSelected"
+                use-input
+                @filter="filterTimeZones"
+              >
+                <template #no-option>
+                  <q-item>
+                    <q-item-section>No results</q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+              <div class="row q-mb-lg">
+                <div class="q-mr-md">
+                  <q-input
+                    v-model="date"
+                    :disable="isLoadingSettings"
+                    label="Date"
+                    outlined
+                    stack-label
+                    type="date"
+                  />
+                </div>
+                <div>
+                  <q-input
+                    v-model="time"
+                    :disable="isLoadingSettings"
+                    label="Time"
+                    outlined
+                    stack-label
+                    type="time"
+                  />
+                </div>
+              </div>
+              <FilenamePreview
+                :device-name="deviceName"
+                :site-name="siteName"
+                :system-time="systemTime"
+                :time-zone="timeZone"
+              />
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
+
+        <q-separator />
+
+        <q-expansion-item
+          group="settings"
+          icon="camera"
+          label="Camera settings"
+        >
+          <q-card>
+            <q-card-section>
+              Types of shots:
+              <q-option-group
+                v-model="shotTypes"
+                :options="SHOT_TYPE_OPTIONS"
+                color="green"
+                type="checkbox"
+              />
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
+      </q-list>
+
       <q-btn
         color="primary"
+        class="q-ml-lg q-mt-md"
         label="Save"
         type="submit"
       />
     </q-form>
+
     <ExportImport @imported="loadSettingsFromStore" />
   </div>
 </template>
