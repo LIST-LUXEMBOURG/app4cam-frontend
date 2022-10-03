@@ -7,6 +7,7 @@
 - Use Testing Library for component unit tests
 - Reintroduce `device ID` as readonly property
 - Introduce setting `shot types` to indicate whether pictures or videos should be taken
+- Automatically deploy to Variscite test device
 
 ### Changed
 
