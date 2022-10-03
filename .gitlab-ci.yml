@@ -47,20 +47,24 @@ build:
     - hdce_docker
   script:
     - apk add git
-    - cp .env.testing .env
+    - cp .env.testing_raspberry_pi .env
     - npm run build
+    - mv dist/spa dist/spa_raspberry_pi
+    - cp .env.testing_variscite .env
+    - npm run build
+    - mv dist/spa dist/spa_variscite
   artifacts:
     paths:
       - dist/
 
-deploy:
+deploy-raspberry-pi:
   stage: deploy
   except:
     - tags
   tags:
     - hdce_docker
   environment:
-    name: testing
+    name: Raspberry Pi testing
   script:
     ## Install ssh-agent if not already installed, it is required by Docker.
     - 'which ssh-agent || ( apk update && apk add openssh-client )'
@@ -68,21 +72,53 @@ deploy:
     ## Run ssh-agent (inside the build environment).
     - eval $(ssh-agent -s)
 
-    ## Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
-    ## We're using tr to fix line endings which makes ed25519 keys work
-    ## without extra base64 encoding.
+    ## Add the SSH key variable to the agent store. We're using tr to fix line
+    ## endings which makes ed25519 keys work without extra base64 encoding.
     ## https://gitlab.com/gitlab-examples/ssh-private-key/issues/1#note_48526556
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - echo "$RASPBERRY_PI_PRIVATE_KEY" | tr -d '\r' | ssh-add -
 
     ## Create the SSH directory and give it the right permissions.
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
 
     ## Use ssh-keyscan to scan the keys of your private server.
-    - ssh-keyscan $SERVER_HOST >> ~/.ssh/known_hosts
+    - ssh-keyscan $RASPBERRY_PI_HOST >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
 
     # Deploy.
-    - ssh pi@$SERVER_HOST "sudo rm --force --recursive /var/www/html/* && exit"
+    - ssh $RASPBERRY_PI_USER@$RASPBERRY_PI_HOST "rm --force --recursive /var/www/html/* && exit"
     - apk add rsync
-    - rsync --recursive dist/spa/ pi@$SERVER_HOST:/var/www/html
+    - rsync --recursive dist/spa_raspberry_pi/ $RASPBERRY_PI_USER@$RASPBERRY_PI_HOST:/var/www/html
+
+deploy-variscite:
+  stage: deploy
+  except:
+    - tags
+  tags:
+    - hdce_docker
+  environment:
+    name: Variscite testing
+  script:
+    ## Install ssh-agent if not already installed, it is required by Docker.
+    - 'which ssh-agent || ( apk update && apk add openssh-client )'
+
+    ## Run ssh-agent (inside the build environment).
+    - eval $(ssh-agent -s)
+
+    ## Add the SSH key variable to the agent store. We're using tr to fix line
+    ## endings which makes ed25519 keys work without extra base64 encoding.
+    ## https://gitlab.com/gitlab-examples/ssh-private-key/issues/1#note_48526556
+    - echo "$VARISCITE_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+
+    ## Create the SSH directory and give it the right permissions.
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+
+    ## Use ssh-keyscan to scan the keys of your private server.
+    - ssh-keyscan $VARISCITE_HOST >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+
+    # Deploy.
+    - ssh $VARISCITE_USER@$VARISCITE_HOST "rm --force --recursive /var/www/html/* && exit"
+    - apk add rsync
+    - rsync --recursive dist/spa_variscite/ $VARISCITE_USER@$VARISCITE_HOST:/var/www/html

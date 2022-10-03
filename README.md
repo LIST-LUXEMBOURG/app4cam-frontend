@@ -10,7 +10,6 @@ It is a web application consisting of both backend and frontend parts.
 
 - [Quasar](https://quasar.dev/)
 - [TypeScript](https://www.typescriptlang.org/)
-- [Vite](https://vitejs.dev/)
 - [Vue.js](https://vuejs.org/)
 
 ### Single File Components
@@ -42,23 +41,62 @@ Vue 3 `<script setup>` Single File Components (SFCs) are used; Check out the [sc
 
 Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's `.vue` type support plugin by running `Volar: Switch TS Plugin on/off` from VSCode command palette.
 
-### Production setup
-
-1. Install Apache web server: `sudo apt install apache2 -y`
-2. Transfer ownership to your user: `sudo chown -R pi /var/www/html`
-3. For continuous deployment (CD) only: Make sure to have run the following command once (maybe already done during backend setup): `ssh-keyscan -t ed25519 git.list.lu >> ~/.ssh/known_hosts`
-4. Clone this repository: `git clone --single-branch --branch main https://git.list.lu/host/mechatronics/app4cam-frontend.git`
-5. Change into the directory: `cd app4cam-frontend`
-6. Install dependencies: `npm ci`
-7. Copy the config file `.env.app4cam` to `.env`.
-8. Edit the latter config file as needed.
-9. Build app for production: `quasar build` or `npm run build`
-10. Delete old files Apache is serving: `sudo rm -r /var/www/html/*`
-11. Copy the build to Apache's serving folder: `sudo cp -r dist/. /var/www/html/`
-
-## Development commands
+#### Development commands
 
 - Run unit tests: `npm run test:unit`
 - Rerun unit tests automatically on file changes: `npm run test:unit:watch` or `npm run test:unit:watchAll`
 - Lint files: `npm run lint`
 - Format files: `npm run format`
+
+### Production setup
+
+#### 1. Prepare the device
+
+1. Install Apache web server: `sudo apt install apache2 -y`
+2. If you have not already during backend setup, create a new user, `app4cam` e.g., with a password you remember: `sudo adduser <user>`
+3. Transfer Apache folder ownership to your user: `sudo chown -R <user> /var/www/html`
+
+#### 2. Build the application
+
+You can build the application on a computer and copy the build to the device, or you build the application directly on the device:
+
+1. Clone this repository: `git clone --single-branch --branch main https://git.list.lu/host/mechatronics/app4cam-frontend.git`
+2. Change into the directory: `cd app4cam-frontend`
+3. Install dependencies: `npm ci`
+4. Copy an existing config file to `.env`.
+
+- `.env.pollicam`: for the traps Aurinion and DiMon within the scope of the PolliCAM project
+- `.env.sample`: example for the case you run the backend on the same device
+- `.env.testing_raspberry_pi`: for continuous deployment (CD) on Raspberry Pi
+- `.env.testing_variscite`: for continuous deployment (CD) on Variscite
+
+5. Edit the config file if needed.
+6. Build app for production: `quasar build` or `npm run build`
+7. Delete old files Apache is serving: `sudo rm -r /var/www/html/*`
+8. Copy the build to Apache's serving folder: `sudo cp -r dist/. /var/www/html/`
+
+#### 3. For continuous deployment (CD) only
+
+If you have set up the backend already, you just need to do step 4.
+
+1. Log in as user: `su - <user>`
+2. Generate a public/private key pair without passphrase: `ssh-keygen -t ed25519`
+3. Copy public key to `.ssh/authorized_keys` file.
+4. Define the following variables in Gitlab:
+
+- `RASPBERRY_PI_HOST`: IP address of Raspberry Pi
+- `RASPBERRY_PI_PRIVATE_KEY`: private key of Raspberry Pi user
+- `RASPBERRY_PI_USER`: user of Raspberry Pi
+- `VARISCITE_HOST`: IP address of Variscite
+- `VARISCITE_PRIVATE_KEY`: private key of Variscite user
+- `VARISCITE_USER`: user of Variscite
+
+5. Delete private key file: `rm .ssh/id_ed25519`
+6. Remove all "group" and "other" permissions for the `.ssh` directory: `sudo chmod -R go= ~/.ssh`
+7. Logout: `exit`
+8. Open SSH config file: `sudo nano /etc/ssh/sshd_config`
+9. Disable password authentication by setting `PasswordAuthentication no`, and save file.
+10. Prepend the following line: `Match User <user>`
+11. Append the following line: `Match all`
+12. Restart `sshd` service: `sudo systemctl restart ssh`
+13. Install rsync: `sudo apt install rsync -y`
