@@ -17,6 +17,7 @@
 - Display values rounded to the second decimal place on the right side
 - Update dependencies
 - Rename `device ID` to `device name`
+- Allow `site name` to be empty
 
 ### Deprecated
 
