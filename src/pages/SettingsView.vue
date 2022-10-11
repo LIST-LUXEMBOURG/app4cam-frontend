@@ -28,7 +28,12 @@ const notEmptyAndNoSpecialCharactersRules: ValidationRule[] = [
   (val) => (val !== null && val !== '') || 'Please enter something.',
   (val) =>
     /^[a-zA-Z0-9-]+$/.test(val) ||
-    'Please only use letters, numbers, underscores and hyphens.',
+    'Please only use letters, numbers and hyphens.',
+]
+const noSpecialCharactersIfNotEmptyRules: ValidationRule[] = [
+  (val) =>
+    /^[a-zA-Z0-9-]*$/.test(val) ||
+    'Please only use letters, numbers and hyphens.',
 ]
 
 const noTimeZoneSelected: ValidationRule[] = [
@@ -189,10 +194,10 @@ function onSubmit() {
               <q-input
                 v-model="siteName"
                 :disable="isLoadingSettings"
-                label="Site name"
+                label="Site name (optional)"
                 lazy-rules
                 outlined
-                :rules="notEmptyAndNoSpecialCharactersRules"
+                :rules="noSpecialCharactersIfNotEmptyRules"
               />
               <q-input
                 v-model="deviceName"
