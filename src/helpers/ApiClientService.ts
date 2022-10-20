@@ -27,7 +27,10 @@ function convertAxiosResponseToFileDownloadResponse(
   response: AxiosResponse,
 ): FileDownloadResponse {
   const contentDisposition = response.headers['content-disposition']
-  const name = contentDisposition.split('"')[1]
+  let name = ''
+  if (contentDisposition) {
+    name = contentDisposition.split('"')[1]
+  }
   return {
     contentType: response.headers['content-type'],
     data: response.data,

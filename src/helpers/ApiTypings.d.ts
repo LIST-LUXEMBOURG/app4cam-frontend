@@ -3,7 +3,7 @@ export interface DeviceIdResponse {
 }
 
 export interface FileDownloadResponse {
-  contentType: string
+  contentType: string | undefined
   data: string
   filename: string
 }
