@@ -1,96 +1,127 @@
 import { defineStore } from 'pinia'
 import ApiClientService from '../helpers/ApiClientService'
-import { ApplicationSettings, Settings, SettingsDto } from '../settings'
+import { ApplicationSettings, PersistentSettings } from '../settings'
 
-type State = Settings
+type State = ApplicationSettings
+
+export const TRIGGER_SENSITIVITY_MINIMUM = 0.01
+export const TRIGGER_SENSITIVITY_MAXIMUM = 10
 
 export const useSettingsStore = defineStore('settings', {
   state: (): State => ({
-    deviceName: '',
-    shotTypes: [],
-    siteName: '',
-    systemTime: new Date(),
-    timeZone: '',
+    camera: {
+      shotTypes: [],
+    },
+    general: {
+      deviceName: '',
+      siteName: '',
+      systemTime: new Date().toISOString(),
+      timeZone: '',
+    },
+    triggering: {
+      sensitivity: TRIGGER_SENSITIVITY_MINIMUM,
+    },
   }),
 
   actions: {
-    fetchSettings() {
+    fetchSettings(): Promise<void> {
       return ApiClientService.getSettings().then((settings) => {
-        if (settings.deviceName) {
-          this.deviceName = settings.deviceName
-        }
-        if (settings.shotTypes) {
-          this.shotTypes = settings.shotTypes
-        }
-        if (settings.siteName) {
-          this.siteName = settings.siteName
-        }
-        if (settings.systemTime) {
-          this.systemTime = new Date(settings.systemTime)
-        }
-        if (settings.timeZone) {
-          this.timeZone = settings.timeZone
-        }
+        this.camera.shotTypes = settings.camera.shotTypes
+        this.general.deviceName = settings.general.deviceName
+        this.general.siteName = settings.general.siteName
+        this.general.systemTime = settings.general.systemTime
+        this.general.timeZone = settings.general.timeZone
+        this.triggering.sensitivity = settings.triggering.sensitivity
       })
     },
 
-    patchSettings(settings: Settings): Promise<void> {
-      const settingsToUpdate: Partial<SettingsDto> = {}
-      if (this.deviceName !== settings.deviceName) {
-        settingsToUpdate.deviceName = settings.deviceName
+    getPersistentSettings(): PersistentSettings {
+      return {
+        camera: {
+          shotTypes: this.camera.shotTypes,
+        },
+        general: {
+          deviceName: this.general.deviceName,
+          siteName: this.general.siteName,
+          timeZone: this.general.timeZone,
+        },
+        triggering: {
+          sensitivity: this.triggering.sensitivity,
+        },
       }
-      if (this.shotTypes.toString() !== settings.shotTypes.toString()) {
-        settingsToUpdate.shotTypes = settings.shotTypes
-      }
-      if (this.siteName !== settings.siteName) {
-        settingsToUpdate.siteName = settings.siteName
-      }
-      if (this.systemTime !== settings.systemTime) {
-        settingsToUpdate.systemTime = settings.systemTime.toISOString()
-      }
-      if (this.timeZone !== settings.timeZone) {
-        settingsToUpdate.timeZone = settings.timeZone
-      }
-      if (Object.keys(settingsToUpdate).length === 0) {
-        return Promise.resolve()
-      }
-      return ApiClientService.patchSettings(settingsToUpdate).then(() => {
-        if (this.deviceName !== settings.deviceName) {
-          this.deviceName = settings.deviceName
-        }
-        if (this.shotTypes.toString() !== settings.shotTypes.toString()) {
-          this.shotTypes = settings.shotTypes
-        }
-        if (this.siteName !== settings.siteName) {
-          this.siteName = settings.siteName
-        }
-        if (this.systemTime !== settings.systemTime) {
-          this.systemTime = new Date(settings.systemTime)
-        }
-        if (this.timeZone !== settings.timeZone) {
-          this.timeZone = settings.timeZone
-        }
-      })
     },
 
-    putSettings(settings: ApplicationSettings): Promise<void> {
-      if (Object.keys(settings).length === 0) {
-        return Promise.resolve()
+    updatePersistentSettings(settings: PersistentSettings): void {
+      this.camera.shotTypes = settings.camera.shotTypes
+      this.general.deviceName = settings.general.deviceName
+      this.general.siteName = settings.general.siteName
+      this.general.timeZone = settings.general.timeZone
+      this.triggering.sensitivity = settings.triggering.sensitivity
+    },
+
+    uploadPersistentSettings(): Promise<void> {
+      const settings: PersistentSettings = {
+        camera: {
+          shotTypes: this.camera.shotTypes,
+        },
+        general: {
+          deviceName: this.general.deviceName,
+          siteName: this.general.siteName,
+          timeZone: this.general.timeZone,
+        },
+        triggering: {
+          sensitivity: this.triggering.sensitivity,
+        },
       }
-      return ApiClientService.putSettings(settings).then(() => {
-        if (this.deviceName !== settings.deviceName) {
-          this.deviceName = settings.deviceName
-        }
-        if (this.shotTypes !== settings.shotTypes) {
-          this.shotTypes = settings.shotTypes
-        }
-        if (this.siteName !== settings.siteName) {
-          this.siteName = settings.siteName
-        }
-        if (this.timeZone !== settings.timeZone) {
-          this.timeZone = settings.timeZone
-        }
-      })
+      return ApiClientService.patchSettings(settings)
+    },
+
+    uploadAllCameraSettings(): Promise<void> {
+      const settings: Omit<ApplicationSettings, 'general' | 'triggering'> = {
+        camera: {
+          shotTypes: this.camera.shotTypes,
+        },
+      }
+      return ApiClientService.patchSettings(settings)
+    },
+
+    uploadAllGeneralSettings(): Promise<void> {
+      const settings: Omit<ApplicationSettings, 'camera' | 'triggering'> = {
+        general: {
+          deviceName: this.general.deviceName,
+          siteName: this.general.siteName,
+          systemTime: this.general.systemTime,
+          timeZone: this.general.timeZone,
+        },
+      }
+      return ApiClientService.patchSettings(settings)
+    },
+
+    uploadAllTriggerSettings(): Promise<void> {
+      const settings: Omit<ApplicationSettings, 'camera' | 'general'> = {
+        triggering: {
+          sensitivity: this.triggering.sensitivity,
+        },
+      }
+      return ApiClientService.patchSettings(settings)
+    },
+
+    uploadAllSettings(): Promise<void> {
+      const settings: ApplicationSettings = {
+        camera: {
+          shotTypes: this.camera.shotTypes,
+        },
+        general: {
+          deviceName: this.general.deviceName,
+          siteName: this.general.siteName,
+          systemTime: this.general.systemTime,
+          timeZone: this.general.timeZone,
+        },
+        triggering: {
+          sensitivity: this.triggering.sensitivity,
+        },
+      }
+      return ApiClientService.putSettings(settings)
     },
   },
 })

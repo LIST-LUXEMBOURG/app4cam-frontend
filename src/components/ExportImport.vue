@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import { useQuasar, ValidationRule } from 'quasar'
+import { QBtn, QFile, QForm, QIcon, useQuasar, ValidationRule } from 'quasar'
 import { ref } from 'vue'
-import ApiClientService from '../helpers/ApiClientService'
 import { FileDownloader } from '../helpers/FileDownloader'
 import FilenameCreator from '../helpers/FilenameCreator'
-import { cloneDeep } from '../helpers/ObjectHelper'
 import { useSettingsStore } from '../stores/settings'
-import { SettingsDto } from 'src/settings'
 
 const EXPORT_FILENAME_SUFFIX = 'settings'
 
@@ -24,15 +21,15 @@ const emit = defineEmits<{
 const file = ref(null)
 
 function onExportButtonClick() {
-  ApiClientService.getSettings()
-    .then((settings) => {
-      const settingsToExport: Partial<SettingsDto> = cloneDeep(settings)
-      delete settingsToExport.systemTime
+  store
+    .fetchSettings()
+    .then(() => {
+      const settingsToExport = store.getPersistentSettings()
       const filename = FilenameCreator.createFilename({
-        deviceName: store.deviceName,
-        siteName: store.siteName,
-        systemTime: store.systemTime,
-        timeZone: store.timeZone,
+        deviceName: store.general.deviceName,
+        siteName: store.general.siteName,
+        systemTime: new Date(store.general.systemTime),
+        timeZone: store.general.timeZone,
         extension: 'json',
         suffix: EXPORT_FILENAME_SUFFIX,
       })
@@ -55,8 +52,9 @@ function importSettings(event: ProgressEvent<FileReader>) {
   const string = event.target?.result
   if (typeof string === 'string') {
     const json = JSON.parse(string)
+    store.updatePersistentSettings(json)
     store
-      .putSettings(json)
+      .uploadPersistentSettings()
       .then(() => {
         emit('imported')
         quasar.notify({

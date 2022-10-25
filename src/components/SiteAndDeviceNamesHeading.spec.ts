@@ -15,18 +15,20 @@ const renderComponent = (initialState?: StateTree) =>
   })
 
 describe(SiteAndDeviceNamesHeading.name, () => {
-  it('displays picture count', async () => {
+  it('displays site and device names as heading', async () => {
     const deviceName = 'a'
     const siteName = 'b'
     await renderComponent({
       settings: {
-        deviceName,
-        siteName,
+        general: {
+          deviceName,
+          siteName,
+        },
       },
     })
-    const pictures = screen.getByRole('heading', {
+    const heading = screen.getByRole('heading', {
       name: `${siteName} ${deviceName}`,
     })
-    expect(pictures).toBeInTheDocument()
+    expect(heading).toBeInTheDocument()
   })
 })

@@ -18,5 +18,7 @@ try {
 </script>
 
 <template>
-  <h5 class="q-mt-none">{{ store.siteName }} {{ store.deviceName }}</h5>
+  <h5 class="q-mt-none">
+    {{ store.general.siteName }} {{ store.general.deviceName }}
+  </h5>
 </template>
