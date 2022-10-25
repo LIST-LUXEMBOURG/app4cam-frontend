@@ -1,7 +1,7 @@
 import { createPinia, setActivePinia } from 'pinia'
 import ApiClientService from '../helpers/ApiClientService'
 import { useSettingsStore } from './settings'
-import { SettingsDto, ShotType } from 'src/settings'
+import { ApplicationSettings, ShotType } from 'src/settings'
 
 jest.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
 
@@ -11,13 +11,19 @@ describe('settings store', () => {
   })
 
   describe('fetch settings', () => {
-    const systemTime = new Date()
-    const settings: SettingsDto = {
-      deviceName: 'n',
-      siteName: 's',
-      shotTypes: ['pictures', 'videos'],
-      systemTime: systemTime.toISOString(),
-      timeZone: 't',
+    const settings: ApplicationSettings = {
+      camera: {
+        shotTypes: ['pictures', 'videos'],
+      },
+      general: {
+        deviceName: 'n',
+        siteName: 's',
+        systemTime: new Date().toISOString(),
+        timeZone: 't',
+      },
+      triggering: {
+        sensitivity: 0,
+      },
     }
     const getSettingsSpy = jest
       .spyOn(ApiClientService, 'getSettings')
@@ -26,10 +32,7 @@ describe('settings store', () => {
     it('saves settings after fetching', async () => {
       const store = useSettingsStore()
       await store.fetchSettings()
-      expect(store.deviceName).toBe(settings.deviceName)
-      expect(store.shotTypes).toStrictEqual(settings.shotTypes)
-      expect(store.siteName).toBe(settings.siteName)
-      expect(store.systemTime).toEqual(systemTime)
+      expect(store.$state).toStrictEqual(settings)
     })
 
     afterEach(() => {
@@ -37,79 +40,74 @@ describe('settings store', () => {
     })
   })
 
-  describe('patch settings', () => {
-    const patchSettingsSpy = jest
-      .spyOn(ApiClientService, 'patchSettings')
-      .mockResolvedValue()
+  describe('get persistent settings', () => {
+    it('does not return the non-persistent settings', () => {
+      const store = useSettingsStore()
+      const settings = store.getPersistentSettings()
+      expect(settings.general).not.toHaveProperty('systemTime')
+    })
+  })
 
-    it('saves all settings', async () => {
-      const systemTime = new Date()
+  describe('update persistent settings', () => {
+    it("changes persistent settings' value", () => {
       const deviceName = 'd'
+      const sensitivity = 1
       const shotTypes: ShotType[] = ['pictures', 'videos']
       const siteName = 's'
       const timeZone = 't'
       const store = useSettingsStore()
-      await store.patchSettings({
-        deviceName,
-        shotTypes,
-        siteName,
-        systemTime,
-        timeZone,
+      store.updatePersistentSettings({
+        camera: {
+          shotTypes,
+        },
+        general: {
+          deviceName,
+          siteName,
+          timeZone,
+        },
+        triggering: {
+          sensitivity,
+        },
       })
-      expect(ApiClientService.patchSettings).toHaveBeenCalledWith({
-        deviceName,
-        shotTypes,
-        siteName,
-        systemTime: systemTime.toISOString(),
-        timeZone,
-      })
-      expect(store.deviceName).toBe(deviceName)
-      expect(store.shotTypes).toStrictEqual(shotTypes)
-      expect(store.siteName).toBe(siteName)
-      expect(store.systemTime).toEqual(systemTime)
-      expect(store.timeZone).toBe(timeZone)
+      expect(store.camera.shotTypes).toStrictEqual(shotTypes)
+      expect(store.general.deviceName).toBe(deviceName)
+      expect(store.general.siteName).toBe(siteName)
+      expect(store.general.timeZone).toBe(timeZone)
+      expect(store.triggering.sensitivity).toBe(sensitivity)
     })
+  })
 
-    it('saves one setting', async () => {
+  describe('upload persistent settings', () => {
+    const patchSettingsSpy = jest
+      .spyOn(ApiClientService, 'patchSettings')
+      .mockResolvedValue()
+
+    it('uploads all persistent settings', async () => {
+      const deviceName = 'd'
+      const sensitivity = 1
       const shotTypes: ShotType[] = ['pictures', 'videos']
-      const systemTime = new Date()
-      const settings = {
-        deviceName: 'd',
-        shotTypes,
-        siteName: 's',
-        systemTime,
-        timeZone: 't',
-      }
+      const siteName = 's'
       const store = useSettingsStore()
-      store.deviceName = settings.deviceName
-      store.shotTypes = settings.shotTypes
-      store.siteName = settings.siteName
-      store.timeZone = settings.timeZone
-      await store.patchSettings(settings)
+      const timeZone = 't'
+      store.camera.shotTypes = shotTypes
+      store.general.deviceName = deviceName
+      store.general.siteName = siteName
+      store.general.timeZone = timeZone
+      store.triggering.sensitivity = sensitivity
+      await store.uploadPersistentSettings()
       expect(ApiClientService.patchSettings).toHaveBeenCalledWith({
-        systemTime: systemTime.toISOString(),
+        camera: {
+          shotTypes,
+        },
+        general: {
+          deviceName,
+          siteName,
+          timeZone,
+        },
+        triggering: {
+          sensitivity,
+        },
       })
-      expect(store.systemTime).toEqual(systemTime)
-    })
-
-    it('ignores unnecessary triggers', async () => {
-      const shotTypes: ShotType[] = ['pictures', 'videos']
-      const systemTime = new Date()
-      const settings = {
-        deviceName: 'd',
-        shotTypes,
-        siteName: 's',
-        systemTime,
-        timeZone: 't',
-      }
-      const store = useSettingsStore()
-      store.deviceName = settings.deviceName
-      store.shotTypes = settings.shotTypes
-      store.siteName = settings.siteName
-      store.systemTime = systemTime
-      store.timeZone = settings.timeZone
-      await store.patchSettings(settings)
-      expect(ApiClientService.patchSettings).toHaveBeenCalledTimes(0)
     })
 
     afterEach(() => {
@@ -117,26 +115,37 @@ describe('settings store', () => {
     })
   })
 
-  describe('put settings', () => {
+  describe('upload all settings', () => {
     const putSettingsSpy = jest
       .spyOn(ApiClientService, 'putSettings')
       .mockResolvedValue()
 
-    it('saves all settings', async () => {
+    it('uploads all settings', async () => {
       const shotTypes: ShotType[] = ['pictures', 'videos']
+      const systemTime = new Date().toString()
       const settings = {
-        deviceName: 'd',
-        shotTypes,
-        siteName: 's',
-        timeZone: 't',
+        camera: {
+          shotTypes,
+        },
+        general: {
+          deviceName: 'd',
+          siteName: 's',
+          systemTime,
+          timeZone: 't',
+        },
+        triggering: {
+          sensitivity: 1,
+        },
       }
       const store = useSettingsStore()
-      await store.putSettings(settings)
+      store.camera.shotTypes = shotTypes
+      store.general.deviceName = settings.general.deviceName
+      store.general.siteName = settings.general.siteName
+      store.general.systemTime = systemTime
+      store.general.timeZone = settings.general.timeZone
+      store.triggering.sensitivity = settings.triggering.sensitivity
+      await store.uploadAllSettings()
       expect(ApiClientService.putSettings).toHaveBeenCalledWith(settings)
-      expect(store.deviceName).toBe(settings.deviceName)
-      expect(store.shotTypes).toStrictEqual(settings.shotTypes)
-      expect(store.siteName).toBe(settings.siteName)
-      expect(store.timeZone).toBe(settings.timeZone)
     })
 
     afterEach(() => {

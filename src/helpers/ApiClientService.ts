@@ -8,7 +8,7 @@ import {
   FilesDeletedResponse,
   VersionResponse,
 } from './ApiTypings'
-import { ApplicationSettings, SettingsDto } from 'src/settings'
+import { ApplicationSettings } from 'src/settings'
 
 const apiClient = axios.create({
   baseURL: CONFIG.API_SERVER_URL,
@@ -79,11 +79,11 @@ export default {
     return convertAxiosResponseToFileDownloadResponse(response)
   },
 
-  getSettings(): Promise<SettingsDto> {
+  getSettings(): Promise<ApplicationSettings> {
     return unwrapAxiosResponse(apiClient.get('/settings'))
   },
 
-  patchSettings(settings: Partial<SettingsDto>): Promise<void> {
+  patchSettings(settings: DeepPartial<ApplicationSettings>): Promise<void> {
     return unwrapAxiosResponse(apiClient.patch('/settings', settings))
   },
 

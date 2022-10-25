@@ -1,0 +1,13 @@
+{
+  "settings": {
+    "camera": { "shotTypes": [] },
+    "general": {
+      "deviceId": "1",
+      "deviceName": "",
+      "siteName": "SiteX",
+      "systemTime": "",
+      "timeZone": ""
+    },
+    "triggering": { "sensitivity": 0 }
+  }
+}

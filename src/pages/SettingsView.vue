@@ -5,8 +5,11 @@ import ExportImport from '../components/ExportImport.vue'
 import FilenamePreview from '../components/FilenamePreview.vue'
 import ApiClientService from '../helpers/ApiClientService'
 import DateConverter from '../helpers/DateConverter'
-import { useSettingsStore } from '../stores/settings'
-import { ShotType } from 'src/settings'
+import {
+  useSettingsStore,
+  TRIGGER_SENSITIVITY_MINIMUM,
+  TRIGGER_SENSITIVITY_MAXIMUM,
+} from '../stores/settings'
 import { usePropertiesStore } from 'src/stores/properties'
 
 const propertiesStore = usePropertiesStore()
@@ -41,52 +44,53 @@ const noTimeZoneSelected: ValidationRule[] = [
 ]
 
 const availableTimeZones = ref<string[]>([])
-const deviceName = ref('')
 const filteredTimeZones = ref<string[]>([])
 const isLoadingSettings = ref(true)
-const shotTypes = ref<ShotType[]>([])
-const siteName = ref('')
-const systemTime = ref(new Date())
-const timeZone = ref('')
 
 const date = computed({
   get: () => {
-    if (!systemTime.value || !timeZone.value) {
+    if (!settingsStore.general.systemTime || !settingsStore.general.timeZone) {
       return ''
     }
     return DateConverter.formatDateAsDashedYearMonthDayInTimeZone(
-      systemTime.value,
-      timeZone.value,
+      systemTimeAsDate.value,
+      settingsStore.general.timeZone,
     )
   },
   set: (value) => {
     const year = parseInt(value.slice(0, 4))
     const month = parseInt(value.slice(5, 7))
     const day = parseInt(value.slice(8, 10))
-    const date = new Date(systemTime.value.valueOf())
+    const date = new Date(settingsStore.general.systemTime.valueOf())
     date.setFullYear(year)
     date.setMonth(month - 1)
     date.setDate(day)
-    systemTime.value = date
+    systemTimeAsDate.value = date
+  },
+})
+const systemTimeAsDate = computed({
+  get: () => new Date(settingsStore.general.systemTime),
+  set: (value) => {
+    settingsStore.general.systemTime = value.toISOString()
   },
 })
 const time = computed({
   get: () => {
-    if (!systemTime.value || !timeZone.value) {
+    if (!settingsStore.general.systemTime || !settingsStore.general.timeZone) {
       return ''
     }
     return DateConverter.formatDateAsHoursColonMinutesInTimeZone(
-      systemTime.value,
-      timeZone.value,
+      systemTimeAsDate.value,
+      settingsStore.general.timeZone,
     )
   },
   set: debounce((value) => {
     const hours = parseInt(value.slice(0, 2))
     const minutes = parseInt(value.slice(3, 5))
-    const date = new Date(systemTime.value.valueOf())
+    const date = new Date(settingsStore.general.systemTime.valueOf())
     date.setHours(hours)
     date.setMinutes(minutes)
-    systemTime.value = date
+    systemTimeAsDate.value = date
   }, 500),
 })
 
@@ -102,7 +106,6 @@ settingsStore
   .fetchSettings()
   .then(() => {
     isLoadingSettings.value = false
-    loadSettingsFromStore()
   })
   .catch((error) => {
     quasar.notify({
@@ -137,36 +140,41 @@ function filterTimeZones(
   })
 }
 
-function loadSettingsFromStore() {
-  deviceName.value = settingsStore.deviceName
-  shotTypes.value = settingsStore.shotTypes
-  siteName.value = settingsStore.siteName
-  systemTime.value = settingsStore.systemTime
-  timeZone.value = settingsStore.timeZone
+function notifySettingsSaved() {
+  quasar.notify({
+    message: 'The settings were saved.',
+    color: 'positive',
+  })
 }
 
-function onSubmit() {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function notifySettingsNotSavedError(error: any) {
+  quasar.notify({
+    message: 'The settings could not be saved.',
+    caption: error.message ? error.message : '',
+    color: 'negative',
+  })
+}
+
+function onSubmitCameraSettings() {
   settingsStore
-    .patchSettings({
-      deviceName: deviceName.value,
-      shotTypes: shotTypes.value,
-      siteName: siteName.value,
-      systemTime: systemTime.value,
-      timeZone: timeZone.value,
-    })
-    .then(() => {
-      quasar.notify({
-        message: 'The settings were saved.',
-        color: 'positive',
-      })
-    })
-    .catch((error) => {
-      quasar.notify({
-        message: 'The settings could not be saved.',
-        caption: error.message ? error.message : '',
-        color: 'negative',
-      })
-    })
+    .uploadAllCameraSettings()
+    .then(notifySettingsSaved)
+    .catch(notifySettingsNotSavedError)
+}
+
+function onSubmitGeneralSettings() {
+  settingsStore
+    .uploadAllGeneralSettings()
+    .then(notifySettingsSaved)
+    .catch(notifySettingsNotSavedError)
+}
+
+function onSubmitTriggerSettings() {
+  settingsStore
+    .uploadAllTriggerSettings()
+    .then(notifySettingsSaved)
+    .catch(notifySettingsNotSavedError)
 }
 </script>
 
@@ -175,24 +183,24 @@ function onSubmit() {
     class="q-pa-md q-mx-auto text-left"
     style="max-width: 400px"
   >
-    <q-form
-      autocapitalize="off"
-      autocomplete="off"
-      autocorrect="off"
-      class="q-gutter-sm q-mb-xl"
-      @submit="onSubmit"
-    >
-      <q-list bordered>
-        <q-expansion-item
-          default-opened
-          group="settings"
-          icon="settings"
-          label="General settings"
-        >
-          <q-card>
-            <q-card-section>
+    <q-list bordered>
+      <q-expansion-item
+        default-opened
+        group="settings"
+        icon="settings"
+        label="General settings"
+      >
+        <q-card>
+          <q-card-section>
+            <q-form
+              autocapitalize="off"
+              autocomplete="off"
+              autocorrect="off"
+              class="q-gutter-sm"
+              @submit="onSubmitGeneralSettings"
+            >
               <q-input
-                v-model="siteName"
+                v-model="settingsStore.general.siteName"
                 :disable="isLoadingSettings"
                 label="Site name (optional)"
                 lazy-rules
@@ -200,7 +208,7 @@ function onSubmit() {
                 :rules="noSpecialCharactersIfNotEmptyRules"
               />
               <q-input
-                v-model="deviceName"
+                v-model="settingsStore.general.deviceName"
                 :disable="isLoadingSettings"
                 label="Device name"
                 lazy-rules
@@ -215,7 +223,7 @@ function onSubmit() {
                 readonly
               />
               <q-select
-                v-model="timeZone"
+                v-model="settingsStore.general.timeZone"
                 :disable="isLoadingSettings"
                 fill-input
                 hide-selected
@@ -257,44 +265,118 @@ function onSubmit() {
                 </div>
               </div>
               <FilenamePreview
-                :device-name="deviceName"
-                :site-name="siteName"
-                :system-time="systemTime"
-                :time-zone="timeZone"
+                :device-name="settingsStore.general.deviceName"
+                :site-name="settingsStore.general.siteName"
+                :system-time="settingsStore.general.systemTime"
+                :time-zone="settingsStore.general.timeZone"
               />
-            </q-card-section>
-          </q-card>
-        </q-expansion-item>
-
-        <q-separator />
-
-        <q-expansion-item
-          group="settings"
-          icon="camera"
-          label="Camera settings"
-        >
-          <q-card>
-            <q-card-section>
-              Types of shots:
-              <q-option-group
-                v-model="shotTypes"
-                :options="SHOT_TYPE_OPTIONS"
-                color="green"
-                type="checkbox"
+              <q-btn
+                color="primary"
+                class="q-mt-md"
+                label="Save"
+                type="submit"
               />
-            </q-card-section>
-          </q-card>
-        </q-expansion-item>
-      </q-list>
+            </q-form>
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
 
-      <q-btn
-        color="primary"
-        class="q-ml-lg q-mt-md"
-        label="Save"
-        type="submit"
-      />
-    </q-form>
+      <q-separator />
 
-    <ExportImport @imported="loadSettingsFromStore" />
+      <q-expansion-item
+        group="settings"
+        icon="camera"
+        label="Camera settings"
+      >
+        <q-card>
+          <q-card-section>
+            <q-form
+              autocapitalize="off"
+              autocomplete="off"
+              autocorrect="off"
+              class="q-gutter-sm"
+              @submit="onSubmitCameraSettings"
+            >
+              <div>
+                Types of shots:
+                <q-option-group
+                  v-model="settingsStore.camera.shotTypes"
+                  :options="SHOT_TYPE_OPTIONS"
+                  color="green"
+                  type="checkbox"
+                />
+              </div>
+              <q-btn
+                color="primary"
+                class="q-mt-md"
+                label="Save"
+                type="submit"
+              />
+            </q-form>
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
+
+      <q-separator />
+
+      <q-expansion-item
+        group="settings"
+        icon="bolt"
+        label="Trigger settings"
+      >
+        <q-card>
+          <q-card-section>
+            <q-form
+              autocapitalize="off"
+              autocomplete="off"
+              autocorrect="off"
+              class="q-gutter-sm"
+              @submit="onSubmitTriggerSettings"
+            >
+              <div>
+                Trigger sensitivity
+                <div class="q-mx-sm q-mt-lg q-pt-sm">
+                  <q-slider
+                    v-model="settingsStore.triggering.sensitivity"
+                    label
+                    :label-value="
+                      Math.round(
+                        (settingsStore.triggering.sensitivity +
+                          Number.EPSILON) *
+                          100,
+                      ) /
+                        100 +
+                      '%'
+                    "
+                    label-always
+                    :marker-labels="[
+                      {
+                        value: TRIGGER_SENSITIVITY_MINIMUM,
+                        label: TRIGGER_SENSITIVITY_MINIMUM + '%',
+                      },
+                      {
+                        value: TRIGGER_SENSITIVITY_MAXIMUM,
+                        label: TRIGGER_SENSITIVITY_MAXIMUM + '%',
+                      },
+                    ]"
+                    :min="TRIGGER_SENSITIVITY_MINIMUM"
+                    :max="TRIGGER_SENSITIVITY_MAXIMUM"
+                    :step="0.01"
+                  />
+                </div>
+              </div>
+              <q-btn
+                color="primary"
+                class="q-mt-md"
+                label="Save"
+                type="submit"
+              />
+            </q-form>
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
+    </q-list>
+
+    <ExportImport />
   </div>
 </template>

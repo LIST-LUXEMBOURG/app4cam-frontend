@@ -5,7 +5,7 @@ import FilenameCreator from '../helpers/FilenameCreator'
 const props = defineProps<{
   deviceName: string | undefined
   siteName: string | undefined
-  systemTime: Date | undefined
+  systemTime: string | undefined
   timeZone: string | undefined
 }>()
 
@@ -13,7 +13,7 @@ const filenamePreview = computed(() =>
   FilenameCreator.createFilename({
     deviceName: props.deviceName,
     siteName: props.siteName,
-    systemTime: props.systemTime,
+    systemTime: props.systemTime ? new Date(props.systemTime) : undefined,
     timeZone: props.timeZone,
     extension: 'extension',
   }),

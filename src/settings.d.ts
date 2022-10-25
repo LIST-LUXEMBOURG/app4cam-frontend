@@ -1,20 +1,27 @@
 export type ShotType = 'pictures' | 'videos'
 
-export interface ApplicationSettings {
+interface GeneralSettings {
   deviceName: string
-  shotTypes: ShotType[]
   siteName: string
   timeZone: string
 }
 
-interface SystemTime {
-  systemTime: Date
+interface CameraSettings {
+  shotTypes: ShotType[]
 }
 
-interface SystemTimeDto {
-  systemTime: string
+interface TriggerSettings {
+  sensitivity: number
 }
 
-export type Settings = ApplicationSettings & SystemTime
+export interface PersistentSettings {
+  camera: CameraSettings
+  general: GeneralSettings
+  triggering: TriggerSettings
+}
 
-export type SettingsDto = ApplicationSettings & SystemTimeDto
+export type ApplicationSettings = PersistentSettings & {
+  general: {
+    systemTime: string
+  }
+}

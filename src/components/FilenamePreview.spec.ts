@@ -9,7 +9,7 @@ const renderComponent = () =>
     props: {
       deviceName: 'a',
       siteName: 'b',
-      systemTime: new Date(),
+      systemTime: new Date().toISOString(),
       timeZone: 'Europe/Luxembourg',
     },
   })

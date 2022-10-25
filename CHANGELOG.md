@@ -8,6 +8,7 @@
 - Reintroduce `device ID` as readonly property
 - Introduce setting `shot types` to indicate whether pictures or videos should be taken
 - Automatically deploy to Variscite test device
+- Introduce setting `trigger sensitivity`
 
 ### Changed
 
@@ -16,8 +17,9 @@
 - Fix buttons to bottom of screen on shots page
 - Display values rounded to the second decimal place on the right side
 - Update dependencies
-- Rename `device ID` to `device name`
-- Allow `site name` to be empty
+- Rename setting `device ID` to `device name`
+- Allow setting `site name` to be empty
+- Restructure settings' object
 
 ### Deprecated
 
