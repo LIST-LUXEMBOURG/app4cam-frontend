@@ -9,6 +9,7 @@
 - Introduce setting `shot types` to indicate whether pictures or videos should be taken
 - Automatically deploy to Variscite test device
 - Introduce setting `trigger sensitivity`
+- Show dialog when time of device is more than 1 min off browser time
 
 ### Changed
 

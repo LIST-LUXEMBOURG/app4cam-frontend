@@ -40,3 +40,41 @@ describe(DateConverter.formatDateIsoLikeInTimeZone.name, () => {
     )
   })
 })
+
+describe(DateConverter.getAbsoluteDifferenceInMinutes.name, () => {
+  it('returns 1 for a difference of 1 min', () => {
+    expect(
+      DateConverter.getAbsoluteDifferenceInMinutes(
+        new Date('2022-12-11T14:48:00+01:00'),
+        new Date('2022-12-11T14:49:00+01:00'),
+      ),
+    ).toBe(1)
+  })
+
+  it('returns 0 for a difference of 40 s', () => {
+    expect(
+      DateConverter.getAbsoluteDifferenceInMinutes(
+        new Date('2022-12-11T14:48:20+01:00'),
+        new Date('2022-12-11T14:49:00+01:00'),
+      ),
+    ).toBe(0)
+  })
+
+  it('returns 1 for a difference of 1 min and 59 s', () => {
+    expect(
+      DateConverter.getAbsoluteDifferenceInMinutes(
+        new Date('2022-12-11T14:48:00+01:00'),
+        new Date('2022-12-11T14:49:59+01:00'),
+      ),
+    ).toBe(1)
+  })
+
+  it('returns 2 for a difference of 2 mins and 1 s', () => {
+    expect(
+      DateConverter.getAbsoluteDifferenceInMinutes(
+        new Date('2022-12-11T14:48:00+01:00'),
+        new Date('2022-12-11T14:50:01+01:00'),
+      ),
+    ).toBe(2)
+  })
+})
