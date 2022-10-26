@@ -1,3 +1,4 @@
+import { differenceInMinutes } from 'date-fns'
 import { formatInTimeZone } from 'date-fns-tz'
 
 export default class DateConverter {
@@ -17,5 +18,9 @@ export default class DateConverter {
 
   static formatDateIsoLikeInTimeZone(date: Date, timeZone: string): string {
     return formatInTimeZone(date, timeZone, "yyyyMMdd'T'HHmmss")
+  }
+
+  static getAbsoluteDifferenceInMinutes(firstDate: Date, secondDate: Date) {
+    return Math.abs(differenceInMinutes(firstDate, secondDate))
   }
 }
