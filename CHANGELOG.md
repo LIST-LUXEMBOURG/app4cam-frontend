@@ -21,6 +21,7 @@
 - Rename setting `device ID` to `device name`
 - Allow setting `site name` to be empty
 - Restructure settings' object
+- Adapt video filter to use `mp4` instead of `mkv`
 
 ### Deprecated
 

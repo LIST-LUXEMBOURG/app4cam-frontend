@@ -18,7 +18,7 @@ export const useFilesStore = defineStore('files', {
       return this.pictures.length
     },
 
-    videos: (state) => state.files.filter((f) => f.name.endsWith('mkv')),
+    videos: (state) => state.files.filter((f) => f.name.endsWith('mp4')),
 
     videoCount() {
       return this.videos.length

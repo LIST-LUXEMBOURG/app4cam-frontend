@@ -23,10 +23,10 @@ describe(ShotCounts.name, () => {
 
   const mockFiles = [
     { name: 'a.jpg', creationTime: new Date() },
-    { name: 'b.mkv', creationTime: new Date() },
+    { name: 'b.mp4', creationTime: new Date() },
     { name: 'c.jpg', creationTime: new Date() },
-    { name: 'd.mkv', creationTime: new Date() },
-    { name: 'e.mkv', creationTime: new Date() },
+    { name: 'd.mp4', creationTime: new Date() },
+    { name: 'e.mp4', creationTime: new Date() },
   ]
 
   it('displays picture count', async () => {
