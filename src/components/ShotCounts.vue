@@ -1,7 +1,4 @@
-<script
-  setup
-  lang="ts"
->
+<script setup lang="ts">
 import { useQuasar } from 'quasar'
 import { useFilesStore } from '../stores/files'
 
