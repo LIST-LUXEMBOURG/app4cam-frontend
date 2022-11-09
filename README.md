@@ -53,8 +53,10 @@ Since TypeScript cannot handle type information for `.vue` imports, they are shi
 #### 1. Prepare the device
 
 1. Install Apache web server: `sudo apt install apache2 -y`
-2. If you have not already during backend setup, create a new user, `app4cam` e.g., with a password you remember: `sudo adduser <user>`
-3. Transfer Apache folder ownership to your user: `sudo chown -R <user> /var/www/html`
+2. Enable rewrite module: `sudo a2enmod rewrite`
+3. Enable use of `.htaccess` file by setting `AllowOverride All` for the directory `/var/www/` in the configuration file, usually located under `/etc/apache2/apache2.conf`.
+4. If you have not already during backend setup, create a new user, `app4cam` e.g., with a password you remember: `sudo adduser <user>`
+5. Transfer Apache folder ownership to your user: `sudo chown -R <user> /var/www/html`
 
 #### 2. Build the application
 
