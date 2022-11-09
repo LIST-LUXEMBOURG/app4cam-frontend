@@ -31,6 +31,8 @@
 
 ### Fixed
 
+- Apache reloads correctly on pages with a path.
+
 ### Security
 
 ## Sprint 5 - version 1.1.1
