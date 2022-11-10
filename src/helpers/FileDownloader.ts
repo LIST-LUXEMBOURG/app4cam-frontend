@@ -1,7 +1,7 @@
 export class FileDownloader {
   static downloadFile(
     blobParts: BlobPart[],
-    contentType: string,
+    contentType: string | undefined,
     filename: string,
   ): void {
     const file = new Blob(blobParts, { type: contentType })
