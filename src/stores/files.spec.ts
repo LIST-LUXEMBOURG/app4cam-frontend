@@ -57,24 +57,87 @@ describe('files store', () => {
   })
 
   describe('delete files', () => {
-    jest.spyOn(ApiClientService, 'deleteFiles').mockImplementation(() => {
-      const response: FilesDeletedResponse = { a: true, b: false, c: true }
-      return Promise.resolve(response)
+    const filenames = ['a', 'b', 'c']
+    let spy: jest.SpyInstance
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let store: any
+
+    beforeAll(() => {
+      spy = jest
+        .spyOn(ApiClientService, 'deleteFiles')
+        .mockImplementation(() => {
+          const response: FilesDeletedResponse = { a: true, b: false, c: true }
+          return Promise.resolve(response)
+        })
     })
 
-    it('removes two of three files', async () => {
-      const filenames = ['a', 'b', 'c']
-      const store = useFilesStore()
+    beforeEach(() => {
+      store = useFilesStore()
       for (const filename of filenames) {
         store.files.push({
           name: filename,
           creationTime: new Date(),
         })
       }
+    })
+
+    it('makes the API call', async () => {
+      expect(store.files).toHaveLength(3)
+      await store.deleteFiles([filenames[0], filenames[2]])
+      expect(spy).toHaveBeenCalled()
+    })
+
+    it('removes two of three files', async () => {
       expect(store.files).toHaveLength(3)
       await store.deleteFiles([filenames[0], filenames[2]])
       expect(store.files).toHaveLength(1)
       expect(store.files[0].name).toBe(filenames[1])
+    })
+
+    afterAll(() => {
+      spy.mockRestore()
+    })
+  })
+
+  describe('delete all files', () => {
+    const filenames = ['a', 'b', 'c']
+    let spy: jest.SpyInstance
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let store: any
+
+    beforeAll(() => {
+      spy = jest
+        .spyOn(ApiClientService, 'deleteAllFiles')
+        .mockImplementation(() => {
+          const response: FilesDeletedResponse = { '*': true }
+          return Promise.resolve(response)
+        })
+    })
+
+    beforeEach(() => {
+      store = useFilesStore()
+      for (const filename of filenames) {
+        store.files.push({
+          name: filename,
+          creationTime: new Date(),
+        })
+      }
+    })
+
+    it('makes the API call', async () => {
+      expect(store.files).toHaveLength(3)
+      await store.deleteFiles([filenames[0], filenames[1], filenames[2]])
+      expect(spy).toHaveBeenCalled()
+    })
+
+    it('removes all three files', async () => {
+      expect(store.files).toHaveLength(3)
+      await store.deleteFiles([filenames[0], filenames[1], filenames[2]])
+      expect(store.files).toHaveLength(0)
+    })
+
+    afterAll(() => {
+      spy.mockRestore()
     })
   })
 

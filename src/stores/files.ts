@@ -33,17 +33,27 @@ export const useFilesStore = defineStore('files', {
       })
     },
 
-    deleteFiles(filenames: string[]) {
-      return ApiClientService.deleteFiles(filenames).then(
-        (result: FilesDeletedResponse) => {
-          for (const key in result) {
-            if (result[key]) {
-              const index = this.files.findIndex((file) => file.name === key)
-              this.files.splice(index, 1)
+    deleteFiles(filenames: string[]): Promise<void> {
+      if (filenames.length === this.files.length) {
+        return ApiClientService.deleteAllFiles().then(
+          (result: FilesDeletedResponse) => {
+            if (Object.keys(result).length === 1 && result['*']) {
+              this.files.splice(0)
             }
-          }
-        },
-      )
+          },
+        )
+      } else {
+        return ApiClientService.deleteFiles(filenames).then(
+          (result: FilesDeletedResponse) => {
+            for (const key in result) {
+              if (result[key]) {
+                const index = this.files.findIndex((file) => file.name === key)
+                this.files.splice(index, 1)
+              }
+            }
+          },
+        )
+      }
     },
 
     fetchFiles() {

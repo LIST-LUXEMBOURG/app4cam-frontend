@@ -10,6 +10,7 @@
 - Automatically deploy to Variscite test device
 - Introduce setting `trigger sensitivity`
 - Show dialog when time of device is more than 1 min off browser time
+- Send dedicated delete all files request when all files are selected
 
 ### Changed
 
