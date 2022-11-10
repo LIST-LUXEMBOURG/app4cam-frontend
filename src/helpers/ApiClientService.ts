@@ -49,6 +49,12 @@ export default {
     )
   },
 
+  deleteAllFiles(): Promise<FilesDeletedResponse> {
+    return unwrapAxiosResponse(
+      apiClient.delete('/files/', { data: { filenames: ['*'] } }),
+    )
+  },
+
   getAvailableTimeZones(): Promise<AvailableTimeZones> {
     return unwrapAxiosResponse(apiClient.get('/settings/timezones'))
   },
