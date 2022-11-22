@@ -10,7 +10,9 @@ export const TRIGGER_SENSITIVITY_MAXIMUM = 10
 export const useSettingsStore = defineStore('settings', {
   state: (): State => ({
     camera: {
+      pictureQuality: 80,
       shotTypes: [],
+      videoQuality: 80,
     },
     general: {
       deviceName: '',
@@ -26,7 +28,9 @@ export const useSettingsStore = defineStore('settings', {
   actions: {
     fetchSettings(): Promise<void> {
       return ApiClientService.getSettings().then((settings) => {
+        this.camera.pictureQuality = settings.camera.pictureQuality
         this.camera.shotTypes = settings.camera.shotTypes
+        this.camera.videoQuality = settings.camera.videoQuality
         this.general.deviceName = settings.general.deviceName
         this.general.siteName = settings.general.siteName
         this.general.systemTime = settings.general.systemTime
@@ -38,7 +42,9 @@ export const useSettingsStore = defineStore('settings', {
     getPersistentSettings(): PersistentSettings {
       return {
         camera: {
+          pictureQuality: this.camera.pictureQuality,
           shotTypes: this.camera.shotTypes,
+          videoQuality: this.camera.videoQuality,
         },
         general: {
           deviceName: this.general.deviceName,
@@ -52,7 +58,9 @@ export const useSettingsStore = defineStore('settings', {
     },
 
     updatePersistentSettings(settings: PersistentSettings): void {
+      this.camera.pictureQuality = settings.camera.pictureQuality
       this.camera.shotTypes = settings.camera.shotTypes
+      this.camera.videoQuality = settings.camera.videoQuality
       this.general.deviceName = settings.general.deviceName
       this.general.siteName = settings.general.siteName
       this.general.timeZone = settings.general.timeZone
@@ -62,7 +70,9 @@ export const useSettingsStore = defineStore('settings', {
     uploadPersistentSettings(): Promise<void> {
       const settings: PersistentSettings = {
         camera: {
+          pictureQuality: this.camera.pictureQuality,
           shotTypes: this.camera.shotTypes,
+          videoQuality: this.camera.videoQuality,
         },
         general: {
           deviceName: this.general.deviceName,
@@ -80,6 +90,8 @@ export const useSettingsStore = defineStore('settings', {
       const settings: Omit<ApplicationSettings, 'general' | 'triggering'> = {
         camera: {
           shotTypes: this.camera.shotTypes,
+          pictureQuality: this.camera.pictureQuality,
+          videoQuality: this.camera.videoQuality,
         },
       }
       return ApiClientService.patchSettings(settings)
@@ -109,7 +121,9 @@ export const useSettingsStore = defineStore('settings', {
     uploadAllSettings(): Promise<void> {
       const settings: ApplicationSettings = {
         camera: {
+          pictureQuality: this.camera.pictureQuality,
           shotTypes: this.camera.shotTypes,
+          videoQuality: this.camera.videoQuality,
         },
         general: {
           deviceName: this.general.deviceName,

@@ -1,6 +1,10 @@
 {
   "settings": {
-    "camera": { "shotTypes": [] },
+    "camera": {
+      "pictureQuality": 100,
+      "shotTypes": [],
+      "videoQuality": 60
+    },
     "general": {
       "deviceId": "1",
       "deviceName": "",

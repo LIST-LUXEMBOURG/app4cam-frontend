@@ -7,7 +7,9 @@ interface GeneralSettings {
 }
 
 interface CameraSettings {
+  pictureQuality: number
   shotTypes: ShotType[]
+  videoQuality: number
 }
 
 interface TriggerSettings {

@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import { debounce, QOptionGroupProps, useQuasar, ValidationRule } from 'quasar'
+import {
+  debounce,
+  QOptionGroupProps,
+  QSelectOption,
+  useQuasar,
+  ValidationRule,
+} from 'quasar'
 import { computed, ref } from 'vue'
 import ExportImport from '../components/ExportImport.vue'
 import FilenamePreview from '../components/FilenamePreview.vue'
@@ -24,6 +30,29 @@ const SHOT_TYPE_OPTIONS: QOptionGroupProps['options'] = [
   {
     label: 'Videos',
     value: 'videos',
+  },
+]
+
+const SHOT_QUALITIES: QSelectOption<number>[] = [
+  {
+    label: 'low',
+    value: 40,
+  },
+  {
+    label: 'medium',
+    value: 60,
+  },
+  {
+    label: 'high',
+    value: 80,
+  },
+  {
+    label: 'ultra-high',
+    value: 90,
+  },
+  {
+    label: 'highest',
+    value: 100,
   },
 ]
 
@@ -298,7 +327,7 @@ function onSubmitTriggerSettings() {
               @submit="onSubmitCameraSettings"
             >
               <div>
-                Types of shots:
+                Types of shots
                 <q-option-group
                   v-model="settingsStore.camera.shotTypes"
                   :options="SHOT_TYPE_OPTIONS"
@@ -306,6 +335,24 @@ function onSubmitTriggerSettings() {
                   type="checkbox"
                 />
               </div>
+              <q-select
+                v-model="settingsStore.camera.pictureQuality"
+                :disable="isLoadingSettings"
+                emit-value
+                label="Picture quality"
+                map-options
+                :options="SHOT_QUALITIES"
+                outlined
+              />
+              <q-select
+                v-model="settingsStore.camera.videoQuality"
+                :disable="isLoadingSettings"
+                emit-value
+                label="Video quality"
+                map-options
+                :options="SHOT_QUALITIES"
+                outlined
+              />
               <q-btn
                 color="primary"
                 class="q-mt-md"
