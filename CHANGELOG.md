@@ -5,12 +5,15 @@
 ### Added
 
 - Use Testing Library for component unit tests
-- Reintroduce `device ID` as readonly property
+- Reintroduce `device ID` as readonly property returning first MAC address
 - Introduce setting `shot types` to indicate whether pictures or videos should be taken
 - Automatically deploy to Variscite test device
 - Introduce setting `trigger sensitivity`
 - Show dialog when time of device is more than 1 min off browser time
-- Send dedicated delete all files request when all files are selected
+- Automatic addition of device ID as metadata to shots after saving them
+- New config option `DEVICE_TYPE` in backend to define the device to run on
+- Add OpenAPI Specification (OAS) using Swagger under `/api` in backend
+- Send dedicated delete all files request when all files are selected by passing `*` as single filename to delete all files using a dedicated command to not having to loop through all files
 - Introduce settings `picture quality` and `movie quality`
 
 ### Changed
@@ -20,9 +23,15 @@
 - Fix buttons to bottom of screen on shots page
 - Display values rounded to the second decimal place on the right side
 - Update dependencies
+- Enforce alphabetical order of imports
+- Extract version number and commit hash to file `version.txt` in backend upon build from where they are read from
 - Rename setting `device ID` to `device name`
+- Rename `version` to `properties/version` endpoint in backend
+- Set body parser's `urlencoded` option `extended` to `false` in backend
 - Allow setting `site name` to be empty
+- Upgrade NestJS to version 9.x in backend
 - Restructure settings' object
+- Switch video format `mkv` to `mp4`
 - Adapt video filter to use `mp4` instead of `mkv`
 
 ### Deprecated
