@@ -15,7 +15,9 @@
 - Add OpenAPI Specification (OAS) using Swagger under `/api` in backend
 - Send dedicated delete all files request when all files are selected by passing `*` as single filename to delete all files using a dedicated command to not having to loop through all files
 - Introduce settings `picture quality` and `movie quality`
-- Show storage status under disk usage graph
+- Use infrared lights for triggering and visible lights for recording
+- Allow safe swapping of USB stick, including creating API endpoint for getting and setting shots folder path
+- Show storage status under disk usage graph, which checks for write access, and which displays subdirectories of `/media` otherwise
 
 ### Changed
 
@@ -34,6 +36,7 @@
 - Restructure settings' object
 - Switch video format `mkv` to `mp4`
 - Adapt video filter to use `mp4` instead of `mkv`
+- Update motion to 4.5.x
 
 ### Deprecated
 
