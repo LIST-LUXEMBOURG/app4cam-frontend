@@ -28,21 +28,31 @@ function convertKbToGb(input: number): number {
   return input / 1024 / 1024
 }
 
+function reloadStatus() {
+  store.fetchStorageStatus().catch((error) => {
+    quasar.notify({
+      message: 'The storage status could not be loaded.',
+      caption: error.message ? error.message : '',
+      color: 'negative',
+    })
+  })
+}
+
 try {
   await store.fetchStorage()
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 } catch (error: any) {
   quasar.notify({
-    message: 'The disk space usage data could not be loaded.',
+    message: 'The storage usage details could not be loaded.',
     caption: error.message ? error.message : '',
     color: 'negative',
   })
 }
 
 chartSeries.splice(0)
-const usedKb = (store.capacityKb * store.usedPercentage) / 100
+const usedKb = (store.usage.capacityKb * store.usage.usedPercentage) / 100
 const usedMb = convertKbToGb(usedKb)
-const availableKb = store.capacityKb - usedKb
+const availableKb = store.usage.capacityKb - usedKb
 const availableMb = convertKbToGb(availableKb)
 chartSeries.push(usedMb, availableMb)
 if (chartOptions.labels) {
@@ -61,4 +71,37 @@ capacityGb.value = Math.round(usedMb + availableMb)
     :options="chartOptions"
     :series="chartSeries"
   />
+  <div
+    class="row q-mt-md rounded-borders q-pa-sm text-white justify-between"
+    :class="{
+      'bg-positive': store.status.isAvailable,
+      'bg-negative': !store.status.isAvailable,
+    }"
+  >
+    <div>
+      <q-icon
+        v-if="store.status.isAvailable"
+        name="check_circle"
+        size="xs"
+      />
+      <q-icon
+        v-else
+        name="cancel"
+        size="xs"
+      />
+    </div>
+    <div class="col q-px-sm">
+      {{ store.status.message }}
+    </div>
+    <div>
+      <q-btn
+        flat
+        icon="refresh"
+        round
+        @click="reloadStatus"
+      >
+        <q-tooltip>Reload status</q-tooltip>
+      </q-btn>
+    </div>
+  </div>
 </template>

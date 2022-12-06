@@ -12,9 +12,17 @@ export interface FilesDeletedResponse {
   [filename: string]: boolean
 }
 
-export interface DiskSpaceUsageResponse {
-  capacityKb: number
-  usedPercentage: number
+export interface StorageResponse {
+  status: StorageStatusResponse
+  usage: {
+    capacityKb: number
+    usedPercentage: number
+  }
+}
+
+export interface StorageStatusResponse {
+  isAvailable: boolean
+  message: string
 }
 
 export interface AvailableTimeZones {

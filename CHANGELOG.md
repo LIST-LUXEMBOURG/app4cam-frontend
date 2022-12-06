@@ -15,6 +15,7 @@
 - Add OpenAPI Specification (OAS) using Swagger under `/api` in backend
 - Send dedicated delete all files request when all files are selected by passing `*` as single filename to delete all files using a dedicated command to not having to loop through all files
 - Introduce settings `picture quality` and `movie quality`
+- Show storage status under disk usage graph
 
 ### Changed
 
