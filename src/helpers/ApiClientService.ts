@@ -3,10 +3,11 @@ import { CONFIG } from '../config'
 import {
   AvailableTimeZones,
   DeviceIdResponse,
-  DiskSpaceUsageResponse,
+  StorageResponse,
   FileDownloadResponse,
   FilesDeletedResponse,
   VersionResponse,
+  StorageStatusResponse,
 } from './ApiTypings'
 import { ApplicationSettings } from 'src/settings'
 
@@ -104,8 +105,12 @@ export default {
     return convertAxiosResponseToFileDownloadResponse(response)
   },
 
-  getStorage(): Promise<DiskSpaceUsageResponse> {
+  getStorage(): Promise<StorageResponse> {
     return unwrapAxiosResponse(apiClient.get('/storage'))
+  },
+
+  getStorageStatus(): Promise<StorageStatusResponse> {
+    return unwrapAxiosResponse(apiClient.get('/storage/Status'))
   },
 
   getVersion(): Promise<VersionResponse> {
