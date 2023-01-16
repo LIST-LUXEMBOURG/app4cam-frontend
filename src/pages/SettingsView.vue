@@ -386,29 +386,22 @@ function onSubmitTriggerSettings() {
                   <q-slider
                     v-model="settingsStore.triggering.sensitivity"
                     label
-                    :label-value="
-                      Math.round(
-                        (settingsStore.triggering.sensitivity +
-                          Number.EPSILON) *
-                          100,
-                      ) /
-                        100 +
-                      '%'
-                    "
                     label-always
                     :marker-labels="[
                       {
                         value: TRIGGER_SENSITIVITY_MINIMUM,
-                        label: TRIGGER_SENSITIVITY_MINIMUM + '%',
+                        label: TRIGGER_SENSITIVITY_MINIMUM,
                       },
                       {
                         value: TRIGGER_SENSITIVITY_MAXIMUM,
-                        label: TRIGGER_SENSITIVITY_MAXIMUM + '%',
+                        label: TRIGGER_SENSITIVITY_MAXIMUM,
                       },
                     ]"
+                    markers
                     :min="TRIGGER_SENSITIVITY_MINIMUM"
                     :max="TRIGGER_SENSITIVITY_MAXIMUM"
-                    :step="0.01"
+                    snap
+                    :step="1"
                   />
                 </div>
               </div>

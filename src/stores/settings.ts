@@ -4,7 +4,7 @@ import { ApplicationSettings, PersistentSettings } from '../settings'
 
 type State = ApplicationSettings
 
-export const TRIGGER_SENSITIVITY_MINIMUM = 0.01
+export const TRIGGER_SENSITIVITY_MINIMUM = 1
 export const TRIGGER_SENSITIVITY_MAXIMUM = 10
 
 export const useSettingsStore = defineStore('settings', {
