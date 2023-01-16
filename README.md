@@ -54,9 +54,10 @@ Since TypeScript cannot handle type information for `.vue` imports, they are shi
 
 1. Install Apache web server: `sudo apt install apache2 -y`
 2. Enable rewrite module: `sudo a2enmod rewrite`
-3. Enable use of `.htaccess` file by setting `AllowOverride All` for the directory `/var/www/` in the configuration file, usually located under `/etc/apache2/apache2.conf`.
-4. If you have not already during backend setup, create a new user, `app4cam` e.g., with a password you remember: `sudo adduser <user>`
-5. Transfer Apache folder ownership to your user: `sudo chown -R <user> /var/www/html`
+3. Enable use of `.htaccess` file by setting `AllowOverride All` in the block for the directory `/var/www/` in the configuration file, usually located under `/etc/apache2/apache2.conf`.
+4. Restart Apache: `sudo systemctl restart apache2`
+5. If you have not already during backend setup, create a new user, `app4cam` e.g., with a password you remember: `sudo adduser <user>`
+6. Transfer Apache folder ownership to your user: `sudo chown -R <user> /var/www/html`
 
 #### 2. Build the application
 
@@ -70,7 +71,8 @@ You can build the application on a computer and copy the build to the device, or
 - `.env.pollicam`: for the traps Aurinion and DiMon within the scope of the PolliCAM project
 - `.env.sample`: example for the case you run the backend on the same device
 - `.env.testing_raspberry_pi`: for continuous deployment (CD) on Raspberry Pi
-- `.env.testing_variscite`: for continuous deployment (CD) on Variscite
+- `.env.testing_variscite_mx6`: for continuous deployment (CD) on Variscite MX6
+- `.env.testing_variscite_mx8m`: for continuous deployment (CD) on Variscite MX8M
 
 5. Edit the config file if needed.
 6. Build app for production: `quasar build` or `npm run build`
@@ -89,15 +91,17 @@ If you have set up the backend already, you just need to do step 4.
 - `RASPBERRY_PI_HOST`: IP address of Raspberry Pi
 - `RASPBERRY_PI_PRIVATE_KEY`: private key of Raspberry Pi user
 - `RASPBERRY_PI_USER`: user of Raspberry Pi
-- `VARISCITE_HOST`: IP address of Variscite
-- `VARISCITE_PRIVATE_KEY`: private key of Variscite user
-- `VARISCITE_USER`: user of Variscite
+- `VARISCITE_MX6_HOST`: IP address of Variscite MX6
+- `VARISCITE_MX6_PRIVATE_KEY`: private key of Variscite MX6 user
+- `VARISCITE_MX8M_HOST`: IP address of Variscite MX8M
+- `VARISCITE_MX8M_PRIVATE_KEY`: private key of Variscite MX8M user
+- `VARISCITE_USER`: user of Variscite devices
 
 5. Delete private key file: `rm .ssh/id_ed25519`
-6. Remove all "group" and "other" permissions for the `.ssh` directory: `sudo chmod -R go= ~/.ssh`
+6. Remove all "group" and "other" permissions for the `.ssh` directory: `chmod -R go= ~/.ssh`
 7. Logout: `exit`
 8. Open SSH config file: `sudo nano /etc/ssh/sshd_config`
-9. Disable password authentication by setting `PasswordAuthentication no`, and save file.
+9. Disable password authentication by setting `PasswordAuthentication no`.
 10. Prepend the following line: `Match User <user>`
 11. Append the following line: `Match all`
 12. Restart `sshd` service: `sudo systemctl restart ssh`
