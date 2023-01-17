@@ -115,9 +115,10 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 
     'jest/prefer-mock-promise-shorthand': 'warn',
-
     'jest/valid-title': ['off', { ignoreTypeOfDescribeName: true }],
 
+    'import/newline-after-import': 'error',
+    'import/no-empty-named-blocks': 'error',
     'import/order': [
       'error',
       { alphabetize: { order: 'asc', caseInsensitive: true } },
