@@ -18,6 +18,7 @@
 - Use infrared lights for triggering and visible lights for recording
 - Allow safe swapping of USB stick, including creating API endpoint for getting and setting shots folder path
 - Show storage status under disk usage graph, which checks for write access, and which displays subdirectories of `/media` otherwise
+- Add dropdown button to download app and motion log files to settings page
 
 ### Changed
 
@@ -37,6 +38,7 @@
 - Switch video format `mkv` to `mp4`
 - Adapt video filter to use `mp4` instead of `mkv`
 - Update motion to 4.5.x
+- Don't open general settings section by default
 
 ### Deprecated
 

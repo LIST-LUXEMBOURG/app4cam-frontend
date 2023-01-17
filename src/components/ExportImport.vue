@@ -90,7 +90,7 @@ function submitImportSettingsForm() {
 </script>
 
 <template>
-  <h5 class="q-mb-md">Export & import</h5>
+  <h6 class="q-mb-md">Export & import settings</h6>
   <div class="q-px-md">
     <q-btn
       color="primary"
