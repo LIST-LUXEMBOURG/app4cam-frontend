@@ -49,6 +49,12 @@ function handleFileDownloadError(error: any): void {
           clickable
           @click="onDownloadAppLogButtonClick"
         >
+          <q-item-section side>
+            <q-icon
+              color="gray"
+              name="download"
+            />
+          </q-item-section>
           <q-item-section>
             <q-item-label>App log file</q-item-label>
           </q-item-section>
@@ -59,6 +65,12 @@ function handleFileDownloadError(error: any): void {
           clickable
           @click="onDownloadMotionLogButtonClick"
         >
+          <q-item-section side>
+            <q-icon
+              color="gray"
+              name="download"
+            />
+          </q-item-section>
           <q-item-section>
             <q-item-label>Motion log file</q-item-label>
           </q-item-section>
