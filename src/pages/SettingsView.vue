@@ -16,6 +16,7 @@ import {
   TRIGGER_SENSITIVITY_MINIMUM,
   TRIGGER_SENSITIVITY_MAXIMUM,
 } from '../stores/settings'
+import LogFileDownloads from 'src/components/LogFileDownloads.vue'
 import { usePropertiesStore } from 'src/stores/properties'
 
 const propertiesStore = usePropertiesStore()
@@ -214,7 +215,6 @@ function onSubmitTriggerSettings() {
   >
     <q-list bordered>
       <q-expansion-item
-        default-opened
         group="settings"
         icon="settings"
         label="General settings"
@@ -418,5 +418,7 @@ function onSubmitTriggerSettings() {
     </q-list>
 
     <ExportImport />
+
+    <LogFileDownloads />
   </div>
 </template>

@@ -56,6 +56,13 @@ export default {
     )
   },
 
+  async getAppLogFile(): Promise<FileDownloadResponse> {
+    const response = await apiClient.get('/log-files/app', {
+      responseType: 'blob',
+    })
+    return convertAxiosResponseToFileDownloadResponse(response)
+  },
+
   getAvailableTimeZones(): Promise<AvailableTimeZones> {
     return unwrapAxiosResponse(apiClient.get('/settings/timezones'))
   },
@@ -83,6 +90,13 @@ export default {
         responseType: 'blob',
       },
     )
+    return convertAxiosResponseToFileDownloadResponse(response)
+  },
+
+  async getMotionLogFile(): Promise<FileDownloadResponse> {
+    const response = await apiClient.get('/log-files/motion', {
+      responseType: 'blob',
+    })
     return convertAxiosResponseToFileDownloadResponse(response)
   },
 

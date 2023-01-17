@@ -15,7 +15,9 @@ const renderComponent = () =>
 describe(ExportImport.name, () => {
   it('displays a heading', () => {
     renderComponent()
-    const heading = screen.queryByRole('heading', { name: 'Export & import' })
+    const heading = screen.queryByRole('heading', {
+      name: 'Export & import settings',
+    })
     expect(heading).toBeInTheDocument()
   })
 })
