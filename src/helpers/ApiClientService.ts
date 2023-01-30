@@ -64,7 +64,7 @@ export default {
   },
 
   getAvailableTimeZones(): Promise<AvailableTimeZones> {
-    return unwrapAxiosResponse(apiClient.get('/settings/timezones'))
+    return unwrapAxiosResponse(apiClient.get('/properties/timezones'))
   },
 
   getDeviceId(): Promise<DeviceIdResponse> {
