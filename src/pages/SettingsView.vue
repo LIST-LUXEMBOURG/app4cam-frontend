@@ -23,6 +23,17 @@ const propertiesStore = usePropertiesStore()
 const quasar = useQuasar()
 const settingsStore = useSettingsStore()
 
+const LIGHT_TYPE_OPTIONS: QOptionGroupProps['options'] = [
+  {
+    label: 'Infrared',
+    value: 'infrared',
+  },
+  {
+    label: 'Visible',
+    value: 'visible',
+  },
+]
+
 const SHOT_TYPE_OPTIONS: QOptionGroupProps['options'] = [
   {
     label: 'Pictures',
@@ -380,6 +391,14 @@ function onSubmitTriggerSettings() {
               class="q-gutter-sm"
               @submit="onSubmitTriggerSettings"
             >
+              <div>
+                Trigger light
+                <q-option-group
+                  v-model="settingsStore.triggering.light"
+                  :options="LIGHT_TYPE_OPTIONS"
+                  color="green"
+                />
+              </div>
               <div>
                 Trigger sensitivity
                 <div class="q-mx-sm q-mt-lg q-pt-sm">
