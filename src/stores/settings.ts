@@ -21,6 +21,7 @@ export const useSettingsStore = defineStore('settings', {
       timeZone: '',
     },
     triggering: {
+      light: 'infrared',
       sensitivity: TRIGGER_SENSITIVITY_MINIMUM,
     },
   }),
@@ -35,6 +36,7 @@ export const useSettingsStore = defineStore('settings', {
         this.general.siteName = settings.general.siteName
         this.general.systemTime = settings.general.systemTime
         this.general.timeZone = settings.general.timeZone
+        this.triggering.light = settings.triggering.light
         this.triggering.sensitivity = settings.triggering.sensitivity
       })
     },
@@ -52,6 +54,7 @@ export const useSettingsStore = defineStore('settings', {
           timeZone: this.general.timeZone,
         },
         triggering: {
+          light: this.triggering.light,
           sensitivity: this.triggering.sensitivity,
         },
       }
@@ -64,6 +67,7 @@ export const useSettingsStore = defineStore('settings', {
       this.general.deviceName = settings.general.deviceName
       this.general.siteName = settings.general.siteName
       this.general.timeZone = settings.general.timeZone
+      this.triggering.light = settings.triggering.light
       this.triggering.sensitivity = settings.triggering.sensitivity
     },
 
@@ -80,6 +84,7 @@ export const useSettingsStore = defineStore('settings', {
           timeZone: this.general.timeZone,
         },
         triggering: {
+          light: this.triggering.light,
           sensitivity: this.triggering.sensitivity,
         },
       }
@@ -112,6 +117,7 @@ export const useSettingsStore = defineStore('settings', {
     uploadAllTriggerSettings(): Promise<void> {
       const settings: Omit<ApplicationSettings, 'camera' | 'general'> = {
         triggering: {
+          light: this.triggering.light,
           sensitivity: this.triggering.sensitivity,
         },
       }
@@ -132,6 +138,7 @@ export const useSettingsStore = defineStore('settings', {
           timeZone: this.general.timeZone,
         },
         triggering: {
+          light: this.triggering.light,
           sensitivity: this.triggering.sensitivity,
         },
       }

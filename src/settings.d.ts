@@ -1,3 +1,4 @@
+export type LightType = 'infrared' | 'visible'
 export type ShotType = 'pictures' | 'videos'
 
 interface GeneralSettings {
@@ -13,6 +14,7 @@ interface CameraSettings {
 }
 
 interface TriggerSettings {
+  light: LightType
   sensitivity: number
 }
 

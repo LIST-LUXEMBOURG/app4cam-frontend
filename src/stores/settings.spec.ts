@@ -1,7 +1,7 @@
 import { createPinia, setActivePinia } from 'pinia'
 import ApiClientService from '../helpers/ApiClientService'
 import { useSettingsStore } from './settings'
-import { ApplicationSettings, ShotType } from 'src/settings'
+import { ApplicationSettings, LightType, ShotType } from 'src/settings'
 
 jest.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
 
@@ -24,6 +24,7 @@ describe('settings store', () => {
         timeZone: 't',
       },
       triggering: {
+        light: 'visible',
         sensitivity: 0,
       },
     }
@@ -53,6 +54,7 @@ describe('settings store', () => {
   describe('update persistent settings', () => {
     it("changes persistent settings' value", () => {
       const deviceName = 'd'
+      const light = 'infrared'
       const pictureQuality = 40
       const sensitivity = 1
       const shotTypes: ShotType[] = ['pictures', 'videos']
@@ -72,6 +74,7 @@ describe('settings store', () => {
           timeZone,
         },
         triggering: {
+          light,
           sensitivity,
         },
       })
@@ -81,6 +84,7 @@ describe('settings store', () => {
       expect(store.general.deviceName).toBe(deviceName)
       expect(store.general.siteName).toBe(siteName)
       expect(store.general.timeZone).toBe(timeZone)
+      expect(store.triggering.light).toBe(light)
       expect(store.triggering.sensitivity).toBe(sensitivity)
     })
   })
@@ -92,6 +96,7 @@ describe('settings store', () => {
 
     it('uploads all persistent settings', async () => {
       const deviceName = 'd'
+      const light = 'infrared'
       const pictureQuality = 40
       const sensitivity = 1
       const shotTypes: ShotType[] = ['pictures', 'videos']
@@ -105,6 +110,7 @@ describe('settings store', () => {
       store.general.deviceName = deviceName
       store.general.siteName = siteName
       store.general.timeZone = timeZone
+      store.triggering.light = light
       store.triggering.sensitivity = sensitivity
       await store.uploadPersistentSettings()
       expect(ApiClientService.patchSettings).toHaveBeenCalledWith({
@@ -119,6 +125,7 @@ describe('settings store', () => {
           timeZone,
         },
         triggering: {
+          light,
           sensitivity,
         },
       })
@@ -164,12 +171,15 @@ describe('settings store', () => {
     })
 
     it('uploads all trigger settings', async () => {
+      const light = 'infrared'
       const sensitivity = 1
       const store = useSettingsStore()
+      store.triggering.light = light
       store.triggering.sensitivity = sensitivity
       await store.uploadAllTriggerSettings()
       expect(ApiClientService.patchSettings).toHaveBeenCalledWith({
         triggering: {
+          light,
           sensitivity,
         },
       })
@@ -203,6 +213,7 @@ describe('settings store', () => {
           timeZone: 't',
         },
         triggering: {
+          light: 'infrared' as LightType,
           sensitivity: 1,
         },
       }
@@ -214,6 +225,7 @@ describe('settings store', () => {
       store.general.siteName = settings.general.siteName
       store.general.systemTime = systemTime
       store.general.timeZone = settings.general.timeZone
+      store.triggering.light = settings.triggering.light
       store.triggering.sensitivity = settings.triggering.sensitivity
       await store.uploadAllSettings()
       expect(ApiClientService.putSettings).toHaveBeenCalledWith(settings)

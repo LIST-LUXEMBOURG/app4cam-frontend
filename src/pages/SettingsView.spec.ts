@@ -8,6 +8,7 @@ import { settings } from '../../fixtures/settings.json'
 import SettingsView from './SettingsView.vue'
 import { renderAsync } from 'app/test/jest/renderAsync'
 import ApiClientService from 'src/helpers/ApiClientService'
+import { ApplicationSettings } from 'src/settings'
 
 installQuasarPlugin({ plugins: { Notify } })
 
@@ -28,7 +29,9 @@ describe(SettingsView.name, () => {
     jest
       .spyOn(ApiClientService, 'getDeviceId')
       .mockResolvedValue({ deviceId: 'a' })
-    jest.spyOn(ApiClientService, 'getSettings').mockResolvedValue(settings)
+    jest
+      .spyOn(ApiClientService, 'getSettings')
+      .mockResolvedValue(settings as ApplicationSettings)
   })
 
   describe('when page loads', () => {

@@ -12,6 +12,9 @@
       "systemTime": "",
       "timeZone": ""
     },
-    "triggering": { "sensitivity": 0 }
+    "triggering": {
+      "light": "visible",
+      "sensitivity": 0
+    }
   }
 }
