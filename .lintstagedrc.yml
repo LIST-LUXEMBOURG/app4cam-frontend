@@ -1,3 +1,4 @@
 'src/**/*':
   - 'eslint --ext .js,.ts,.vue'
+'*':
   - 'prettier --write --ignore-unknown'
