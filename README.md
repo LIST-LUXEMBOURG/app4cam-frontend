@@ -20,8 +20,7 @@ Vue 3 `<script setup>` Single File Components (SFCs) are used; Check out the [sc
 
 ### Prerequisites
 
-- Git
-- \>= Node.js 16.x
+- \>= Node.js 18.x
 
 ### Development setup
 
@@ -54,7 +53,7 @@ Since TypeScript cannot handle type information for `.vue` imports, they are shi
 
 1. Install Apache web server: `sudo apt install apache2 -y`
 2. Enable rewrite module: `sudo a2enmod rewrite`
-3. Enable use of `.htaccess` file by setting `AllowOverride All` in the block for the directory `/var/www/` in the configuration file, usually located under `/etc/apache2/apache2.conf`.
+3. Enable use of `.htaccess` file by setting `AllowOverride` to `All` in the block for the directory `/var/www/` in the configuration file, usually located under `/etc/apache2/apache2.conf`.
 4. Restart Apache: `sudo systemctl restart apache2`
 5. If you have not already during backend setup, create a new user, `app4cam` e.g., with a password you remember: `sudo adduser <user>`
 6. Transfer Apache folder ownership to your user: `sudo chown -R <user> /var/www/html`
@@ -63,10 +62,11 @@ Since TypeScript cannot handle type information for `.vue` imports, they are shi
 
 You can build the application on a computer and copy the build to the device, or you build the application directly on the device:
 
-1. Clone this repository: `git clone --single-branch --branch main https://git.list.lu/host/mechatronics/app4cam-frontend.git`
-2. Change into the directory: `cd app4cam-frontend`
-3. Install dependencies: `npm ci`
-4. Copy an existing config file to `.env`.
+1. Make sure Git is installed.
+2. Clone this repository: `git clone --single-branch --branch main https://git.list.lu/host/mechatronics/app4cam-frontend.git`
+3. Change into the directory: `cd app4cam-frontend`
+4. Install dependencies: `npm ci`
+5. Copy an existing config file to `.env`.
 
 - `.env.pollicam`: for the traps Aurinion and DiMon within the scope of the PolliCAM project
 - `.env.sample`: example for the case you run the backend on the same device
@@ -74,10 +74,10 @@ You can build the application on a computer and copy the build to the device, or
 - `.env.testing_variscite_mx6`: for continuous deployment (CD) on Variscite MX6
 - `.env.testing_variscite_mx8m`: for continuous deployment (CD) on Variscite MX8M
 
-5. Edit the config file if needed.
-6. Build app for production: `quasar build` or `npm run build`
-7. Delete old files Apache is serving: `sudo rm -r /var/www/html/*`
-8. Copy the build to Apache's serving folder: `sudo cp -r dist/. /var/www/html/`
+6. Edit the config file if needed.
+7. Build app for production: `quasar build` or `npm run build`
+8. Delete old files Apache is serving: `sudo rm -r /var/www/html/*`
+9. Copy the build to Apache's serving folder: `sudo cp -r dist/. /var/www/html/`
 
 #### 3. For continuous deployment (CD) only
 
@@ -85,7 +85,7 @@ If you have set up the backend already, you just need to do step 4.
 
 1. Log in as user: `su - <user>`
 2. Generate a public/private key pair without passphrase: `ssh-keygen -t ed25519`
-3. Copy public key to `.ssh/authorized_keys` file.
+3. Copy public key to authorized keys file: `cp .ssh/id_ed25519.pub .ssh/authorized_keys`
 4. Define the following variables in Gitlab:
 
 - `RASPBERRY_PI_HOST`: IP address of Raspberry Pi
