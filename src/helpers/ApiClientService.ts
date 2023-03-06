@@ -124,7 +124,7 @@ export default {
   },
 
   getStorageStatus(): Promise<StorageStatusResponse> {
-    return unwrapAxiosResponse(apiClient.get('/storage/Status'))
+    return unwrapAxiosResponse(apiClient.get('/storage/status'))
   },
 
   getVersion(): Promise<VersionResponse> {

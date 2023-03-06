@@ -28,14 +28,18 @@ function convertKbToGb(input: number): number {
   return input / 1024 / 1024
 }
 
-function reloadStatus() {
-  store.fetchStorageStatus().catch((error) => {
-    quasar.notify({
-      message: 'The storage status could not be loaded.',
-      caption: error.message ? error.message : '',
-      color: 'negative',
-    })
-  })
+async function reloadStatus() {
+  try {
+    await store.fetchStorageStatus()
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    store.status.isAvailable = false
+    let message = 'The storage status could not be loaded.'
+    if (error.message) {
+      message += ' ' + error.message
+    }
+    store.status.message = message
+  }
 }
 
 try {
@@ -60,6 +64,8 @@ if (chartOptions.labels) {
   chartOptions.labels[1] = `${availableMb.toFixed(2)} GB available`
 }
 capacityGb.value = Math.round(usedMb + availableMb)
+
+reloadStatus()
 </script>
 
 <template>
