@@ -249,7 +249,9 @@ function onSubmitTriggerSettings() {
               />
               <q-input
                 v-model="settingsStore.general.deviceName"
+                class="q-mb-xl"
                 :disable="isLoadingSettings"
+                hint="Make sure to use a unique device name per site as it is also used as access point name. When it is changed, you need to connect to the new Wi-Fi network."
                 label="Device name"
                 lazy-rules
                 outlined
