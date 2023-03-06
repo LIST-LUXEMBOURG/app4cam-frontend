@@ -10,7 +10,7 @@ try {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 } catch (error: any) {
   quasar.notify({
-    message: 'The files could not be loaded.',
+    message: 'The number of shots could not be loaded.',
     caption: error.message ? error.message : '',
     color: 'negative',
   })
