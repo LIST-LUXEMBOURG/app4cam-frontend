@@ -145,15 +145,15 @@ propertiesStore.fetchDeviceId().catch((error) => {
 
 settingsStore
   .fetchSettings()
-  .then(() => {
-    isLoadingSettings.value = false
-  })
   .catch((error) => {
     quasar.notify({
       message: 'The settings could not be loaded.',
       caption: error.message ? error.message : '',
       color: 'negative',
     })
+  })
+  .finally(() => {
+    isLoadingSettings.value = false
   })
 
 ApiClientService.getAvailableTimeZones()
@@ -315,6 +315,7 @@ function onSubmitTriggerSettings() {
               <q-btn
                 color="primary"
                 class="q-mt-md"
+                :disable="isLoadingSettings"
                 label="Save"
                 type="submit"
               />
@@ -343,6 +344,7 @@ function onSubmitTriggerSettings() {
                 Types of shots
                 <q-option-group
                   v-model="settingsStore.camera.shotTypes"
+                  :disable="isLoadingSettings"
                   :options="SHOT_TYPE_OPTIONS"
                   color="green"
                   type="checkbox"
@@ -369,6 +371,7 @@ function onSubmitTriggerSettings() {
               <q-btn
                 color="primary"
                 class="q-mt-md"
+                :disable="isLoadingSettings"
                 label="Save"
                 type="submit"
               />
@@ -397,6 +400,7 @@ function onSubmitTriggerSettings() {
                 Trigger light
                 <q-option-group
                   v-model="settingsStore.triggering.light"
+                  :disable="isLoadingSettings"
                   :options="LIGHT_TYPE_OPTIONS"
                   color="green"
                 />
@@ -406,6 +410,7 @@ function onSubmitTriggerSettings() {
                 <div class="q-mx-sm q-mt-lg q-pt-sm">
                   <q-slider
                     v-model="settingsStore.triggering.sensitivity"
+                    :disable="isLoadingSettings"
                     label
                     label-always
                     :marker-labels="[
@@ -429,6 +434,7 @@ function onSubmitTriggerSettings() {
               <q-btn
                 color="primary"
                 class="q-mt-md"
+                :disable="isLoadingSettings"
                 label="Save"
                 type="submit"
               />
