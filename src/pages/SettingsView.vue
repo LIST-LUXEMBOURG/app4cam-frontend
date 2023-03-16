@@ -6,7 +6,7 @@ import {
   useQuasar,
   ValidationRule,
 } from 'quasar'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import ExportImport from '../components/ExportImport.vue'
 import FilenamePreview from '../components/FilenamePreview.vue'
 import ApiClientService from '../helpers/ApiClientService'
@@ -87,6 +87,7 @@ const noTimeZoneSelected: ValidationRule[] = [
 const availableTimeZones = ref<string[]>([])
 const filteredTimeZones = ref<string[]>([])
 const isLoadingSettings = ref(true)
+const workingTimeEnabled = ref(false)
 
 const date = computed({
   get: () => {
@@ -217,6 +218,14 @@ function onSubmitTriggerSettings() {
     .then(notifySettingsSaved)
     .catch(notifySettingsNotSavedError)
 }
+
+watch(workingTimeEnabled, (value) => {
+  // Empty sleeping times when this functionality is disabled.
+  if (!value) {
+    settingsStore.triggering.sleepingTime = ''
+    settingsStore.triggering.wakingUpTime = ''
+  }
+})
 </script>
 
 <template>
@@ -397,6 +406,89 @@ function onSubmitTriggerSettings() {
               @submit="onSubmitTriggerSettings"
             >
               <div>
+                Working time
+                <div class="row">
+                  <q-toggle
+                    v-model="workingTimeEnabled"
+                    :disable="isLoadingSettings"
+                    label="Turn on only during the following interval"
+                  />
+                </div>
+                <div class="q-gutter-sm row items-center q-ml-xl">
+                  <q-input
+                    v-model="settingsStore.triggering.wakingUpTime"
+                    :disable="isLoadingSettings || !workingTimeEnabled"
+                    filled
+                    mask="time"
+                    :rules="['time']"
+                    style="width: 120px"
+                  >
+                    <template #append>
+                      <q-icon
+                        class="cursor-pointer"
+                        name="access_time"
+                      >
+                        <q-popup-proxy
+                          cover
+                          transition-hide="scale"
+                          transition-show="scale"
+                        >
+                          <q-time
+                            v-model="settingsStore.triggering.wakingUpTime"
+                            format24h
+                          >
+                            <div class="row items-center justify-end">
+                              <q-btn
+                                v-close-popup
+                                color="primary"
+                                flat
+                                label="Close"
+                              />
+                            </div>
+                          </q-time>
+                        </q-popup-proxy>
+                      </q-icon>
+                    </template>
+                  </q-input>
+                  <div class="q-pb-md">&ndash;</div>
+                  <q-input
+                    v-model="settingsStore.triggering.sleepingTime"
+                    :disable="isLoadingSettings || !workingTimeEnabled"
+                    filled
+                    mask="time"
+                    :rules="['time']"
+                    style="width: 120px"
+                  >
+                    <template #append>
+                      <q-icon
+                        class="cursor-pointer"
+                        name="access_time"
+                      >
+                        <q-popup-proxy
+                          cover
+                          transition-hide="scale"
+                          transition-show="scale"
+                        >
+                          <q-time
+                            v-model="settingsStore.triggering.sleepingTime"
+                            format24h
+                          >
+                            <div class="row items-center justify-end">
+                              <q-btn
+                                v-close-popup
+                                color="primary"
+                                flat
+                                label="Close"
+                              />
+                            </div>
+                          </q-time>
+                        </q-popup-proxy>
+                      </q-icon>
+                    </template>
+                  </q-input>
+                </div>
+              </div>
+              <div>
                 Trigger light
                 <q-option-group
                   v-model="settingsStore.triggering.light"
@@ -407,7 +499,7 @@ function onSubmitTriggerSettings() {
               </div>
               <div>
                 Trigger sensitivity
-                <div class="q-mx-sm q-mt-lg q-pt-sm">
+                <div class="q-mx-md q-mt-lg q-pt-sm">
                   <q-slider
                     v-model="settingsStore.triggering.sensitivity"
                     :disable="isLoadingSettings"

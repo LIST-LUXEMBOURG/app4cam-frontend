@@ -23,6 +23,8 @@ export const useSettingsStore = defineStore('settings', {
     triggering: {
       light: 'infrared',
       sensitivity: TRIGGER_SENSITIVITY_MINIMUM,
+      sleepingTime: '',
+      wakingUpTime: '',
     },
   }),
 
@@ -38,6 +40,8 @@ export const useSettingsStore = defineStore('settings', {
         this.general.timeZone = settings.general.timeZone
         this.triggering.light = settings.triggering.light
         this.triggering.sensitivity = settings.triggering.sensitivity
+        this.triggering.sleepingTime = settings.triggering.sleepingTime
+        this.triggering.wakingUpTime = settings.triggering.wakingUpTime
       })
     },
 
@@ -56,6 +60,8 @@ export const useSettingsStore = defineStore('settings', {
         triggering: {
           light: this.triggering.light,
           sensitivity: this.triggering.sensitivity,
+          sleepingTime: this.triggering.sleepingTime,
+          wakingUpTime: this.triggering.wakingUpTime,
         },
       }
     },
@@ -69,6 +75,8 @@ export const useSettingsStore = defineStore('settings', {
       this.general.timeZone = settings.general.timeZone
       this.triggering.light = settings.triggering.light
       this.triggering.sensitivity = settings.triggering.sensitivity
+      this.triggering.sleepingTime = settings.triggering.sleepingTime
+      this.triggering.wakingUpTime = settings.triggering.wakingUpTime
     },
 
     uploadPersistentSettings(): Promise<void> {
@@ -86,6 +94,8 @@ export const useSettingsStore = defineStore('settings', {
         triggering: {
           light: this.triggering.light,
           sensitivity: this.triggering.sensitivity,
+          sleepingTime: this.triggering.sleepingTime,
+          wakingUpTime: this.triggering.wakingUpTime,
         },
       }
       return ApiClientService.patchSettings(settings)
@@ -119,6 +129,8 @@ export const useSettingsStore = defineStore('settings', {
         triggering: {
           light: this.triggering.light,
           sensitivity: this.triggering.sensitivity,
+          sleepingTime: this.triggering.sleepingTime,
+          wakingUpTime: this.triggering.wakingUpTime,
         },
       }
       return ApiClientService.patchSettings(settings)
@@ -140,6 +152,8 @@ export const useSettingsStore = defineStore('settings', {
         triggering: {
           light: this.triggering.light,
           sensitivity: this.triggering.sensitivity,
+          sleepingTime: this.triggering.sleepingTime,
+          wakingUpTime: this.triggering.wakingUpTime,
         },
       }
       return ApiClientService.putSettings(settings)

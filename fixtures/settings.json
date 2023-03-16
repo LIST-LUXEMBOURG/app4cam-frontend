@@ -14,7 +14,9 @@
     },
     "triggering": {
       "light": "visible",
-      "sensitivity": 0
+      "sensitivity": 0,
+      "sleepingTime": "",
+      "wakingUpTime": ""
     }
   }
 }

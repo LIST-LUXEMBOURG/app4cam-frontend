@@ -16,6 +16,8 @@ interface CameraSettings {
 interface TriggerSettings {
   light: LightType
   sensitivity: number
+  sleepingTime: string
+  wakingUpTime: string
 }
 
 export interface PersistentSettings {
