@@ -26,6 +26,8 @@ describe('settings store', () => {
       triggering: {
         light: 'visible',
         sensitivity: 0,
+        sleepingTime: '18:00',
+        wakingUpTime: '08:00',
       },
     }
     const getSettingsSpy = jest
@@ -59,8 +61,10 @@ describe('settings store', () => {
       const sensitivity = 1
       const shotTypes: ShotType[] = ['pictures', 'videos']
       const siteName = 's'
+      const sleepingTime = '18:00'
       const timeZone = 't'
       const videoQuality = 90
+      const wakingUpTime = '08:00'
       const store = useSettingsStore()
       store.updatePersistentSettings({
         camera: {
@@ -76,6 +80,8 @@ describe('settings store', () => {
         triggering: {
           light,
           sensitivity,
+          sleepingTime,
+          wakingUpTime,
         },
       })
       expect(store.camera.pictureQuality).toStrictEqual(pictureQuality)
@@ -86,6 +92,8 @@ describe('settings store', () => {
       expect(store.general.timeZone).toBe(timeZone)
       expect(store.triggering.light).toBe(light)
       expect(store.triggering.sensitivity).toBe(sensitivity)
+      expect(store.triggering.sleepingTime).toBe(sleepingTime)
+      expect(store.triggering.wakingUpTime).toBe(wakingUpTime)
     })
   })
 
@@ -101,9 +109,11 @@ describe('settings store', () => {
       const sensitivity = 1
       const shotTypes: ShotType[] = ['pictures', 'videos']
       const siteName = 's'
+      const sleepingTime = '18:00'
       const store = useSettingsStore()
       const timeZone = 't'
       const videoQuality = 90
+      const wakingUpTime = '08:00'
       store.camera.pictureQuality = pictureQuality
       store.camera.shotTypes = shotTypes
       store.camera.videoQuality = videoQuality
@@ -112,6 +122,8 @@ describe('settings store', () => {
       store.general.timeZone = timeZone
       store.triggering.light = light
       store.triggering.sensitivity = sensitivity
+      store.triggering.sleepingTime = sleepingTime
+      store.triggering.wakingUpTime = wakingUpTime
       await store.uploadPersistentSettings()
       expect(ApiClientService.patchSettings).toHaveBeenCalledWith({
         camera: {
@@ -127,6 +139,8 @@ describe('settings store', () => {
         triggering: {
           light,
           sensitivity,
+          sleepingTime,
+          wakingUpTime,
         },
       })
     })
@@ -173,14 +187,20 @@ describe('settings store', () => {
     it('uploads all trigger settings', async () => {
       const light = 'infrared'
       const sensitivity = 1
+      const sleepingTime = '18:00'
+      const wakingUpTime = '08:00'
       const store = useSettingsStore()
       store.triggering.light = light
       store.triggering.sensitivity = sensitivity
+      store.triggering.sleepingTime = sleepingTime
+      store.triggering.wakingUpTime = wakingUpTime
       await store.uploadAllTriggerSettings()
       expect(ApiClientService.patchSettings).toHaveBeenCalledWith({
         triggering: {
           light,
           sensitivity,
+          sleepingTime,
+          wakingUpTime,
         },
       })
     })
@@ -215,6 +235,8 @@ describe('settings store', () => {
         triggering: {
           light: 'infrared' as LightType,
           sensitivity: 1,
+          sleepingTime: '18:00',
+          wakingUpTime: '08:00',
         },
       }
       const store = useSettingsStore()
@@ -227,6 +249,8 @@ describe('settings store', () => {
       store.general.timeZone = settings.general.timeZone
       store.triggering.light = settings.triggering.light
       store.triggering.sensitivity = settings.triggering.sensitivity
+      store.triggering.sleepingTime = settings.triggering.sleepingTime
+      store.triggering.wakingUpTime = settings.triggering.wakingUpTime
       await store.uploadAllSettings()
       expect(ApiClientService.putSettings).toHaveBeenCalledWith(settings)
     })
