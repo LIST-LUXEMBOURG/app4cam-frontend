@@ -51,6 +51,7 @@
 ### Fixed
 
 - Apache reloads correctly on pages with a path.
+- Handle system time being not set when changing date and time on settings page
 
 ### Security
 

@@ -103,7 +103,12 @@ const date = computed({
     const year = parseInt(value.slice(0, 4))
     const month = parseInt(value.slice(5, 7))
     const day = parseInt(value.slice(8, 10))
-    const date = new Date(settingsStore.general.systemTime.valueOf())
+    let date
+    if (settingsStore.general.systemTime) {
+      date = new Date(settingsStore.general.systemTime.valueOf())
+    } else {
+      date = new Date()
+    }
     date.setFullYear(year)
     date.setMonth(month - 1)
     date.setDate(day)
@@ -129,11 +134,16 @@ const time = computed({
   set: debounce((value) => {
     const hours = parseInt(value.slice(0, 2))
     const minutes = parseInt(value.slice(3, 5))
-    const date = new Date(settingsStore.general.systemTime.valueOf())
+    let date
+    if (settingsStore.general.systemTime) {
+      date = new Date(settingsStore.general.systemTime.valueOf())
+    } else {
+      date = new Date()
+    }
     date.setHours(hours)
     date.setMinutes(minutes)
     systemTimeAsDate.value = date
-  }, 500),
+  }, 200),
 })
 
 propertiesStore.fetchDeviceId().catch((error) => {
