@@ -15,8 +15,8 @@ interface CameraSettings {
 
 interface TriggerSettings {
   light: LightType
-  sensitivity: number
   sleepingTime: string
+  threshold: number
   wakingUpTime: string
 }
 

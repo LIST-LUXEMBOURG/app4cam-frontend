@@ -13,8 +13,8 @@ import ApiClientService from '../helpers/ApiClientService'
 import DateConverter from '../helpers/DateConverter'
 import {
   useSettingsStore,
-  TRIGGER_SENSITIVITY_MINIMUM,
-  TRIGGER_SENSITIVITY_MAXIMUM,
+  TRIGGER_THRESHOLD_MINIMUM,
+  TRIGGER_THRESHOLD_MAXIMUM,
 } from '../stores/settings'
 import LogFileDownloads from 'src/components/LogFileDownloads.vue'
 import { usePropertiesStore } from 'src/stores/properties'
@@ -78,6 +78,12 @@ const noSpecialCharactersIfNotEmptyRules: ValidationRule[] = [
   (val) =>
     /^[a-zA-Z0-9-]*$/.test(val) ||
     'Please only use letters, numbers and hyphens.',
+]
+const notEmptyAndBetweenMinMaxThreshold: ValidationRule[] = [
+  (val) => (val !== null && val !== '') || 'Please enter something.',
+  (val) =>
+    (val >= TRIGGER_THRESHOLD_MINIMUM && val <= TRIGGER_THRESHOLD_MAXIMUM) ||
+    `Please provide a value between ${TRIGGER_THRESHOLD_MINIMUM} and ${TRIGGER_THRESHOLD_MAXIMUM}.`,
 ]
 
 const noTimeZoneSelected: ValidationRule[] = [
@@ -507,32 +513,17 @@ watch(workingTimeEnabled, (value) => {
                   color="green"
                 />
               </div>
-              <div>
-                Trigger sensitivity
-                <div class="q-mx-md q-mt-lg q-pt-sm">
-                  <q-slider
-                    v-model="settingsStore.triggering.sensitivity"
-                    :disable="isLoadingSettings"
-                    label
-                    label-always
-                    :marker-labels="[
-                      {
-                        value: TRIGGER_SENSITIVITY_MINIMUM,
-                        label: TRIGGER_SENSITIVITY_MINIMUM,
-                      },
-                      {
-                        value: TRIGGER_SENSITIVITY_MAXIMUM,
-                        label: TRIGGER_SENSITIVITY_MAXIMUM,
-                      },
-                    ]"
-                    markers
-                    :min="TRIGGER_SENSITIVITY_MINIMUM"
-                    :max="TRIGGER_SENSITIVITY_MAXIMUM"
-                    snap
-                    :step="1"
-                  />
-                </div>
-              </div>
+              <q-input
+                v-model.number="settingsStore.triggering.threshold"
+                class="q-mb-md"
+                :disable="isLoadingSettings"
+                hint="This is the number of pixels that need to change for the device to trigger."
+                label="Threshold"
+                lazy-rules
+                outlined
+                :rules="notEmptyAndBetweenMinMaxThreshold"
+                type="number"
+              />
               <q-btn
                 color="primary"
                 class="q-mt-md"

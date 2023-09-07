@@ -4,8 +4,8 @@ import { ApplicationSettings, PersistentSettings } from '../settings'
 
 type State = ApplicationSettings
 
-export const TRIGGER_SENSITIVITY_MINIMUM = 1
-export const TRIGGER_SENSITIVITY_MAXIMUM = 10
+export const TRIGGER_THRESHOLD_MINIMUM = 1
+export const TRIGGER_THRESHOLD_MAXIMUM = 2147483647
 
 export const useSettingsStore = defineStore('settings', {
   state: (): State => ({
@@ -22,7 +22,7 @@ export const useSettingsStore = defineStore('settings', {
     },
     triggering: {
       light: 'infrared',
-      sensitivity: TRIGGER_SENSITIVITY_MINIMUM,
+      threshold: TRIGGER_THRESHOLD_MINIMUM,
       sleepingTime: '',
       wakingUpTime: '',
     },
@@ -39,7 +39,7 @@ export const useSettingsStore = defineStore('settings', {
         this.general.systemTime = settings.general.systemTime
         this.general.timeZone = settings.general.timeZone
         this.triggering.light = settings.triggering.light
-        this.triggering.sensitivity = settings.triggering.sensitivity
+        this.triggering.threshold = settings.triggering.threshold
         this.triggering.sleepingTime = settings.triggering.sleepingTime
         this.triggering.wakingUpTime = settings.triggering.wakingUpTime
       })
@@ -59,7 +59,7 @@ export const useSettingsStore = defineStore('settings', {
         },
         triggering: {
           light: this.triggering.light,
-          sensitivity: this.triggering.sensitivity,
+          threshold: this.triggering.threshold,
           sleepingTime: this.triggering.sleepingTime,
           wakingUpTime: this.triggering.wakingUpTime,
         },
@@ -74,7 +74,7 @@ export const useSettingsStore = defineStore('settings', {
       this.general.siteName = settings.general.siteName
       this.general.timeZone = settings.general.timeZone
       this.triggering.light = settings.triggering.light
-      this.triggering.sensitivity = settings.triggering.sensitivity
+      this.triggering.threshold = settings.triggering.threshold
       this.triggering.sleepingTime = settings.triggering.sleepingTime
       this.triggering.wakingUpTime = settings.triggering.wakingUpTime
     },
@@ -93,7 +93,7 @@ export const useSettingsStore = defineStore('settings', {
         },
         triggering: {
           light: this.triggering.light,
-          sensitivity: this.triggering.sensitivity,
+          threshold: this.triggering.threshold,
           sleepingTime: this.triggering.sleepingTime,
           wakingUpTime: this.triggering.wakingUpTime,
         },
@@ -128,7 +128,7 @@ export const useSettingsStore = defineStore('settings', {
       const settings: Omit<ApplicationSettings, 'camera' | 'general'> = {
         triggering: {
           light: this.triggering.light,
-          sensitivity: this.triggering.sensitivity,
+          threshold: this.triggering.threshold,
           sleepingTime: this.triggering.sleepingTime,
           wakingUpTime: this.triggering.wakingUpTime,
         },
@@ -151,7 +151,7 @@ export const useSettingsStore = defineStore('settings', {
         },
         triggering: {
           light: this.triggering.light,
-          sensitivity: this.triggering.sensitivity,
+          threshold: this.triggering.threshold,
           sleepingTime: this.triggering.sleepingTime,
           wakingUpTime: this.triggering.wakingUpTime,
         },
