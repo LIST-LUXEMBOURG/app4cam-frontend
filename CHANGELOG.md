@@ -4,6 +4,20 @@
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## 2.0.0
+
+### Added
+
 - Use Testing Library for component unit tests
 - Reintroduce `device ID` as readonly property returning first MAC address
 - Introduce setting `shot types` to indicate whether pictures or videos should be taken
@@ -48,8 +62,6 @@
 - Make storage chart is compatible to both internal and external storage devices
 - Upgrade NestJS to version 10.x in backend
 
-### Deprecated
-
 ### Removed
 
 - Disable storage chart tooltips
@@ -64,8 +76,6 @@
 - Correctly handle CEST system times
 - Disable automatic time sync during setup
 - Handle undefined shots folder path
-
-### Security
 
 ## Sprint 5 - version 1.1.1
 
