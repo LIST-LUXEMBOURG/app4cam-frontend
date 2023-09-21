@@ -106,3 +106,19 @@ If you have set up the backend already, you just need to do step 4.
 11. Append the following line: `Match all`
 12. Restart `sshd` service: `sudo systemctl restart ssh`
 13. Install rsync: `sudo apt install rsync -y`
+
+## Release procedure
+
+1. Make sure that you are on the `main` branch and that it is up-to-date.
+2. Make sure `CHANGELOG.md` is up-to-date with backend and frontend changes.
+3. Use a new version number and create a new section in `CHANGELOG.md`.
+4. Update `package.json` with the new version number.
+5. Update `package-lock.json`: `npm i --package-lock-only`
+6. Commit every change: `git commit -am "release version <version>"`
+7. Tag the new version: `git tag v<version>`
+8. Push the commit to the remote repository: `git push`
+9. Push the tag to the remote repository: `git push --tags`
+10. Append `-next` to the version number in `package.json`.
+11. Update `package-lock.json`: `npm i --package-lock-only`
+12. Commit every change: `git commit -am "prepare next release"`
+13. Push the commit to the remote repository: `git push`
