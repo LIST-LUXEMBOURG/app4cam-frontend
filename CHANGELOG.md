@@ -7,20 +7,22 @@
 - Use Testing Library for component unit tests
 - Reintroduce `device ID` as readonly property returning first MAC address
 - Introduce setting `shot types` to indicate whether pictures or videos should be taken
-- Automatically deploy to Variscite test device
-- Introduce setting `trigger sensitivity`
+- Automatically deploy to Variscite test devices
 - Show dialog when time of device is more than 1 min off browser time
 - Automatic addition of device ID as metadata to shots after saving them
 - New config option `DEVICE_TYPE` in backend to define the device to run on
 - Add OpenAPI Specification (OAS) using Swagger under `/api` in backend
-- Send dedicated delete all files request when all files are selected by passing `*` as single filename to delete all files using a dedicated command to not having to loop through all files
 - Introduce settings `picture quality` and `movie quality`
 - Use infrared lights for triggering and visible lights for recording
 - Allow safe swapping of USB stick, including creating API endpoint for getting and setting shots folder path
-- Show storage status under disk usage graph, which checks for write access, and which displays subdirectories of `/media` otherwise
+- Show storage status under disk usage graph, which checks for write access, and which displays subdirectories of `/media` in case of external storage devices
 - Add dropdown button to download app and motion log files to settings page
-- Introduce setting `trigger light`
-- Introduce working hours settings
+- Introduce setting `trigger light` to switch between infrared and visible lights for triggering
+- Introduce working hours settings and let device go to sleep
+- Pause motion when below 1% of disk space usage
+- Introduce setting `threshold`
+- Add Gitlab issue template for bug reports
+- Add mask file for NEWTCAM
 
 ### Changed
 
@@ -29,29 +31,39 @@
 - Fix buttons to bottom of screen on shots page
 - Display values rounded to the second decimal place on the right side
 - Update dependencies
+- Send dedicated delete all files request when all files are selected by passing `*` as single filename to delete all files using a dedicated command to not having to loop through all files
 - Enforce alphabetical order of imports
 - Extract version number and commit hash to file `version.txt` in backend upon build from where they are read from
 - Rename setting `device ID` to `device name`
 - Rename `version` to `properties/version` endpoint in backend
 - Set body parser's `urlencoded` option `extended` to `false` in backend
 - Allow setting `site name` to be empty
-- Upgrade NestJS to version 9.x in backend
 - Restructure settings' object
 - Switch video format `mkv` to `mp4`
 - Adapt video filter to use `mp4` instead of `mkv`
-- Update motion to 4.5.x
+- Update motion to 4.5.1
 - Don't open general settings section by default
+- Use device name as access point name
+- Adjust focus and brightness in motion
+- Make storage chart is compatible to both internal and external storage devices
+- Upgrade NestJS to version 10.x in backend
 
 ### Deprecated
 
 ### Removed
 
 - Disable storage chart tooltips
+- Disable red frame on video output in motion
 
 ### Fixed
 
 - Apache reloads correctly on pages with a path.
 - Handle system time being not set when changing date and time on settings page
+- Make sure mounting of storage devices continues to work after an error occurred
+- Send newest media path to motion on startup
+- Correctly handle CEST system times
+- Disable automatic time sync during setup
+- Handle undefined shots folder path
 
 ### Security
 
