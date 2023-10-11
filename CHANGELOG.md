@@ -4,6 +4,8 @@
 
 ### Added
 
+- Make it possible to change light type during recording
+
 ### Changed
 
 ### Deprecated

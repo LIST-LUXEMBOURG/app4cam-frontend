@@ -8,6 +8,7 @@ interface GeneralSettings {
 }
 
 interface CameraSettings {
+  light: LightType
   pictureQuality: number
   shotTypes: ShotType[]
   videoQuality: number
