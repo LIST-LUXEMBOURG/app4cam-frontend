@@ -68,6 +68,18 @@ const SHOT_QUALITIES: QSelectOption<number>[] = [
   },
 ]
 
+const noInvalidCameraLightType: ValidationRule[] = [
+  (val) =>
+    settingsStore.triggering.light !== 'visible' ||
+    val !== 'infrared' ||
+    'It is not possible to use infrared recording light when visible trigger light is used.',
+]
+const noInvalidTriggeringLightType: ValidationRule[] = [
+  (val) =>
+    settingsStore.camera.light !== 'infrared' ||
+    val !== 'visible' ||
+    'It is not possible to use visible trigger light when infrared recording light is used.',
+]
 const notEmptyAndNoSpecialCharactersRules: ValidationRule[] = [
   (val) => (val !== null && val !== '') || 'Please enter something.',
   (val) =>
@@ -85,7 +97,6 @@ const notEmptyAndBetweenMinMaxThreshold: ValidationRule[] = [
     (val >= TRIGGER_THRESHOLD_MINIMUM && val <= TRIGGER_THRESHOLD_MAXIMUM) ||
     `Please provide a value between ${TRIGGER_THRESHOLD_MINIMUM} and ${TRIGGER_THRESHOLD_MAXIMUM}.`,
 ]
-
 const noTimeZoneSelected: ValidationRule[] = [
   (val) => (val !== null && val !== '') || 'Please select a time zone.',
 ]
@@ -393,6 +404,20 @@ watch(workingTimeEnabled, (value) => {
                 :options="SHOT_QUALITIES"
                 outlined
               />
+              <q-field
+                v-model="settingsStore.camera.light"
+                label="Recording light"
+                :rules="noInvalidCameraLightType"
+                stack-label
+              >
+                <template #control>
+                  <q-option-group
+                    v-model="settingsStore.camera.light"
+                    :disable="isLoadingSettings"
+                    :options="LIGHT_TYPE_OPTIONS"
+                  />
+                </template>
+              </q-field>
               <q-btn
                 color="primary"
                 class="q-mt-md"
@@ -504,15 +529,21 @@ watch(workingTimeEnabled, (value) => {
                   </q-input>
                 </div>
               </div>
-              <div>
-                Trigger light
-                <q-option-group
-                  v-model="settingsStore.triggering.light"
-                  :disable="isLoadingSettings"
-                  :options="LIGHT_TYPE_OPTIONS"
-                  color="green"
-                />
-              </div>
+              <q-field
+                v-model="settingsStore.triggering.light"
+                class="q-mb-md"
+                label="Trigger light"
+                :rules="noInvalidTriggeringLightType"
+                stack-label
+              >
+                <template #control>
+                  <q-option-group
+                    v-model="settingsStore.triggering.light"
+                    :disable="isLoadingSettings"
+                    :options="LIGHT_TYPE_OPTIONS"
+                  />
+                </template>
+              </q-field>
               <q-input
                 v-model.number="settingsStore.triggering.threshold"
                 class="q-mb-md"
