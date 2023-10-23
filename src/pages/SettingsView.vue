@@ -100,6 +100,9 @@ const notEmptyAndBetweenMinMaxThreshold: ValidationRule[] = [
 const noTimeZoneSelected: ValidationRule[] = [
   (val) => (val !== null && val !== '') || 'Please select a time zone.',
 ]
+const notEmptyAndPositive: ValidationRule[] = [
+  (val: number) => val > 0 || 'Please enter a positive number.',
+]
 
 const availableTimeZones = ref<string[]>([])
 const filteredTimeZones = ref<string[]>([])
@@ -403,6 +406,15 @@ watch(workingTimeEnabled, (value) => {
                 map-options
                 :options="SHOT_QUALITIES"
                 outlined
+              />
+              <q-input
+                v-model.number="settingsStore.camera.focus"
+                :disable="isLoadingSettings"
+                label="Focus"
+                lazy-rules
+                outlined
+                :rules="notEmptyAndPositive"
+                type="number"
               />
               <q-field
                 v-model="settingsStore.camera.light"
