@@ -10,6 +10,7 @@ export const TRIGGER_THRESHOLD_MAXIMUM = 2147483647
 export const useSettingsStore = defineStore('settings', {
   state: (): State => ({
     camera: {
+      focus: 200,
       light: 'visible',
       pictureQuality: 80,
       shotTypes: [],
@@ -32,6 +33,7 @@ export const useSettingsStore = defineStore('settings', {
   actions: {
     fetchSettings(): Promise<void> {
       return ApiClientService.getSettings().then((settings) => {
+        this.camera.focus = settings.camera.focus
         this.camera.light = settings.camera.light
         this.camera.pictureQuality = settings.camera.pictureQuality
         this.camera.shotTypes = settings.camera.shotTypes
@@ -50,6 +52,7 @@ export const useSettingsStore = defineStore('settings', {
     getPersistentSettings(): PersistentSettings {
       return {
         camera: {
+          focus: this.camera.focus,
           light: this.camera.light,
           pictureQuality: this.camera.pictureQuality,
           shotTypes: this.camera.shotTypes,
@@ -70,6 +73,7 @@ export const useSettingsStore = defineStore('settings', {
     },
 
     updatePersistentSettings(settings: PersistentSettings): void {
+      this.camera.focus = settings.camera.focus
       this.camera.light = settings.camera.light
       this.camera.pictureQuality = settings.camera.pictureQuality
       this.camera.shotTypes = settings.camera.shotTypes
@@ -86,6 +90,7 @@ export const useSettingsStore = defineStore('settings', {
     uploadPersistentSettings(): Promise<void> {
       const settings: PersistentSettings = {
         camera: {
+          focus: this.camera.focus,
           light: this.camera.light,
           pictureQuality: this.camera.pictureQuality,
           shotTypes: this.camera.shotTypes,
@@ -109,6 +114,7 @@ export const useSettingsStore = defineStore('settings', {
     uploadAllCameraSettings(): Promise<void> {
       const settings: Omit<ApplicationSettings, 'general' | 'triggering'> = {
         camera: {
+          focus: this.camera.focus,
           light: this.camera.light,
           shotTypes: this.camera.shotTypes,
           pictureQuality: this.camera.pictureQuality,
@@ -145,6 +151,7 @@ export const useSettingsStore = defineStore('settings', {
     uploadAllSettings(): Promise<void> {
       const settings: ApplicationSettings = {
         camera: {
+          focus: this.camera.focus,
           light: this.camera.light,
           pictureQuality: this.camera.pictureQuality,
           shotTypes: this.camera.shotTypes,

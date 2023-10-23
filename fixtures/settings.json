@@ -1,6 +1,8 @@
 {
   "settings": {
     "camera": {
+      "focus": 200,
+      "light": "infrared",
       "pictureQuality": 100,
       "shotTypes": [],
       "videoQuality": 60

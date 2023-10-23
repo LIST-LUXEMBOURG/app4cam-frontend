@@ -5,6 +5,7 @@
 ### Added
 
 - Introduce recording light setting, with the restriction that infrared light cannot be used for recording when visible light is used for triggering
+- Introduce camera focus setting
 
 ### Changed
 

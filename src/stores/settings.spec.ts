@@ -13,6 +13,7 @@ describe('settings store', () => {
   describe('fetch settings', () => {
     const settings: ApplicationSettings = {
       camera: {
+        focus: 200,
         light: 'visible',
         pictureQuality: 60,
         shotTypes: ['pictures', 'videos'],
@@ -58,6 +59,7 @@ describe('settings store', () => {
     it("changes persistent settings' value", () => {
       const settings: PersistentSettings = {
         camera: {
+          focus: 300,
           light: 'infrared',
           shotTypes: ['pictures', 'videos'],
           pictureQuality: 40,
@@ -79,6 +81,7 @@ describe('settings store', () => {
 
       store.updatePersistentSettings(settings)
 
+      expect(store.camera.focus).toBe(settings.camera.focus)
       expect(store.camera.light).toBe(settings.camera.light)
       expect(store.camera.pictureQuality).toBe(settings.camera.pictureQuality)
       expect(store.camera.shotTypes).toStrictEqual(settings.camera.shotTypes)
@@ -105,6 +108,7 @@ describe('settings store', () => {
     it('uploads all persistent settings', async () => {
       const cameraLight = 'infrared'
       const deviceName = 'd'
+      const focus = 200
       const pictureQuality = 40
       const threshold = 1
       const shotTypes: ShotType[] = ['pictures', 'videos']
@@ -115,6 +119,7 @@ describe('settings store', () => {
       const triggeringLight = 'infrared'
       const videoQuality = 90
       const wakingUpTime = '08:00'
+      store.camera.focus = focus
       store.camera.light = cameraLight
       store.camera.pictureQuality = pictureQuality
       store.camera.shotTypes = shotTypes
@@ -131,6 +136,7 @@ describe('settings store', () => {
 
       expect(ApiClientService.patchSettings).toHaveBeenCalledWith({
         camera: {
+          focus,
           light: cameraLight,
           pictureQuality,
           shotTypes,
@@ -151,11 +157,13 @@ describe('settings store', () => {
     })
 
     it('uploads all camera settings', async () => {
+      const focus = 200
       const light = 'infrared'
       const pictureQuality = 40
       const shotTypes: ShotType[] = ['pictures', 'videos']
       const videoQuality = 90
       const store = useSettingsStore()
+      store.camera.focus
       store.camera.light = light
       store.camera.pictureQuality = pictureQuality
       store.camera.shotTypes = shotTypes
@@ -165,6 +173,7 @@ describe('settings store', () => {
 
       expect(ApiClientService.patchSettings).toHaveBeenCalledWith({
         camera: {
+          focus,
           light,
           pictureQuality,
           shotTypes,
@@ -232,6 +241,7 @@ describe('settings store', () => {
     it('uploads all settings', async () => {
       const settings: ApplicationSettings = {
         camera: {
+          focus: 300,
           light: 'visible',
           pictureQuality: 40,
           shotTypes: ['pictures', 'videos'],

@@ -8,6 +8,7 @@ interface GeneralSettings {
 }
 
 interface CameraSettings {
+  focus: number
   light: LightType
   pictureQuality: number
   shotTypes: ShotType[]
