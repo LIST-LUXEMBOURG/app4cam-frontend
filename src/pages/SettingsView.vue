@@ -6,7 +6,7 @@ import {
   useQuasar,
   ValidationRule,
 } from 'quasar'
-import { computed, ref, watch } from 'vue'
+import { computed, ref, VNodeRef, watch } from 'vue'
 import ExportImport from '../components/ExportImport.vue'
 import FilenamePreview from '../components/FilenamePreview.vue'
 import ApiClientService from '../helpers/ApiClientService'
@@ -105,8 +105,10 @@ const notEmptyAndPositive: ValidationRule[] = [
 ]
 
 const availableTimeZones = ref<string[]>([])
+const cameraLightFieldRef = ref<VNodeRef>()
 const filteredTimeZones = ref<string[]>([])
 const isLoadingSettings = ref(true)
+const triggerLightFieldRef = ref<VNodeRef>()
 const workingTimeEnabled = ref(false)
 
 const date = computed({
@@ -256,6 +258,28 @@ watch(workingTimeEnabled, (value) => {
     settingsStore.triggering.wakingUpTime = ''
   }
 })
+
+watch(
+  // Reset validation of trigger light if camera light is changed.
+  () => settingsStore.camera.light,
+  () => {
+    if (triggerLightFieldRef.value) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ;(triggerLightFieldRef.value as any).resetValidation()
+    }
+  },
+)
+
+watch(
+  // Reset validation of camera light if trigger light is changed.
+  () => settingsStore.triggering.light,
+  () => {
+    if (cameraLightFieldRef.value) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ;(cameraLightFieldRef.value as any).resetValidation()
+    }
+  },
+)
 </script>
 
 <template>
@@ -417,6 +441,7 @@ watch(workingTimeEnabled, (value) => {
                 type="number"
               />
               <q-field
+                ref="cameraLightFieldRef"
                 v-model="settingsStore.camera.light"
                 label="Recording light"
                 :rules="noInvalidCameraLightType"
@@ -542,6 +567,7 @@ watch(workingTimeEnabled, (value) => {
                 </div>
               </div>
               <q-field
+                ref="triggerLightFieldRef"
                 v-model="settingsStore.triggering.light"
                 class="q-mb-md"
                 label="Trigger light"
