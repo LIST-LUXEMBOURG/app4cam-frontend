@@ -1,4 +1,4 @@
-/* eslint-disable testing-library/no-node-access */
+/* eslint-disable testing-library/no-debugging-utils, testing-library/no-node-access */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * WARNING 01-12-2021: Vue testing library doesn't support <Suspense> see:
