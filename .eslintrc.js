@@ -27,6 +27,7 @@ module.exports = {
     // https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin#usage
     // ESLint typescript rules
     'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/stylistic',
 
     // Uncomment any of the lines below to choose desired strictness,
     // but leave only one uncommented!
@@ -104,8 +105,8 @@ module.exports = {
     // this rule, if on, would require explicit return type on the `render` function
     '@typescript-eslint/explicit-function-return-type': 'off',
 
-    // in plain CommonJS modules, you can't use `import foo = require('foo')` to pass this rule, so it has to be disabled
-    '@typescript-eslint/no-var-requires': 'off',
+    // Allow consistent use of object type with a signature for defineEmits<>().
+    '@typescript-eslint/prefer-function-type': 'off',
 
     // The core 'no-unused-vars' rules (in the eslint:recommended ruleset)
     // does not work with type definitions
