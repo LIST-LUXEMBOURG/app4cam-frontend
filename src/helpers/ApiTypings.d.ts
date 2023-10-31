@@ -8,9 +8,7 @@ export interface FileDownloadResponse {
   filename: string
 }
 
-export interface FilesDeletedResponse {
-  [filename: string]: boolean
-}
+export type FilesDeletedResponse = Record<string, boolean>
 
 export interface StorageResponse {
   status: StorageStatusResponse
