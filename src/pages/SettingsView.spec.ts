@@ -1,6 +1,6 @@
 import { createTestingPinia } from '@pinia/testing'
 import { installQuasarPlugin } from '@quasar/quasar-app-extension-testing-unit-jest'
-import userEvent from '@testing-library/user-event'
+import { userEvent } from '@testing-library/user-event'
 import { screen } from '@testing-library/vue'
 import { StateTree } from 'pinia'
 import { Notify } from 'quasar'
