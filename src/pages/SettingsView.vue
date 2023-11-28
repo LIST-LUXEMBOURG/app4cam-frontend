@@ -70,13 +70,13 @@ const SHOT_QUALITIES: QSelectOption<number>[] = [
 
 const noInvalidCameraLightType: ValidationRule[] = [
   (val) =>
-    settingsStore.triggering.light !== 'visible' ||
+    settingsStore.current.triggering.light !== 'visible' ||
     val !== 'infrared' ||
     'It is not possible to use infrared recording light when visible trigger light is used.',
 ]
 const noInvalidTriggeringLightType: ValidationRule[] = [
   (val) =>
-    settingsStore.camera.light !== 'infrared' ||
+    settingsStore.current.camera.light !== 'infrared' ||
     val !== 'visible' ||
     'It is not possible to use visible trigger light when infrared recording light is used.',
 ]
@@ -113,12 +113,15 @@ const workingTimeEnabled = ref(false)
 
 const date = computed({
   get: () => {
-    if (!settingsStore.general.systemTime || !settingsStore.general.timeZone) {
+    if (
+      !settingsStore.current.general.systemTime ||
+      !settingsStore.current.general.timeZone
+    ) {
       return ''
     }
     return DateConverter.formatDateAsDashedYearMonthDayInTimeZone(
       systemTimeAsDate.value,
-      settingsStore.general.timeZone,
+      settingsStore.current.general.timeZone,
     )
   },
   set: (value) => {
@@ -126,8 +129,8 @@ const date = computed({
     const month = parseInt(value.slice(5, 7))
     const day = parseInt(value.slice(8, 10))
     let date
-    if (settingsStore.general.systemTime) {
-      date = new Date(settingsStore.general.systemTime.valueOf())
+    if (settingsStore.current.general.systemTime) {
+      date = new Date(settingsStore.current.general.systemTime.valueOf())
     } else {
       date = new Date()
     }
@@ -138,27 +141,30 @@ const date = computed({
   },
 })
 const systemTimeAsDate = computed({
-  get: () => new Date(settingsStore.general.systemTime),
+  get: () => new Date(settingsStore.current.general.systemTime),
   set: (value) => {
-    settingsStore.general.systemTime = value.toISOString()
+    settingsStore.current.general.systemTime = value.toISOString()
   },
 })
 const time = computed({
   get: () => {
-    if (!settingsStore.general.systemTime || !settingsStore.general.timeZone) {
+    if (
+      !settingsStore.current.general.systemTime ||
+      !settingsStore.current.general.timeZone
+    ) {
       return ''
     }
     return DateConverter.formatDateAsHoursColonMinutesInTimeZone(
       systemTimeAsDate.value,
-      settingsStore.general.timeZone,
+      settingsStore.current.general.timeZone,
     )
   },
   set: debounce((value) => {
     const hours = parseInt(value.slice(0, 2))
     const minutes = parseInt(value.slice(3, 5))
     let date
-    if (settingsStore.general.systemTime) {
-      date = new Date(settingsStore.general.systemTime.valueOf())
+    if (settingsStore.current.general.systemTime) {
+      date = new Date(settingsStore.current.general.systemTime.valueOf())
     } else {
       date = new Date()
     }
@@ -232,21 +238,21 @@ function notifySettingsNotSavedError(error: any) {
 
 function onSubmitCameraSettings() {
   settingsStore
-    .uploadAllCameraSettings()
+    .uploadChangedCameraSettings()
     .then(notifySettingsSaved)
     .catch(notifySettingsNotSavedError)
 }
 
 function onSubmitGeneralSettings() {
   settingsStore
-    .uploadAllGeneralSettings()
+    .uploadChangedGeneralSettings()
     .then(notifySettingsSaved)
     .catch(notifySettingsNotSavedError)
 }
 
 function onSubmitTriggerSettings() {
   settingsStore
-    .uploadAllTriggerSettings()
+    .uploadChangedTriggerSettings()
     .then(notifySettingsSaved)
     .catch(notifySettingsNotSavedError)
 }
@@ -254,14 +260,14 @@ function onSubmitTriggerSettings() {
 watch(workingTimeEnabled, (value) => {
   // Empty sleeping times when this functionality is disabled.
   if (!value) {
-    settingsStore.triggering.sleepingTime = ''
-    settingsStore.triggering.wakingUpTime = ''
+    settingsStore.current.triggering.sleepingTime = ''
+    settingsStore.current.triggering.wakingUpTime = ''
   }
 })
 
 watch(
   // Reset validation of trigger light if camera light is changed.
-  () => settingsStore.camera.light,
+  () => settingsStore.current.camera.light,
   () => {
     if (triggerLightFieldRef.value) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -272,7 +278,7 @@ watch(
 
 watch(
   // Reset validation of camera light if trigger light is changed.
-  () => settingsStore.triggering.light,
+  () => settingsStore.current.triggering.light,
   () => {
     if (cameraLightFieldRef.value) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -303,7 +309,7 @@ watch(
               @submit="onSubmitGeneralSettings"
             >
               <q-input
-                v-model="settingsStore.general.siteName"
+                v-model="settingsStore.current.general.siteName"
                 :disable="isLoadingSettings"
                 label="Site name (optional)"
                 lazy-rules
@@ -311,7 +317,7 @@ watch(
                 :rules="noSpecialCharactersIfNotEmptyRules"
               />
               <q-input
-                v-model="settingsStore.general.deviceName"
+                v-model="settingsStore.current.general.deviceName"
                 class="q-mb-xl"
                 :disable="isLoadingSettings"
                 hint="Make sure to use a unique device name per site as it is also used as access point name. When it is changed, you need to connect to the new Wi-Fi network."
@@ -328,7 +334,7 @@ watch(
                 readonly
               />
               <q-select
-                v-model="settingsStore.general.timeZone"
+                v-model="settingsStore.current.general.timeZone"
                 :disable="isLoadingSettings"
                 fill-input
                 hide-selected
@@ -370,10 +376,10 @@ watch(
                 </div>
               </div>
               <FilenamePreview
-                :device-name="settingsStore.general.deviceName"
-                :site-name="settingsStore.general.siteName"
-                :system-time="settingsStore.general.systemTime"
-                :time-zone="settingsStore.general.timeZone"
+                :device-name="settingsStore.current.general.deviceName"
+                :site-name="settingsStore.current.general.siteName"
+                :system-time="settingsStore.current.general.systemTime"
+                :time-zone="settingsStore.current.general.timeZone"
               />
               <q-btn
                 color="primary"
@@ -406,7 +412,7 @@ watch(
               <div>
                 Types of shots
                 <q-option-group
-                  v-model="settingsStore.camera.shotTypes"
+                  v-model="settingsStore.current.camera.shotTypes"
                   :disable="isLoadingSettings"
                   :options="SHOT_TYPE_OPTIONS"
                   color="green"
@@ -414,7 +420,7 @@ watch(
                 />
               </div>
               <q-select
-                v-model="settingsStore.camera.pictureQuality"
+                v-model="settingsStore.current.camera.pictureQuality"
                 :disable="isLoadingSettings"
                 emit-value
                 label="Picture quality"
@@ -423,7 +429,7 @@ watch(
                 outlined
               />
               <q-select
-                v-model="settingsStore.camera.videoQuality"
+                v-model="settingsStore.current.camera.videoQuality"
                 :disable="isLoadingSettings"
                 emit-value
                 label="Video quality"
@@ -432,7 +438,7 @@ watch(
                 outlined
               />
               <q-input
-                v-model.number="settingsStore.camera.focus"
+                v-model.number="settingsStore.current.camera.focus"
                 :disable="isLoadingSettings"
                 label="Focus"
                 lazy-rules
@@ -442,14 +448,14 @@ watch(
               />
               <q-field
                 ref="cameraLightFieldRef"
-                v-model="settingsStore.camera.light"
+                v-model="settingsStore.current.camera.light"
                 label="Recording light"
                 :rules="noInvalidCameraLightType"
                 stack-label
               >
                 <template #control>
                   <q-option-group
-                    v-model="settingsStore.camera.light"
+                    v-model="settingsStore.current.camera.light"
                     :disable="isLoadingSettings"
                     :options="LIGHT_TYPE_OPTIONS"
                   />
@@ -494,7 +500,7 @@ watch(
                 </div>
                 <div class="q-gutter-sm row items-center q-ml-xl">
                   <q-input
-                    v-model="settingsStore.triggering.wakingUpTime"
+                    v-model="settingsStore.current.triggering.wakingUpTime"
                     :disable="isLoadingSettings || !workingTimeEnabled"
                     filled
                     mask="time"
@@ -512,7 +518,9 @@ watch(
                           transition-show="scale"
                         >
                           <q-time
-                            v-model="settingsStore.triggering.wakingUpTime"
+                            v-model="
+                              settingsStore.current.triggering.wakingUpTime
+                            "
                             format24h
                           >
                             <div class="row items-center justify-end">
@@ -530,7 +538,7 @@ watch(
                   </q-input>
                   <div class="q-pb-md">&ndash;</div>
                   <q-input
-                    v-model="settingsStore.triggering.sleepingTime"
+                    v-model="settingsStore.current.triggering.sleepingTime"
                     :disable="isLoadingSettings || !workingTimeEnabled"
                     filled
                     mask="time"
@@ -548,7 +556,9 @@ watch(
                           transition-show="scale"
                         >
                           <q-time
-                            v-model="settingsStore.triggering.sleepingTime"
+                            v-model="
+                              settingsStore.current.triggering.sleepingTime
+                            "
                             format24h
                           >
                             <div class="row items-center justify-end">
@@ -568,7 +578,7 @@ watch(
               </div>
               <q-field
                 ref="triggerLightFieldRef"
-                v-model="settingsStore.triggering.light"
+                v-model="settingsStore.current.triggering.light"
                 class="q-mb-md"
                 label="Trigger light"
                 :rules="noInvalidTriggeringLightType"
@@ -576,14 +586,14 @@ watch(
               >
                 <template #control>
                   <q-option-group
-                    v-model="settingsStore.triggering.light"
+                    v-model="settingsStore.current.triggering.light"
                     :disable="isLoadingSettings"
                     :options="LIGHT_TYPE_OPTIONS"
                   />
                 </template>
               </q-field>
               <q-input
-                v-model.number="settingsStore.triggering.threshold"
+                v-model.number="settingsStore.current.triggering.threshold"
                 class="q-mb-md"
                 :disable="isLoadingSettings"
                 hint="This is the number of pixels that need to change for the device to trigger."

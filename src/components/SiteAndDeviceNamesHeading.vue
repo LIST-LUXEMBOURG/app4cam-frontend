@@ -19,6 +19,6 @@ try {
 
 <template>
   <h5 class="q-mt-none">
-    {{ store.general.siteName }} {{ store.general.deviceName }}
+    {{ store.current.general.siteName }} {{ store.current.general.deviceName }}
   </h5>
 </template>

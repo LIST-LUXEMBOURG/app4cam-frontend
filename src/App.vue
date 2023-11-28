@@ -10,9 +10,9 @@ const settingsStore = useSettingsStore()
 try {
   settingsStore.fetchSettings()
   if (
-    !settingsStore.general.systemTime ||
+    !settingsStore.current.general.systemTime ||
     DateConverter.getAbsoluteDifferenceInMinutes(
-      new Date(settingsStore.general.systemTime),
+      new Date(settingsStore.current.general.systemTime),
       new Date(),
     ) > 1
   ) {

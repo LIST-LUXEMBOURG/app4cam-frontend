@@ -20,9 +20,11 @@ describe(SiteAndDeviceNamesHeading.name, () => {
     const siteName = 'b'
     await renderComponent({
       settings: {
-        general: {
-          deviceName,
-          siteName,
+        current: {
+          general: {
+            deviceName,
+            siteName,
+          },
         },
       },
     })

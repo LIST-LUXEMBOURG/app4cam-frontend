@@ -1,176 +1,218 @@
 import { defineStore } from 'pinia'
 import ApiClientService from '../helpers/ApiClientService'
-import { ApplicationSettings, PersistentSettings } from '../settings'
+import {
+  ApplicationSettings,
+  CameraSettings,
+  GeneralSettings,
+  PersistentSettings,
+  TriggerSettings,
+} from '../settings'
 
-type State = ApplicationSettings
+interface State {
+  current: ApplicationSettings
+  initial: ApplicationSettings
+}
 
 export const TRIGGER_THRESHOLD_MINIMUM = 1
 export const TRIGGER_THRESHOLD_MAXIMUM = 2147483647
+const PLACEHOLDER_SETTINGS: ApplicationSettings = {
+  camera: {
+    focus: 200,
+    light: 'visible',
+    pictureQuality: 80,
+    shotTypes: [],
+    videoQuality: 80,
+  },
+  general: {
+    deviceName: '',
+    siteName: '',
+    systemTime: new Date().toISOString(),
+    timeZone: '',
+  },
+  triggering: {
+    light: 'infrared',
+    threshold: TRIGGER_THRESHOLD_MINIMUM,
+    sleepingTime: '',
+    wakingUpTime: '',
+  },
+}
+
+const deepClone = (obj: object) => JSON.parse(JSON.stringify(obj))
+const isEmpty = (obj: object) => Object.keys(obj).length === 0
 
 export const useSettingsStore = defineStore('settings', {
   state: (): State => ({
-    camera: {
-      focus: 200,
-      light: 'visible',
-      pictureQuality: 80,
-      shotTypes: [],
-      videoQuality: 80,
-    },
-    general: {
-      deviceName: '',
-      siteName: '',
-      systemTime: new Date().toISOString(),
-      timeZone: '',
-    },
-    triggering: {
-      light: 'infrared',
-      threshold: TRIGGER_THRESHOLD_MINIMUM,
-      sleepingTime: '',
-      wakingUpTime: '',
-    },
+    current: deepClone(PLACEHOLDER_SETTINGS),
+    initial: deepClone(PLACEHOLDER_SETTINGS),
   }),
+
+  getters: {
+    persistentSettings(): PersistentSettings {
+      return {
+        camera: { ...this.current.camera },
+        general: {
+          deviceName: this.current.general.deviceName,
+          siteName: this.current.general.siteName,
+          timeZone: this.current.general.timeZone,
+        },
+        triggering: { ...this.current.triggering },
+      }
+    },
+  },
 
   actions: {
     fetchSettings(): Promise<void> {
       return ApiClientService.getSettings().then((settings) => {
-        this.camera.focus = settings.camera.focus
-        this.camera.light = settings.camera.light
-        this.camera.pictureQuality = settings.camera.pictureQuality
-        this.camera.shotTypes = settings.camera.shotTypes
-        this.camera.videoQuality = settings.camera.videoQuality
-        this.general.deviceName = settings.general.deviceName
-        this.general.siteName = settings.general.siteName
-        this.general.systemTime = settings.general.systemTime
-        this.general.timeZone = settings.general.timeZone
-        this.triggering.light = settings.triggering.light
-        this.triggering.threshold = settings.triggering.threshold
-        this.triggering.sleepingTime = settings.triggering.sleepingTime
-        this.triggering.wakingUpTime = settings.triggering.wakingUpTime
+        this.current.camera.focus = settings.camera.focus
+        this.initial.camera.focus = settings.camera.focus
+        this.current.camera.light = settings.camera.light
+        this.initial.camera.light = settings.camera.light
+        this.current.camera.pictureQuality = settings.camera.pictureQuality
+        this.initial.camera.pictureQuality = settings.camera.pictureQuality
+        this.current.camera.shotTypes = settings.camera.shotTypes
+        this.initial.camera.shotTypes = settings.camera.shotTypes
+        this.current.camera.videoQuality = settings.camera.videoQuality
+        this.initial.camera.videoQuality = settings.camera.videoQuality
+
+        this.current.general.deviceName = settings.general.deviceName
+        this.initial.general.deviceName = settings.general.deviceName
+        this.current.general.siteName = settings.general.siteName
+        this.initial.general.siteName = settings.general.siteName
+        this.current.general.systemTime = settings.general.systemTime
+        this.initial.general.systemTime = settings.general.systemTime
+        this.current.general.timeZone = settings.general.timeZone
+        this.initial.general.timeZone = settings.general.timeZone
+
+        this.current.triggering.light = settings.triggering.light
+        this.initial.triggering.light = settings.triggering.light
+        this.current.triggering.threshold = settings.triggering.threshold
+        this.initial.triggering.threshold = settings.triggering.threshold
+        this.current.triggering.sleepingTime = settings.triggering.sleepingTime
+        this.initial.triggering.sleepingTime = settings.triggering.sleepingTime
+        this.current.triggering.wakingUpTime = settings.triggering.wakingUpTime
+        this.initial.triggering.wakingUpTime = settings.triggering.wakingUpTime
       })
     },
 
-    getPersistentSettings(): PersistentSettings {
-      return {
-        camera: {
-          focus: this.camera.focus,
-          light: this.camera.light,
-          pictureQuality: this.camera.pictureQuality,
-          shotTypes: this.camera.shotTypes,
-          videoQuality: this.camera.videoQuality,
-        },
-        general: {
-          deviceName: this.general.deviceName,
-          siteName: this.general.siteName,
-          timeZone: this.general.timeZone,
-        },
-        triggering: {
-          light: this.triggering.light,
-          threshold: this.triggering.threshold,
-          sleepingTime: this.triggering.sleepingTime,
-          wakingUpTime: this.triggering.wakingUpTime,
-        },
-      }
-    },
-
     updatePersistentSettings(settings: PersistentSettings): void {
-      this.camera.focus = settings.camera.focus
-      this.camera.light = settings.camera.light
-      this.camera.pictureQuality = settings.camera.pictureQuality
-      this.camera.shotTypes = settings.camera.shotTypes
-      this.camera.videoQuality = settings.camera.videoQuality
-      this.general.deviceName = settings.general.deviceName
-      this.general.siteName = settings.general.siteName
-      this.general.timeZone = settings.general.timeZone
-      this.triggering.light = settings.triggering.light
-      this.triggering.threshold = settings.triggering.threshold
-      this.triggering.sleepingTime = settings.triggering.sleepingTime
-      this.triggering.wakingUpTime = settings.triggering.wakingUpTime
+      this.current.camera.focus = settings.camera.focus
+      this.initial.camera.focus = settings.camera.focus
+      this.current.camera.light = settings.camera.light
+      this.initial.camera.light = settings.camera.light
+      this.current.camera.pictureQuality = settings.camera.pictureQuality
+      this.initial.camera.pictureQuality = settings.camera.pictureQuality
+      this.current.camera.shotTypes = settings.camera.shotTypes
+      this.initial.camera.shotTypes = settings.camera.shotTypes
+      this.current.camera.videoQuality = settings.camera.videoQuality
+      this.initial.camera.videoQuality = settings.camera.videoQuality
+
+      this.current.general.deviceName = settings.general.deviceName
+      this.initial.general.deviceName = settings.general.deviceName
+      this.current.general.siteName = settings.general.siteName
+      this.initial.general.siteName = settings.general.siteName
+      this.current.general.timeZone = settings.general.timeZone
+      this.initial.general.timeZone = settings.general.timeZone
+
+      this.current.triggering.light = settings.triggering.light
+      this.initial.triggering.light = settings.triggering.light
+      this.current.triggering.threshold = settings.triggering.threshold
+      this.initial.triggering.threshold = settings.triggering.threshold
+      this.current.triggering.sleepingTime = settings.triggering.sleepingTime
+      this.initial.triggering.sleepingTime = settings.triggering.sleepingTime
+      this.current.triggering.wakingUpTime = settings.triggering.wakingUpTime
+      this.initial.triggering.wakingUpTime = settings.triggering.wakingUpTime
     },
 
     uploadPersistentSettings(): Promise<void> {
       const settings: PersistentSettings = {
-        camera: {
-          focus: this.camera.focus,
-          light: this.camera.light,
-          pictureQuality: this.camera.pictureQuality,
-          shotTypes: this.camera.shotTypes,
-          videoQuality: this.camera.videoQuality,
-        },
+        camera: { ...this.current.camera },
         general: {
-          deviceName: this.general.deviceName,
-          siteName: this.general.siteName,
-          timeZone: this.general.timeZone,
+          deviceName: this.current.general.deviceName,
+          siteName: this.current.general.siteName,
+          timeZone: this.current.general.timeZone,
         },
-        triggering: {
-          light: this.triggering.light,
-          threshold: this.triggering.threshold,
-          sleepingTime: this.triggering.sleepingTime,
-          wakingUpTime: this.triggering.wakingUpTime,
-        },
+        triggering: { ...this.current.triggering },
       }
       return ApiClientService.patchSettings(settings)
     },
 
-    uploadAllCameraSettings(): Promise<void> {
-      const settings: Omit<ApplicationSettings, 'general' | 'triggering'> = {
-        camera: {
-          focus: this.camera.focus,
-          light: this.camera.light,
-          shotTypes: this.camera.shotTypes,
-          pictureQuality: this.camera.pictureQuality,
-          videoQuality: this.camera.videoQuality,
-        },
+    uploadChangedCameraSettings(): Promise<void> {
+      const settings: Partial<CameraSettings> = {}
+      if (this.current.camera.focus !== this.initial.camera.focus) {
+        settings.focus = this.current.camera.focus
       }
-      return ApiClientService.patchSettings(settings)
+      if (this.current.camera.light !== this.initial.camera.light) {
+        settings.light = this.current.camera.light
+      }
+      if (
+        this.current.camera.shotTypes.toString() !==
+        this.initial.camera.shotTypes.toString()
+      ) {
+        settings.shotTypes = this.current.camera.shotTypes
+      }
+      if (
+        this.current.camera.pictureQuality !==
+        this.initial.camera.pictureQuality
+      ) {
+        settings.pictureQuality = this.current.camera.pictureQuality
+      }
+      if (
+        this.current.camera.videoQuality !== this.initial.camera.videoQuality
+      ) {
+        settings.videoQuality = this.current.camera.videoQuality
+      }
+      if (isEmpty(settings)) {
+        return Promise.resolve()
+      }
+      return ApiClientService.patchSettings({ camera: settings })
     },
 
-    uploadAllGeneralSettings(): Promise<void> {
-      const settings: Omit<ApplicationSettings, 'camera' | 'triggering'> = {
-        general: {
-          deviceName: this.general.deviceName,
-          siteName: this.general.siteName,
-          systemTime: this.general.systemTime,
-          timeZone: this.general.timeZone,
-        },
+    uploadChangedGeneralSettings(): Promise<void> {
+      const settings: Partial<GeneralSettings> & { systemTime?: string } = {}
+      if (this.current.general.deviceName !== this.initial.general.deviceName) {
+        settings.deviceName = this.current.general.deviceName
       }
-      return ApiClientService.patchSettings(settings)
+      if (this.current.general.siteName !== this.initial.general.siteName) {
+        settings.siteName = this.current.general.siteName
+      }
+      if (this.current.general.systemTime !== this.initial.general.systemTime) {
+        settings.systemTime = this.current.general.systemTime
+      }
+      if (this.current.general.timeZone !== this.initial.general.timeZone) {
+        settings.timeZone = this.current.general.timeZone
+      }
+      if (isEmpty(settings)) {
+        return Promise.resolve()
+      }
+      return ApiClientService.patchSettings({ general: settings })
     },
 
-    uploadAllTriggerSettings(): Promise<void> {
-      const settings: Omit<ApplicationSettings, 'camera' | 'general'> = {
-        triggering: {
-          light: this.triggering.light,
-          threshold: this.triggering.threshold,
-          sleepingTime: this.triggering.sleepingTime,
-          wakingUpTime: this.triggering.wakingUpTime,
-        },
+    uploadChangedTriggerSettings(): Promise<void> {
+      const settings: Partial<TriggerSettings> = {}
+      if (this.current.triggering.light !== this.initial.triggering.light) {
+        settings.light = this.current.triggering.light
       }
-      return ApiClientService.patchSettings(settings)
-    },
-
-    uploadAllSettings(): Promise<void> {
-      const settings: ApplicationSettings = {
-        camera: {
-          focus: this.camera.focus,
-          light: this.camera.light,
-          pictureQuality: this.camera.pictureQuality,
-          shotTypes: this.camera.shotTypes,
-          videoQuality: this.camera.videoQuality,
-        },
-        general: {
-          deviceName: this.general.deviceName,
-          siteName: this.general.siteName,
-          systemTime: this.general.systemTime,
-          timeZone: this.general.timeZone,
-        },
-        triggering: {
-          light: this.triggering.light,
-          threshold: this.triggering.threshold,
-          sleepingTime: this.triggering.sleepingTime,
-          wakingUpTime: this.triggering.wakingUpTime,
-        },
+      if (
+        this.current.triggering.sleepingTime !==
+        this.initial.triggering.sleepingTime
+      ) {
+        settings.sleepingTime = this.current.triggering.sleepingTime
       }
-      return ApiClientService.putSettings(settings)
+      if (
+        this.current.triggering.threshold !== this.initial.triggering.threshold
+      ) {
+        settings.threshold = this.current.triggering.threshold
+      }
+      if (
+        this.current.triggering.wakingUpTime !==
+        this.initial.triggering.wakingUpTime
+      ) {
+        settings.wakingUpTime = this.current.triggering.wakingUpTime
+      }
+      if (isEmpty(settings)) {
+        return Promise.resolve()
+      }
+      return ApiClientService.patchSettings({ triggering: settings })
     },
   },
 })

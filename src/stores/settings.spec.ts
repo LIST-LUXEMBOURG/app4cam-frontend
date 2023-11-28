@@ -10,266 +10,250 @@ describe('settings store', () => {
     setActivePinia(createPinia())
   })
 
-  describe('fetch settings', () => {
-    const settings: ApplicationSettings = {
-      camera: {
-        focus: 200,
-        light: 'visible',
-        pictureQuality: 60,
-        shotTypes: ['pictures', 'videos'],
-        videoQuality: 90,
-      },
-      general: {
-        deviceName: 'n',
-        siteName: 's',
-        systemTime: new Date().toISOString(),
-        timeZone: 't',
-      },
-      triggering: {
-        light: 'visible',
-        threshold: 0,
-        sleepingTime: '18:00',
-        wakingUpTime: '08:00',
-      },
-    }
-    const getSettingsSpy = jest
-      .spyOn(ApiClientService, 'getSettings')
-      .mockResolvedValue(settings)
-
-    it('saves settings after fetching', async () => {
-      const store = useSettingsStore()
-      await store.fetchSettings()
-      expect(store.$state).toStrictEqual(settings)
-    })
-
-    afterEach(() => {
-      getSettingsSpy.mockClear()
+  describe('getters', () => {
+    describe('persistent settings', () => {
+      it('does not return the non-persistent settings', () => {
+        const store = useSettingsStore()
+        const settings = store.persistentSettings
+        expect(settings.general).not.toHaveProperty('systemTime')
+      })
     })
   })
 
-  describe('get persistent settings', () => {
-    it('does not return the non-persistent settings', () => {
-      const store = useSettingsStore()
-      const settings = store.getPersistentSettings()
-      expect(settings.general).not.toHaveProperty('systemTime')
-    })
-  })
-
-  describe('update persistent settings', () => {
-    it("changes persistent settings' value", () => {
-      const settings: PersistentSettings = {
-        camera: {
-          focus: 300,
-          light: 'infrared',
-          shotTypes: ['pictures', 'videos'],
-          pictureQuality: 40,
-          videoQuality: 90,
-        },
-        general: {
-          deviceName: 'd',
-          siteName: 's',
-          timeZone: 't',
-        },
-        triggering: {
-          light: 'infrared',
-          sleepingTime: '18:00',
-          threshold: 1,
-          wakingUpTime: '08:00',
-        },
-      }
-      const store = useSettingsStore()
-
-      store.updatePersistentSettings(settings)
-
-      expect(store.camera.focus).toBe(settings.camera.focus)
-      expect(store.camera.light).toBe(settings.camera.light)
-      expect(store.camera.pictureQuality).toBe(settings.camera.pictureQuality)
-      expect(store.camera.shotTypes).toStrictEqual(settings.camera.shotTypes)
-      expect(store.camera.videoQuality).toBe(settings.camera.videoQuality)
-      expect(store.general.deviceName).toBe(settings.general.deviceName)
-      expect(store.general.siteName).toBe(settings.general.siteName)
-      expect(store.general.timeZone).toBe(settings.general.timeZone)
-      expect(store.triggering.light).toBe(settings.triggering.light)
-      expect(store.triggering.threshold).toBe(settings.triggering.threshold)
-      expect(store.triggering.sleepingTime).toBe(
-        settings.triggering.sleepingTime,
-      )
-      expect(store.triggering.wakingUpTime).toBe(
-        settings.triggering.wakingUpTime,
-      )
-    })
-  })
-
-  describe('when updating only part of the settings', () => {
-    const patchSettingsSpy = jest
-      .spyOn(ApiClientService, 'patchSettings')
-      .mockResolvedValue()
-
-    it('uploads all persistent settings', async () => {
-      const cameraLight = 'infrared'
-      const deviceName = 'd'
-      const focus = 200
-      const pictureQuality = 40
-      const threshold = 1
-      const shotTypes: ShotType[] = ['pictures', 'videos']
-      const siteName = 's'
-      const sleepingTime = '18:00'
-      const store = useSettingsStore()
-      const timeZone = 't'
-      const triggeringLight = 'infrared'
-      const videoQuality = 90
-      const wakingUpTime = '08:00'
-      store.camera.focus = focus
-      store.camera.light = cameraLight
-      store.camera.pictureQuality = pictureQuality
-      store.camera.shotTypes = shotTypes
-      store.camera.videoQuality = videoQuality
-      store.general.deviceName = deviceName
-      store.general.siteName = siteName
-      store.general.timeZone = timeZone
-      store.triggering.light = triggeringLight
-      store.triggering.threshold = threshold
-      store.triggering.sleepingTime = sleepingTime
-      store.triggering.wakingUpTime = wakingUpTime
-
-      await store.uploadPersistentSettings()
-
-      expect(ApiClientService.patchSettings).toHaveBeenCalledWith({
-        camera: {
-          focus,
-          light: cameraLight,
-          pictureQuality,
-          shotTypes,
-          videoQuality,
-        },
-        general: {
-          deviceName,
-          siteName,
-          timeZone,
-        },
-        triggering: {
-          light: triggeringLight,
-          sleepingTime,
-          threshold,
-          wakingUpTime,
-        },
-      })
-    })
-
-    it('uploads all camera settings', async () => {
-      const focus = 200
-      const light = 'infrared'
-      const pictureQuality = 40
-      const shotTypes: ShotType[] = ['pictures', 'videos']
-      const videoQuality = 90
-      const store = useSettingsStore()
-      store.camera.focus
-      store.camera.light = light
-      store.camera.pictureQuality = pictureQuality
-      store.camera.shotTypes = shotTypes
-      store.camera.videoQuality = videoQuality
-
-      await store.uploadAllCameraSettings()
-
-      expect(ApiClientService.patchSettings).toHaveBeenCalledWith({
-        camera: {
-          focus,
-          light,
-          pictureQuality,
-          shotTypes,
-          videoQuality,
-        },
-      })
-    })
-
-    it('uploads all general settings', async () => {
-      const deviceName = 'd'
-      const siteName = 's'
-      const store = useSettingsStore()
-      const systemTime = new Date().toString()
-      const timeZone = 't'
-      store.general.deviceName = deviceName
-      store.general.siteName = siteName
-      store.general.systemTime = systemTime
-      store.general.timeZone = timeZone
-
-      await store.uploadAllGeneralSettings()
-
-      expect(ApiClientService.patchSettings).toHaveBeenCalledWith({
-        general: {
-          deviceName,
-          siteName,
-          systemTime,
-          timeZone,
-        },
-      })
-    })
-
-    it('uploads all trigger settings', async () => {
-      const light = 'infrared'
-      const threshold = 1
-      const sleepingTime = '18:00'
-      const wakingUpTime = '08:00'
-      const store = useSettingsStore()
-      store.triggering.light = light
-      store.triggering.threshold = threshold
-      store.triggering.sleepingTime = sleepingTime
-      store.triggering.wakingUpTime = wakingUpTime
-
-      await store.uploadAllTriggerSettings()
-
-      expect(ApiClientService.patchSettings).toHaveBeenCalledWith({
-        triggering: {
-          light,
-          sleepingTime,
-          threshold,
-          wakingUpTime,
-        },
-      })
-    })
-
-    afterEach(() => {
-      patchSettingsSpy.mockClear()
-    })
-  })
-
-  describe('upload all settings', () => {
-    const putSettingsSpy = jest
-      .spyOn(ApiClientService, 'putSettings')
-      .mockResolvedValue()
-
-    it('uploads all settings', async () => {
+  describe('actions', () => {
+    describe('fetch settings', () => {
       const settings: ApplicationSettings = {
         camera: {
-          focus: 300,
+          focus: 200,
           light: 'visible',
-          pictureQuality: 40,
+          pictureQuality: 60,
           shotTypes: ['pictures', 'videos'],
           videoQuality: 90,
         },
         general: {
-          deviceName: 'd',
+          deviceName: 'n',
           siteName: 's',
-          systemTime: new Date().toString(),
+          systemTime: new Date().toISOString(),
           timeZone: 't',
         },
         triggering: {
-          light: 'infrared',
+          light: 'visible',
+          threshold: 0,
           sleepingTime: '18:00',
-          threshold: 1,
           wakingUpTime: '08:00',
         },
       }
-      const store = useSettingsStore()
-      store.$state = settings
+      const getSettingsSpy = jest
+        .spyOn(ApiClientService, 'getSettings')
+        .mockResolvedValue(settings)
 
-      await store.uploadAllSettings()
+      it('saves settings after fetching', async () => {
+        const store = useSettingsStore()
+        await store.fetchSettings()
+        expect(store.$state.current).toStrictEqual(settings)
+        expect(store.$state.initial).toStrictEqual(settings)
+      })
 
-      expect(ApiClientService.putSettings).toHaveBeenCalledWith(settings)
+      afterEach(() => {
+        getSettingsSpy.mockClear()
+      })
     })
 
-    afterEach(() => {
-      putSettingsSpy.mockClear()
+    describe('update persistent settings', () => {
+      it("changes persistent settings' value", () => {
+        const settings: PersistentSettings = {
+          camera: {
+            focus: 300,
+            light: 'infrared',
+            shotTypes: ['pictures', 'videos'],
+            pictureQuality: 40,
+            videoQuality: 90,
+          },
+          general: {
+            deviceName: 'd',
+            siteName: 's',
+            timeZone: 't',
+          },
+          triggering: {
+            light: 'infrared',
+            sleepingTime: '18:00',
+            threshold: 1,
+            wakingUpTime: '08:00',
+          },
+        }
+        const store = useSettingsStore()
+
+        store.updatePersistentSettings(settings)
+
+        expect(store.current.camera).toStrictEqual(settings.camera)
+        expect(store.initial.camera).toStrictEqual(settings.camera)
+        expect(store.current.general.deviceName).toBe(
+          settings.general.deviceName,
+        )
+        expect(store.initial.general.deviceName).toBe(
+          settings.general.deviceName,
+        )
+        expect(store.current.general.siteName).toBe(settings.general.siteName)
+        expect(store.initial.general.siteName).toBe(settings.general.siteName)
+        expect(store.current.general.timeZone).toBe(settings.general.timeZone)
+        expect(store.initial.general.timeZone).toBe(settings.general.timeZone)
+        expect(store.current.triggering).toStrictEqual(settings.triggering)
+        expect(store.initial.triggering).toStrictEqual(settings.triggering)
+      })
+    })
+
+    describe('when updating only part of the settings', () => {
+      const patchSettingsSpy = jest
+        .spyOn(ApiClientService, 'patchSettings')
+        .mockResolvedValue()
+
+      it('uploads all persistent settings', async () => {
+        const cameraLight = 'infrared'
+        const deviceName = 'd'
+        const focus = 200
+        const pictureQuality = 40
+        const threshold = 1
+        const shotTypes: ShotType[] = ['pictures', 'videos']
+        const siteName = 's'
+        const sleepingTime = '18:00'
+        const store = useSettingsStore()
+        const timeZone = 't'
+        const triggeringLight = 'infrared'
+        const videoQuality = 90
+        const wakingUpTime = '08:00'
+        store.current.camera.focus = focus
+        store.current.camera.light = cameraLight
+        store.current.camera.pictureQuality = pictureQuality
+        store.current.camera.shotTypes = shotTypes
+        store.current.camera.videoQuality = videoQuality
+        store.current.general.deviceName = deviceName
+        store.current.general.siteName = siteName
+        store.current.general.timeZone = timeZone
+        store.current.triggering.light = triggeringLight
+        store.current.triggering.threshold = threshold
+        store.current.triggering.sleepingTime = sleepingTime
+        store.current.triggering.wakingUpTime = wakingUpTime
+
+        await store.uploadPersistentSettings()
+
+        expect(ApiClientService.patchSettings).toHaveBeenCalledWith({
+          camera: {
+            focus,
+            light: cameraLight,
+            pictureQuality,
+            shotTypes,
+            videoQuality,
+          },
+          general: {
+            deviceName,
+            siteName,
+            timeZone,
+          },
+          triggering: {
+            light: triggeringLight,
+            sleepingTime,
+            threshold,
+            wakingUpTime,
+          },
+        })
+      })
+
+      it('uploads all changed camera settings', async () => {
+        const focus = 300
+        const light = 'infrared'
+        const pictureQuality = 40
+        const shotTypes: ShotType[] = ['videos']
+        const videoQuality = 90
+        const store = useSettingsStore()
+        store.current.camera.focus = focus
+        store.current.camera.light = light
+        store.current.camera.pictureQuality = pictureQuality
+        store.current.camera.shotTypes = shotTypes
+        store.current.camera.videoQuality = videoQuality
+
+        await store.uploadChangedCameraSettings()
+
+        expect(ApiClientService.patchSettings).toHaveBeenCalledWith({
+          camera: {
+            focus,
+            light,
+            pictureQuality,
+            shotTypes,
+            videoQuality,
+          },
+        })
+      })
+
+      it('uploads no empty camera settings', async () => {
+        const store = useSettingsStore()
+        await store.uploadChangedCameraSettings()
+
+        expect(ApiClientService.patchSettings).not.toHaveBeenCalled()
+      })
+
+      it('uploads all changed general settings', async () => {
+        const deviceName = 'd'
+        const siteName = 's'
+        const store = useSettingsStore()
+        const systemTime = new Date().toString()
+        const timeZone = 't'
+        store.current.general.deviceName = deviceName
+        store.current.general.siteName = siteName
+        store.current.general.systemTime = systemTime
+        store.current.general.timeZone = timeZone
+
+        await store.uploadChangedGeneralSettings()
+
+        expect(ApiClientService.patchSettings).toHaveBeenCalledWith({
+          general: {
+            deviceName,
+            siteName,
+            systemTime,
+            timeZone,
+          },
+        })
+      })
+
+      it('uploads no empty general settings', async () => {
+        const store = useSettingsStore()
+        await store.uploadChangedGeneralSettings()
+
+        expect(ApiClientService.patchSettings).not.toHaveBeenCalled()
+      })
+
+      it('uploads all changed trigger settings', async () => {
+        const light = 'visible'
+        const threshold = 2
+        const sleepingTime = '18:00'
+        const wakingUpTime = '08:00'
+        const store = useSettingsStore()
+        store.current.triggering.light = light
+        store.current.triggering.threshold = threshold
+        store.current.triggering.sleepingTime = sleepingTime
+        store.current.triggering.wakingUpTime = wakingUpTime
+
+        await store.uploadChangedTriggerSettings()
+
+        expect(ApiClientService.patchSettings).toHaveBeenCalledWith({
+          triggering: {
+            light,
+            sleepingTime,
+            threshold,
+            wakingUpTime,
+          },
+        })
+      })
+
+      it('uploads no empty trigger settings', async () => {
+        const store = useSettingsStore()
+        await store.uploadChangedTriggerSettings()
+
+        expect(ApiClientService.patchSettings).not.toHaveBeenCalled()
+      })
+
+      afterEach(() => {
+        patchSettingsSpy.mockClear()
+      })
     })
   })
 })

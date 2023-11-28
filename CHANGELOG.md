@@ -9,6 +9,8 @@
 
 ### Changed
 
+- Send only the changed settings to the backend
+
 ### Deprecated
 
 ### Removed
