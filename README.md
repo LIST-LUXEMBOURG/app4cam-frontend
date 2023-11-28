@@ -71,7 +71,6 @@ You can build the application on a computer and copy the build to the device, or
 - `.env.pollicam`: for the traps Aurinion and DiMon within the scope of the PolliCAM project
 - `.env.sample`: example for the case you run the backend on the same device
 - `.env.testing_raspberry_pi`: for continuous deployment (CD) on Raspberry Pi
-- `.env.testing_variscite_mx6`: for continuous deployment (CD) on Variscite MX6
 - `.env.testing_variscite_mx8m`: for continuous deployment (CD) on Variscite MX8M
 
 6. Edit the config file if needed.
@@ -91,8 +90,6 @@ If you have set up the backend already, you just need to do step 4.
 - `RASPBERRY_PI_HOST`: IP address of Raspberry Pi
 - `RASPBERRY_PI_PRIVATE_KEY`: private key of Raspberry Pi user
 - `RASPBERRY_PI_USER`: user of Raspberry Pi
-- `VARISCITE_MX6_HOST`: IP address of Variscite MX6
-- `VARISCITE_MX6_PRIVATE_KEY`: private key of Variscite MX6 user
 - `VARISCITE_MX8M_HOST`: IP address of Variscite MX8M
 - `VARISCITE_MX8M_PRIVATE_KEY`: private key of Variscite MX8M user
 - `VARISCITE_USER`: user of Variscite devices
