@@ -108,6 +108,9 @@ module.exports = {
     // Allow consistent use of object type with a signature for defineEmits<>().
     '@typescript-eslint/prefer-function-type': 'off',
 
+    // TypeScript already does this check.
+    'no-undef': 'off',
+
     // The core 'no-unused-vars' rules (in the eslint:recommended ruleset)
     // does not work with type definitions
     'no-unused-vars': 'off',

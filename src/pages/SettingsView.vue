@@ -247,7 +247,22 @@ function onSubmitGeneralSettings() {
   settingsStore
     .uploadChangedGeneralSettings()
     .then(notifySettingsSaved)
-    .catch(notifySettingsNotSavedError)
+    .catch((error) => {
+      if (
+        settingsStore.current.general.deviceName !==
+        settingsStore.initial.general.deviceName
+      ) {
+        // There is a high chance that the request went through but that the access point has been renamed.
+        quasar.dialog({
+          title: 'Connection lost',
+          message:
+            'You need to connect to the new Wi-Fi network now. The access point name has been updated with the device name, so you lost the connection.',
+          persistent: true,
+        })
+      } else {
+        notifySettingsNotSavedError(error)
+      }
+    })
 }
 
 function onSubmitTriggerSettings() {
@@ -320,7 +335,7 @@ watch(
                 v-model="settingsStore.current.general.deviceName"
                 class="q-mb-xl"
                 :disable="isLoadingSettings"
-                hint="Make sure to use a unique device name per site as it is also used as access point name. When it is changed, you need to connect to the new Wi-Fi network."
+                hint="Use a unique device name per site because it is also used as access point name."
                 label="Device name"
                 lazy-rules
                 outlined
