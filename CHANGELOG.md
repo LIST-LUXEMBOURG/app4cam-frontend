@@ -6,16 +6,21 @@
 
 - Introduce recording light setting, with the restriction that infrared light cannot be used for recording when visible light is used for triggering
 - Introduce camera focus setting
+- Display connection lost popup when the device name is changed
 
 ### Changed
 
 - Send only the changed settings to the backend
+- Return patched settings so that frontend knows what has changed
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+- Handle empty motion option `video_params`
+- Not loosing access point connection when changing another general setting than device name
 
 ### Security
 
