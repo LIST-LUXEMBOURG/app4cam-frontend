@@ -3,6 +3,7 @@ export type ShotType = 'pictures' | 'videos'
 
 interface GeneralSettings {
   deviceName: string
+  password: string
   siteName: string
   timeZone: string
 }

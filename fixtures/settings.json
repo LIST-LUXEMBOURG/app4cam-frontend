@@ -10,6 +10,7 @@
     "general": {
       "deviceId": "1",
       "deviceName": "",
+      "password": "123",
       "siteName": "SiteX",
       "systemTime": "",
       "timeZone": ""
