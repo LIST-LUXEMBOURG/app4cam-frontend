@@ -7,6 +7,7 @@
 - Introduce recording light setting, with the restriction that infrared light cannot be used for recording when visible light is used for triggering
 - Introduce camera focus setting
 - Display connection lost popup when the device name is changed
+- Add Wi-Fi password to settings
 
 ### Changed
 

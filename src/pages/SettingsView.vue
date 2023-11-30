@@ -80,6 +80,11 @@ const noInvalidTriggeringLightType: ValidationRule[] = [
     val !== 'visible' ||
     'It is not possible to use visible trigger light when infrared recording light is used.',
 ]
+const noInvalidWiFiPassword: ValidationRule[] = [
+  (val) =>
+    /^[ -~]{8,63}$/.test(val) ||
+    'Please use 8 to 63 printable ASCII characters.',
+]
 const notEmptyAndNoSpecialCharactersRules: ValidationRule[] = [
   (val) => (val !== null && val !== '') || 'Please enter something.',
   (val) =>
@@ -395,6 +400,15 @@ watch(
                 :site-name="settingsStore.current.general.siteName"
                 :system-time="settingsStore.current.general.systemTime"
                 :time-zone="settingsStore.current.general.timeZone"
+              />
+              <q-input
+                v-model="settingsStore.current.general.password"
+                class="q-mt-lg q-mb-sm"
+                :disable="isLoadingSettings"
+                label="Wi-Fi password"
+                lazy-rules
+                outlined
+                :rules="noInvalidWiFiPassword"
               />
               <q-btn
                 color="primary"

@@ -32,6 +32,7 @@ describe('settings store', () => {
         },
         general: {
           deviceName: 'n',
+          password: '123',
           siteName: 's',
           systemTime: new Date().toISOString(),
           timeZone: 't',
@@ -71,6 +72,7 @@ describe('settings store', () => {
           },
           general: {
             deviceName: 'd',
+            password: '123',
             siteName: 's',
             timeZone: 't',
           },
@@ -111,6 +113,7 @@ describe('settings store', () => {
         const cameraLight = 'infrared'
         const deviceName = 'd'
         const focus = 200
+        const password = '123'
         const pictureQuality = 40
         const threshold = 1
         const shotTypes: ShotType[] = ['pictures', 'videos']
@@ -127,6 +130,7 @@ describe('settings store', () => {
         store.current.camera.shotTypes = shotTypes
         store.current.camera.videoQuality = videoQuality
         store.current.general.deviceName = deviceName
+        store.current.general.password = password
         store.current.general.siteName = siteName
         store.current.general.timeZone = timeZone
         store.current.triggering.light = triggeringLight
@@ -146,6 +150,7 @@ describe('settings store', () => {
           },
           general: {
             deviceName,
+            password,
             siteName,
             timeZone,
           },
@@ -193,11 +198,13 @@ describe('settings store', () => {
 
       it('uploads all changed general settings', async () => {
         const deviceName = 'd'
+        const password = '123'
         const siteName = 's'
         const store = useSettingsStore()
         const systemTime = new Date().toString()
         const timeZone = 't'
         store.current.general.deviceName = deviceName
+        store.current.general.password = password
         store.current.general.siteName = siteName
         store.current.general.systemTime = systemTime
         store.current.general.timeZone = timeZone
@@ -207,6 +214,7 @@ describe('settings store', () => {
         expect(ApiClientService.patchSettings).toHaveBeenCalledWith({
           general: {
             deviceName,
+            password,
             siteName,
             systemTime,
             timeZone,
