@@ -3,21 +3,21 @@ import { installQuasarPlugin } from '@quasar/quasar-app-extension-testing-unit-j
 import { screen } from '@testing-library/vue'
 import { StateTree } from 'pinia'
 import { renderAsync } from '../../test/jest/renderAsync'
-import ShotCounts from './ShotCounts.vue'
+import MediaCounts from './MediaCounts.vue'
 
 installQuasarPlugin()
 
 const renderComponent = (initialState?: StateTree) =>
-  renderAsync(ShotCounts, {
+  renderAsync(MediaCounts, {
     global: {
       plugins: [createTestingPinia({ initialState })],
     },
   })
 
-describe(ShotCounts.name, () => {
+describe(MediaCounts.name, () => {
   it('displays a heading', async () => {
     await renderComponent()
-    const heading = screen.getByRole('heading', { name: 'Shots' })
+    const heading = screen.getByRole('heading', { name: 'Media' })
     expect(heading).toBeInTheDocument()
   })
 
