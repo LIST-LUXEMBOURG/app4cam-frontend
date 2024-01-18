@@ -13,6 +13,7 @@
 
 - Send only the changed settings to the backend
 - Return patched settings so that frontend knows what has changed
+- Rename tab and heading of file counts from Shots to Media
 
 ### Deprecated
 

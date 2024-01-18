@@ -10,7 +10,7 @@ try {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 } catch (error: any) {
   quasar.notify({
-    message: 'The number of shots could not be loaded.',
+    message: 'The numbers of media could not be loaded.',
     caption: error.message ? error.message : '',
     color: 'negative',
   })
@@ -18,7 +18,7 @@ try {
 </script>
 
 <template>
-  <h6 class="q-mb-sm">Shots</h6>
+  <h6 class="q-mb-sm">Media</h6>
   <p>Pictures: {{ store.pictureCount }}</p>
   <p>Videos: {{ store.videoCount }}</p>
 </template>

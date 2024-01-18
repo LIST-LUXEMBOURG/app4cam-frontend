@@ -2,7 +2,7 @@
 import { useQuasar } from 'quasar'
 import { onErrorCaptured, Ref, ref } from 'vue'
 import DiskUsage from '../components/DiskUsage.vue'
-import ShotCounts from '../components/ShotCounts.vue'
+import MediaCounts from '../components/MediaCounts.vue'
 import SiteAndDeviceNamesHeading from '../components/SiteAndDeviceNamesHeading.vue'
 import SnapshotSection from '../components/SnapshotSection.vue'
 
@@ -27,7 +27,7 @@ onErrorCaptured((e) => {
         <div>
           <site-and-device-names-heading />
           <disk-usage />
-          <shot-counts />
+          <media-counts />
           <snapshot-section />
         </div>
       </template>

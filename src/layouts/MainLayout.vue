@@ -39,8 +39,8 @@ store.fetchVersion().catch((error) => {
           label="Dashboard"
         />
         <q-route-tab
-          :to="{ name: 'Shots' }"
-          label="Shots"
+          :to="{ name: 'Media' }"
+          label="Media"
         />
         <q-route-tab
           :to="{ name: 'Settings' }"

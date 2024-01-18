@@ -16,9 +16,9 @@ const routes: RouteRecordRaw[] = [
         name: 'Settings',
       },
       {
-        path: 'shots',
-        component: () => import('pages/ShotsView.vue'),
-        name: 'Shots',
+        path: 'media',
+        component: () => import('pages/MediaView.vue'),
+        name: 'Media',
       },
     ],
   },

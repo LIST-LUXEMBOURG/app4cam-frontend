@@ -132,7 +132,7 @@ function handleFileDownloadResponse(response: FileDownloadResponse): void {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function handleFileDownloadError(error: any): void {
   quasar.notify({
-    message: 'The shots could not be downloaded.',
+    message: 'The media could not be downloaded.',
     caption: error.message ? error.message : '',
     color: 'negative',
   })
@@ -232,7 +232,7 @@ function onUnselectAllButtonClick() {
           text-color="white"
         />
         <span class="q-ml-sm"
-          >Do you really want to delete the selected shot{{
+          >Do you really want to delete the selected item{{
             selectedFiles.length > 1 ? 's' : ''
           }}?</span
         >

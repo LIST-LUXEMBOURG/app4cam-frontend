@@ -6,7 +6,7 @@ import { StateTree } from 'pinia'
 import { files } from '../../fixtures/files.json'
 import ApiClientService from '../helpers/ApiClientService'
 import { convertJsonToFiles } from '../test-helpers'
-import ShotsView from './ShotsView.vue'
+import MediaView from './MediaView.vue'
 import { renderAsync } from 'app/test/jest/renderAsync'
 
 installQuasarPlugin()
@@ -18,13 +18,13 @@ jest.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
 const SELECTED_FILE_CLASS = 'bg-blue-1'
 
 const renderComponent = (initialState?: StateTree) =>
-  renderAsync(ShotsView, {
+  renderAsync(MediaView, {
     global: {
       plugins: [createTestingPinia({ initialState, stubActions: false })],
     },
   })
 
-describe(ShotsView.name, () => {
+describe(MediaView.name, () => {
   beforeAll(() => {
     jest.spyOn(ApiClientService, 'getFileList').mockResolvedValue(mockFiles)
   })
