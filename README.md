@@ -1,20 +1,54 @@
 # App4Cam frontend
 
-App4Cam is the software used on non-lethal camera traps to configure the trap and to download the shots taken.
+App4Cam is used on non-lethal camera traps to configure the trap and to access the shots taken.
+
+## System Context
+
+### Context
+
+As an alternative to lethal methods of observing animals, multiple camera traps targeting different species are worked on.
+Researchers want to configure these camera traps and access the data captured via an easy-to-use interface in the field.
+App4Cam is the software that fills these needs.
 Its development started within the scope of the PolliCAM project for the traps Aurinion and DiMon.
-It is a web application consisting of both backend and frontend parts.
 
-## Specificities
+### Actors
 
-### Technology stack
+- Researchers: They install and configure the device in the field. They also download the data.
+
+### Risks
+
+- Using too much energy, especially if the device runs on battery
+- Finding the right amount of options needed to give the researchers the autonomy they need while not overwhelming them and not making them break the system
+
+## Mission statement
+
+Enabling researchers to configure their camera traps efficiently and easily in the field as well as accessing the data collected while maintaining a low energy consumption
+
+## Architecture
+
+```mermaid
+flowchart LR
+    frontend <--> backend
+    backend <--> Motion
+    backend <--> system[system commands]
+```
+
+App4Cam is a web application consisting of both backend and frontend parts.
+The backend offers a RESTful API and manages Motion and other system parameters.
+The frontend is served via the access point the device provides.
+
+## Technology stack
+
+### Backend
+
+- [NestJS](https://nestjs.com/)
+- [TypeScript](https://www.typescriptlang.org/)
+
+### Frontend
 
 - [Quasar](https://quasar.dev/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Vue.js](https://vuejs.org/)
-
-### Single File Components
-
-Vue 3 `<script setup>` Single File Components (SFCs) are used; Check out the [script setup docs](https://vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
 
 ## Setup
 
