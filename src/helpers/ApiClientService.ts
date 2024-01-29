@@ -8,6 +8,7 @@ import {
   FilesDeletedResponse,
   VersionResponse,
   StorageStatusResponse,
+  BatteryVoltageResponse,
 } from './ApiTypings'
 import { ApplicationSettings } from 'src/settings'
 
@@ -65,6 +66,10 @@ export default {
 
   getAvailableTimeZones(): Promise<AvailableTimeZones> {
     return unwrapAxiosResponse(apiClient.get('/properties/timezones'))
+  },
+
+  getBatteryVoltage(): Promise<BatteryVoltageResponse> {
+    return unwrapAxiosResponse(apiClient.get('/properties/batteryVoltage'))
   },
 
   getDeviceId(): Promise<DeviceIdResponse> {

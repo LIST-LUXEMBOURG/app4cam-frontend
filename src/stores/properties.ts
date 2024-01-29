@@ -1,17 +1,28 @@
 import { defineStore } from 'pinia'
 import ApiClientService from '../helpers/ApiClientService'
-import { DeviceIdResponse, VersionResponse } from '../helpers/ApiTypings'
+import {
+  BatteryVoltageResponse,
+  DeviceIdResponse,
+  VersionResponse,
+} from '../helpers/ApiTypings'
 
-type State = DeviceIdResponse & VersionResponse
+type State = BatteryVoltageResponse & DeviceIdResponse & VersionResponse
 
 export const usePropertiesStore = defineStore('properties', {
   state: (): State => ({
+    batteryVoltage: 0,
     commitHash: '',
     deviceId: '',
     version: '',
   }),
 
   actions: {
+    fetchBatteryVoltage() {
+      return ApiClientService.getBatteryVoltage().then((response) => {
+        this.batteryVoltage = response.batteryVoltage
+      })
+    },
+
     fetchDeviceId() {
       return ApiClientService.getDeviceId().then((response) => {
         this.deviceId = response.deviceId
