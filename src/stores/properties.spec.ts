@@ -1,13 +1,36 @@
 import { createPinia, setActivePinia } from 'pinia'
 import ApiClientService from '../helpers/ApiClientService'
-import { DeviceIdResponse, VersionResponse } from '../helpers/ApiTypings'
+import {
+  BatteryVoltageResponse,
+  DeviceIdResponse,
+  VersionResponse,
+} from '../helpers/ApiTypings'
 import { usePropertiesStore } from './properties'
 
 jest.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
 
-describe('version store', () => {
+describe('properties store', () => {
   beforeEach(() => {
     setActivePinia(createPinia())
+  })
+
+  describe('fetchBatteryVoltage', () => {
+    const mockedResponse: BatteryVoltageResponse = {
+      batteryVoltage: 1,
+    }
+    const spy = jest
+      .spyOn(ApiClientService, 'getBatteryVoltage')
+      .mockResolvedValue(mockedResponse)
+
+    it('saves battery voltage after fetching', async () => {
+      const store = usePropertiesStore()
+      await store.fetchBatteryVoltage()
+      expect(store.batteryVoltage).toBe(mockedResponse.batteryVoltage)
+    })
+
+    afterEach(() => {
+      spy.mockClear()
+    })
   })
 
   describe('fetchDeviceId', () => {

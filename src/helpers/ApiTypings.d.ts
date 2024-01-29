@@ -1,3 +1,7 @@
+export interface BatteryVoltageResponse {
+  batteryVoltage: number
+}
+
 export interface DeviceIdResponse {
   deviceId: string
 }
