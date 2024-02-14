@@ -9,6 +9,11 @@ const store = useStorageStore()
 
 const capacityGb = ref(0)
 const chartOptions: ApexOptions = reactive({
+  grid: {
+    padding: {
+      left: -25,
+    },
+  },
   labels: ['used', 'available'],
   plotOptions: {
     pie: {
@@ -72,7 +77,7 @@ reloadStatus()
   <h6 class="q-mb-sm">Disk storage</h6>
   <p>Total capacity: {{ capacityGb }} GB</p>
   <apexchart
-    width="400"
+    width="350"
     type="pie"
     :options="chartOptions"
     :series="chartSeries"

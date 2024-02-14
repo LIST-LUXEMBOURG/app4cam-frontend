@@ -150,75 +150,73 @@ function onUnselectAllButtonClick() {
 </script>
 
 <template>
-  <div class="q-mx-auto wrapper">
-    <p class="text-grey-10">
-      The filenames include the local time of the trap while the time below
-      shows their creation UTC time.
-    </p>
-    <q-select
-      v-model="typeFilterSelectedOption"
-      class="q-mb-md"
-      clearable
-      dense
-      label="Filter by type"
-      outlined
-      :options="typeFilterOptions"
-      width="auto"
-    />
-    <q-scroll-area
-      class="scroll-area bg-grey-2"
-      visible
+  <p class="text-grey-10">
+    The filenames include the local time of the trap while the time below shows
+    their creation UTC time.
+  </p>
+  <q-select
+    v-model="typeFilterSelectedOption"
+    class="q-mb-md"
+    clearable
+    dense
+    label="Filter by type"
+    outlined
+    :options="typeFilterOptions"
+    width="auto"
+  />
+  <q-scroll-area
+    class="scroll-area bg-grey-2"
+    visible
+  >
+    <div
+      v-for="(file, index) in files"
+      :key="index"
     >
-      <div
-        v-for="(file, index) in files"
-        :key="index"
+      <q-item
+        v-ripple
+        :active="selectedFiles.includes(file.name)"
+        clickable
+        :dark="false"
+        data-test-id="file"
+        active-class="bg-blue-1 text-blue-10"
+        @click="onSelectionClick(file.name)"
       >
-        <q-item
-          v-ripple
-          :active="selectedFiles.includes(file.name)"
-          clickable
-          :dark="false"
-          data-test-id="file"
-          active-class="bg-blue-1 text-blue-10"
-          @click="onSelectionClick(file.name)"
-        >
-          <q-item-section>
-            <q-item-label>{{ file.name }}</q-item-label>
-            <q-item-label caption>{{ file.creationTime }}</q-item-label>
-          </q-item-section>
-        </q-item>
-      </div>
-    </q-scroll-area>
-    <div class="row justify-center q-mt-md">
-      <q-btn
-        color="primary"
-        class="q-mr-sm"
-        label="Select all"
-        :disable="areAllFilesSelected"
-        @click="onSelectAllButtonClick"
-      />
-      <q-btn
-        color="primary"
-        label="Unselect all"
-        :disable="isNoFileSelected"
-        @click="onUnselectAllButtonClick"
-      />
+        <q-item-section>
+          <q-item-label>{{ file.name }}</q-item-label>
+          <q-item-label caption>{{ file.creationTime }}</q-item-label>
+        </q-item-section>
+      </q-item>
     </div>
-    <div class="row justify-center q-mt-sm">
-      <q-btn
-        color="primary"
-        class="q-mr-sm"
-        label="Download"
-        :disable="isNoFileSelected"
-        @click="onDownloadButtonClick"
-      />
-      <q-btn
-        color="red"
-        label="Delete"
-        :disable="isNoFileSelected"
-        @click="onDeleteButtonClick"
-      />
-    </div>
+  </q-scroll-area>
+  <div class="row justify-center q-mt-md">
+    <q-btn
+      color="primary"
+      class="q-mr-sm"
+      label="Select all"
+      :disable="areAllFilesSelected"
+      @click="onSelectAllButtonClick"
+    />
+    <q-btn
+      color="primary"
+      label="Unselect all"
+      :disable="isNoFileSelected"
+      @click="onUnselectAllButtonClick"
+    />
+  </div>
+  <div class="row justify-center q-mt-sm">
+    <q-btn
+      color="primary"
+      class="q-mr-sm"
+      label="Download"
+      :disable="isNoFileSelected"
+      @click="onDownloadButtonClick"
+    />
+    <q-btn
+      color="red"
+      label="Delete"
+      :disable="isNoFileSelected"
+      @click="onDeleteButtonClick"
+    />
   </div>
   <q-dialog
     v-model="isDeleteConfirmationDialogOpen"
@@ -282,10 +280,6 @@ function onUnselectAllButtonClick() {
 </template>
 
 <style scoped>
-.wrapper {
-  max-width: 400px;
-}
-
 .scroll-area {
   height: calc(100vh - 370px);
   min-height: 200px;
