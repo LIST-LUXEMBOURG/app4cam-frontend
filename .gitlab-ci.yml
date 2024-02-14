@@ -54,9 +54,6 @@ build:
     - cp .env.testing_variscite_mx8m .env
     - npm run build
     - mv dist/spa dist/spa_variscite_mx8m
-    - cp .env.testing_variscite_newtcam2 .env
-    - npm run build
-    - mv dist/spa dist/spa_variscite_newtcam2
     - cp .env.testing_variscite_newtcam3 .env
     - npm run build
     - mv dist/spa dist/spa_variscite_newtcam3
@@ -94,9 +91,9 @@ deploy-raspberry-pi:
     - chmod 644 ~/.ssh/known_hosts
 
     # Deploy.
-    - ssh $RASPBERRY_PI_USER@$RASPBERRY_PI_HOST "rm --force --recursive /var/www/html/* && exit"
+    - ssh $APP4CAM_USER@$RASPBERRY_PI_HOST "rm --force --recursive /var/www/html/* && exit"
     - apk add rsync
-    - rsync --recursive dist/spa_raspberry_pi/ $RASPBERRY_PI_USER@$RASPBERRY_PI_HOST:/var/www/html
+    - rsync --recursive dist/spa_raspberry_pi/ $APP4CAM_USER@$RASPBERRY_PI_HOST:/var/www/html
 
 deploy-variscite-mx8m:
   stage: deploy
@@ -128,43 +125,9 @@ deploy-variscite-mx8m:
     - chmod 644 ~/.ssh/known_hosts
 
     # Deploy.
-    - ssh $VARISCITE_USER@$VARISCITE_MX8M_HOST "rm --force --recursive /var/www/html/* && exit"
+    - ssh $APP4CAM_USER@$VARISCITE_MX8M_HOST "rm --force --recursive /var/www/html/* && exit"
     - apk add rsync
-    - rsync --recursive dist/spa_variscite_mx8m/ $VARISCITE_USER@$VARISCITE_MX8M_HOST:/var/www/html
-
-deploy-variscite-newtcam2:
-  stage: deploy
-  except:
-    - tags
-  tags:
-    - hdce_docker
-  environment:
-    name: Variscite NEWTCAM 2 testing
-    url: http://$VARISCITE_NEWTCAM2_HOST
-  script:
-    ## Install ssh-agent if not already installed, it is required by Docker.
-    - 'which ssh-agent || ( apk update && apk add openssh-client )'
-
-    ## Run ssh-agent (inside the build environment).
-    - eval $(ssh-agent -s)
-
-    ## Add the SSH key variable to the agent store. We're using tr to fix line
-    ## endings which makes ed25519 keys work without extra base64 encoding.
-    ## https://gitlab.com/gitlab-examples/ssh-private-key/issues/1#note_48526556
-    - echo "$VARISCITE_NEWTCAM2_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-
-    ## Create the SSH directory and give it the right permissions.
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-
-    ## Use ssh-keyscan to scan the keys of your private server.
-    - ssh-keyscan $VARISCITE_NEWTCAM2_HOST >> ~/.ssh/known_hosts
-    - chmod 644 ~/.ssh/known_hosts
-
-    # Deploy.
-    - ssh $VARISCITE_USER@$VARISCITE_NEWTCAM2_HOST "rm --force --recursive /var/www/html/* && exit"
-    - apk add rsync
-    - rsync --recursive dist/spa_variscite_newtcam2/ $VARISCITE_USER@$VARISCITE_NEWTCAM2_HOST:/var/www/html
+    - rsync --recursive dist/spa_variscite_mx8m/ $APP4CAM_USER@$VARISCITE_MX8M_HOST:/var/www/html
 
 deploy-variscite-newtcam3:
   stage: deploy
@@ -196,6 +159,6 @@ deploy-variscite-newtcam3:
     - chmod 644 ~/.ssh/known_hosts
 
     # Deploy.
-    - ssh $VARISCITE_USER@$VARISCITE_NEWTCAM3_HOST "rm --force --recursive /var/www/html/* && exit"
+    - ssh $APP4CAM_USER@$VARISCITE_NEWTCAM3_HOST "rm --force --recursive /var/www/html/* && exit"
     - apk add rsync
-    - rsync --recursive dist/spa_variscite_newtcam3/ $VARISCITE_USER@$VARISCITE_NEWTCAM3_HOST:/var/www/html
+    - rsync --recursive dist/spa_variscite_newtcam3/ $APP4CAM_USER@$VARISCITE_NEWTCAM3_HOST:/var/www/html
