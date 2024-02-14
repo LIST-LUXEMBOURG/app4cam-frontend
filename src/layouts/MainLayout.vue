@@ -32,6 +32,11 @@ store.fetchVersion().catch((error) => {
     >
       <q-toolbar>
         <q-toolbar-title>App4Cam</q-toolbar-title>
+        <img
+          alt="Logo of Luxembourg Institute of Science and Technology, abbreviated LIST, representing a sphere with multiple lines"
+          src="/list-logo.png"
+          style="height: 36px"
+        />
       </q-toolbar>
       <q-tabs>
         <q-route-tab
@@ -49,19 +54,34 @@ store.fetchVersion().catch((error) => {
       </q-tabs>
     </q-header>
     <q-page-container>
-      <div class="q-pt-md">
+      <div class="q-pt-md q-mx-auto wrapper">
         <router-view />
       </div>
     </q-page-container>
-    <footer class="q-mt-lg text-grey-7 text-center">
+    <footer class="q-mt-lg q-mb-sm q-mx-auto text-grey-8 text-center">
       version: frontend {{ frontendVersion }} &ndash;
       {{ frontendCommitHash }} &mdash; backend {{ backendVersion }} &ndash;
-      {{ backendCommitHash }}
+      {{ backendCommitHash }} &mdash; by LIST
     </footer>
   </q-layout>
 </template>
 
 <style scoped>
+.q-toolbar,
+.wrapper,
+footer {
+  max-width: 350px;
+}
+
+.q-toolbar {
+  margin: auto;
+  padding: 0;
+}
+
+.q-toolbar__title {
+  text-align: left;
+}
+
 footer {
   font-size: 11px;
 }

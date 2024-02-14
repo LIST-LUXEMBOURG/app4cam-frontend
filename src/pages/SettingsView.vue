@@ -330,344 +330,339 @@ adaptWorkingTimeSwitch()
 </script>
 
 <template>
-  <div
-    class="q-pa-md q-mx-auto text-left"
-    style="max-width: 400px"
-  >
-    <q-list bordered>
-      <q-expansion-item
-        group="settings"
-        icon="settings"
-        label="General settings"
-      >
-        <q-card>
-          <q-card-section>
-            <q-form
-              autocapitalize="off"
-              autocomplete="off"
-              autocorrect="off"
-              class="q-gutter-sm"
-              @submit="onSubmitGeneralSettings"
+  <q-list bordered>
+    <q-expansion-item
+      group="settings"
+      icon="settings"
+      label="General settings"
+    >
+      <q-card>
+        <q-card-section>
+          <q-form
+            autocapitalize="off"
+            autocomplete="off"
+            autocorrect="off"
+            class="q-gutter-sm"
+            @submit="onSubmitGeneralSettings"
+          >
+            <q-input
+              v-model="settingsStore.current.general.siteName"
+              :disable="isLoadingSettings"
+              label="Site name (optional)"
+              lazy-rules
+              outlined
+              :rules="noSpecialCharactersIfNotEmptyRules"
+            />
+            <q-input
+              v-model="settingsStore.current.general.deviceName"
+              class="q-mb-xl"
+              :disable="isLoadingSettings"
+              hint="Use a unique device name per site because it is also used as access point name."
+              label="Device name"
+              lazy-rules
+              outlined
+              :rules="notEmptyAndNoSpecialCharactersRules"
+            />
+            <q-input
+              v-model="propertiesStore.deviceId"
+              class="q-pb-md"
+              label="Device ID"
+              outlined
+              readonly
+            />
+            <q-select
+              v-model="settingsStore.current.general.timeZone"
+              :disable="isLoadingSettings"
+              fill-input
+              hide-selected
+              input-debounce="0"
+              label="Time zone"
+              lazy-rules
+              :options="filteredTimeZones"
+              outlined
+              :rules="noTimeZoneSelected"
+              use-input
+              @filter="filterTimeZones"
             >
-              <q-input
-                v-model="settingsStore.current.general.siteName"
-                :disable="isLoadingSettings"
-                label="Site name (optional)"
-                lazy-rules
-                outlined
-                :rules="noSpecialCharactersIfNotEmptyRules"
-              />
-              <q-input
-                v-model="settingsStore.current.general.deviceName"
-                class="q-mb-xl"
-                :disable="isLoadingSettings"
-                hint="Use a unique device name per site because it is also used as access point name."
-                label="Device name"
-                lazy-rules
-                outlined
-                :rules="notEmptyAndNoSpecialCharactersRules"
-              />
-              <q-input
-                v-model="propertiesStore.deviceId"
-                class="q-pb-md"
-                label="Device ID"
-                outlined
-                readonly
-              />
-              <q-select
-                v-model="settingsStore.current.general.timeZone"
-                :disable="isLoadingSettings"
-                fill-input
-                hide-selected
-                input-debounce="0"
-                label="Time zone"
-                lazy-rules
-                :options="filteredTimeZones"
-                outlined
-                :rules="noTimeZoneSelected"
-                use-input
-                @filter="filterTimeZones"
-              >
-                <template #no-option>
-                  <q-item>
-                    <q-item-section>No results</q-item-section>
-                  </q-item>
-                </template>
-              </q-select>
-              <div class="row q-mb-lg">
-                <div class="q-mr-md">
-                  <q-input
-                    v-model="date"
-                    :disable="isLoadingSettings"
-                    label="Date"
-                    outlined
-                    stack-label
-                    type="date"
-                  />
-                </div>
-                <div>
-                  <q-input
-                    v-model="time"
-                    :disable="isLoadingSettings"
-                    label="Time"
-                    outlined
-                    stack-label
-                    type="time"
-                  />
-                </div>
-              </div>
-              <FilenamePreview
-                :device-name="settingsStore.current.general.deviceName"
-                :site-name="settingsStore.current.general.siteName"
-                :system-time="settingsStore.current.general.systemTime"
-                :time-zone="settingsStore.current.general.timeZone"
-              />
-              <q-input
-                v-model="settingsStore.current.general.password"
-                class="q-mt-lg q-mb-sm"
-                :disable="isLoadingSettings"
-                label="Wi-Fi password"
-                lazy-rules
-                outlined
-                :rules="noInvalidWiFiPassword"
-              />
-              <q-btn
-                color="primary"
-                class="q-mt-md"
-                :disable="isLoadingSettings"
-                label="Save"
-                type="submit"
-              />
-            </q-form>
-          </q-card-section>
-        </q-card>
-      </q-expansion-item>
-
-      <q-separator />
-
-      <q-expansion-item
-        group="settings"
-        icon="camera"
-        label="Camera settings"
-      >
-        <q-card>
-          <q-card-section>
-            <q-form
-              autocapitalize="off"
-              autocomplete="off"
-              autocorrect="off"
-              class="q-gutter-sm"
-              @submit="onSubmitCameraSettings"
-            >
-              <div>
-                Types of shots
-                <q-option-group
-                  v-model="settingsStore.current.camera.shotTypes"
+              <template #no-option>
+                <q-item>
+                  <q-item-section>No results</q-item-section>
+                </q-item>
+              </template>
+            </q-select>
+            <div class="row q-mb-lg">
+              <div class="q-mr-md">
+                <q-input
+                  v-model="date"
                   :disable="isLoadingSettings"
-                  :options="SHOT_TYPE_OPTIONS"
-                  color="green"
-                  type="checkbox"
+                  label="Date"
+                  outlined
+                  stack-label
+                  type="date"
                 />
               </div>
-              <q-select
-                v-model="settingsStore.current.camera.pictureQuality"
-                :disable="isLoadingSettings"
-                emit-value
-                label="Picture quality"
-                map-options
-                :options="SHOT_QUALITIES"
-                outlined
-              />
-              <q-select
-                v-model="settingsStore.current.camera.videoQuality"
-                :disable="isLoadingSettings"
-                emit-value
-                label="Video quality"
-                map-options
-                :options="SHOT_QUALITIES"
-                outlined
-              />
-              <q-input
-                v-model.number="settingsStore.current.camera.focus"
-                :disable="isLoadingSettings"
-                label="Focus"
-                lazy-rules
-                outlined
-                :rules="notEmptyAndPositive"
-                type="number"
-              />
-              <q-field
-                ref="cameraLightFieldRef"
-                v-model="settingsStore.current.camera.light"
-                label="Recording light"
-                :rules="noInvalidCameraLightType"
-                stack-label
-              >
-                <template #control>
-                  <q-option-group
-                    v-model="settingsStore.current.camera.light"
-                    :disable="isLoadingSettings"
-                    :options="LIGHT_TYPE_OPTIONS"
-                  />
-                </template>
-              </q-field>
-              <q-btn
-                color="primary"
-                class="q-mt-md"
-                :disable="isLoadingSettings"
-                label="Save"
-                type="submit"
-              />
-            </q-form>
-          </q-card-section>
-        </q-card>
-      </q-expansion-item>
-
-      <q-separator />
-
-      <q-expansion-item
-        group="settings"
-        icon="bolt"
-        label="Trigger settings"
-      >
-        <q-card>
-          <q-card-section>
-            <q-form
-              autocapitalize="off"
-              autocomplete="off"
-              autocorrect="off"
-              class="q-gutter-sm"
-              @submit="onSubmitTriggerSettings"
-            >
               <div>
-                Working time
-                <div class="row">
-                  <q-toggle
-                    v-model="workingTimeEnabled"
-                    :disable="isLoadingSettings"
-                    label="Turn on only during the following interval"
-                  />
-                </div>
-                <div class="q-gutter-sm row items-center q-ml-xl">
-                  <q-input
-                    v-model="settingsStore.current.triggering.wakingUpTime"
-                    :disable="isLoadingSettings || !workingTimeEnabled"
-                    filled
-                    mask="time"
-                    :rules="['time']"
-                    style="width: 120px"
-                  >
-                    <template #append>
-                      <q-icon
-                        class="cursor-pointer"
-                        name="access_time"
-                      >
-                        <q-popup-proxy
-                          cover
-                          transition-hide="scale"
-                          transition-show="scale"
-                        >
-                          <q-time
-                            v-model="
-                              settingsStore.current.triggering.wakingUpTime
-                            "
-                            format24h
-                          >
-                            <div class="row items-center justify-end">
-                              <q-btn
-                                v-close-popup
-                                color="primary"
-                                flat
-                                label="Close"
-                              />
-                            </div>
-                          </q-time>
-                        </q-popup-proxy>
-                      </q-icon>
-                    </template>
-                  </q-input>
-                  <div class="q-pb-md">&ndash;</div>
-                  <q-input
-                    v-model="settingsStore.current.triggering.sleepingTime"
-                    :disable="isLoadingSettings || !workingTimeEnabled"
-                    filled
-                    mask="time"
-                    :rules="['time']"
-                    style="width: 120px"
-                  >
-                    <template #append>
-                      <q-icon
-                        class="cursor-pointer"
-                        name="access_time"
-                      >
-                        <q-popup-proxy
-                          cover
-                          transition-hide="scale"
-                          transition-show="scale"
-                        >
-                          <q-time
-                            v-model="
-                              settingsStore.current.triggering.sleepingTime
-                            "
-                            format24h
-                          >
-                            <div class="row items-center justify-end">
-                              <q-btn
-                                v-close-popup
-                                color="primary"
-                                flat
-                                label="Close"
-                              />
-                            </div>
-                          </q-time>
-                        </q-popup-proxy>
-                      </q-icon>
-                    </template>
-                  </q-input>
-                </div>
+                <q-input
+                  v-model="time"
+                  :disable="isLoadingSettings"
+                  label="Time"
+                  outlined
+                  stack-label
+                  type="time"
+                />
               </div>
-              <q-field
-                ref="triggerLightFieldRef"
-                v-model="settingsStore.current.triggering.light"
-                class="q-mb-md"
-                label="Trigger light"
-                :rules="noInvalidTriggeringLightType"
-                stack-label
-              >
-                <template #control>
-                  <q-option-group
-                    v-model="settingsStore.current.triggering.light"
-                    :disable="isLoadingSettings"
-                    :options="LIGHT_TYPE_OPTIONS"
-                  />
-                </template>
-              </q-field>
-              <q-input
-                v-model.number="settingsStore.current.triggering.threshold"
-                class="q-mb-md"
-                :disable="isLoadingSettings"
-                hint="This is the number of pixels that need to change for the device to trigger."
-                label="Threshold"
-                lazy-rules
-                outlined
-                :rules="notEmptyAndBetweenMinMaxThreshold"
-                type="number"
-              />
-              <q-btn
-                color="primary"
-                class="q-mt-md"
-                :disable="isLoadingSettings"
-                label="Save"
-                type="submit"
-              />
-            </q-form>
-          </q-card-section>
-        </q-card>
-      </q-expansion-item>
-    </q-list>
+            </div>
+            <FilenamePreview
+              :device-name="settingsStore.current.general.deviceName"
+              :site-name="settingsStore.current.general.siteName"
+              :system-time="settingsStore.current.general.systemTime"
+              :time-zone="settingsStore.current.general.timeZone"
+            />
+            <q-input
+              v-model="settingsStore.current.general.password"
+              class="q-mt-lg q-mb-sm"
+              :disable="isLoadingSettings"
+              label="Wi-Fi password"
+              lazy-rules
+              outlined
+              :rules="noInvalidWiFiPassword"
+            />
+            <q-btn
+              color="primary"
+              class="q-mt-md"
+              :disable="isLoadingSettings"
+              label="Save"
+              type="submit"
+            />
+          </q-form>
+        </q-card-section>
+      </q-card>
+    </q-expansion-item>
 
-    <ExportImport />
+    <q-separator />
 
-    <LogFileDownloads />
-  </div>
+    <q-expansion-item
+      group="settings"
+      icon="camera"
+      label="Camera settings"
+    >
+      <q-card>
+        <q-card-section>
+          <q-form
+            autocapitalize="off"
+            autocomplete="off"
+            autocorrect="off"
+            class="q-gutter-sm"
+            @submit="onSubmitCameraSettings"
+          >
+            <div>
+              Types of shots
+              <q-option-group
+                v-model="settingsStore.current.camera.shotTypes"
+                :disable="isLoadingSettings"
+                :options="SHOT_TYPE_OPTIONS"
+                color="green"
+                type="checkbox"
+              />
+            </div>
+            <q-select
+              v-model="settingsStore.current.camera.pictureQuality"
+              :disable="isLoadingSettings"
+              emit-value
+              label="Picture quality"
+              map-options
+              :options="SHOT_QUALITIES"
+              outlined
+            />
+            <q-select
+              v-model="settingsStore.current.camera.videoQuality"
+              :disable="isLoadingSettings"
+              emit-value
+              label="Video quality"
+              map-options
+              :options="SHOT_QUALITIES"
+              outlined
+            />
+            <q-input
+              v-model.number="settingsStore.current.camera.focus"
+              :disable="isLoadingSettings"
+              label="Focus"
+              lazy-rules
+              outlined
+              :rules="notEmptyAndPositive"
+              type="number"
+            />
+            <q-field
+              ref="cameraLightFieldRef"
+              v-model="settingsStore.current.camera.light"
+              label="Recording light"
+              :rules="noInvalidCameraLightType"
+              stack-label
+            >
+              <template #control>
+                <q-option-group
+                  v-model="settingsStore.current.camera.light"
+                  :disable="isLoadingSettings"
+                  :options="LIGHT_TYPE_OPTIONS"
+                />
+              </template>
+            </q-field>
+            <q-btn
+              color="primary"
+              class="q-mt-md"
+              :disable="isLoadingSettings"
+              label="Save"
+              type="submit"
+            />
+          </q-form>
+        </q-card-section>
+      </q-card>
+    </q-expansion-item>
+
+    <q-separator />
+
+    <q-expansion-item
+      group="settings"
+      icon="bolt"
+      label="Trigger settings"
+    >
+      <q-card>
+        <q-card-section>
+          <q-form
+            autocapitalize="off"
+            autocomplete="off"
+            autocorrect="off"
+            class="q-gutter-sm"
+            @submit="onSubmitTriggerSettings"
+          >
+            <div>
+              Working time
+              <div class="row">
+                <q-toggle
+                  v-model="workingTimeEnabled"
+                  :disable="isLoadingSettings"
+                  label="Turn on only during the following interval"
+                />
+              </div>
+              <div class="q-gutter-sm row items-center q-ml-xl">
+                <q-input
+                  v-model="settingsStore.current.triggering.wakingUpTime"
+                  :disable="isLoadingSettings || !workingTimeEnabled"
+                  filled
+                  mask="time"
+                  :rules="['time']"
+                  style="width: 120px"
+                >
+                  <template #append>
+                    <q-icon
+                      class="cursor-pointer"
+                      name="access_time"
+                    >
+                      <q-popup-proxy
+                        cover
+                        transition-hide="scale"
+                        transition-show="scale"
+                      >
+                        <q-time
+                          v-model="
+                            settingsStore.current.triggering.wakingUpTime
+                          "
+                          format24h
+                        >
+                          <div class="row items-center justify-end">
+                            <q-btn
+                              v-close-popup
+                              color="primary"
+                              flat
+                              label="Close"
+                            />
+                          </div>
+                        </q-time>
+                      </q-popup-proxy>
+                    </q-icon>
+                  </template>
+                </q-input>
+                <div class="q-pb-md">&ndash;</div>
+                <q-input
+                  v-model="settingsStore.current.triggering.sleepingTime"
+                  :disable="isLoadingSettings || !workingTimeEnabled"
+                  filled
+                  mask="time"
+                  :rules="['time']"
+                  style="width: 120px"
+                >
+                  <template #append>
+                    <q-icon
+                      class="cursor-pointer"
+                      name="access_time"
+                    >
+                      <q-popup-proxy
+                        cover
+                        transition-hide="scale"
+                        transition-show="scale"
+                      >
+                        <q-time
+                          v-model="
+                            settingsStore.current.triggering.sleepingTime
+                          "
+                          format24h
+                        >
+                          <div class="row items-center justify-end">
+                            <q-btn
+                              v-close-popup
+                              color="primary"
+                              flat
+                              label="Close"
+                            />
+                          </div>
+                        </q-time>
+                      </q-popup-proxy>
+                    </q-icon>
+                  </template>
+                </q-input>
+              </div>
+            </div>
+            <q-field
+              ref="triggerLightFieldRef"
+              v-model="settingsStore.current.triggering.light"
+              class="q-mb-md"
+              label="Trigger light"
+              :rules="noInvalidTriggeringLightType"
+              stack-label
+            >
+              <template #control>
+                <q-option-group
+                  v-model="settingsStore.current.triggering.light"
+                  :disable="isLoadingSettings"
+                  :options="LIGHT_TYPE_OPTIONS"
+                />
+              </template>
+            </q-field>
+            <q-input
+              v-model.number="settingsStore.current.triggering.threshold"
+              class="q-mb-md"
+              :disable="isLoadingSettings"
+              hint="This is the number of pixels that need to change for the device to trigger."
+              label="Threshold"
+              lazy-rules
+              outlined
+              :rules="notEmptyAndBetweenMinMaxThreshold"
+              type="number"
+            />
+            <q-btn
+              color="primary"
+              class="q-mt-md"
+              :disable="isLoadingSettings"
+              label="Save"
+              type="submit"
+            />
+          </q-form>
+        </q-card-section>
+      </q-card>
+    </q-expansion-item>
+  </q-list>
+
+  <ExportImport />
+
+  <LogFileDownloads />
 </template>

@@ -22,25 +22,23 @@ onErrorCaptured((e) => {
 </script>
 
 <template>
-  <div class="q-mx-auto wrapper text-left">
-    <Suspense v-if="!error">
-      <template #default>
-        <div>
-          <site-and-device-names-heading />
-          <disk-usage />
-          <media-counts />
-          <BatteryStatus />
-          <snapshot-section />
-        </div>
-      </template>
-      <template #fallback>
-        <div>
-          <span class="material-icons"> sync </span>
-          Loading...
-        </div>
-      </template>
-    </Suspense>
-  </div>
+  <Suspense v-if="!error">
+    <template #default>
+      <div>
+        <site-and-device-names-heading />
+        <disk-usage />
+        <media-counts />
+        <BatteryStatus />
+        <snapshot-section />
+      </div>
+    </template>
+    <template #fallback>
+      <div>
+        <span class="material-icons"> sync </span>
+        Loading...
+      </div>
+    </template>
+  </Suspense>
 </template>
 
 <style scoped>
@@ -57,9 +55,5 @@ onErrorCaptured((e) => {
 .material-icons {
   font-size: 36px;
   animation: rotation infinite 1s ease-in-out;
-}
-
-.wrapper {
-  max-width: 400px;
 }
 </style>
