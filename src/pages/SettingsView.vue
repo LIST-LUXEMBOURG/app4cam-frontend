@@ -213,6 +213,15 @@ ApiClientService.getAvailableTimeZones()
     })
   })
 
+function adaptWorkingTimeSwitch() {
+  if (
+    settingsStore.current.triggering.sleepingTime &&
+    settingsStore.current.triggering.wakingUpTime
+  ) {
+    workingTimeEnabled.value = true
+  }
+}
+
 function filterTimeZones(
   val: string,
   update: (callbackFn: () => void) => void,
@@ -306,6 +315,18 @@ watch(
     }
   },
 )
+
+watch(
+  () => settingsStore.current.triggering.sleepingTime,
+  adaptWorkingTimeSwitch,
+)
+
+watch(
+  () => settingsStore.current.triggering.wakingUpTime,
+  adaptWorkingTimeSwitch,
+)
+
+adaptWorkingTimeSwitch()
 </script>
 
 <template>
