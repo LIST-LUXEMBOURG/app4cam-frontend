@@ -61,7 +61,7 @@ build:
     paths:
       - dist/
 
-.deploy-raspberry-pi:
+deploy-raspberry-pi:
   stage: deploy
   except:
     - tags
