@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// © 2021-2023 Luxembourg Institute of Science and Technology
 import { useQuasar } from 'quasar'
 import DateConverter from './helpers/DateConverter'
 import { useSettingsStore } from './stores/settings'

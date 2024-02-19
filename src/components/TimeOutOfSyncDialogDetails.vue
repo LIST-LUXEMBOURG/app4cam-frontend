@@ -1,3 +1,7 @@
+<script setup lang="ts">
+// © 2022 Luxembourg Institute of Science and Technology
+</script>
+
 <template>
   <q-card>
     <q-card-section class="row q-gutter-sm q-pb-none">

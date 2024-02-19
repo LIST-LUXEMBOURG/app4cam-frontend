@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// © 2022 Luxembourg Institute of Science and Technology
 import { useDialogPluginComponent } from 'quasar'
 import TimeOutOfSyncDialogDetails from './TimeOutOfSyncDialogDetails.vue'
 

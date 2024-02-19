@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// © 2022-2023 Luxembourg Institute of Science and Technology
 import { QBtn, QFile, QForm, QIcon, useQuasar, ValidationRule } from 'quasar'
 import { ref } from 'vue'
 import { FileDownloader } from '../helpers/FileDownloader'

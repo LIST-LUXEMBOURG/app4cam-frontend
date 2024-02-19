@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// © 2022-2024 Luxembourg Institute of Science and Technology
 import { useQuasar } from 'quasar'
 import { onErrorCaptured, Ref, ref } from 'vue'
 import DiskUsage from '../components/DiskUsage.vue'

@@ -1,3 +1,4 @@
+// © 2022 Luxembourg Institute of Science and Technology
 import FilenameCreator from './FilenameCreator'
 
 const DEVICE_NAME = 'd'

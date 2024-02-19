@@ -1,3 +1,4 @@
+// © 2021-2022 Luxembourg Institute of Science and Technology
 /* eslint-disable */
 
 /// <reference types="vite/client" />

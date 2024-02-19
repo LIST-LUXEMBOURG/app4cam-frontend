@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// © 2023 Luxembourg Institute of Science and Technology
 import { useQuasar } from 'quasar'
 import { FileDownloader } from '../helpers/FileDownloader'
 import ApiClientService from 'src/helpers/ApiClientService'

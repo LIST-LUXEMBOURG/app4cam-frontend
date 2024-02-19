@@ -50,11 +50,11 @@ The frontend is served via the access point the device provides.
 - [TypeScript](https://www.typescriptlang.org/)
 - [Vue.js](https://vuejs.org/)
 
-## Setup
-
-### Prerequisites
+## Prerequisites
 
 - \>= Node.js 18.x
+
+## Development
 
 ### Development setup
 
@@ -81,7 +81,21 @@ Since TypeScript cannot handle type information for `.vue` imports, they are shi
 - Lint files: `npm run lint`
 - Format files: `npm run format`
 
-### Production setup
+#### Copyright notice usage
+
+The following copyright notice must be included as a comment at the beginning of every source code file:
+
+```
+© <year> Luxembourg Institute of Science and Technology
+```
+
+As year, indicate the year of creation. When making changes to code with an existing notice, retain the earliest copyright year, and optionally add the current copyright year, e.g.:
+
+```
+© 2022-2024 Luxembourg Institute of Science and Technology
+```
+
+## Production setup
 
 #### 1. Prepare the device
 

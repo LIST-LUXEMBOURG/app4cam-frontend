@@ -1,3 +1,4 @@
+// © 2022 Luxembourg Institute of Science and Technology
 import { createPinia, setActivePinia } from 'pinia'
 import { files } from '../../fixtures/files.json'
 import ApiClientService from '../helpers/ApiClientService'

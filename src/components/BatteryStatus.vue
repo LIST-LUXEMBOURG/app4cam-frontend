@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// © 2024 Luxembourg Institute of Science and Technology
 import { useQuasar } from 'quasar'
 import { usePropertiesStore } from 'src/stores/properties'
 

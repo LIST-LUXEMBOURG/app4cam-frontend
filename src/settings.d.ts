@@ -1,3 +1,4 @@
+// © 2022-2023 Luxembourg Institute of Science and Technology
 export type LightType = 'infrared' | 'visible'
 export type ShotType = 'pictures' | 'videos'
 

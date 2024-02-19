@@ -1,3 +1,4 @@
+// © 2022-2023 Luxembourg Institute of Science and Technology
 import { route } from 'quasar/wrappers'
 import {
   createMemoryHistory,
