@@ -1,3 +1,4 @@
+// © 2022 Luxembourg Institute of Science and Technology
 interface FileAsJson {
   name: string
   creationTime: string

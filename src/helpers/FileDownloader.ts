@@ -1,3 +1,4 @@
+// © 2022 Luxembourg Institute of Science and Technology
 export class FileDownloader {
   static downloadFile(
     blobParts: BlobPart[],

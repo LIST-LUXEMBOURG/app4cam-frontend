@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// © 2022-2022 Luxembourg Institute of Science and Technology
 import { computed } from 'vue'
 import FilenameCreator from '../helpers/FilenameCreator'
 

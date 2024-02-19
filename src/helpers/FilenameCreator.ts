@@ -1,3 +1,4 @@
+// © 2022 Luxembourg Institute of Science and Technology
 import DateConverter from './DateConverter'
 
 export default class FilenameCreator {

@@ -1,3 +1,4 @@
+// © 2022 Luxembourg Institute of Science and Technology
 declare namespace NodeJS {
   interface ProcessEnv {
     NODE_ENV: string

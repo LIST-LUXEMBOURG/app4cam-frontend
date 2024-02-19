@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// © 2022-2023 Luxembourg Institute of Science and Technology
 import { useQuasar } from 'quasar'
 import { useSettingsStore } from '../stores/settings'
 

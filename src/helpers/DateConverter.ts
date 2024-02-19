@@ -1,3 +1,4 @@
+// © 2022 Luxembourg Institute of Science and Technology
 import { differenceInMinutes } from 'date-fns'
 import { formatInTimeZone } from 'date-fns-tz'
 

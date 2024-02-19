@@ -1,4 +1,6 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+// © 2022 Luxembourg Institute of Science and Technology
+</script>
 
 <template>
   <div

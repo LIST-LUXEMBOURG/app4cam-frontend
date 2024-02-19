@@ -1,3 +1,4 @@
+// © 2022 Luxembourg Institute of Science and Technology
 import { createPinia } from 'pinia'
 import { store } from 'quasar/wrappers'
 import { Router } from 'vue-router'

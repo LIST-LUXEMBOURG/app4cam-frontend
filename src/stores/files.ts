@@ -1,3 +1,4 @@
+// © 2022 Luxembourg Institute of Science and Technology
 import { defineStore } from 'pinia'
 import ApiClientService from '../helpers/ApiClientService'
 import { FilesDeletedResponse } from '../helpers/ApiTypings'

@@ -1,3 +1,4 @@
+// © 2022-2023 Luxembourg Institute of Science and Technology
 import { createTestingPinia } from '@pinia/testing'
 import { installQuasarPlugin } from '@quasar/quasar-app-extension-testing-unit-jest'
 import { screen } from '@testing-library/vue'

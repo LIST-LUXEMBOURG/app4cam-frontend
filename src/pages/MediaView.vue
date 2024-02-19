@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// © 2022-2024 Luxembourg Institute of Science and Technology
 import { useQuasar } from 'quasar'
 import { computed, reactive, ref } from 'vue'
 import ApiClientService from '../helpers/ApiClientService'
