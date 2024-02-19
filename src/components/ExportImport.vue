@@ -25,12 +25,12 @@ function onExportButtonClick() {
   store
     .fetchSettings()
     .then(() => {
-      const settingsToExport = store.getPersistentSettings()
+      const settingsToExport = store.persistentSettings
       const filename = FilenameCreator.createFilename({
-        deviceName: store.general.deviceName,
-        siteName: store.general.siteName,
-        systemTime: new Date(store.general.systemTime),
-        timeZone: store.general.timeZone,
+        deviceName: store.current.general.deviceName,
+        siteName: store.current.general.siteName,
+        systemTime: new Date(store.current.general.systemTime),
+        timeZone: store.current.general.timeZone,
         extension: 'json',
         suffix: EXPORT_FILENAME_SUFFIX,
       })
