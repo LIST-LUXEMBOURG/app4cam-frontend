@@ -50,18 +50,30 @@ The frontend is served via the access point the device provides.
 - [TypeScript](https://www.typescriptlang.org/)
 - [Vue.js](https://vuejs.org/)
 
-## Prerequisites
-
-- \>= Node.js 18.x
-
 ## Development
 
 ### Development setup
 
-1. Install dependencies: `npm install`
-2. Copy the config file `.env.sample` to `.env`.
-3. Edit the latter config file as needed.
-4. Start app in development mode: `quasar dev` or `npm run dev`
+1. Make sure to have Node.js installed in version >= 18.x.
+2. Install dependencies:
+
+```shell
+npm install
+```
+
+3. Copy the config file `.env.sample` to `.env`.
+4. Edit the latter config file as needed.
+5. Start app in development mode:
+
+```shell
+quasar dev
+```
+
+or
+
+```shell
+npm run dev
+```
 
 #### Recommended plugins for Visual Studio Code
 
@@ -76,10 +88,41 @@ Since TypeScript cannot handle type information for `.vue` imports, they are shi
 
 #### Development commands
 
-- Run unit tests: `npm run test:unit`
-- Rerun unit tests automatically on file changes: `npm run test:unit:watch` or `npm run test:unit:watchAll`
-- Lint files: `npm run lint`
-- Format files: `npm run format`
+- Run unit tests:
+
+```shell
+npm run test:unit
+```
+
+- Rerun unit tests automatically on file changes:
+
+```shell
+npm run test:unit:watch
+```
+
+or
+
+```shell
+npm run test:unit:watchAll
+```
+
+- Run app in development and test concurrently:
+
+```shell
+npm run concurrently:dev:jest
+```
+
+- Lint files:
+
+```shell
+npm run lint
+```
+
+- Format files:
+
+```shell
+npm run format
+```
 
 #### Copyright notice usage
 
@@ -99,12 +142,11 @@ As year, indicate the year of creation. When making changes to code with an exis
 
 #### 1. Prepare the device
 
-1. Install Apache web server: `sudo apt install apache2 -y`
-2. Enable rewrite module: `sudo a2enmod rewrite`
-3. Enable use of `.htaccess` file by setting `AllowOverride` to `All` in the block for the directory `/var/www/` in the configuration file, usually located under `/etc/apache2/apache2.conf`.
-4. Restart Apache: `sudo systemctl restart apache2`
-5. If you have not already during backend setup, create a new user, `app4cam` e.g., with a password you remember: `sudo adduser <user>`
-6. Transfer Apache folder ownership to your user: `sudo chown -R <user> /var/www/html`
+Copy and execute the following setup script:
+
+```
+scripts/setup/set-up-web-server-and-user.sh
+```
 
 #### 2. Build the application
 
@@ -128,43 +170,34 @@ You can build the application on a computer and copy the build to the device, or
 
 #### 3. For continuous deployment (CD) only
 
-If you have set up the backend already, you just need to do step 4.
+Define the following variables in Gitlab:
 
-1. Log in as user: `su - <user>`
-2. Generate a public/private key pair without passphrase: `ssh-keygen -t ed25519`
-3. Copy public key to authorized keys file: `cp .ssh/id_ed25519.pub .ssh/authorized_keys`
-4. Define the following variables in Gitlab:
+- `APP4CAM_USER`: user of application
+- `RASPBERRY_PI_HOST`: IP address of Raspberry Pi
+- `RASPBERRY_PI_PRIVATE_KEY`: private key of App4Cam user on Raspberry Pi
+- `VARISCITE_MX8M_HOST`: IP address of Variscite MX8M
+- `VARISCITE_MX8M_PRIVATE_KEY`: private key of App4Cam user on Variscite MX8M
+- `VARISCITE_NEWTCAM3_HOST`: IP address of Variscite NEWTCAM 3
+- `VARISCITE_NEWTCAM3_PRIVATE_KEY`: private key of App4Cam user on Variscite NEWTCAM 3
 
-   - `APP4CAM_USER`: user of application
-   - `RASPBERRY_PI_HOST`: IP address of Raspberry Pi
-   - `RASPBERRY_PI_PRIVATE_KEY`: private key of App4Cam user on Raspberry Pi
-   - `VARISCITE_MX8M_HOST`: IP address of Variscite MX8M
-   - `VARISCITE_MX8M_PRIVATE_KEY`: private key of App4Cam user on Variscite MX8M
-   - `VARISCITE_NEWTCAM3_HOST`: IP address of Variscite NEWTCAM 3
-   - `VARISCITE_NEWTCAM3_PRIVATE_KEY`: private key of App4Cam user on Variscite NEWTCAM 3
+If you have not set up the backend already, copy and execute the following setup script:
 
-5. Delete private key file: `rm .ssh/id_ed25519`
-6. Remove all "group" and "other" permissions for the `.ssh` directory: `chmod -R go= ~/.ssh`
-7. Logout: `exit`
-8. Open SSH config file: `sudo nano /etc/ssh/sshd_config`
-9. Disable password authentication by setting `PasswordAuthentication no`.
-10. Prepend the following line: `Match User <user>`
-11. Append the following line: `Match all`
-12. Restart `sshd` service: `sudo systemctl restart ssh`
-13. Install rsync: `sudo apt install rsync -y`
+```
+scripts/setup/set-up-continuous-deployment.sh
+```
 
 ## Release procedure
 
-1. Make sure that you are on the `main` branch and that it is up-to-date.
-2. Make sure `CHANGELOG.md` is up-to-date with backend and frontend changes.
-3. Use a new version number and create a new section in `CHANGELOG.md`.
-4. Update `package.json` with the new version number.
-5. Update `package-lock.json`: `npm i --package-lock-only`
-6. Commit every change: `git commit -am "release version <version>"`
-7. Tag the new version: `git tag v<version>`
-8. Push the commit to the remote repository: `git push`
-9. Push the tag to the remote repository: `git push --tags`
-10. Append `-next` to the version number in `package.json`.
-11. Update `package-lock.json`: `npm i --package-lock-only`
-12. Commit every change: `git commit -am "prepare next release"`
-13. Push the commit to the remote repository: `git push`
+1. Make sure `CHANGELOG.md` is up-to-date with backend and frontend changes.
+2. Use a new version number and create a new section in `CHANGELOG.md`.
+3. Run the following script with a real version number:
+
+```shell
+scripts/release-version.sh "<version-number>"
+```
+
+4. Push the commit to the remote repository once you are ready:
+
+```shell
+git push
+```
