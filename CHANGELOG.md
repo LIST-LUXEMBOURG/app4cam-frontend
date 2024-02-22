@@ -4,16 +4,30 @@
 
 ### Added
 
+- Show number of changed pixels as text on shots
 - Introduce recording light setting, with the restriction that infrared light cannot be used for recording when visible light is used for triggering
 - Introduce camera focus setting
 - Display connection lost popup when the device name is changed
 - Add Wi-Fi password to settings
+- Enable hardware WiFi toggle button on the NewtCam board
+- Add battery voltage to dashboard page
+- Read battery voltage on the NewtCam board
+- Support RTC of the NewtCam board
+- Make NewtCam boards also hibernate
+- Add hardware initialisation scripts for the NewtCam board
+- Display LIST logo in header and note `by LIST` in footer
+- Add copyright notice as comment to source code files
+- Create setup and release scripts for frontend
 
 ### Changed
 
+- Increase size of text on shots
+- Adapt focus depending on recording light type
 - Send only the changed settings to the backend
 - Return patched settings so that frontend knows what has changed
+- Update dependencies
 - Rename tab and heading of file counts from Shots to Media
+- Use colors from LIST communication guide as primary, secondary and accent colors
 
 ### Deprecated
 
@@ -21,8 +35,10 @@
 
 ### Fixed
 
+- Avoid fake loop phenomenon by enable light switch feature in motion
 - Handle empty motion option `video_params`
 - Not loosing access point connection when changing another general setting than device name
+- Enable working time switch if both times are sent from the server
 
 ### Security
 
