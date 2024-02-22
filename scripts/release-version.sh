@@ -33,4 +33,4 @@ git push
 git push --tags
 
 # Append -next to the version number in package files, commit and tag.
-npm version "$NEW_VERSION-next" -m "release version $NEW_VERSION-next"
+npm version "$NEW_VERSION-next" -m "prepare next release"
