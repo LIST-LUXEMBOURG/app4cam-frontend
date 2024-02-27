@@ -552,7 +552,7 @@ adaptWorkingTimeSwitch()
                   filled
                   mask="time"
                   :rules="['time']"
-                  style="width: 120px"
+                  style="width: 115px"
                 >
                   <template #append>
                     <q-icon
@@ -590,7 +590,7 @@ adaptWorkingTimeSwitch()
                   filled
                   mask="time"
                   :rules="['time']"
-                  style="width: 120px"
+                  style="width: 115px"
                 >
                   <template #append>
                     <q-icon
