@@ -4,6 +4,20 @@
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## 3.0.0
+
+### Added
+
 - Show number of changed pixels as text on shots
 - Introduce recording light setting, with the restriction that infrared light cannot be used for recording when visible light is used for triggering
 - Introduce camera focus setting
@@ -28,10 +42,6 @@
 - Update dependencies
 - Rename tab and heading of file counts from Shots to Media
 - Use colors from LIST communication guide as primary, secondary and accent colors
-
-### Deprecated
-
-### Removed
 
 ### Fixed
 
