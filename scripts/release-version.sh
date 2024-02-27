@@ -17,8 +17,11 @@ if [ "$LOCAL" != "$REMOTE" ]; then
   exit 1
 fi
 
+# Add changes of CHANGELOG file.
+git add CHANGELOG.md
+
 # Update version in package files, commit and tag.
-npm version "$NEW_VERSION" -afm "release version $NEW_VERSION"
+npm version "$NEW_VERSION" -fm "release version $NEW_VERSION"
 
 # Push the commit to the remote repository.
 git push
