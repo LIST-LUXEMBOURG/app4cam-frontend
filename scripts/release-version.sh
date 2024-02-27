@@ -9,12 +9,6 @@ if [[ "$(git branch --show-current)" != "main" ]] ; then
   exit 1
 fi
 
-# Check whether everything is committed.
-if [ -n "$(git status --porcelain)" ]; then
-  echo "You have uncommitted changes!"
-  exit 1
-fi
-
 # Check whether it is up-to-date.
 LOCAL=$(git rev-parse @)
 REMOTE=$(git rev-parse "@{u}")
@@ -24,7 +18,7 @@ if [ "$LOCAL" != "$REMOTE" ]; then
 fi
 
 # Update version in package files, commit and tag.
-npm version "$NEW_VERSION" -m "release version $NEW_VERSION"
+npm version "$NEW_VERSION" -afm "release version $NEW_VERSION"
 
 # Push the commit to the remote repository.
 git push
