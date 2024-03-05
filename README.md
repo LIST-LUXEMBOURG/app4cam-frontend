@@ -175,6 +175,8 @@ Define the following variables in Gitlab:
 - `APP4CAM_USER`: user of application
 - `RASPBERRY_PI_HOST`: IP address of Raspberry Pi
 - `RASPBERRY_PI_PRIVATE_KEY`: private key of App4Cam user on Raspberry Pi
+- `VARISCITE_MX6_HOST`: IP address of Variscite MX6
+- `VARISCITE_MX6_PRIVATE_KEY`: private key of App4Cam user on Variscite MX6
 - `VARISCITE_MX8M_HOST`: IP address of Variscite MX8M
 - `VARISCITE_MX8M_PRIVATE_KEY`: private key of App4Cam user on Variscite MX8M
 - `VARISCITE_NEWTCAM3_HOST`: IP address of Variscite NEWTCAM 3
