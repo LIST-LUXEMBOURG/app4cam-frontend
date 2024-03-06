@@ -31,7 +31,9 @@ function handleFileDownloadResponse(response: FileDownloadResponse): void {
 function handleFileDownloadError(error: any): void {
   quasar.notify({
     message: 'The log file could not be downloaded.',
-    caption: error.message ? error.message : '',
+    caption: error.response.data.message
+      ? error.response.data.message
+      : error.message,
     color: 'negative',
   })
 }

@@ -18,7 +18,9 @@ const backendVersion = computed(() => store.version)
 store.fetchVersion().catch((error) => {
   quasar.notify({
     message: 'The backend version could not be loaded.',
-    caption: error.message ? error.message : '',
+    caption: error.response.data.message
+      ? error.response.data.message
+      : error.message,
     color: 'negative',
   })
 })
