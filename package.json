@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@quasar/extras": "1.16.9",
-    "apexcharts": "3.44.0",
+    "apexcharts": "3.46.0",
     "axios": "1.6.2",
     "date-fns": "2.30.0",
     "date-fns-tz": "2.0.0",
@@ -27,7 +27,7 @@
     "quasar": "2.13.0",
     "vue": "3.3.9",
     "vue-router": "4.2.5",
-    "vue3-apexcharts": "1.4.4"
+    "vue3-apexcharts": "1.5.2"
   },
   "devDependencies": {
     "@pinia/testing": "0.1.3",
