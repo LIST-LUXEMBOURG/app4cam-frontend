@@ -34,8 +34,8 @@ const PLACEHOLDER_SETTINGS: ApplicationSettings = {
   triggering: {
     light: 'infrared',
     threshold: TRIGGER_THRESHOLD_MINIMUM,
-    sleepingTime: '',
-    wakingUpTime: '',
+    sleepingTime: null,
+    wakingUpTime: null,
   },
 }
 
@@ -204,8 +204,8 @@ export const useSettingsStore = defineStore('settings', {
         settings.light = this.current.triggering.light
       }
       if (
-        this.current.triggering.sleepingTime !==
-        this.initial.triggering.sleepingTime
+        JSON.stringify(this.current.triggering.sleepingTime) !==
+        JSON.stringify(this.initial.triggering.sleepingTime)
       ) {
         settings.sleepingTime = this.current.triggering.sleepingTime
       }
@@ -215,8 +215,8 @@ export const useSettingsStore = defineStore('settings', {
         settings.threshold = this.current.triggering.threshold
       }
       if (
-        this.current.triggering.wakingUpTime !==
-        this.initial.triggering.wakingUpTime
+        JSON.stringify(this.current.triggering.wakingUpTime) !==
+        JSON.stringify(this.initial.triggering.wakingUpTime)
       ) {
         settings.wakingUpTime = this.current.triggering.wakingUpTime
       }

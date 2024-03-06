@@ -2,6 +2,11 @@
 export type LightType = 'infrared' | 'visible'
 export type ShotType = 'pictures' | 'videos'
 
+interface TriggeringTime {
+  hour: number
+  minute: number
+}
+
 interface GeneralSettings {
   deviceName: string
   password: string
@@ -19,9 +24,9 @@ interface CameraSettings {
 
 interface TriggerSettings {
   light: LightType
-  sleepingTime: string
+  sleepingTime: TriggeringTime | null
   threshold: number
-  wakingUpTime: string
+  wakingUpTime: TriggeringTime | null
 }
 
 export interface PersistentSettings {

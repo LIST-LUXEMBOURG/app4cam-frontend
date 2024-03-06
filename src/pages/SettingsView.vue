@@ -114,7 +114,9 @@ const availableTimeZones = ref<string[]>([])
 const cameraLightFieldRef = ref<VNodeRef>()
 const filteredTimeZones = ref<string[]>([])
 const isLoadingSettings = ref(true)
+const sleepingTime = ref('')
 const triggerLightFieldRef = ref<VNodeRef>()
+const wakingUpTime = ref('')
 const workingTimeEnabled = ref(false)
 
 const date = computed({
@@ -190,6 +192,7 @@ propertiesStore.fetchDeviceId().catch((error) => {
 
 settingsStore
   .fetchSettings()
+  .then(loadWorkingTimes)
   .catch((error) => {
     quasar.notify({
       message: 'The settings could not be loaded.',
@@ -214,11 +217,8 @@ ApiClientService.getAvailableTimeZones()
     })
   })
 
-function adaptWorkingTimeSwitch() {
-  if (
-    settingsStore.current.triggering.sleepingTime &&
-    settingsStore.current.triggering.wakingUpTime
-  ) {
+function enableSwitchOnWorkingTimesSet() {
+  if (sleepingTime.value && wakingUpTime.value) {
     workingTimeEnabled.value = true
   }
 }
@@ -233,6 +233,29 @@ function filterTimeZones(
       (v) => v.toLowerCase().indexOf(needle) > -1,
     )
   })
+}
+
+function loadWorkingTimes() {
+  if (settingsStore.current.triggering.sleepingTime) {
+    let time = settingsStore.current.triggering.sleepingTime.hour
+      .toString()
+      .padStart(2, '0')
+    time += ':'
+    time += settingsStore.current.triggering.sleepingTime.minute
+      .toString()
+      .padStart(2, '0')
+    sleepingTime.value = time
+  }
+  if (settingsStore.current.triggering.wakingUpTime) {
+    let time = settingsStore.current.triggering.wakingUpTime.hour
+      .toString()
+      .padStart(2, '0')
+    time += ':'
+    time += settingsStore.current.triggering.wakingUpTime.minute
+      .toString()
+      .padStart(2, '0')
+    wakingUpTime.value = time
+  }
 }
 
 function notifySettingsSaved() {
@@ -287,11 +310,35 @@ function onSubmitTriggerSettings() {
     .catch(notifySettingsNotSavedError)
 }
 
-watch(workingTimeEnabled, (value) => {
-  // Empty sleeping times when this functionality is disabled.
+watch(sleepingTime, (value) => {
   if (!value) {
-    settingsStore.current.triggering.sleepingTime = ''
-    settingsStore.current.triggering.wakingUpTime = ''
+    settingsStore.current.triggering.sleepingTime = null
+  } else {
+    const hour = parseInt(value.substring(0, 2))
+    const minute = parseInt(value.substring(3, 5))
+    settingsStore.current.triggering.sleepingTime = { hour, minute }
+  }
+})
+
+watch(sleepingTime, enableSwitchOnWorkingTimesSet)
+
+watch(wakingUpTime, (value) => {
+  if (!value) {
+    settingsStore.current.triggering.wakingUpTime = null
+  } else {
+    const hour = parseInt(value.substring(0, 2))
+    const minute = parseInt(value.substring(3, 5))
+    settingsStore.current.triggering.wakingUpTime = { hour, minute }
+  }
+})
+
+watch(wakingUpTime, enableSwitchOnWorkingTimesSet)
+
+watch(workingTimeEnabled, (value) => {
+  // Empty working times when this functionality is disabled.
+  if (!value) {
+    sleepingTime.value = ''
+    wakingUpTime.value = ''
   }
 })
 
@@ -316,18 +363,6 @@ watch(
     }
   },
 )
-
-watch(
-  () => settingsStore.current.triggering.sleepingTime,
-  adaptWorkingTimeSwitch,
-)
-
-watch(
-  () => settingsStore.current.triggering.wakingUpTime,
-  adaptWorkingTimeSwitch,
-)
-
-adaptWorkingTimeSwitch()
 </script>
 
 <template>
@@ -547,7 +582,7 @@ adaptWorkingTimeSwitch()
               </div>
               <div class="q-gutter-sm row items-center q-ml-xl">
                 <q-input
-                  v-model="settingsStore.current.triggering.wakingUpTime"
+                  v-model="wakingUpTime"
                   :disable="isLoadingSettings || !workingTimeEnabled"
                   filled
                   mask="time"
@@ -565,9 +600,7 @@ adaptWorkingTimeSwitch()
                         transition-show="scale"
                       >
                         <q-time
-                          v-model="
-                            settingsStore.current.triggering.wakingUpTime
-                          "
+                          v-model="wakingUpTime"
                           format24h
                         >
                           <div class="row items-center justify-end">
@@ -585,7 +618,7 @@ adaptWorkingTimeSwitch()
                 </q-input>
                 <div class="q-pb-md">&ndash;</div>
                 <q-input
-                  v-model="settingsStore.current.triggering.sleepingTime"
+                  v-model="sleepingTime"
                   :disable="isLoadingSettings || !workingTimeEnabled"
                   filled
                   mask="time"
@@ -603,9 +636,7 @@ adaptWorkingTimeSwitch()
                         transition-show="scale"
                       >
                         <q-time
-                          v-model="
-                            settingsStore.current.triggering.sleepingTime
-                          "
+                          v-model="sleepingTime"
                           format24h
                         >
                           <div class="row items-center justify-end">
