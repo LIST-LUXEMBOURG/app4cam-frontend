@@ -41,8 +41,8 @@ describe('settings store', () => {
         triggering: {
           light: 'visible',
           threshold: 0,
-          sleepingTime: '18:00',
-          wakingUpTime: '08:00',
+          sleepingTime: { hour: 18, minute: 0 },
+          wakingUpTime: { hour: 8, minute: 0 },
         },
       }
       const getSettingsSpy = jest
@@ -79,9 +79,9 @@ describe('settings store', () => {
           },
           triggering: {
             light: 'infrared',
-            sleepingTime: '18:00',
+            sleepingTime: { hour: 18, minute: 0 },
             threshold: 1,
-            wakingUpTime: '08:00',
+            wakingUpTime: { hour: 8, minute: 0 },
           },
         }
         const store = useSettingsStore()
@@ -119,12 +119,12 @@ describe('settings store', () => {
         const threshold = 1
         const shotTypes: ShotType[] = ['pictures', 'videos']
         const siteName = 's'
-        const sleepingTime = '18:00'
+        const sleepingTime = { hour: 18, minute: 0 }
         const store = useSettingsStore()
         const timeZone = 't'
         const triggeringLight = 'infrared'
         const videoQuality = 90
-        const wakingUpTime = '08:00'
+        const wakingUpTime = { hour: 8, minute: 0 }
         store.current.camera.focus = focus
         store.current.camera.light = cameraLight
         store.current.camera.pictureQuality = pictureQuality
@@ -233,8 +233,8 @@ describe('settings store', () => {
       it('uploads all changed trigger settings', async () => {
         const light = 'visible'
         const threshold = 2
-        const sleepingTime = '18:00'
-        const wakingUpTime = '08:00'
+        const sleepingTime = { hour: 18, minute: 0 }
+        const wakingUpTime = { hour: 8, minute: 0 }
         const store = useSettingsStore()
         store.current.triggering.light = light
         store.current.triggering.threshold = threshold

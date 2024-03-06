@@ -17,9 +17,15 @@
     },
     "triggering": {
       "light": "visible",
-      "sleepingTime": "",
+      "sleepingTime": {
+        "hour": 1,
+        "minute": 2
+      },
       "threshold": 1,
-      "wakingUpTime": ""
+      "wakingUpTime": {
+        "hour": 1,
+        "minute": 2
+      }
     }
   }
 }
