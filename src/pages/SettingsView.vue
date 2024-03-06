@@ -185,7 +185,9 @@ const time = computed({
 propertiesStore.fetchDeviceId().catch((error) => {
   quasar.notify({
     message: 'The device ID could not be loaded.',
-    caption: error.message ? error.message : '',
+    caption: error.response.data.message
+      ? error.response.data.message
+      : error.message,
     color: 'negative',
   })
 })
@@ -196,7 +198,9 @@ settingsStore
   .catch((error) => {
     quasar.notify({
       message: 'The settings could not be loaded.',
-      caption: error.message ? error.message : '',
+      caption: error.response.data.message
+        ? error.response.data.message
+        : error.message,
       color: 'negative',
     })
   })
@@ -212,7 +216,9 @@ ApiClientService.getAvailableTimeZones()
   .catch((error) => {
     quasar.notify({
       message: 'The available time zones could not be loaded.',
-      caption: error.message ? error.message : '',
+      caption: error.response.data.message
+        ? error.response.data.message
+        : error.message,
       color: 'negative',
     })
   })
@@ -269,7 +275,9 @@ function notifySettingsSaved() {
 function notifySettingsNotSavedError(error: any) {
   quasar.notify({
     message: 'The settings could not be saved.',
-    caption: error.message ? error.message : '',
+    caption: error.response.data.message
+      ? error.response.data.message
+      : error.message,
     color: 'negative',
   })
 }

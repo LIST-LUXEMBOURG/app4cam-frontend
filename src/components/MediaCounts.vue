@@ -12,7 +12,9 @@ try {
 } catch (error: any) {
   quasar.notify({
     message: 'The numbers of media could not be loaded.',
-    caption: error.message ? error.message : '',
+    caption: error.response.data.message
+      ? error.response.data.message
+      : error.message,
     color: 'negative',
   })
 }

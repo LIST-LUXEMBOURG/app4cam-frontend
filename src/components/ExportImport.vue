@@ -43,7 +43,9 @@ function onExportButtonClick() {
     .catch((error) => {
       quasar.notify({
         message: 'The settings could not be exported.',
-        caption: error.message ? error.message : '',
+        caption: error.response.data.message
+          ? error.response.data.message
+          : error.message,
         color: 'negative',
       })
     })
@@ -67,7 +69,9 @@ function importSettings(event: ProgressEvent<FileReader>) {
       .catch((error: any) => {
         quasar.notify({
           message: 'The settings could not be imported.',
-          caption: error.message ? error.message : '',
+          caption: error.response.data.message
+            ? error.response.data.message
+            : error.message,
           color: 'negative',
         })
       })

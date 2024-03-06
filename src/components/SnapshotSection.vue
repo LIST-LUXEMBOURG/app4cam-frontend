@@ -20,7 +20,9 @@ function onTakeSnapshotButtonClick() {
     .catch((error) => {
       quasar.notify({
         message: 'Taking or displaying the snapshot failed.',
-        caption: error.message ? error.message : '',
+        caption: error.response.data.message
+          ? error.response.data.message
+          : error.message,
         color: 'negative',
       })
     })

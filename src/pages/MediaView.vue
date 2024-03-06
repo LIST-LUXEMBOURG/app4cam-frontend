@@ -15,7 +15,9 @@ const store = useFilesStore()
 store.fetchFiles().catch((error) => {
   quasar.notify({
     message: 'The files could not be loaded.',
-    caption: error.message ? error.message : '',
+    caption: error.response.data.message
+      ? error.response.data.message
+      : error.message,
     color: 'negative',
   })
 })
@@ -78,7 +80,9 @@ function onConfirmDeleteButtonClick() {
       .catch((error) => {
         quasar.notify({
           message: 'The file could not be deleted.',
-          caption: error.message ? error.message : '',
+          caption: error.response.data.message
+            ? error.response.data.message
+            : error.message,
           color: 'negative',
         })
       })
@@ -89,7 +93,9 @@ function onConfirmDeleteButtonClick() {
       .catch((error) => {
         quasar.notify({
           message: 'One or more files could not be deleted.',
-          caption: error.message ? error.message : '',
+          caption: error.response.data.message
+            ? error.response.data.message
+            : error.message,
           color: 'negative',
         })
       })
@@ -134,7 +140,9 @@ function handleFileDownloadResponse(response: FileDownloadResponse): void {
 function handleFileDownloadError(error: any): void {
   quasar.notify({
     message: 'The media could not be downloaded.',
-    caption: error.message ? error.message : '',
+    caption: error.response.data.message
+      ? error.response.data.message
+      : error.message,
     color: 'negative',
   })
 }
