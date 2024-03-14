@@ -64,7 +64,7 @@ store.fetchVersion().catch((error) => {
     <footer class="q-mt-lg q-mb-sm q-mx-auto text-grey-8 text-center">
       version: frontend {{ frontendVersion }} &ndash;
       {{ frontendCommitHash }} &mdash; backend {{ backendVersion }} &ndash;
-      {{ backendCommitHash }} &mdash; by LIST
+      {{ backendCommitHash }} &mdash; developed by LIST
     </footer>
   </q-layout>
 </template>
