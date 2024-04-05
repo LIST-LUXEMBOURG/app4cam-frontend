@@ -19,6 +19,7 @@ export const TRIGGER_THRESHOLD_MAXIMUM = 2147483647
 const PLACEHOLDER_SETTINGS: ApplicationSettings = {
   camera: {
     focus: 200,
+    isLightEnabled: false,
     light: 'visible',
     pictureQuality: 80,
     shotTypes: [],
@@ -32,6 +33,7 @@ const PLACEHOLDER_SETTINGS: ApplicationSettings = {
     timeZone: '',
   },
   triggering: {
+    isLightEnabled: false,
     light: 'infrared',
     threshold: TRIGGER_THRESHOLD_MINIMUM,
     sleepingTime: null,
@@ -68,6 +70,8 @@ export const useSettingsStore = defineStore('settings', {
       return ApiClientService.getSettings().then((settings) => {
         this.current.camera.focus = settings.camera.focus
         this.initial.camera.focus = settings.camera.focus
+        this.current.camera.isLightEnabled = settings.camera.isLightEnabled
+        this.initial.camera.isLightEnabled = settings.camera.isLightEnabled
         this.current.camera.light = settings.camera.light
         this.initial.camera.light = settings.camera.light
         this.current.camera.pictureQuality = settings.camera.pictureQuality
@@ -88,6 +92,10 @@ export const useSettingsStore = defineStore('settings', {
         this.current.general.timeZone = settings.general.timeZone
         this.initial.general.timeZone = settings.general.timeZone
 
+        this.current.triggering.isLightEnabled =
+          settings.triggering.isLightEnabled
+        this.initial.triggering.isLightEnabled =
+          settings.triggering.isLightEnabled
         this.current.triggering.light = settings.triggering.light
         this.initial.triggering.light = settings.triggering.light
         this.current.triggering.threshold = settings.triggering.threshold
@@ -132,14 +140,25 @@ export const useSettingsStore = defineStore('settings', {
 
     uploadPersistentSettings(): Promise<void> {
       const settings: PersistentSettings = {
-        camera: { ...this.current.camera },
+        camera: {
+          focus: this.current.camera.focus,
+          light: this.current.camera.light,
+          pictureQuality: this.current.camera.pictureQuality,
+          shotTypes: this.current.camera.shotTypes,
+          videoQuality: this.current.camera.videoQuality,
+        },
         general: {
           deviceName: this.current.general.deviceName,
           password: this.current.general.password,
           siteName: this.current.general.siteName,
           timeZone: this.current.general.timeZone,
         },
-        triggering: { ...this.current.triggering },
+        triggering: {
+          light: this.current.triggering.light,
+          sleepingTime: this.current.triggering.sleepingTime,
+          threshold: this.current.triggering.threshold,
+          wakingUpTime: this.current.triggering.wakingUpTime,
+        },
       }
       return ApiClientService.patchSettings(settings)
     },

@@ -11,7 +11,10 @@ import {
   StorageStatusResponse,
   BatteryVoltageResponse,
 } from './ApiTypings'
-import { ApplicationSettings } from 'src/settings'
+import {
+  ApplicationSettings,
+  ApplicationSettingsWithoutFlags,
+} from 'src/settings'
 
 const apiClient = axios.create({
   baseURL: CONFIG.API_SERVER_URL,
@@ -110,11 +113,13 @@ export default {
     return unwrapAxiosResponse(apiClient.get('/settings'))
   },
 
-  patchSettings(settings: DeepPartial<ApplicationSettings>): Promise<void> {
+  patchSettings(
+    settings: DeepPartial<ApplicationSettingsWithoutFlags>,
+  ): Promise<void> {
     return unwrapAxiosResponse(apiClient.patch('/settings', settings))
   },
 
-  putSettings(settings: ApplicationSettings): Promise<void> {
+  putSettings(settings: ApplicationSettingsWithoutFlags): Promise<void> {
     return unwrapAxiosResponse(apiClient.put('/settings', settings))
   },
 

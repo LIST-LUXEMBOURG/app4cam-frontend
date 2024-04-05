@@ -26,6 +26,7 @@ describe('settings store', () => {
       const settings: ApplicationSettings = {
         camera: {
           focus: 200,
+          isLightEnabled: true,
           light: 'visible',
           pictureQuality: 60,
           shotTypes: ['pictures', 'videos'],
@@ -39,6 +40,7 @@ describe('settings store', () => {
           timeZone: 't',
         },
         triggering: {
+          isLightEnabled: true,
           light: 'visible',
           threshold: 0,
           sleepingTime: { hour: 18, minute: 0 },
@@ -88,8 +90,14 @@ describe('settings store', () => {
 
         store.updatePersistentSettings(settings)
 
-        expect(store.current.camera).toStrictEqual(settings.camera)
-        expect(store.initial.camera).toStrictEqual(settings.camera)
+        expect(store.current.camera).toStrictEqual({
+          ...settings.camera,
+          isLightEnabled: false,
+        })
+        expect(store.initial.camera).toStrictEqual({
+          ...settings.camera,
+          isLightEnabled: false,
+        })
         expect(store.current.general.deviceName).toBe(
           settings.general.deviceName,
         )
@@ -100,8 +108,14 @@ describe('settings store', () => {
         expect(store.initial.general.siteName).toBe(settings.general.siteName)
         expect(store.current.general.timeZone).toBe(settings.general.timeZone)
         expect(store.initial.general.timeZone).toBe(settings.general.timeZone)
-        expect(store.current.triggering).toStrictEqual(settings.triggering)
-        expect(store.initial.triggering).toStrictEqual(settings.triggering)
+        expect(store.current.triggering).toStrictEqual({
+          ...settings.triggering,
+          isLightEnabled: false,
+        })
+        expect(store.initial.triggering).toStrictEqual({
+          ...settings.triggering,
+          isLightEnabled: false,
+        })
       })
     })
 

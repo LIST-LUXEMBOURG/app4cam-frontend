@@ -537,6 +537,7 @@ watch(
               type="number"
             />
             <q-field
+              v-if="settingsStore.current.camera.isLightEnabled"
               ref="cameraLightFieldRef"
               v-model="settingsStore.current.camera.light"
               label="Recording light"
@@ -663,6 +664,7 @@ watch(
               </div>
             </div>
             <q-field
+              v-if="settingsStore.current.triggering.isLightEnabled"
               ref="triggerLightFieldRef"
               v-model="settingsStore.current.triggering.light"
               class="q-mb-md"
