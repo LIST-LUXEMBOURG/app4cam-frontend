@@ -35,8 +35,17 @@ export interface PersistentSettings {
   triggering: TriggerSettings
 }
 
-export type ApplicationSettings = PersistentSettings & {
+export type ApplicationSettingsWithoutFlags = PersistentSettings & {
   general: {
     systemTime: string
+  }
+}
+
+export type ApplicationSettings = ApplicationSettingsWithoutFlags & {
+  camera: {
+    isLightEnabled: boolean
+  }
+  triggering: {
+    isLightEnabled: boolean
   }
 }
