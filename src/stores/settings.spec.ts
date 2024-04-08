@@ -45,6 +45,7 @@ describe('settings store', () => {
           isLightEnabled: true,
           light: 'visible',
           threshold: 0,
+          thresholdMaximum: 1,
           sleepingTime: { hour: 18, minute: 0 },
           wakingUpTime: { hour: 8, minute: 0 },
         },
@@ -117,10 +118,12 @@ describe('settings store', () => {
         expect(store.current.triggering).toStrictEqual({
           ...settings.triggering,
           isLightEnabled: false,
+          thresholdMaximum: Number.MAX_SAFE_INTEGER,
         })
         expect(store.initial.triggering).toStrictEqual({
           ...settings.triggering,
           isLightEnabled: false,
+          thresholdMaximum: Number.MAX_SAFE_INTEGER,
         })
       })
     })
