@@ -12,11 +12,7 @@ import ExportImport from '../components/ExportImport.vue'
 import FilenamePreview from '../components/FilenamePreview.vue'
 import ApiClientService from '../helpers/ApiClientService'
 import DateConverter from '../helpers/DateConverter'
-import {
-  useSettingsStore,
-  TRIGGER_THRESHOLD_MINIMUM,
-  TRIGGER_THRESHOLD_MAXIMUM,
-} from '../stores/settings'
+import { useSettingsStore, TRIGGER_THRESHOLD_MINIMUM } from '../stores/settings'
 import LogFileDownloads from 'src/components/LogFileDownloads.vue'
 import { usePropertiesStore } from 'src/stores/properties'
 
@@ -100,8 +96,9 @@ const noSpecialCharactersIfNotEmptyRules: ValidationRule[] = [
 const notEmptyAndBetweenMinMaxThreshold: ValidationRule[] = [
   (val) => (val !== null && val !== '') || 'Please enter a value.',
   (val) =>
-    (val >= TRIGGER_THRESHOLD_MINIMUM && val <= TRIGGER_THRESHOLD_MAXIMUM) ||
-    `Please provide a value between ${TRIGGER_THRESHOLD_MINIMUM} and ${TRIGGER_THRESHOLD_MAXIMUM}.`,
+    (val >= TRIGGER_THRESHOLD_MINIMUM &&
+      val <= settingsStore.current.triggering.thresholdMaximum) ||
+    `Please provide a value between ${TRIGGER_THRESHOLD_MINIMUM} and ${settingsStore.current.triggering.thresholdMaximum}.`,
 ]
 const noTimeZoneSelected: ValidationRule[] = [
   (val) => (val !== null && val !== '') || 'Please select a time zone.',
@@ -164,7 +161,7 @@ const systemTimeAsDate = computed({
 })
 const thresholdHint = computed(
   () =>
-    `This is the number of pixels that need to change for the device to trigger. It can range from ${TRIGGER_THRESHOLD_MINIMUM} to ${TRIGGER_THRESHOLD_MAXIMUM}.`,
+    `This is the number of pixels that need to change for the device to trigger. It can range from ${TRIGGER_THRESHOLD_MINIMUM} to ${settingsStore.current.triggering.thresholdMaximum}.`,
 )
 const time = computed({
   get: () => {

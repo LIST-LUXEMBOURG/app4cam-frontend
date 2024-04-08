@@ -49,5 +49,6 @@ export type ApplicationSettings = ApplicationSettingsWithoutFlags & {
   }
   triggering: {
     isLightEnabled: boolean
+    thresholdMaximum: number
   }
 }

@@ -15,7 +15,6 @@ interface State {
 }
 
 export const TRIGGER_THRESHOLD_MINIMUM = 1
-export const TRIGGER_THRESHOLD_MAXIMUM = 2147483647
 const PLACEHOLDER_SETTINGS: ApplicationSettings = {
   camera: {
     focus: 200,
@@ -38,6 +37,7 @@ const PLACEHOLDER_SETTINGS: ApplicationSettings = {
     isLightEnabled: false,
     light: 'infrared',
     threshold: TRIGGER_THRESHOLD_MINIMUM,
+    thresholdMaximum: Number.MAX_SAFE_INTEGER,
     sleepingTime: null,
     wakingUpTime: null,
   },
@@ -106,6 +106,10 @@ export const useSettingsStore = defineStore('settings', {
         this.initial.triggering.light = settings.triggering.light
         this.current.triggering.threshold = settings.triggering.threshold
         this.initial.triggering.threshold = settings.triggering.threshold
+        this.current.triggering.thresholdMaximum =
+          settings.triggering.thresholdMaximum
+        this.initial.triggering.thresholdMaximum =
+          settings.triggering.thresholdMaximum
         this.current.triggering.sleepingTime = settings.triggering.sleepingTime
         this.initial.triggering.sleepingTime = settings.triggering.sleepingTime
         this.current.triggering.wakingUpTime = settings.triggering.wakingUpTime
