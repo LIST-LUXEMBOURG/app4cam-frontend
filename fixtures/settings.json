@@ -2,6 +2,9 @@
   "settings": {
     "camera": {
       "focus": 200,
+      "focusMaximum": 800,
+      "focusMinimum": 1,
+      "isLightEnabled": true,
       "light": "infrared",
       "pictureQuality": 100,
       "shotTypes": [],
@@ -16,12 +19,14 @@
       "timeZone": ""
     },
     "triggering": {
+      "isLightEnabled": true,
       "light": "visible",
       "sleepingTime": {
         "hour": 1,
         "minute": 2
       },
       "threshold": 1,
+      "thresholdMaximum": 1000,
       "wakingUpTime": {
         "hour": 1,
         "minute": 2
