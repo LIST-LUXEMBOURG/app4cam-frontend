@@ -98,7 +98,7 @@ const noSpecialCharactersIfNotEmptyRules: ValidationRule[] = [
     'Please only use letters, numbers and hyphens.',
 ]
 const notEmptyAndBetweenMinMaxThreshold: ValidationRule[] = [
-  (val) => (val !== null && val !== '') || 'Please enter something.',
+  (val) => (val !== null && val !== '') || 'Please enter a value.',
   (val) =>
     (val >= TRIGGER_THRESHOLD_MINIMUM && val <= TRIGGER_THRESHOLD_MAXIMUM) ||
     `Please provide a value between ${TRIGGER_THRESHOLD_MINIMUM} and ${TRIGGER_THRESHOLD_MAXIMUM}.`,
@@ -106,8 +106,12 @@ const notEmptyAndBetweenMinMaxThreshold: ValidationRule[] = [
 const noTimeZoneSelected: ValidationRule[] = [
   (val) => (val !== null && val !== '') || 'Please select a time zone.',
 ]
-const notEmptyAndPositive: ValidationRule[] = [
-  (val: number) => val > 0 || 'Please enter a positive number.',
+const notEmptyAndBetweenMinMaxFocus: ValidationRule[] = [
+  (val) => (val !== null && val !== '') || 'Please enter a value.',
+  (val) =>
+    (val >= settingsStore.current.camera.focusMinimum &&
+      val <= settingsStore.current.camera.focusMaximum) ||
+    `Please provide a value between ${settingsStore.current.camera.focusMinimum} and ${settingsStore.current.camera.focusMaximum}.`,
 ]
 
 const availableTimeZones = ref<string[]>([])
@@ -148,12 +152,20 @@ const date = computed({
     systemTimeAsDate.value = date
   },
 })
+const focusHint = computed(
+  () =>
+    `This value can range from ${settingsStore.current.camera.focusMinimum} to ${settingsStore.current.camera.focusMaximum}.`,
+)
 const systemTimeAsDate = computed({
   get: () => new Date(settingsStore.current.general.systemTime),
   set: (value) => {
     settingsStore.current.general.systemTime = value.toISOString()
   },
 })
+const thresholdHint = computed(
+  () =>
+    `This is the number of pixels that need to change for the device to trigger. It can range from ${TRIGGER_THRESHOLD_MINIMUM} to ${TRIGGER_THRESHOLD_MAXIMUM}.`,
+)
 const time = computed({
   get: () => {
     if (
@@ -530,10 +542,11 @@ watch(
             <q-input
               v-model.number="settingsStore.current.camera.focus"
               :disable="isLoadingSettings"
+              :hint="focusHint"
               label="Focus"
               lazy-rules
               outlined
-              :rules="notEmptyAndPositive"
+              :rules="notEmptyAndBetweenMinMaxFocus"
               type="number"
             />
             <q-field
@@ -684,7 +697,7 @@ watch(
               v-model.number="settingsStore.current.triggering.threshold"
               class="q-mb-md"
               :disable="isLoadingSettings"
-              hint="This is the number of pixels that need to change for the device to trigger."
+              :hint="thresholdHint"
               label="Threshold"
               lazy-rules
               outlined

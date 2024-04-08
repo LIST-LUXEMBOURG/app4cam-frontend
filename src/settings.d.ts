@@ -43,6 +43,8 @@ export type ApplicationSettingsWithoutFlags = PersistentSettings & {
 
 export type ApplicationSettings = ApplicationSettingsWithoutFlags & {
   camera: {
+    focusMaximum: number
+    focusMinimum: number
     isLightEnabled: boolean
   }
   triggering: {

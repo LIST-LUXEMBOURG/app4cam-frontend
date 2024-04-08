@@ -19,6 +19,8 @@ export const TRIGGER_THRESHOLD_MAXIMUM = 2147483647
 const PLACEHOLDER_SETTINGS: ApplicationSettings = {
   camera: {
     focus: 200,
+    focusMaximum: Number.MAX_SAFE_INTEGER,
+    focusMinimum: Number.MIN_SAFE_INTEGER,
     isLightEnabled: false,
     light: 'visible',
     pictureQuality: 80,
@@ -70,6 +72,10 @@ export const useSettingsStore = defineStore('settings', {
       return ApiClientService.getSettings().then((settings) => {
         this.current.camera.focus = settings.camera.focus
         this.initial.camera.focus = settings.camera.focus
+        this.current.camera.focusMaximum = settings.camera.focusMaximum
+        this.initial.camera.focusMaximum = settings.camera.focusMaximum
+        this.current.camera.focusMinimum = settings.camera.focusMinimum
+        this.initial.camera.focusMinimum = settings.camera.focusMinimum
         this.current.camera.isLightEnabled = settings.camera.isLightEnabled
         this.initial.camera.isLightEnabled = settings.camera.isLightEnabled
         this.current.camera.light = settings.camera.light
