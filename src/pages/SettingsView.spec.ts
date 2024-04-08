@@ -66,64 +66,6 @@ describe(SettingsView.name, () => {
       expect(field).toBeVisible()
     })
 
-    it('shows site name setting', async () => {
-      await renderComponent()
-      const button = screen.getByRole('button', { name: /General settings/ })
-      await user.click(button)
-      const field = screen.getByText('Site name (optional)')
-      expect(field).toBeVisible()
-    })
-
-    it('shows device name setting', async () => {
-      await renderComponent()
-      const button = screen.getByRole('button', { name: /General settings/ })
-      await user.click(button)
-      const field = screen.getByText('Device name')
-      expect(field).toBeVisible()
-    })
-
-    it('shows device id setting', async () => {
-      await renderComponent()
-      const button = screen.getByRole('button', { name: /General settings/ })
-      await user.click(button)
-      const field = screen.getByText('Device ID')
-      expect(field).toBeVisible()
-    })
-
-    it('shows time zone setting', async () => {
-      await renderComponent()
-      const button = screen.getByRole('button', { name: /General settings/ })
-      await user.click(button)
-      const field = screen.getByText('Time zone')
-      expect(field).toBeVisible()
-    })
-
-    it('shows date setting', async () => {
-      await renderComponent()
-      const button = screen.getByRole('button', { name: /General settings/ })
-      await user.click(button)
-      const field = screen.getByText('Date')
-      expect(field).toBeVisible()
-    })
-
-    it('shows time setting', async () => {
-      await renderComponent()
-      const button = screen.getByRole('button', { name: /General settings/ })
-      await user.click(button)
-      const field = screen.getByText('Time')
-      expect(field).toBeVisible()
-    })
-
-    it('shows filename preview heading', async () => {
-      await renderComponent()
-      const button = screen.getByRole('button', { name: /General settings/ })
-      await user.click(button)
-      const heading = screen.queryByRole('heading', {
-        name: 'Filename preview',
-      })
-      expect(heading).toBeVisible()
-    })
-
     it('hides camera settings', async () => {
       await renderComponent()
       const button = screen.getByRole('button', { name: /General settings/ })

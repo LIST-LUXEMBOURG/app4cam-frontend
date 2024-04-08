@@ -128,6 +128,7 @@ module.exports = {
       { alphabetize: { order: 'asc', caseInsensitive: true } },
     ],
 
+    'testing-library/prefer-explicit-assert': 'error',
     'testing-library/prefer-user-event': 'error',
   },
 }
