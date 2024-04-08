@@ -26,6 +26,8 @@ describe('settings store', () => {
       const settings: ApplicationSettings = {
         camera: {
           focus: 200,
+          focusMaximum: 1000,
+          focusMinimum: 0,
           isLightEnabled: true,
           light: 'visible',
           pictureQuality: 60,
@@ -92,10 +94,14 @@ describe('settings store', () => {
 
         expect(store.current.camera).toStrictEqual({
           ...settings.camera,
+          focusMaximum: Number.MAX_SAFE_INTEGER,
+          focusMinimum: Number.MIN_SAFE_INTEGER,
           isLightEnabled: false,
         })
         expect(store.initial.camera).toStrictEqual({
           ...settings.camera,
+          focusMaximum: Number.MAX_SAFE_INTEGER,
+          focusMinimum: Number.MIN_SAFE_INTEGER,
           isLightEnabled: false,
         })
         expect(store.current.general.deviceName).toBe(
