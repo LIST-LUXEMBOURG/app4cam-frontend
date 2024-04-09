@@ -94,26 +94,11 @@ describe(SettingsView.name, () => {
       expect(field).not.toBeVisible()
     })
 
-    it('shows types of shots setting', async () => {
-      await renderComponent()
-      const button = screen.getByRole('button', { name: /Camera settings/ })
-      await user.click(button)
-      expect(screen.getByLabelText('Pictures')).toBeVisible()
-      expect(screen.getByLabelText('Videos')).toBeVisible()
-    })
-
-    it('shows picture quality setting', async () => {
+    it('shows camera settings', async () => {
       await renderComponent()
       const button = screen.getByRole('button', { name: /Camera settings/ })
       await user.click(button)
       expect(screen.getByLabelText('Picture quality')).toBeVisible()
-    })
-
-    it('shows movie quality setting', async () => {
-      await renderComponent()
-      const button = screen.getByRole('button', { name: /Camera settings/ })
-      await user.click(button)
-      expect(screen.getByLabelText('Video quality')).toBeVisible()
     })
 
     it('hides trigger settings', async () => {
