@@ -4,6 +4,20 @@
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## 4.0.0
+
+### Added
+
 - Show battery level in Raspberry Pi too
 - Support Witty Pi on Raspberry Pi for defining working hours
 - Support getting and setting focus on Raspberry Pi
@@ -23,10 +37,6 @@
 - Hide trigger and recording light settings if device does not support them
 - Split up settings' page into three settings' components
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 
 - Lower disk space usage threshold to 95% to reduce risk of overflown disk
@@ -39,8 +49,6 @@
 - Allow change of only one of both working times if both are set already
 - Fix setting of year in RTC on NewtCam
 - Fix WiFi button on NewtCam not working after auto-deployment
-
-### Security
 
 ## 3.0.0
 
