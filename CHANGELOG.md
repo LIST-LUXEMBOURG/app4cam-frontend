@@ -4,13 +4,41 @@
 
 ### Added
 
+- Show battery level in Raspberry Pi too
+- Support Witty Pi on Raspberry Pi for defining working hours
+- Support getting and setting focus on Raspberry Pi
+- Export settings file to data folder on each settings saving
+- Support JSON file download
+- Add setup script for enabling user services and USB auto-mounting
+- Describe focus and threshold ranges in form fields hints
+- Add focus and threshold range checks to form fields
+- Log version at application startup
+
 ### Changed
+
+- Update dependencies
+- Improve error handling for getting and setting focus
+- Represent working times as object inside JSON settings file
+- Don't include working times, site name and device name in JSON settings file if they are not defined
+- Hide trigger and recording light settings if device does not support them
+- Split up settings' page into three settings' components
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+- Lower disk space usage threshold to 95% to reduce risk of overflown disk
+- Add mask file for NewtCam to auto-deployment
+- Display error message from request response if it is available
+- Fix Raspberry Pi loosing camera focus on reboot
+- Switch to syslog for Motion logging to not overflow disk
+- Fix broken USB auto-mount on NewtCam by disabling preconfigured udev auto-mount rule
+- Fix snapshot not being opened on Raspberry Pi by increasing waiting time for saving image to 2s
+- Allow change of only one of both working times if both are set already
+- Fix setting of year in RTC on NewtCam
+- Fix WiFi button on NewtCam not working after auto-deployment
 
 ### Security
 
