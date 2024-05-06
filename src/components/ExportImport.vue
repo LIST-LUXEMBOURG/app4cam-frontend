@@ -16,7 +16,7 @@ const checkNoFile: ValidationRule[] = [
 ]
 
 const emit = defineEmits<{
-  (event: 'imported'): void
+  imported: []
 }>()
 
 const file = ref(null)

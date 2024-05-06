@@ -4,7 +4,7 @@ import ApiClientService from '../helpers/ApiClientService'
 import { StorageResponse, StorageStatusResponse } from '../helpers/ApiTypings'
 import { useStorageStore } from './storage'
 
-jest.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
+vi.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
 
 describe('storage store', () => {
   beforeEach(() => {
@@ -22,7 +22,7 @@ describe('storage store', () => {
         usedPercentage: 2,
       },
     }
-    const getSettingsSpy = jest
+    const getSettingsSpy = vi
       .spyOn(ApiClientService, 'getStorage')
       .mockResolvedValue(settings)
 
@@ -45,7 +45,7 @@ describe('storage store', () => {
       isAvailable: true,
       message: 'a',
     }
-    const getSettingsSpy = jest
+    const getSettingsSpy = vi
       .spyOn(ApiClientService, 'getStorageStatus')
       .mockResolvedValue(status)
 

@@ -4,7 +4,7 @@ import ApiClientService from '../helpers/ApiClientService'
 import { useSettingsStore } from './settings'
 import { ApplicationSettings, PersistentSettings, ShotType } from 'src/settings'
 
-jest.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
+vi.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
 
 describe('settings store', () => {
   beforeEach(() => {
@@ -50,7 +50,7 @@ describe('settings store', () => {
           wakingUpTime: { hour: 8, minute: 0 },
         },
       }
-      const getSettingsSpy = jest
+      const getSettingsSpy = vi
         .spyOn(ApiClientService, 'getSettings')
         .mockResolvedValue(settings)
 
@@ -129,7 +129,7 @@ describe('settings store', () => {
     })
 
     describe('when updating only part of the settings', () => {
-      const patchSettingsSpy = jest
+      const patchSettingsSpy = vi
         .spyOn(ApiClientService, 'patchSettings')
         .mockResolvedValue()
 

@@ -1,4 +1,6 @@
 // © 2022-2023 Luxembourg Institute of Science and Technology
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 /* eslint-disable testing-library/no-debugging-utils, testing-library/no-node-access */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /**

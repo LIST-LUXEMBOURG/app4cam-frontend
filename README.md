@@ -58,7 +58,7 @@ The frontend is served via the access point the device provides.
 2. Install dependencies:
 
 ```shell
-npm install
+pnpm install
 ```
 
 3. Copy the config file `.env.sample` to `.env`.
@@ -72,7 +72,7 @@ quasar dev
 or
 
 ```shell
-npm run dev
+pnpm run dev
 ```
 
 #### Recommended plugins for Visual Studio Code
@@ -91,37 +91,31 @@ Since TypeScript cannot handle type information for `.vue` imports, they are shi
 - Run unit tests:
 
 ```shell
-npm run test:unit
+pnpm run test:unit:ci
 ```
 
 - Rerun unit tests automatically on file changes:
 
 ```shell
-npm run test:unit:watch
-```
-
-or
-
-```shell
-npm run test:unit:watchAll
+pnpm run test:unit:watch
 ```
 
 - Run app in development and test concurrently:
 
 ```shell
-npm run concurrently:dev:jest
+pnpm run concurrently:dev:vitest
 ```
 
 - Lint files:
 
 ```shell
-npm run lint
+pnpm run lint
 ```
 
 - Format files:
 
 ```shell
-npm run format
+pnpm run format
 ```
 
 #### Copyright notice usage

@@ -8,12 +8,6 @@
 # https://hub.docker.com/r/library/node/tags/
 image: node:lts-alpine
 
-# This folder is cached between builds
-# https://docs.gitlab.com/ee/ci/yaml/index.html#cache
-cache:
-  paths:
-    - node_modules/
-
 stages:
   - test
   - analyse
@@ -26,10 +20,22 @@ test:
     - tags
   tags:
     - hdce_docker
+  before_script:
+    - corepack enable
+    - corepack prepare pnpm@latest-9 --activate
+    - pnpm config set store-dir .pnpm-store
   script:
-    - npm ci
-    - npx prettier --check .
-    - npm run test:unit:ci
+    - pnpm install
+    - echo "/.pnpm-store" >> .prettierignore
+    - pnpm exec prettier --check .
+    - pnpm run test:unit:ci
+  cache:
+    key:
+      files:
+        - pnpm-lock.yaml
+    paths:
+      - node_modules/
+      - .pnpm-store/
 
 sast:
   stage: analyse
@@ -46,23 +52,34 @@ build:
     - tags
   tags:
     - hdce_docker
+  before_script:
+    - corepack enable
+    - corepack prepare pnpm@latest-9 --activate
+    - pnpm config set store-dir .pnpm-store
   script:
     - apk add git
     - cp .env.testing_raspberry_pi .env
-    - npm run build
+    - pnpm run build
     - mv dist/spa dist/spa_raspberry_pi
     - cp .env.testing_variscite_mx6 .env
-    - npm run build
+    - pnpm run build
     - mv dist/spa dist/spa_variscite_mx6
     - cp .env.testing_variscite_mx8m .env
-    - npm run build
+    - pnpm run build
     - mv dist/spa dist/spa_variscite_mx8m
     - cp .env.testing_variscite_newtcam3 .env
-    - npm run build
+    - pnpm run build
     - mv dist/spa dist/spa_variscite_newtcam3
   artifacts:
     paths:
       - dist/
+  cache:
+    key:
+      files:
+        - pnpm-lock.yaml
+    paths:
+      - node_modules/
+      - .pnpm-store/
 
 deploy-raspberry-pi:
   stage: deploy

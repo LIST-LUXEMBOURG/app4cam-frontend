@@ -1,6 +1,1 @@
-{
-  "@quasar/testing-unit-jest": {
-    "babel": false,
-    "options": ["typescript"]
-  }
-}
+{}
