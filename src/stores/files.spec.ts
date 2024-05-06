@@ -1,5 +1,6 @@
 // © 2022 Luxembourg Institute of Science and Technology
 import { createPinia, setActivePinia } from 'pinia'
+import { MockInstance } from 'vitest'
 import { files } from '../../fixtures/files.json'
 import ApiClientService from '../helpers/ApiClientService'
 import { FilesDeletedResponse } from '../helpers/ApiTypings'
@@ -8,7 +9,7 @@ import { useFilesStore } from './files'
 
 const mockFiles = convertJsonToFiles(files)
 
-jest.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
+vi.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
 
 describe('files store', () => {
   beforeEach(() => {
@@ -42,7 +43,7 @@ describe('files store', () => {
   })
 
   describe('delete file', () => {
-    jest.spyOn(ApiClientService, 'deleteFile').mockResolvedValue()
+    vi.spyOn(ApiClientService, 'deleteFile').mockResolvedValue()
 
     it('removes a file', async () => {
       const filename = 'a'
@@ -59,17 +60,15 @@ describe('files store', () => {
 
   describe('delete files', () => {
     const filenames = ['a', 'b', 'c']
-    let spy: jest.SpyInstance
+    let spy: MockInstance
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let store: any
 
     beforeAll(() => {
-      spy = jest
-        .spyOn(ApiClientService, 'deleteFiles')
-        .mockImplementation(() => {
-          const response: FilesDeletedResponse = { a: true, b: false, c: true }
-          return Promise.resolve(response)
-        })
+      spy = vi.spyOn(ApiClientService, 'deleteFiles').mockImplementation(() => {
+        const response: FilesDeletedResponse = { a: true, b: false, c: true }
+        return Promise.resolve(response)
+      })
     })
 
     beforeEach(() => {
@@ -102,12 +101,12 @@ describe('files store', () => {
 
   describe('delete all files', () => {
     const filenames = ['a', 'b', 'c']
-    let spy: jest.SpyInstance
+    let spy: MockInstance
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let store: any
 
     beforeAll(() => {
-      spy = jest
+      spy = vi
         .spyOn(ApiClientService, 'deleteAllFiles')
         .mockImplementation(() => {
           const response: FilesDeletedResponse = { '*': true }
@@ -143,7 +142,7 @@ describe('files store', () => {
   })
 
   describe('fetch files', () => {
-    jest.spyOn(ApiClientService, 'getFileList').mockResolvedValue(mockFiles)
+    vi.spyOn(ApiClientService, 'getFileList').mockResolvedValue(mockFiles)
 
     it('stores files', async () => {
       const store = useFilesStore()

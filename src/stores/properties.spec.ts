@@ -8,7 +8,7 @@ import {
 } from '../helpers/ApiTypings'
 import { usePropertiesStore } from './properties'
 
-jest.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
+vi.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
 
 describe('properties store', () => {
   beforeEach(() => {
@@ -19,7 +19,7 @@ describe('properties store', () => {
     const mockedResponse: BatteryVoltageResponse = {
       batteryVoltage: 1,
     }
-    const spy = jest
+    const spy = vi
       .spyOn(ApiClientService, 'getBatteryVoltage')
       .mockResolvedValue(mockedResponse)
 
@@ -38,7 +38,7 @@ describe('properties store', () => {
     const mockedResponse: DeviceIdResponse = {
       deviceId: 'a',
     }
-    const spy = jest
+    const spy = vi
       .spyOn(ApiClientService, 'getDeviceId')
       .mockResolvedValue(mockedResponse)
 
@@ -58,7 +58,7 @@ describe('properties store', () => {
       commitHash: 'a',
       version: 'b',
     }
-    const spy = jest
+    const spy = vi
       .spyOn(ApiClientService, 'getVersion')
       .mockResolvedValue(mockedResponse)
 

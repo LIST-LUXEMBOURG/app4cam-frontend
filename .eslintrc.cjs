@@ -40,8 +40,8 @@ module.exports = {
     // usage with Prettier, provided by 'eslint-config-prettier'.
     'prettier',
 
-    // https://github.com/jest-community/eslint-plugin-jest
-    'plugin:jest/recommended',
+    // https://github.com/veritem/eslint-plugin-vitest
+    'plugin:vitest/recommended',
 
     // https://github.com/testing-library/eslint-plugin-testing-library
     'plugin:testing-library/vue',
@@ -66,7 +66,7 @@ module.exports = {
     // Prettier has not been included as plugin to avoid performance impact
     // add it as an extension for your IDE
 
-    'jest',
+    'vitest',
 
     'testing-library',
 
@@ -118,8 +118,7 @@ module.exports = {
     // allow debugger during development only
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 
-    'jest/prefer-mock-promise-shorthand': 'warn',
-    'jest/valid-title': ['off', { ignoreTypeOfDescribeName: true }],
+    'vitest/valid-title': ['error', { ignoreTypeOfDescribeName: true }],
 
     'import/newline-after-import': 'error',
     'import/no-empty-named-blocks': 'error',

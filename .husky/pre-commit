@@ -1,2 +1,2 @@
-npx lint-staged
-npm run test:unit
+pnpm exec lint-staged
+pnpm run test:unit:ci

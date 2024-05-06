@@ -1,6 +1,7 @@
 *.html
-package-lock.json
 
-.quasar
+/pnpm-lock.yaml
+
+/.quasar
 /dist
-node_modules
+/node_modules
