@@ -4,6 +4,20 @@
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## 4.1.0
+
+### Added
+
 - Read temperature value from DS18B20 temperature sensor
 - Add temperature value to metadata of images on Raspberry Pi
 
@@ -13,16 +27,10 @@
 - Update dependencies in frontend
 - Switch package manager from npm to pnpm in frontend
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 
 - Fix last command in release scripts
 - Fix downloading Motion log file via App4Cam on newest NEWTCAM image
-
-### Security
 
 ## 4.0.0
 
