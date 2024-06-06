@@ -186,13 +186,13 @@ scripts/setup/set-up-continuous-deployment.sh
 
 1. Make sure `CHANGELOG.md` is up-to-date with backend and frontend changes.
 2. Use a new version number and create a new section in `CHANGELOG.md`.
-3. Run the following script with a real version number:
+3. Run the following script with a real version number in a Git Bash:
 
 ```shell
 scripts/release-version.sh "<version-number>"
 ```
 
-4. Push the commit to the remote repository once you are ready:
+4. Push the pre-version commit to the remote repository once it should be shared:
 
 ```shell
 git push
