@@ -4,13 +4,23 @@
 
 ### Added
 
+- Read temperature value from DS18B20 temperature sensor
+- Add temperature value to metadata of images on Raspberry Pi
+
 ### Changed
+
+- Migrate from jest to vitest for unit tests in frontend
+- Update dependencies in frontend
+- Switch package manager from npm to pnpm in frontend
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+- Fix last command in release scripts
+- Fix downloading Motion log file via App4Cam on newest NEWTCAM image
 
 ### Security
 
