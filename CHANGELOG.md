@@ -104,8 +104,6 @@
 - Not loosing access point connection when changing another general setting than device name
 - Enable working time switch if both times are sent from the server
 
-### Security
-
 ## 2.0.0
 
 ### Added
