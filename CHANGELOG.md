@@ -12,6 +12,8 @@
 
 ### Fixed
 
+- Allow running Gitlab pipeline on tags
+
 ### Security
 
 ## 4.1.0
