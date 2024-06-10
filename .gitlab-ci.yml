@@ -16,8 +16,6 @@ stages:
 
 test:
   stage: test
-  except:
-    - tags
   tags:
     - hdce_docker
   before_script:
@@ -48,8 +46,6 @@ include:
 
 build:
   stage: build
-  except:
-    - tags
   tags:
     - hdce_docker
   before_script:
@@ -83,8 +79,6 @@ build:
 
 deploy-raspberry-pi:
   stage: deploy
-  except:
-    - tags
   tags:
     - hdce_docker
   environment:
@@ -117,8 +111,6 @@ deploy-raspberry-pi:
 
 .deploy-variscite-mx6:
   stage: deploy
-  except:
-    - tags
   tags:
     - hdce_docker
   environment:
@@ -151,8 +143,6 @@ deploy-raspberry-pi:
 
 deploy-variscite-mx8m:
   stage: deploy
-  except:
-    - tags
   tags:
     - hdce_docker
   environment:
@@ -185,8 +175,6 @@ deploy-variscite-mx8m:
 
 deploy-variscite-newtcam3:
   stage: deploy
-  except:
-    - tags
   tags:
     - hdce_docker
   environment:
