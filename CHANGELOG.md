@@ -12,9 +12,13 @@
 
 ### Fixed
 
-- Allow running Gitlab pipeline on tags
-
 ### Security
+
+## 4.1.1
+
+### Fixed
+
+- Allow running Gitlab pipeline on tags
 
 ## 4.1.0
 
