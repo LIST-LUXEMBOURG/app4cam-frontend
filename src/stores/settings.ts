@@ -35,7 +35,9 @@ const PLACEHOLDER_SETTINGS: ApplicationSettings = {
   },
   triggering: {
     isLightEnabled: false,
+    isTemperatureThresholdEnabled: false,
     light: 'infrared',
+    temperatureThreshold: 0,
     threshold: TRIGGER_THRESHOLD_MINIMUM,
     thresholdMaximum: Number.MAX_SAFE_INTEGER,
     sleepingTime: null,
@@ -102,8 +104,16 @@ export const useSettingsStore = defineStore('settings', {
           settings.triggering.isLightEnabled
         this.initial.triggering.isLightEnabled =
           settings.triggering.isLightEnabled
+        this.current.triggering.isTemperatureThresholdEnabled =
+          settings.triggering.isTemperatureThresholdEnabled
+        this.initial.triggering.isTemperatureThresholdEnabled =
+          settings.triggering.isTemperatureThresholdEnabled
         this.current.triggering.light = settings.triggering.light
         this.initial.triggering.light = settings.triggering.light
+        this.current.triggering.temperatureThreshold =
+          settings.triggering.temperatureThreshold
+        this.initial.triggering.temperatureThreshold =
+          settings.triggering.temperatureThreshold
         this.current.triggering.threshold = settings.triggering.threshold
         this.initial.triggering.threshold = settings.triggering.threshold
         this.current.triggering.thresholdMaximum =
@@ -140,6 +150,10 @@ export const useSettingsStore = defineStore('settings', {
 
       this.current.triggering.light = settings.triggering.light
       this.initial.triggering.light = settings.triggering.light
+      this.current.triggering.temperatureThreshold =
+        settings.triggering.temperatureThreshold
+      this.initial.triggering.temperatureThreshold =
+        settings.triggering.temperatureThreshold
       this.current.triggering.threshold = settings.triggering.threshold
       this.initial.triggering.threshold = settings.triggering.threshold
       this.current.triggering.sleepingTime = settings.triggering.sleepingTime
@@ -166,6 +180,7 @@ export const useSettingsStore = defineStore('settings', {
         triggering: {
           light: this.current.triggering.light,
           sleepingTime: this.current.triggering.sleepingTime,
+          temperatureThreshold: this.current.triggering.temperatureThreshold,
           threshold: this.current.triggering.threshold,
           wakingUpTime: this.current.triggering.wakingUpTime,
         },
@@ -237,6 +252,13 @@ export const useSettingsStore = defineStore('settings', {
         JSON.stringify(this.initial.triggering.sleepingTime)
       ) {
         settings.sleepingTime = this.current.triggering.sleepingTime
+      }
+      if (
+        this.current.triggering.temperatureThreshold !==
+        this.initial.triggering.temperatureThreshold
+      ) {
+        settings.temperatureThreshold =
+          this.current.triggering.temperatureThreshold
       }
       if (
         this.current.triggering.threshold !== this.initial.triggering.threshold

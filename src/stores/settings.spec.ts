@@ -43,7 +43,9 @@ describe('settings store', () => {
         },
         triggering: {
           isLightEnabled: true,
+          isTemperatureThresholdEnabled: true,
           light: 'visible',
+          temperatureThreshold: 7,
           threshold: 0,
           thresholdMaximum: 1,
           sleepingTime: { hour: 18, minute: 0 },
@@ -85,6 +87,7 @@ describe('settings store', () => {
           triggering: {
             light: 'infrared',
             sleepingTime: { hour: 18, minute: 0 },
+            temperatureThreshold: 8,
             threshold: 1,
             wakingUpTime: { hour: 8, minute: 0 },
           },
@@ -118,11 +121,13 @@ describe('settings store', () => {
         expect(store.current.triggering).toStrictEqual({
           ...settings.triggering,
           isLightEnabled: false,
+          isTemperatureThresholdEnabled: false,
           thresholdMaximum: Number.MAX_SAFE_INTEGER,
         })
         expect(store.initial.triggering).toStrictEqual({
           ...settings.triggering,
           isLightEnabled: false,
+          isTemperatureThresholdEnabled: false,
           thresholdMaximum: Number.MAX_SAFE_INTEGER,
         })
       })
@@ -144,6 +149,7 @@ describe('settings store', () => {
         const siteName = 's'
         const sleepingTime = { hour: 18, minute: 0 }
         const store = useSettingsStore()
+        const temperatureThreshold = 9
         const timeZone = 't'
         const triggeringLight = 'infrared'
         const videoQuality = 90
@@ -158,6 +164,7 @@ describe('settings store', () => {
         store.current.general.siteName = siteName
         store.current.general.timeZone = timeZone
         store.current.triggering.light = triggeringLight
+        store.current.triggering.temperatureThreshold = temperatureThreshold
         store.current.triggering.threshold = threshold
         store.current.triggering.sleepingTime = sleepingTime
         store.current.triggering.wakingUpTime = wakingUpTime
@@ -181,6 +188,7 @@ describe('settings store', () => {
           triggering: {
             light: triggeringLight,
             sleepingTime,
+            temperatureThreshold,
             threshold,
             wakingUpTime,
           },
@@ -255,12 +263,14 @@ describe('settings store', () => {
 
       it('uploads all changed trigger settings', async () => {
         const light = 'visible'
-        const threshold = 2
+        const temperatureThreshold = 9
         const sleepingTime = { hour: 18, minute: 0 }
+        const threshold = 2
         const wakingUpTime = { hour: 8, minute: 0 }
         const store = useSettingsStore()
         store.current.triggering.light = light
         store.current.triggering.threshold = threshold
+        store.current.triggering.temperatureThreshold = temperatureThreshold
         store.current.triggering.sleepingTime = sleepingTime
         store.current.triggering.wakingUpTime = wakingUpTime
 
@@ -270,6 +280,7 @@ describe('settings store', () => {
           triggering: {
             light,
             sleepingTime,
+            temperatureThreshold,
             threshold,
             wakingUpTime,
           },
