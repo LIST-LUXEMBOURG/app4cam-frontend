@@ -265,13 +265,25 @@ watch(workingTimeEnabled, (value) => {
     </q-field>
     <q-input
       v-model.number="settingsStore.current.triggering.threshold"
-      class="q-mb-md"
+      class="q-mb-lg"
       :disable="isLoadingSettings"
       :hint="thresholdHint"
       label="Threshold"
       lazy-rules
       outlined
       :rules="notEmptyAndBetweenMinMaxThreshold"
+      type="number"
+    />
+    <q-input
+      v-if="settingsStore.current.triggering.isTemperatureThresholdEnabled"
+      v-model.number="settingsStore.current.triggering.temperatureThreshold"
+      class="q-mb-md"
+      clearable
+      :disable="isLoadingSettings"
+      hint="Shots will only be taken when the temperature is equal to or above this temperature in degree Celsius. Leave empty if you do not want to use this threshold."
+      label="Temperature threshold"
+      lazy-rules
+      outlined
       type="number"
     />
     <q-btn

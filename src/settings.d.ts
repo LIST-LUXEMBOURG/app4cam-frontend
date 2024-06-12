@@ -25,6 +25,7 @@ interface CameraSettings {
 interface TriggerSettings {
   light: LightType
   sleepingTime: TriggeringTime | null
+  temperatureThreshold: number
   threshold: number
   wakingUpTime: TriggeringTime | null
 }
@@ -49,6 +50,7 @@ export type ApplicationSettings = ApplicationSettingsWithoutFlags & {
   }
   triggering: {
     isLightEnabled: boolean
+    isTemperatureThresholdEnabled: boolean
     thresholdMaximum: number
   }
 }

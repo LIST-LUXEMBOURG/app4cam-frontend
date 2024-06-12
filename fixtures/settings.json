@@ -20,11 +20,13 @@
     },
     "triggering": {
       "isLightEnabled": true,
+      "isTemperatureThresholdEnabled": true,
       "light": "visible",
       "sleepingTime": {
         "hour": 1,
         "minute": 2
       },
+      "temperatureThreshold": 7,
       "threshold": 1,
       "thresholdMaximum": 1000,
       "wakingUpTime": {
