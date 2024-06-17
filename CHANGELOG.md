@@ -4,9 +4,14 @@
 
 ### Added
 
+- Add temperature value to metadata of videos on Raspberry Pi
+- Add temperature threshold setting
+
 ### Changed
 
 - Update dependencies in frontend
+- Order media files by date in descending order
+- Provide one config file sample for both development and production
 
 ### Deprecated
 
