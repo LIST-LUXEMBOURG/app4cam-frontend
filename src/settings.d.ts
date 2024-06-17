@@ -9,6 +9,8 @@ interface TriggeringTime {
 
 interface GeneralSettings {
   deviceName: string
+  latitude: number | null
+  longitude: number | null
   password: string
   siteName: string
   timeZone: string

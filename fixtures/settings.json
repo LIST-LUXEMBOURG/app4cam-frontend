@@ -13,6 +13,8 @@
     "general": {
       "deviceId": "1",
       "deviceName": "",
+      "latitude": 49.50648,
+      "longitude": 5.94373,
       "password": "123",
       "siteName": "SiteX",
       "systemTime": "",

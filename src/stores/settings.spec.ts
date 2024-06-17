@@ -36,6 +36,8 @@ describe('settings store', () => {
         },
         general: {
           deviceName: 'n',
+          latitude: 1,
+          longitude: 2,
           password: '123',
           siteName: 's',
           systemTime: new Date().toISOString(),
@@ -80,6 +82,8 @@ describe('settings store', () => {
           },
           general: {
             deviceName: 'd',
+            latitude: 3,
+            longitude: 4,
             password: '123',
             siteName: 's',
             timeZone: 't',
@@ -114,6 +118,10 @@ describe('settings store', () => {
         expect(store.initial.general.deviceName).toBe(
           settings.general.deviceName,
         )
+        expect(store.current.general.latitude).toBe(settings.general.latitude)
+        expect(store.initial.general.latitude).toBe(settings.general.latitude)
+        expect(store.current.general.longitude).toBe(settings.general.longitude)
+        expect(store.initial.general.longitude).toBe(settings.general.longitude)
         expect(store.current.general.siteName).toBe(settings.general.siteName)
         expect(store.initial.general.siteName).toBe(settings.general.siteName)
         expect(store.current.general.timeZone).toBe(settings.general.timeZone)
@@ -142,6 +150,8 @@ describe('settings store', () => {
         const cameraLight = 'infrared'
         const deviceName = 'd'
         const focus = 200
+        const latitude = 1
+        const longitude = 2
         const password = '123'
         const pictureQuality = 40
         const threshold = 1
@@ -160,6 +170,8 @@ describe('settings store', () => {
         store.current.camera.shotTypes = shotTypes
         store.current.camera.videoQuality = videoQuality
         store.current.general.deviceName = deviceName
+        store.current.general.latitude = latitude
+        store.current.general.longitude = longitude
         store.current.general.password = password
         store.current.general.siteName = siteName
         store.current.general.timeZone = timeZone
@@ -181,6 +193,8 @@ describe('settings store', () => {
           },
           general: {
             deviceName,
+            latitude,
+            longitude,
             password,
             siteName,
             timeZone,

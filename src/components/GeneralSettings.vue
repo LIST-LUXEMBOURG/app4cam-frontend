@@ -12,10 +12,29 @@ const propertiesStore = usePropertiesStore()
 const quasar = useQuasar()
 const settingsStore = useSettingsStore()
 
+const LATITUDE_MINIMUM = -90
+const LATITUDE_MAXIMUM = 90
+const LONGITUDE_MINIMUM = -180
+const LONGITUDE_MAXIMUM = 180
+
 defineProps<{
   isLoadingSettings: boolean
 }>()
 
+const noInvalidLatitudeRules: ValidationRule[] = [
+  (val) => !val || /^-?\d+(\.\d{1,7})?$/.test(val) || 'Please use a number.',
+  (val) =>
+    !val ||
+    (LATITUDE_MINIMUM <= val && val <= LATITUDE_MAXIMUM) ||
+    'Please enter a valid latitude.',
+]
+const noInvalidLongitudeRules: ValidationRule[] = [
+  (val) => !val || /^-?\d+(\.\d{1,7})?$/.test(val) || 'Please use a number.',
+  (val) =>
+    !val ||
+    (LONGITUDE_MINIMUM <= val && val <= LONGITUDE_MAXIMUM) ||
+    'Please enter a valid longitude.',
+]
 const noInvalidWiFiPassword: ValidationRule[] = [
   (val) =>
     /^[ -~]{8,63}$/.test(val) ||
@@ -188,7 +207,7 @@ ApiClientService.getAvailableTimeZones()
     />
     <q-input
       v-model="settingsStore.current.general.deviceName"
-      class="q-mb-xl"
+      class="q-mb-lg"
       :disable="isLoadingSettings"
       hint="Use a unique device name per site because it is also used as access point name."
       label="Device name"
@@ -196,6 +215,38 @@ ApiClientService.getAvailableTimeZones()
       outlined
       :rules="notEmptyAndNoSpecialCharactersRules"
     />
+    <div class="row q-mt-none q-mb-md">
+      <div class="col q-mr-sm">
+        <q-input
+          v-model.number="settingsStore.current.general.latitude"
+          clearable
+          :disable="isLoadingSettings"
+          label="Latitude (optional)"
+          lazy-rules
+          :max="LATITUDE_MAXIMUM"
+          :min="LATITUDE_MINIMUM"
+          outlined
+          :rules="noInvalidLatitudeRules"
+          step="0.0000001"
+          type="number"
+        />
+      </div>
+      <div class="col q-ml-sm">
+        <q-input
+          v-model.number="settingsStore.current.general.longitude"
+          clearable
+          :disable="isLoadingSettings"
+          label="Longitude (optional)"
+          lazy-rules
+          :max="LONGITUDE_MAXIMUM"
+          :min="LONGITUDE_MINIMUM"
+          outlined
+          :rules="noInvalidLongitudeRules"
+          step="0.0000001"
+          type="number"
+        />
+      </div>
+    </div>
     <q-input
       v-model="propertiesStore.deviceId"
       class="q-pb-md"

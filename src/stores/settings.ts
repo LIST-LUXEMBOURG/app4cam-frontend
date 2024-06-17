@@ -28,6 +28,8 @@ const PLACEHOLDER_SETTINGS: ApplicationSettings = {
   },
   general: {
     deviceName: '',
+    latitude: null,
+    longitude: null,
     password: '0123456789',
     siteName: '',
     systemTime: new Date().toISOString(),
@@ -60,6 +62,8 @@ export const useSettingsStore = defineStore('settings', {
         camera: { ...this.current.camera },
         general: {
           deviceName: this.current.general.deviceName,
+          latitude: this.current.general.latitude,
+          longitude: this.current.general.longitude,
           password: this.current.general.password,
           siteName: this.current.general.siteName,
           timeZone: this.current.general.timeZone,
@@ -91,6 +95,10 @@ export const useSettingsStore = defineStore('settings', {
 
         this.current.general.deviceName = settings.general.deviceName
         this.initial.general.deviceName = settings.general.deviceName
+        this.current.general.latitude = settings.general.latitude
+        this.initial.general.latitude = settings.general.latitude
+        this.current.general.longitude = settings.general.longitude
+        this.initial.general.longitude = settings.general.longitude
         this.current.general.password = settings.general.password
         this.initial.general.password = settings.general.password
         this.current.general.siteName = settings.general.siteName
@@ -141,6 +149,10 @@ export const useSettingsStore = defineStore('settings', {
 
       this.current.general.deviceName = settings.general.deviceName
       this.initial.general.deviceName = settings.general.deviceName
+      this.current.general.latitude = settings.general.latitude
+      this.initial.general.latitude = settings.general.latitude
+      this.current.general.longitude = settings.general.longitude
+      this.initial.general.longitude = settings.general.longitude
       this.current.general.password = settings.general.password
       this.initial.general.password = settings.general.password
       this.current.general.siteName = settings.general.siteName
@@ -173,6 +185,8 @@ export const useSettingsStore = defineStore('settings', {
         },
         general: {
           deviceName: this.current.general.deviceName,
+          latitude: this.current.general.latitude,
+          longitude: this.current.general.longitude,
           password: this.current.general.password,
           siteName: this.current.general.siteName,
           timeZone: this.current.general.timeZone,
@@ -223,6 +237,12 @@ export const useSettingsStore = defineStore('settings', {
       const settings: Partial<GeneralSettings> & { systemTime?: string } = {}
       if (this.current.general.deviceName !== this.initial.general.deviceName) {
         settings.deviceName = this.current.general.deviceName
+      }
+      if (this.current.general.latitude !== this.initial.general.latitude) {
+        settings.latitude = this.current.general.latitude
+      }
+      if (this.current.general.longitude !== this.initial.general.longitude) {
+        settings.longitude = this.current.general.longitude
       }
       if (this.current.general.password !== this.initial.general.password) {
         settings.password = this.current.general.password
