@@ -6,6 +6,7 @@
 
 - Add temperature value to metadata of videos on Raspberry Pi
 - Add temperature threshold setting
+- Add latitude and longitude fields for setting the device's location to the general settings
 
 ### Changed
 
