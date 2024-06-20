@@ -111,7 +111,7 @@ const note = computed(() => {
 </script>
 
 <template>
-  <h6 class="q-mb-xs">Media taken over the day</h6>
+  <h6 class="q-mb-xs">Total observations over the day</h6>
   <apexchart
     width="350"
     type="bar"

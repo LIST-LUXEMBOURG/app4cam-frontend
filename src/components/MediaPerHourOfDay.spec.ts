@@ -27,7 +27,7 @@ beforeAll(() => {
 it('displays a heading', async () => {
   await renderComponent()
   const heading = screen.getByRole('heading', {
-    name: 'Media taken over the day',
+    name: 'Total observations over the day',
   })
   expect(heading).toBeInTheDocument()
 })

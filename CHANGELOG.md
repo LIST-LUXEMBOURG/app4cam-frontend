@@ -7,6 +7,7 @@
 - Add temperature value to metadata of videos on Raspberry Pi
 - Add temperature threshold setting
 - Add latitude and longitude fields for setting the device's location to the general settings
+- Display total observations per hour of the day on the dashboard.
 
 ### Changed
 
