@@ -84,6 +84,12 @@ export default {
     return unwrapAxiosResponse(apiClient.get('/files'))
   },
 
+  getNumberFilesPerHourOfDay(): Promise<{ hoursOfDayCounts: number[] }> {
+    return unwrapAxiosResponse(
+      apiClient.get('/file-stats/number-per-hours-of-day'),
+    )
+  },
+
   async getFile(filename: string): Promise<FileDownloadResponse> {
     const response = await apiClient.get('/files/' + filename, {
       responseType: 'blob',
@@ -121,6 +127,10 @@ export default {
 
   putSettings(settings: ApplicationSettingsWithoutFlags): Promise<void> {
     return unwrapAxiosResponse(apiClient.put('/settings', settings))
+  },
+
+  getShotTypes(): Promise<{ shotTypes: string[] }> {
+    return unwrapAxiosResponse(apiClient.get('/settings/shotTypes'))
   },
 
   async getSnapshot(): Promise<FileDownloadResponse> {

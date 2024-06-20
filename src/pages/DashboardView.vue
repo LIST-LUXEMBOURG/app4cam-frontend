@@ -7,6 +7,7 @@ import MediaCounts from '../components/MediaCounts.vue'
 import SiteAndDeviceNamesHeading from '../components/SiteAndDeviceNamesHeading.vue'
 import SnapshotSection from '../components/SnapshotSection.vue'
 import BatteryStatus from 'src/components/BatteryStatus.vue'
+import MediaPerHourOfDay from 'src/components/MediaPerHourOfDay.vue'
 
 const quasar = useQuasar()
 
@@ -28,6 +29,7 @@ onErrorCaptured((e) => {
       <div>
         <site-and-device-names-heading />
         <disk-usage />
+        <MediaPerHourOfDay />
         <media-counts />
         <BatteryStatus />
         <snapshot-section />
