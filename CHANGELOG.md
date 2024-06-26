@@ -4,16 +4,17 @@
 
 ### Added
 
-- Add temperature value to metadata of videos on Raspberry Pi
-- Add temperature threshold setting
-- Add latitude and longitude fields for setting the device's location to the general settings
-- Display total observations per hour of the day on the dashboard.
+- Write temperature value to metadata `Information` field of MP4 videos on Raspberry Pi
+- Add setting of temperature threshold below whose value the device will not take shots
+- Add latitude and longitude fields to the general settings for setting the device's location
+- Display total observations per hour of the day on the dashboard
 
 ### Changed
 
 - Update dependencies in frontend
-- Order media files by date in descending order
-- Provide one config file sample for both development and production
+- Return media files sorted by date in descending order
+- Provide one configuration file sample instead of two for both development and production
+- Reorganise scripts folder
 
 ### Deprecated
 
@@ -34,7 +35,7 @@
 ### Added
 
 - Read temperature value from DS18B20 temperature sensor
-- Add temperature value to metadata of images on Raspberry Pi
+- Write temperature value to metadata of JPG images on Raspberry Pi
 
 ### Changed
 
