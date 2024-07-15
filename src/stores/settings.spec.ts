@@ -37,6 +37,7 @@ describe('settings store', () => {
         general: {
           deviceName: 'n',
           latitude: 1,
+          locationAccuracy: 3,
           longitude: 2,
           password: '123',
           siteName: 's',
@@ -83,6 +84,7 @@ describe('settings store', () => {
           general: {
             deviceName: 'd',
             latitude: 3,
+            locationAccuracy: 6,
             longitude: 4,
             password: '123',
             siteName: 's',
@@ -120,6 +122,12 @@ describe('settings store', () => {
         )
         expect(store.current.general.latitude).toBe(settings.general.latitude)
         expect(store.initial.general.latitude).toBe(settings.general.latitude)
+        expect(store.current.general.locationAccuracy).toBe(
+          settings.general.locationAccuracy,
+        )
+        expect(store.initial.general.locationAccuracy).toBe(
+          settings.general.locationAccuracy,
+        )
         expect(store.current.general.longitude).toBe(settings.general.longitude)
         expect(store.initial.general.longitude).toBe(settings.general.longitude)
         expect(store.current.general.siteName).toBe(settings.general.siteName)
@@ -151,6 +159,7 @@ describe('settings store', () => {
         const deviceName = 'd'
         const focus = 200
         const latitude = 1
+        const locationAccuracy = 3
         const longitude = 2
         const password = '123'
         const pictureQuality = 40
@@ -171,6 +180,7 @@ describe('settings store', () => {
         store.current.camera.videoQuality = videoQuality
         store.current.general.deviceName = deviceName
         store.current.general.latitude = latitude
+        store.current.general.locationAccuracy = locationAccuracy
         store.current.general.longitude = longitude
         store.current.general.password = password
         store.current.general.siteName = siteName
@@ -194,6 +204,7 @@ describe('settings store', () => {
           general: {
             deviceName,
             latitude,
+            locationAccuracy,
             longitude,
             password,
             siteName,

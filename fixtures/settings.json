@@ -14,6 +14,7 @@
       "deviceId": "1",
       "deviceName": "",
       "latitude": 49.50648,
+      "locationAccuracy": 10.11,
       "longitude": 5.94373,
       "password": "123",
       "siteName": "SiteX",

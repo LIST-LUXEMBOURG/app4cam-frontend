@@ -8,6 +8,8 @@
 - Add setting of temperature threshold below whose value the device will not take shots
 - Add latitude and longitude fields to the general settings for setting the device's location
 - Display total observations per hour of the day on the dashboard
+- Add read-only location accuracy to the general settings
+- Request location from browser
 
 ### Changed
 

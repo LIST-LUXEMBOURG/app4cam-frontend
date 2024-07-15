@@ -57,6 +57,7 @@ const noTimeZoneSelected: ValidationRule[] = [
 
 const availableTimeZones = ref<string[]>([])
 const filteredTimeZones = ref<string[]>([])
+const localiseMeButtonLoading = ref(false)
 
 const date = computed({
   get: () => {
@@ -121,6 +122,12 @@ const time = computed({
   }, 200),
 })
 
+function clearLocation() {
+  settingsStore.current.general.latitude = null
+  settingsStore.current.general.locationAccuracy = null
+  settingsStore.current.general.longitude = null
+}
+
 function filterTimeZones(
   val: string,
   update: (callbackFn: () => void) => void,
@@ -131,6 +138,51 @@ function filterTimeZones(
       (v) => v.toLowerCase().indexOf(needle) > -1,
     )
   })
+}
+
+function localiseMeAndFillCoordinates() {
+  localiseMeButtonLoading.value = true
+
+  function success(position: GeolocationPosition) {
+    localiseMeButtonLoading.value = false
+
+    settingsStore.current.general.latitude = position.coords.latitude
+    settingsStore.current.general.locationAccuracy = position.coords.accuracy
+    settingsStore.current.general.longitude = position.coords.longitude
+  }
+
+  function error(error: GeolocationPositionError) {
+    localiseMeButtonLoading.value = false
+
+    let caption: string | undefined = undefined
+    switch (error.code) {
+      case GeolocationPositionError.PERMISSION_DENIED:
+        caption = 'The permission was not given.'
+        break
+      case GeolocationPositionError.POSITION_UNAVAILABLE:
+        caption = 'The position is not unavailable on the device.'
+        break
+    }
+
+    quasar.notify({
+      message: 'Unable to retrieve your location.',
+      caption,
+      color: 'negative',
+    })
+  }
+
+  if (!navigator.geolocation) {
+    localiseMeButtonLoading.value = false
+    quasar.notify({
+      message: 'Geolocation is not supported by your browser.',
+      color: 'negative',
+    })
+  } else {
+    const options = {
+      enableHighAccuracy: true,
+    }
+    navigator.geolocation.getCurrentPosition(success, error, options)
+  }
 }
 
 function onSubmitGeneralSettings() {
@@ -171,6 +223,10 @@ function notifySettingsNotSavedError(error: any) {
       : error.message,
     color: 'negative',
   })
+}
+
+function unsetLocationAccuracy() {
+  settingsStore.current.general.locationAccuracy = null
 }
 
 ApiClientService.getAvailableTimeZones()
@@ -215,13 +271,14 @@ ApiClientService.getAvailableTimeZones()
       outlined
       :rules="notEmptyAndNoSpecialCharactersRules"
     />
-    <div class="row q-mt-none q-mb-md">
-      <div class="col q-mr-sm">
+    <div>
+      Location (optional)
+      <div class="q-ml-lg q-mt-sm q-mb-md">
         <q-input
           v-model.number="settingsStore.current.general.latitude"
-          clearable
+          class="q-pb-sm"
           :disable="isLoadingSettings"
-          label="Latitude (optional)"
+          label="Latitude"
           lazy-rules
           :max="LATITUDE_MAXIMUM"
           :min="LATITUDE_MINIMUM"
@@ -229,14 +286,13 @@ ApiClientService.getAvailableTimeZones()
           :rules="noInvalidLatitudeRules"
           step="0.0000001"
           type="number"
+          @update:model-value="unsetLocationAccuracy"
         />
-      </div>
-      <div class="col q-ml-sm">
         <q-input
           v-model.number="settingsStore.current.general.longitude"
-          clearable
+          class="q-pb-sm"
           :disable="isLoadingSettings"
-          label="Longitude (optional)"
+          label="Longitude"
           lazy-rules
           :max="LONGITUDE_MAXIMUM"
           :min="LONGITUDE_MINIMUM"
@@ -244,7 +300,38 @@ ApiClientService.getAvailableTimeZones()
           :rules="noInvalidLongitudeRules"
           step="0.0000001"
           type="number"
+          @update:model-value="unsetLocationAccuracy"
         />
+        <q-input
+          v-model.number="settingsStore.current.general.locationAccuracy"
+          class="q-pb-sm"
+          label="Accuracy in meters"
+          outlined
+          readonly
+        />
+        <div class="row">
+          <div class="col">
+            <div class="row q-col-gutter-md">
+              <div class="col-4">
+                <q-btn
+                  class="full-width"
+                  flat
+                  label="Clear"
+                  @click="clearLocation"
+                />
+              </div>
+              <div class="col-8">
+                <q-btn
+                  class="full-width"
+                  icon="my_location"
+                  label="Localise me"
+                  :loading="localiseMeButtonLoading"
+                  @click="localiseMeAndFillCoordinates"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <q-input

@@ -10,6 +10,7 @@ interface TriggeringTime {
 interface GeneralSettings {
   deviceName: string
   latitude: number | null
+  locationAccuracy: number | null
   longitude: number | null
   password: string
   siteName: string

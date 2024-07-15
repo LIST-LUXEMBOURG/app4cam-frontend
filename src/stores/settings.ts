@@ -29,6 +29,7 @@ const PLACEHOLDER_SETTINGS: ApplicationSettings = {
   general: {
     deviceName: '',
     latitude: null,
+    locationAccuracy: null,
     longitude: null,
     password: '0123456789',
     siteName: '',
@@ -63,6 +64,7 @@ export const useSettingsStore = defineStore('settings', {
         general: {
           deviceName: this.current.general.deviceName,
           latitude: this.current.general.latitude,
+          locationAccuracy: this.current.general.locationAccuracy,
           longitude: this.current.general.longitude,
           password: this.current.general.password,
           siteName: this.current.general.siteName,
@@ -97,6 +99,10 @@ export const useSettingsStore = defineStore('settings', {
         this.initial.general.deviceName = settings.general.deviceName
         this.current.general.latitude = settings.general.latitude
         this.initial.general.latitude = settings.general.latitude
+        this.current.general.locationAccuracy =
+          settings.general.locationAccuracy
+        this.initial.general.locationAccuracy =
+          settings.general.locationAccuracy
         this.current.general.longitude = settings.general.longitude
         this.initial.general.longitude = settings.general.longitude
         this.current.general.password = settings.general.password
@@ -151,6 +157,8 @@ export const useSettingsStore = defineStore('settings', {
       this.initial.general.deviceName = settings.general.deviceName
       this.current.general.latitude = settings.general.latitude
       this.initial.general.latitude = settings.general.latitude
+      this.current.general.locationAccuracy = settings.general.locationAccuracy
+      this.initial.general.locationAccuracy = settings.general.locationAccuracy
       this.current.general.longitude = settings.general.longitude
       this.initial.general.longitude = settings.general.longitude
       this.current.general.password = settings.general.password
@@ -186,6 +194,7 @@ export const useSettingsStore = defineStore('settings', {
         general: {
           deviceName: this.current.general.deviceName,
           latitude: this.current.general.latitude,
+          locationAccuracy: this.current.general.locationAccuracy,
           longitude: this.current.general.longitude,
           password: this.current.general.password,
           siteName: this.current.general.siteName,
@@ -240,6 +249,12 @@ export const useSettingsStore = defineStore('settings', {
       }
       if (this.current.general.latitude !== this.initial.general.latitude) {
         settings.latitude = this.current.general.latitude
+      }
+      if (
+        this.current.general.locationAccuracy !==
+        this.initial.general.locationAccuracy
+      ) {
+        settings.locationAccuracy = this.current.general.locationAccuracy
       }
       if (this.current.general.longitude !== this.initial.general.longitude) {
         settings.longitude = this.current.general.longitude
