@@ -152,10 +152,9 @@ You can build the application on a computer and copy the build to the device, or
 4. Install dependencies: `npm ci`
 5. Copy an existing config file to `.env`.
 
-- `.env.pollicam`: for the traps Aurinion and DiMon within the scope of the PolliCAM project
 - `.env.sample`: example for the case you run the backend on the same device
 - `.env.testing_raspberry_pi`: for continuous deployment (CD) on Raspberry Pi
-- `.env.testing_variscite_mx8m`: for continuous deployment (CD) on Variscite MX8M
+- `.env.testing_variscite_newtcam`: for continuous deployment (CD) on Variscite NewtCam
 
 6. Edit the config file if needed.
 7. Build app for production: `quasar build` or `npm run build`
@@ -169,12 +168,8 @@ Define the following variables in Gitlab:
 - `APP4CAM_USER`: user of application
 - `RASPBERRY_PI_HOST`: IP address of Raspberry Pi
 - `RASPBERRY_PI_PRIVATE_KEY`: private key of App4Cam user on Raspberry Pi
-- `VARISCITE_MX6_HOST`: IP address of Variscite MX6
-- `VARISCITE_MX6_PRIVATE_KEY`: private key of App4Cam user on Variscite MX6
-- `VARISCITE_MX8M_HOST`: IP address of Variscite MX8M
-- `VARISCITE_MX8M_PRIVATE_KEY`: private key of App4Cam user on Variscite MX8M
-- `VARISCITE_NEWTCAM3_HOST`: IP address of Variscite NEWTCAM 3
-- `VARISCITE_NEWTCAM3_PRIVATE_KEY`: private key of App4Cam user on Variscite NEWTCAM 3
+- `VARISCITE_NEWTCAM_HOST`: IP address of Variscite NEWTCAM 3
+- `VARISCITE_NEWTCAM_PRIVATE_KEY`: private key of App4Cam user on Variscite NEWTCAM 3
 
 If you have not set up the backend already, copy and execute the following setup script:
 
