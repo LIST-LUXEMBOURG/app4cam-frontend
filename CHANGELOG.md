@@ -10,6 +10,7 @@
 - Display total observations per hour of the day on the dashboard
 - Add read-only location accuracy to the general settings
 - Request location from browser
+- Add dialogue with license information that can be opened from footer
 
 ### Changed
 
