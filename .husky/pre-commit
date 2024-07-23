@@ -1,2 +1,2 @@
-pnpm exec lint-staged
+lint-staged
 pnpm run test:unit:ci
