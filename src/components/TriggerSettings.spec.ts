@@ -41,7 +41,7 @@ describe('when the settings are not loading', () => {
   it('shows enabled working time switch and disabled time fields', () => {
     renderComponent(false)
     const fieldSwitch = screen.getByLabelText(
-      'Turn on only during the following interval',
+      'Turn on during the following interval',
     )
     const fieldWakingUp = screen.getByTestId('wakingUpTime-field')
     const fieldSleeping = screen.getByTestId('sleepingTime-field')
@@ -51,6 +51,13 @@ describe('when the settings are not loading', () => {
     expect(fieldWakingUp).toBeDisabled()
     expect(fieldSleeping).toBeInTheDocument()
     expect(fieldSleeping).toBeDisabled()
+  })
+
+  it('shows an enabled sunrise and sunset switch field', () => {
+    renderComponent(false)
+    const field = screen.getByLabelText('Turn on between sunrise and sunset')
+    expect(field).toBeInTheDocument()
+    expect(field).toBeEnabled()
   })
 
   it('shows an enabled threshold field', () => {
@@ -72,7 +79,7 @@ describe('when the settings are loading', () => {
   it('shows disabled working time switch and time fields', () => {
     renderComponent(true)
     const fieldSwitch = screen.getByLabelText(
-      'Turn on only during the following interval',
+      'Turn on during the following interval',
     )
     const fieldWakingUp = screen.getByTestId('wakingUpTime-field')
     const fieldSleeping = screen.getByTestId('sleepingTime-field')
@@ -82,6 +89,13 @@ describe('when the settings are loading', () => {
     expect(fieldWakingUp).toBeDisabled()
     expect(fieldSleeping).toBeInTheDocument()
     expect(fieldSleeping).toBeDisabled()
+  })
+
+  it('shows a disabled sunrise and sunset switch field', () => {
+    renderComponent(true)
+    const field = screen.getByLabelText('Turn on between sunrise and sunset')
+    expect(field).toBeInTheDocument()
+    expect(field).toHaveAttribute('aria-disabled', 'true')
   })
 
   it('shows a disabled threshold field', () => {

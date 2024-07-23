@@ -16,8 +16,9 @@ along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <script setup lang="ts">
 import { QOptionGroupProps, ValidationRule, useQuasar } from 'quasar'
-import { VNodeRef, computed, ref, watch } from 'vue'
+import { VNodeRef, computed, onMounted, ref, watch } from 'vue'
 import { TRIGGER_THRESHOLD_MINIMUM, useSettingsStore } from '../stores/settings'
+import ApiClientService from 'src/helpers/ApiClientService'
 
 const quasar = useQuasar()
 const settingsStore = useSettingsStore()
@@ -52,6 +53,8 @@ const notEmptyAndBetweenMinMaxThreshold: ValidationRule[] = [
 ]
 
 const sleepingTime = ref('')
+const sunrise = ref('')
+const sunset = ref('')
 const triggerLightFieldRef = ref<VNodeRef>()
 const wakingUpTime = ref('')
 const workingTimeEnabled = ref(false)
@@ -64,6 +67,30 @@ const thresholdHint = computed(
 function enableSwitchOnWorkingTimesSet() {
   if (sleepingTime.value && wakingUpTime.value) {
     workingTimeEnabled.value = true
+  }
+}
+
+async function getNextSunsetAndSunriseTimes() {
+  try {
+    const response = await ApiClientService.getNextSunsetAndSunriseTimes()
+    sunrise.value =
+      response.sunrise.hour.toString().padStart(2, '0') +
+      ':' +
+      response.sunrise.minute.toString().padStart(2, '0')
+    sunset.value =
+      response.sunset.hour.toString().padStart(2, '0') +
+      ':' +
+      response.sunset.minute.toString().padStart(2, '0')
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    quasar.notify({
+      message: 'The next sunset and sunrise times could not be loaded.',
+      caption:
+        error.response.data && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+      color: 'negative',
+    })
   }
 }
 
@@ -165,6 +192,43 @@ watch(workingTimeEnabled, (value) => {
     sleepingTime.value = ''
     wakingUpTime.value = ''
   }
+
+  // Disable sunrise and sunset times when this functionality is enabled.
+  if (value) {
+    settingsStore.current.triggering.useSunriseAndSunsetTimes = false
+  }
+})
+
+watch(
+  () => settingsStore.current.triggering.useSunriseAndSunsetTimes,
+  async (value) => {
+    if (value) {
+      // Abort and warn when no location is set.
+      if (
+        !settingsStore.current.general.latitude ||
+        !settingsStore.current.general.longitude
+      ) {
+        quasar.notify({
+          message: 'The location must be set first!',
+          color: 'warning',
+        })
+        settingsStore.current.triggering.useSunriseAndSunsetTimes = false
+        return
+      }
+
+      // Disable working times when this functionality is enabled.
+      workingTimeEnabled.value = false
+
+      // Display next sunset and sunrise times.
+      await getNextSunsetAndSunriseTimes()
+    }
+  },
+)
+
+onMounted(async () => {
+  if (settingsStore.current.triggering.useSunriseAndSunsetTimes) {
+    await getNextSunsetAndSunriseTimes()
+  }
 })
 </script>
 
@@ -182,7 +246,7 @@ watch(workingTimeEnabled, (value) => {
         <q-toggle
           v-model="workingTimeEnabled"
           :disable="isLoadingSettings"
-          label="Turn on only during the following interval"
+          label="Turn on during the following interval"
         />
       </div>
       <div class="q-gutter-sm row items-center q-ml-xl">
@@ -259,6 +323,19 @@ watch(workingTimeEnabled, (value) => {
             </q-icon>
           </template>
         </q-input>
+      </div>
+      <div class="row">
+        <q-toggle
+          v-model="settingsStore.current.triggering.useSunriseAndSunsetTimes"
+          :disable="isLoadingSettings"
+          label="Turn on between sunrise and sunset"
+        />
+      </div>
+      <div
+        v-if="sunset && sunrise"
+        class="row q-ml-xl q-pl-sm"
+      >
+        Next sunset at {{ sunset }} sunrise at {{ sunrise }}
       </div>
     </div>
     <q-field
