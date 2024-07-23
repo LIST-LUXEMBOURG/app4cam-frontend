@@ -63,10 +63,11 @@ describe('settings store', () => {
           isLightEnabled: true,
           isTemperatureThresholdEnabled: true,
           light: 'visible',
+          sleepingTime: { hour: 18, minute: 0 },
           temperatureThreshold: 7,
           threshold: 0,
           thresholdMaximum: 1,
-          sleepingTime: { hour: 18, minute: 0 },
+          useSunriseAndSunsetTimes: false,
           wakingUpTime: { hour: 8, minute: 0 },
         },
       }
@@ -110,6 +111,7 @@ describe('settings store', () => {
             sleepingTime: { hour: 18, minute: 0 },
             temperatureThreshold: 8,
             threshold: 1,
+            useSunriseAndSunsetTimes: false,
             wakingUpTime: { hour: 8, minute: 0 },
           },
         }
@@ -160,6 +162,7 @@ describe('settings store', () => {
           isLightEnabled: false,
           isTemperatureThresholdEnabled: false,
           thresholdMaximum: Number.MAX_SAFE_INTEGER,
+          useSunriseAndSunsetTimes: false,
         })
       })
     })
@@ -185,6 +188,7 @@ describe('settings store', () => {
         const store = useSettingsStore()
         const temperatureThreshold = 9
         const timeZone = 't'
+        const useSunriseAndSunsetTimes = false
         const triggeringLight = 'infrared'
         const videoQuality = 90
         const wakingUpTime = { hour: 8, minute: 0 }
@@ -201,9 +205,11 @@ describe('settings store', () => {
         store.current.general.siteName = siteName
         store.current.general.timeZone = timeZone
         store.current.triggering.light = triggeringLight
+        store.current.triggering.sleepingTime = sleepingTime
         store.current.triggering.temperatureThreshold = temperatureThreshold
         store.current.triggering.threshold = threshold
-        store.current.triggering.sleepingTime = sleepingTime
+        store.current.triggering.useSunriseAndSunsetTimes =
+          useSunriseAndSunsetTimes
         store.current.triggering.wakingUpTime = wakingUpTime
 
         await store.uploadPersistentSettings()
@@ -230,6 +236,7 @@ describe('settings store', () => {
             sleepingTime,
             temperatureThreshold,
             threshold,
+            useSunriseAndSunsetTimes,
             wakingUpTime,
           },
         })

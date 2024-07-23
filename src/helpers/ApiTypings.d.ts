@@ -52,3 +52,14 @@ export interface VersionResponse {
   commitHash: string
   version: string
 }
+
+export interface SunriseAndSunsetResponse {
+  sunrise: {
+    hour: number
+    minute: number
+  }
+  sunset: {
+    hour: number
+    minute: number
+  }
+}

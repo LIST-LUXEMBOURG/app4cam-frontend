@@ -55,10 +55,11 @@ const PLACEHOLDER_SETTINGS: ApplicationSettings = {
     isLightEnabled: false,
     isTemperatureThresholdEnabled: false,
     light: 'infrared',
+    sleepingTime: null,
     temperatureThreshold: 0,
     threshold: TRIGGER_THRESHOLD_MINIMUM,
     thresholdMaximum: Number.MAX_SAFE_INTEGER,
-    sleepingTime: null,
+    useSunriseAndSunsetTimes: false,
     wakingUpTime: null,
   },
 }
@@ -139,6 +140,8 @@ export const useSettingsStore = defineStore('settings', {
           settings.triggering.isTemperatureThresholdEnabled
         this.current.triggering.light = settings.triggering.light
         this.initial.triggering.light = settings.triggering.light
+        this.current.triggering.sleepingTime = settings.triggering.sleepingTime
+        this.initial.triggering.sleepingTime = settings.triggering.sleepingTime
         this.current.triggering.temperatureThreshold =
           settings.triggering.temperatureThreshold
         this.initial.triggering.temperatureThreshold =
@@ -149,8 +152,10 @@ export const useSettingsStore = defineStore('settings', {
           settings.triggering.thresholdMaximum
         this.initial.triggering.thresholdMaximum =
           settings.triggering.thresholdMaximum
-        this.current.triggering.sleepingTime = settings.triggering.sleepingTime
-        this.initial.triggering.sleepingTime = settings.triggering.sleepingTime
+        this.current.triggering.useSunriseAndSunsetTimes =
+          settings.triggering.useSunriseAndSunsetTimes
+        this.initial.triggering.useSunriseAndSunsetTimes =
+          settings.triggering.useSunriseAndSunsetTimes
         this.current.triggering.wakingUpTime = settings.triggering.wakingUpTime
         this.initial.triggering.wakingUpTime = settings.triggering.wakingUpTime
       })
@@ -185,16 +190,20 @@ export const useSettingsStore = defineStore('settings', {
 
       this.current.triggering.light = settings.triggering.light
       this.initial.triggering.light = settings.triggering.light
+      this.current.triggering.wakingUpTime = settings.triggering.wakingUpTime
+      this.initial.triggering.wakingUpTime = settings.triggering.wakingUpTime
       this.current.triggering.temperatureThreshold =
         settings.triggering.temperatureThreshold
       this.initial.triggering.temperatureThreshold =
         settings.triggering.temperatureThreshold
       this.current.triggering.threshold = settings.triggering.threshold
       this.initial.triggering.threshold = settings.triggering.threshold
+      this.current.triggering.useSunriseAndSunsetTimes =
+        settings.triggering.useSunriseAndSunsetTimes
+      this.initial.triggering.useSunriseAndSunsetTimes =
+        settings.triggering.useSunriseAndSunsetTimes
       this.current.triggering.sleepingTime = settings.triggering.sleepingTime
       this.initial.triggering.sleepingTime = settings.triggering.sleepingTime
-      this.current.triggering.wakingUpTime = settings.triggering.wakingUpTime
-      this.initial.triggering.wakingUpTime = settings.triggering.wakingUpTime
     },
 
     uploadPersistentSettings(): Promise<void> {
@@ -220,6 +229,8 @@ export const useSettingsStore = defineStore('settings', {
           sleepingTime: this.current.triggering.sleepingTime,
           temperatureThreshold: this.current.triggering.temperatureThreshold,
           threshold: this.current.triggering.threshold,
+          useSunriseAndSunsetTimes:
+            this.current.triggering.useSunriseAndSunsetTimes,
           wakingUpTime: this.current.triggering.wakingUpTime,
         },
       }
@@ -314,6 +325,13 @@ export const useSettingsStore = defineStore('settings', {
         this.current.triggering.threshold !== this.initial.triggering.threshold
       ) {
         settings.threshold = this.current.triggering.threshold
+      }
+      if (
+        this.current.triggering.useSunriseAndSunsetTimes !==
+        this.initial.triggering.useSunriseAndSunsetTimes
+      ) {
+        settings.useSunriseAndSunsetTimes =
+          this.current.triggering.useSunriseAndSunsetTimes
       }
       if (
         JSON.stringify(this.current.triggering.wakingUpTime) !==

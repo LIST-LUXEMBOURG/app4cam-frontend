@@ -32,6 +32,7 @@
       "temperatureThreshold": 7,
       "threshold": 1,
       "thresholdMaximum": 1000,
+      "useSunriseAndSunsetTimes": false,
       "wakingUpTime": {
         "hour": 1,
         "minute": 2

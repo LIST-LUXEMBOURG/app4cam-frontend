@@ -45,6 +45,7 @@ interface TriggerSettings {
   sleepingTime: TriggeringTime | null
   temperatureThreshold: number
   threshold: number
+  useSunriseAndSunsetTimes: boolean
   wakingUpTime: TriggeringTime | null
 }
 

@@ -25,6 +25,7 @@ import {
   VersionResponse,
   StorageStatusResponse,
   BatteryVoltageResponse,
+  SunriseAndSunsetResponse,
 } from './ApiTypings'
 import {
   ApplicationSettings,
@@ -97,6 +98,10 @@ export default {
 
   getFileList(): Promise<FileInfo[]> {
     return unwrapAxiosResponse(apiClient.get('/files'))
+  },
+
+  getNextSunsetAndSunriseTimes(): Promise<SunriseAndSunsetResponse> {
+    return unwrapAxiosResponse(apiClient.get('/properties/sunsetAndSunrise'))
   },
 
   getNumberFilesPerHourOfDay(): Promise<{ hoursOfDayCounts: number[] }> {
