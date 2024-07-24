@@ -161,6 +161,39 @@ export const useSettingsStore = defineStore('settings', {
       })
     },
 
+    updateInitialCameraSettingsWithCurrentOnes() {
+      this.initial.camera.focus = this.current.camera.focus
+      this.initial.camera.light = this.current.camera.light
+      this.initial.camera.pictureQuality = this.current.camera.pictureQuality
+      this.initial.camera.shotTypes = this.current.camera.shotTypes
+      this.initial.camera.videoQuality = this.current.camera.videoQuality
+    },
+
+    updateInitialGeneralSettingsWithCurrentOnes() {
+      this.initial.general.deviceName = this.current.general.deviceName
+      this.initial.general.latitude = this.current.general.latitude
+      this.initial.general.locationAccuracy =
+        this.current.general.locationAccuracy
+      this.initial.general.longitude = this.current.general.longitude
+      this.initial.general.password = this.current.general.password
+      this.initial.general.siteName = this.current.general.siteName
+      this.initial.general.systemTime = this.current.general.systemTime
+      this.initial.general.timeZone = this.current.general.timeZone
+    },
+
+    updateInitialTriggeringSettingsWithCurrentOnes() {
+      this.initial.triggering.light = this.current.triggering.light
+      this.initial.triggering.sleepingTime =
+        this.current.triggering.sleepingTime
+      this.initial.triggering.temperatureThreshold =
+        this.current.triggering.temperatureThreshold
+      this.initial.triggering.threshold = this.current.triggering.threshold
+      this.initial.triggering.useSunriseAndSunsetTimes =
+        this.current.triggering.useSunriseAndSunsetTimes
+      this.initial.triggering.wakingUpTime =
+        this.current.triggering.wakingUpTime
+    },
+
     updatePersistentSettings(settings: PersistentSettings): void {
       this.current.camera.focus = settings.camera.focus
       this.initial.camera.focus = settings.camera.focus
@@ -235,6 +268,9 @@ export const useSettingsStore = defineStore('settings', {
         },
       }
       return ApiClientService.patchSettings(settings)
+        .then(this.updateInitialCameraSettingsWithCurrentOnes)
+        .then(this.updateInitialGeneralSettingsWithCurrentOnes)
+        .then(this.updateInitialTriggeringSettingsWithCurrentOnes)
     },
 
     uploadChangedCameraSettings(): Promise<void> {
@@ -265,7 +301,9 @@ export const useSettingsStore = defineStore('settings', {
       if (isEmpty(settings)) {
         return Promise.resolve()
       }
-      return ApiClientService.patchSettings({ camera: settings })
+      return ApiClientService.patchSettings({ camera: settings }).then(
+        this.updateInitialCameraSettingsWithCurrentOnes,
+      )
     },
 
     uploadChangedGeneralSettings(): Promise<void> {
@@ -300,7 +338,9 @@ export const useSettingsStore = defineStore('settings', {
       if (isEmpty(settings)) {
         return Promise.resolve()
       }
-      return ApiClientService.patchSettings({ general: settings })
+      return ApiClientService.patchSettings({ general: settings }).then(
+        this.updateInitialGeneralSettingsWithCurrentOnes,
+      )
     },
 
     uploadChangedTriggerSettings(): Promise<void> {
@@ -342,7 +382,9 @@ export const useSettingsStore = defineStore('settings', {
       if (isEmpty(settings)) {
         return Promise.resolve()
       }
-      return ApiClientService.patchSettings({ triggering: settings })
+      return ApiClientService.patchSettings({ triggering: settings }).then(
+        this.updateInitialTriggeringSettingsWithCurrentOnes,
+      )
     },
   },
 })

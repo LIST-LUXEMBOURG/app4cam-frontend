@@ -172,7 +172,7 @@ describe('settings store', () => {
         .spyOn(ApiClientService, 'patchSettings')
         .mockResolvedValue()
 
-      it('uploads all persistent settings', async () => {
+      it('uploads all persistent settings and resets initial state', async () => {
         const cameraLight = 'infrared'
         const deviceName = 'd'
         const focus = 200
@@ -240,9 +240,32 @@ describe('settings store', () => {
             wakingUpTime,
           },
         })
+        expect(store.initial.camera.focus).toBe(focus)
+        expect(store.initial.camera.light).toBe(cameraLight)
+        expect(store.initial.camera.pictureQuality).toBe(pictureQuality)
+        expect(store.initial.camera.shotTypes).toStrictEqual(shotTypes)
+        expect(store.initial.camera.videoQuality).toBe(videoQuality)
+        expect(store.initial.general.deviceName).toBe(deviceName)
+        expect(store.initial.general.latitude).toBe(latitude)
+        expect(store.initial.general.locationAccuracy).toBe(locationAccuracy)
+        expect(store.initial.general.longitude).toBe(longitude)
+        expect(store.initial.general.password).toBe(password)
+        expect(store.initial.general.siteName).toBe(siteName)
+        expect(store.initial.general.timeZone).toBe(timeZone)
+        expect(store.initial.triggering.light).toBe(triggeringLight)
+        expect(store.initial.triggering.sleepingTime).toStrictEqual(
+          sleepingTime,
+        )
+        expect(store.initial.triggering.temperatureThreshold).toBe(
+          temperatureThreshold,
+        )
+        expect(store.initial.triggering.threshold).toBe(threshold)
+        expect(store.initial.triggering.wakingUpTime).toStrictEqual(
+          wakingUpTime,
+        )
       })
 
-      it('uploads all changed camera settings', async () => {
+      it('uploads all changed camera settings and resets initial state', async () => {
         const focus = 300
         const light = 'infrared'
         const pictureQuality = 40
@@ -266,6 +289,11 @@ describe('settings store', () => {
             videoQuality,
           },
         })
+        expect(store.initial.camera.focus).toBe(focus)
+        expect(store.initial.camera.light).toBe(light)
+        expect(store.initial.camera.pictureQuality).toBe(pictureQuality)
+        expect(store.initial.camera.shotTypes).toStrictEqual(shotTypes)
+        expect(store.initial.camera.videoQuality).toBe(videoQuality)
       })
 
       it('uploads no empty camera settings', async () => {
@@ -275,14 +303,20 @@ describe('settings store', () => {
         expect(ApiClientService.patchSettings).not.toHaveBeenCalled()
       })
 
-      it('uploads all changed general settings', async () => {
+      it('uploads all changed general settings and resets initial state', async () => {
         const deviceName = 'd'
+        const latitude = 1
+        const locationAccuracy = 2
+        const longitude = 3
         const password = '123'
         const siteName = 's'
-        const store = useSettingsStore()
         const systemTime = new Date().toString()
         const timeZone = 't'
+        const store = useSettingsStore()
         store.current.general.deviceName = deviceName
+        store.current.general.latitude = latitude
+        store.current.general.locationAccuracy = locationAccuracy
+        store.current.general.longitude = longitude
         store.current.general.password = password
         store.current.general.siteName = siteName
         store.current.general.systemTime = systemTime
@@ -293,12 +327,23 @@ describe('settings store', () => {
         expect(ApiClientService.patchSettings).toHaveBeenCalledWith({
           general: {
             deviceName,
+            latitude,
+            locationAccuracy,
+            longitude,
             password,
             siteName,
             systemTime,
             timeZone,
           },
         })
+        expect(store.initial.general.deviceName).toBe(deviceName)
+        expect(store.initial.general.latitude).toBe(latitude)
+        expect(store.initial.general.locationAccuracy).toBe(locationAccuracy)
+        expect(store.initial.general.longitude).toBe(longitude)
+        expect(store.initial.general.password).toBe(password)
+        expect(store.initial.general.siteName).toBe(siteName)
+        expect(store.initial.general.systemTime).toBe(systemTime)
+        expect(store.initial.general.timeZone).toBe(timeZone)
       })
 
       it('uploads no empty general settings', async () => {
@@ -308,7 +353,7 @@ describe('settings store', () => {
         expect(ApiClientService.patchSettings).not.toHaveBeenCalled()
       })
 
-      it('uploads all changed trigger settings', async () => {
+      it('uploads all changed trigger settings and resets initial state', async () => {
         const light = 'visible'
         const temperatureThreshold = 9
         const sleepingTime = { hour: 18, minute: 0 }
@@ -316,9 +361,9 @@ describe('settings store', () => {
         const wakingUpTime = { hour: 8, minute: 0 }
         const store = useSettingsStore()
         store.current.triggering.light = light
-        store.current.triggering.threshold = threshold
-        store.current.triggering.temperatureThreshold = temperatureThreshold
         store.current.triggering.sleepingTime = sleepingTime
+        store.current.triggering.temperatureThreshold = temperatureThreshold
+        store.current.triggering.threshold = threshold
         store.current.triggering.wakingUpTime = wakingUpTime
 
         await store.uploadChangedTriggerSettings()
@@ -332,6 +377,17 @@ describe('settings store', () => {
             wakingUpTime,
           },
         })
+        expect(store.initial.triggering.light).toBe(light)
+        expect(store.initial.triggering.sleepingTime).toStrictEqual(
+          sleepingTime,
+        )
+        expect(store.initial.triggering.temperatureThreshold).toBe(
+          temperatureThreshold,
+        )
+        expect(store.initial.triggering.threshold).toBe(threshold)
+        expect(store.initial.triggering.wakingUpTime).toStrictEqual(
+          wakingUpTime,
+        )
       })
 
       it('uploads no empty trigger settings', async () => {
