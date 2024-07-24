@@ -1,6 +1,6 @@
 ### Steps to reproduce
 
-1. <!-- Describe how you can reproduce the issue using an ordered list. You can remove this comments. -->
+1. <!-- Describe how you can reproduce the issue using an ordered list. You can remove these comments. -->
 
 ### What happens
 
