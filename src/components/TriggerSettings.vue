@@ -19,6 +19,7 @@ import { QOptionGroupProps, ValidationRule, useQuasar } from 'quasar'
 import { VNodeRef, computed, onMounted, ref, watch } from 'vue'
 import { TRIGGER_THRESHOLD_MINIMUM, useSettingsStore } from '../stores/settings'
 import ApiClientService from 'src/helpers/ApiClientService'
+import NotificationCreator from 'src/helpers/NotificationCreator'
 
 const quasar = useQuasar()
 const settingsStore = useSettingsStore()
@@ -81,16 +82,12 @@ async function getNextSunsetAndSunriseTimes() {
       response.sunset.hour.toString().padStart(2, '0') +
       ':' +
       response.sunset.minute.toString().padStart(2, '0')
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    quasar.notify({
-      message: 'The next sunset and sunrise times could not be loaded.',
-      caption:
-        error.response.data && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-      color: 'negative',
-    })
+  } catch (error: unknown) {
+    NotificationCreator.showErrorNotification(
+      quasar,
+      error,
+      'The next sunset and sunrise times could not be loaded.',
+    )
   }
 }
 
@@ -124,15 +121,12 @@ function notifySettingsSaved() {
   })
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function notifySettingsNotSavedError(error: any) {
-  quasar.notify({
-    message: 'The trigger settings could not be saved.',
-    caption: error.response.data.message
-      ? error.response.data.message
-      : error.message,
-    color: 'negative',
-  })
+function notifySettingsNotSavedError(error: unknown) {
+  NotificationCreator.showErrorNotification(
+    quasar,
+    error,
+    'The trigger settings could not be saved.',
+  )
 }
 
 function onSubmitTriggerSettings() {

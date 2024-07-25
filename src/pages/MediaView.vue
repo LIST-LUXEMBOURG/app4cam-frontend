@@ -21,6 +21,7 @@ import ApiClientService from '../helpers/ApiClientService'
 import { FileDownloadResponse } from '../helpers/ApiTypings'
 import { FileDownloader } from '../helpers/FileDownloader'
 import { useFilesStore } from '../stores/files'
+import NotificationCreator from 'src/helpers/NotificationCreator'
 
 const DISPLAY_DOWNLOAD_MULTIPLE_FILES_DIALOG_THRESHOLD = 10
 
@@ -151,15 +152,12 @@ function handleFileDownloadResponse(response: FileDownloadResponse): void {
   )
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function handleFileDownloadError(error: any): void {
-  quasar.notify({
-    message: 'The media could not be downloaded.',
-    caption: error.response.data.message
-      ? error.response.data.message
-      : error.message,
-    color: 'negative',
-  })
+function handleFileDownloadError(error: unknown): void {
+  NotificationCreator.showErrorNotification(
+    quasar,
+    error,
+    'The media could not be loaded.',
+  )
 }
 
 function onSelectAllButtonClick() {

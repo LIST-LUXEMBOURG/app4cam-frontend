@@ -14,34 +14,29 @@
  * You should have received a copy of the GNU General Public License
  * along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { createTestingPinia } from '@pinia/testing'
 import { screen } from '@testing-library/vue'
-import { StateTree } from 'pinia'
 import { renderAsync } from '../../test/vitest/renderAsync'
 import SiteAndDeviceNamesHeading from './SiteAndDeviceNamesHeading.vue'
+import ApiClientService from 'src/helpers/ApiClientService'
 
-const renderComponent = (initialState?: StateTree) =>
-  renderAsync(SiteAndDeviceNamesHeading, {
-    global: {
-      plugins: [createTestingPinia({ initialState })],
-    },
-  })
+const renderComponent = () => renderAsync(SiteAndDeviceNamesHeading)
 
 it('displays site and device names as heading', async () => {
   const deviceName = 'a'
   const siteName = 'b'
-  await renderComponent({
-    settings: {
-      current: {
-        general: {
-          deviceName,
-          siteName,
-        },
-      },
-    },
-  })
+  const spyDeviceName = vi
+    .spyOn(ApiClientService, 'getDeviceName')
+    .mockResolvedValue({
+      deviceName,
+    })
+  const spySiteName = vi
+    .spyOn(ApiClientService, 'getSiteName')
+    .mockResolvedValue({ siteName })
+  await renderComponent()
   const heading = screen.getByRole('heading', {
     name: `${siteName} ${deviceName}`,
   })
   expect(heading).toBeInTheDocument()
+  spyDeviceName.mockRestore()
+  spySiteName.mockRestore()
 })

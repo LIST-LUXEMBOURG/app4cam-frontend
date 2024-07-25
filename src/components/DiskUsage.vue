@@ -19,6 +19,7 @@ import { ApexOptions } from 'apexcharts'
 import { useQuasar } from 'quasar'
 import { reactive, ref } from 'vue'
 import { useStorageStore } from '../stores/storage'
+import NotificationCreator from 'src/helpers/NotificationCreator'
 
 const quasar = useQuasar()
 const store = useStorageStore()
@@ -65,15 +66,12 @@ async function reloadStatus() {
 
 try {
   await store.fetchStorage()
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-} catch (error: any) {
-  quasar.notify({
-    message: 'The storage usage details could not be loaded.',
-    caption: error.response.data.message
-      ? error.response.data.message
-      : error.message,
-    color: 'negative',
-  })
+} catch (error: unknown) {
+  NotificationCreator.showErrorNotification(
+    quasar,
+    error,
+    'The storage usage details could not be loaded.',
+  )
 }
 
 chartSeries.splice(0)

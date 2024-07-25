@@ -16,6 +16,7 @@ along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <script setup lang="ts">
 import { useQuasar } from 'quasar'
+import NotificationCreator from 'src/helpers/NotificationCreator'
 import { usePropertiesStore } from 'src/stores/properties'
 
 const quasar = useQuasar()
@@ -23,15 +24,12 @@ const properties = usePropertiesStore()
 
 try {
   await properties.fetchBatteryVoltage()
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-} catch (error: any) {
-  quasar.notify({
-    message: 'The battery status could not be loaded.',
-    caption: error.response.data.message
-      ? error.response.data.message
-      : error.message,
-    color: 'negative',
-  })
+} catch (error: unknown) {
+  NotificationCreator.showErrorNotification(
+    quasar,
+    error,
+    'The battery status could not be loaded.',
+  )
 }
 </script>
 

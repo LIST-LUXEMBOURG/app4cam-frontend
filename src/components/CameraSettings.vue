@@ -23,6 +23,7 @@ import {
 } from 'quasar'
 import { VNodeRef, computed, ref, watch } from 'vue'
 import { useSettingsStore } from '../stores/settings'
+import NotificationCreator from 'src/helpers/NotificationCreator'
 
 const quasar = useQuasar()
 const settingsStore = useSettingsStore()
@@ -102,15 +103,12 @@ function notifySettingsSaved() {
   })
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function notifySettingsNotSavedError(error: any) {
-  quasar.notify({
-    message: 'The camera settings could not be saved.',
-    caption: error.response.data.message
-      ? error.response.data.message
-      : error.message,
-    color: 'negative',
-  })
+function notifySettingsNotSavedError(error: unknown) {
+  NotificationCreator.showErrorNotification(
+    quasar,
+    error,
+    'The camera settings could not be saved.',
+  )
 }
 
 function onSubmitCameraSettings() {
