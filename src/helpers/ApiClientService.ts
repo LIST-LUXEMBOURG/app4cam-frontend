@@ -26,6 +26,9 @@ import {
   StorageStatusResponse,
   BatteryVoltageResponse,
   SunriseAndSunsetResponse,
+  DeviceNameResponse,
+  SiteNameResponse,
+  SystemTimeResponse,
 } from './ApiTypings'
 import {
   ApplicationSettings,
@@ -96,6 +99,10 @@ export default {
     return unwrapAxiosResponse(apiClient.get('/properties/deviceId'))
   },
 
+  getDeviceName(): Promise<DeviceNameResponse> {
+    return unwrapAxiosResponse(apiClient.get('/settings/deviceName'))
+  },
+
   getFileList(): Promise<FileInfo[]> {
     return unwrapAxiosResponse(apiClient.get('/files'))
   },
@@ -108,6 +115,14 @@ export default {
     return unwrapAxiosResponse(
       apiClient.get('/file-stats/number-per-hours-of-day'),
     )
+  },
+
+  getSiteName(): Promise<SiteNameResponse> {
+    return unwrapAxiosResponse(apiClient.get('/settings/siteName'))
+  },
+
+  getSystemTime(): Promise<SystemTimeResponse> {
+    return unwrapAxiosResponse(apiClient.get('/settings/systemTime'))
   },
 
   async getFile(filename: string): Promise<FileDownloadResponse> {

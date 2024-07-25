@@ -19,6 +19,7 @@ import { ApexOptions } from 'apexcharts'
 import { useQuasar } from 'quasar'
 import { Ref, computed, reactive, ref } from 'vue'
 import ApiClientService from 'src/helpers/ApiClientService'
+import NotificationCreator from 'src/helpers/NotificationCreator'
 
 const quasar = useQuasar()
 
@@ -82,32 +83,24 @@ try {
     })
   }
   chartSeries.push({ data })
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-} catch (error: any) {
-  quasar.notify({
-    message: 'The numbers of media taken over the day could not be loaded.',
-    caption:
-      error.response.data && error.response.data.message
-        ? error.response.data.message
-        : error.message,
-    color: 'negative',
-  })
+} catch (error: unknown) {
+  NotificationCreator.showErrorNotification(
+    quasar,
+    error,
+    'The numbers of media taken over the day could not be loaded.',
+  )
 }
 
 let shotTypes: Ref<string[]> = ref([])
 try {
   const response = await ApiClientService.getShotTypes()
   shotTypes.value = response.shotTypes
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-} catch (error: any) {
-  quasar.notify({
-    message: 'The shot types could not be loaded.',
-    caption:
-      error.response.data && error.response.data.message
-        ? error.response.data.message
-        : error.message,
-    color: 'negative',
-  })
+} catch (error: unknown) {
+  NotificationCreator.showErrorNotification(
+    quasar,
+    error,
+    'The shot types could not be loaded.',
+  )
 }
 
 const note = computed(() => {

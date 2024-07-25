@@ -22,6 +22,7 @@ import ApiClientService from '../helpers/ApiClientService'
 import DateConverter from '../helpers/DateConverter'
 import { usePropertiesStore } from '../stores/properties'
 import { useSettingsStore } from '../stores/settings'
+import NotificationCreator from 'src/helpers/NotificationCreator'
 
 const propertiesStore = usePropertiesStore()
 const quasar = useQuasar()
@@ -229,15 +230,12 @@ function notifySettingsSaved() {
   })
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function notifySettingsNotSavedError(error: any) {
-  quasar.notify({
-    message: 'The general settings could not be saved.',
-    caption: error.response?.data.message
-      ? error.response.data.message
-      : error.message,
-    color: 'negative',
-  })
+function notifySettingsNotSavedError(error: unknown) {
+  NotificationCreator.showErrorNotification(
+    quasar,
+    error,
+    'The general settings could not be saved.',
+  )
 }
 
 function unsetLocationAccuracy() {

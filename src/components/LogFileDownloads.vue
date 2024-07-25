@@ -19,6 +19,7 @@ import { useQuasar } from 'quasar'
 import { FileDownloader } from '../helpers/FileDownloader'
 import ApiClientService from 'src/helpers/ApiClientService'
 import { FileDownloadResponse } from 'src/helpers/ApiTypings'
+import NotificationCreator from 'src/helpers/NotificationCreator'
 
 const quasar = useQuasar()
 
@@ -42,15 +43,12 @@ function handleFileDownloadResponse(response: FileDownloadResponse): void {
   )
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function handleFileDownloadError(error: any): void {
-  quasar.notify({
-    message: 'The log file could not be downloaded.',
-    caption: error.response.data.message
-      ? error.response.data.message
-      : error.message,
-    color: 'negative',
-  })
+function handleFileDownloadError(error: unknown): void {
+  NotificationCreator.showErrorNotification(
+    quasar,
+    error,
+    'The log file could not be downloaded.',
+  )
 }
 </script>
 

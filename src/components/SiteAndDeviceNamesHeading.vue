@@ -16,27 +16,44 @@ along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <script setup lang="ts">
 import { useQuasar } from 'quasar'
-import { useSettingsStore } from '../stores/settings'
+import { onMounted, ref } from 'vue'
+import ApiClientService from 'src/helpers/ApiClientService'
+import NotificationCreator from 'src/helpers/NotificationCreator'
 
 const quasar = useQuasar()
-const store = useSettingsStore()
 
-try {
-  await store.fetchSettings()
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-} catch (error: any) {
-  quasar.notify({
-    message: 'The site name and device ID could not be loaded.',
-    caption: error.response.data.message
-      ? error.response.data.message
-      : error.message,
-    color: 'negative',
-  })
-}
+const deviceName = ref('')
+const siteName = ref('')
+
+onMounted(async () => {
+  try {
+    const deviceNameResponse = await ApiClientService.getDeviceName()
+    if (deviceNameResponse.deviceName) {
+      deviceName.value = deviceNameResponse.deviceName
+    }
+  } catch (error: unknown) {
+    NotificationCreator.showErrorNotification(
+      quasar,
+      error,
+      'The device name could not be loaded.',
+    )
+  }
+
+  try {
+    const siteNameResponse = await ApiClientService.getSiteName()
+    if (siteNameResponse.siteName) {
+      siteName.value = siteNameResponse.siteName
+    }
+  } catch (error: unknown) {
+    NotificationCreator.showErrorNotification(
+      quasar,
+      error,
+      'The device name could not be loaded.',
+    )
+  }
+})
 </script>
 
 <template>
-  <h5 class="q-mt-none">
-    {{ store.current.general.siteName }} {{ store.current.general.deviceName }}
-  </h5>
+  <h5 class="q-mt-none">{{ siteName }} {{ deviceName }}</h5>
 </template>

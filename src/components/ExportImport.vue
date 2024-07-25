@@ -20,6 +20,7 @@ import { ref } from 'vue'
 import { FileDownloader } from '../helpers/FileDownloader'
 import FilenameCreator from '../helpers/FilenameCreator'
 import { useSettingsStore } from '../stores/settings'
+import NotificationCreator from 'src/helpers/NotificationCreator'
 
 const EXPORT_FILENAME_SUFFIX = 'settings'
 
@@ -80,15 +81,12 @@ function importSettings(event: ProgressEvent<FileReader>) {
           color: 'positive',
         })
       })
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .catch((error: any) => {
-        quasar.notify({
-          message: 'The settings could not be imported.',
-          caption: error.response.data.message
-            ? error.response.data.message
-            : error.message,
-          color: 'negative',
-        })
+      .catch((error: unknown) => {
+        NotificationCreator.showErrorNotification(
+          quasar,
+          error,
+          'The settings could not be imported.',
+        )
       })
   } else {
     quasar.notify({

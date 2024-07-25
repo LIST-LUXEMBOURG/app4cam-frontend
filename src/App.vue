@@ -16,36 +16,38 @@ along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <script setup lang="ts">
 import { useQuasar } from 'quasar'
+import { onMounted } from 'vue'
+import ApiClientService from './helpers/ApiClientService'
 import DateConverter from './helpers/DateConverter'
-import { useSettingsStore } from './stores/settings'
+import NotificationCreator from './helpers/NotificationCreator'
 import TimeOutOfSyncDialog from 'components/TimeOutOfSyncDialog.vue'
 
 const quasar = useQuasar()
-const settingsStore = useSettingsStore()
 
-try {
-  settingsStore.fetchSettings()
-  if (
-    !settingsStore.current.general.systemTime ||
-    DateConverter.getAbsoluteDifferenceInMinutes(
-      new Date(settingsStore.current.general.systemTime),
-      new Date(),
-    ) > 1
-  ) {
-    quasar.dialog({
-      component: TimeOutOfSyncDialog,
-    })
+const MAX_TIME_DIFFERENCE_IN_MIN = 1
+
+onMounted(async () => {
+  try {
+    const response = await ApiClientService.getSystemTime()
+    if (
+      !response.systemTime ||
+      DateConverter.getAbsoluteDifferenceInMinutes(
+        new Date(response.systemTime),
+        new Date(),
+      ) > MAX_TIME_DIFFERENCE_IN_MIN
+    ) {
+      quasar.dialog({
+        component: TimeOutOfSyncDialog,
+      })
+    }
+  } catch (error: unknown) {
+    NotificationCreator.showErrorNotification(
+      quasar,
+      error,
+      'The system time could not be loaded.',
+    )
   }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-} catch (error: any) {
-  quasar.notify({
-    message: 'The system time could not be loaded.',
-    caption: error.response.data.message
-      ? error.response.data.message
-      : error.message,
-    color: 'negative',
-  })
-}
+})
 </script>
 
 <template>

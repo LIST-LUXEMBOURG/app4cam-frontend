@@ -23,6 +23,10 @@ export interface DeviceIdResponse {
   deviceId: string
 }
 
+export interface DeviceNameResponse {
+  deviceName: string
+}
+
 export interface FileDownloadResponse {
   contentType: string | undefined
   data: string
@@ -30,6 +34,14 @@ export interface FileDownloadResponse {
 }
 
 export type FilesDeletedResponse = Record<string, boolean>
+
+export interface SiteNameResponse {
+  siteName?: string
+}
+
+export interface SystemTimeResponse {
+  systemTime: string
+}
 
 export interface StorageResponse {
   status: StorageStatusResponse
