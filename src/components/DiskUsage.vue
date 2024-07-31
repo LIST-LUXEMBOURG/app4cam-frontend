@@ -26,25 +26,62 @@ const store = useStorageStore()
 
 const capacityGb = ref(0)
 const chartOptions: ApexOptions = reactive({
+  chart: {
+    stacked: true,
+    stackType: '100%',
+    toolbar: {
+      show: false,
+    },
+    type: 'bar',
+  },
+  colors: ['#ff9800', '#2196f3'],
+  fill: {
+    opacity: 1,
+  },
   grid: {
+    show: false,
     padding: {
+      bottom: -10,
       left: -25,
+      right: -5,
+      top: -29,
     },
   },
-  labels: ['used', 'available'],
+  legend: {
+    horizontalAlign: 'left',
+    offsetX: -33,
+  },
   plotOptions: {
-    pie: {
-      expandOnClick: false,
+    bar: {
+      barHeight: '100%',
+      horizontal: true,
     },
-  },
-  theme: {
-    palette: 'palette7',
   },
   tooltip: {
     enabled: false,
   },
+  xaxis: {
+    axisBorder: {
+      show: false,
+    },
+    axisTicks: {
+      show: false,
+    },
+    crosshairs: {
+      show: false,
+    },
+    labels: {
+      show: false,
+    },
+    tooltip: {
+      enabled: false,
+    },
+  },
+  yaxis: {
+    show: false,
+  },
 })
-const chartSeries: number[] = reactive([])
+const chartSeries: { name: string; data: number[] }[] = reactive([])
 
 function convertKbToGb(input: number): number {
   return input / 1024 / 1024
@@ -79,56 +116,69 @@ const usedKb = (store.usage.capacityKb * store.usage.usedPercentage) / 100
 const usedMb = convertKbToGb(usedKb)
 const availableKb = store.usage.capacityKb - usedKb
 const availableMb = convertKbToGb(availableKb)
-chartSeries.push(usedMb, availableMb)
-if (chartOptions.labels) {
-  chartOptions.labels[0] = `${usedMb.toFixed(2)} GB used`
-  chartOptions.labels[1] = `${availableMb.toFixed(2)} GB available`
-}
+chartSeries.push(
+  { name: `${usedMb.toFixed(2)} GB used`, data: [usedMb] },
+  { name: `${availableMb.toFixed(2)} GB available`, data: [availableMb] },
+)
 capacityGb.value = Math.round(usedMb + availableMb)
 
 reloadStatus()
 </script>
 
 <template>
-  <h6 class="q-mb-sm">Disk storage</h6>
-  <p>Total capacity: {{ capacityGb }} GB</p>
-  <apexchart
-    width="350"
-    type="pie"
-    :options="chartOptions"
-    :series="chartSeries"
-  />
-  <div
-    class="row q-mt-md rounded-borders q-pa-sm text-white justify-between"
-    :class="{
-      'bg-positive': store.status.isAvailable,
-      'bg-negative': !store.status.isAvailable,
-    }"
-  >
-    <div>
-      <q-icon
-        v-if="store.status.isAvailable"
-        name="check_circle"
-        size="xs"
-      />
-      <q-icon
-        v-else
-        name="cancel"
-        size="xs"
-      />
-    </div>
-    <div class="col q-px-sm">
-      {{ store.status.message }}
-    </div>
-    <div>
-      <q-btn
-        flat
-        icon="refresh"
-        round
-        @click="reloadStatus"
+  <q-card class="q-mb-lg">
+    <q-card-section class="q-pa-sm">
+      <div
+        class="text-h6"
+        role="heading"
       >
-        <q-tooltip>Reload status</q-tooltip>
-      </q-btn>
-    </div>
-  </div>
+        Disk storage
+      </div>
+    </q-card-section>
+    <q-card-section class="q-pa-sm">
+      <div class="q-mb-sm">Total capacity: {{ capacityGb }} GB</div>
+      <div style="height: 55px">
+        <apexchart
+          height="100%"
+          width="334"
+          type="bar"
+          :options="chartOptions"
+          :series="chartSeries"
+        />
+      </div>
+      <div
+        class="row q-mt-sm rounded-borders q-pa-sm text-white justify-between"
+        :class="{
+          'bg-positive': store.status.isAvailable,
+          'bg-negative': !store.status.isAvailable,
+        }"
+      >
+        <div>
+          <q-icon
+            v-if="store.status.isAvailable"
+            name="check_circle"
+            size="xs"
+          />
+          <q-icon
+            v-else
+            name="cancel"
+            size="xs"
+          />
+        </div>
+        <div class="col q-px-sm">
+          {{ store.status.message }}
+        </div>
+        <div>
+          <q-btn
+            flat
+            icon="refresh"
+            round
+            @click="reloadStatus"
+          >
+            <q-tooltip>Reload status</q-tooltip>
+          </q-btn>
+        </div>
+      </div>
+    </q-card-section>
+  </q-card>
 </template>

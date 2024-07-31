@@ -32,12 +32,14 @@ const chartOptions: ApexOptions = reactive({
       enabled: false,
     },
   },
+  colors: ['#ff9800'],
   dataLabels: {
     enabled: false,
   },
   grid: {
     padding: {
       left: -25,
+      top: -15,
     },
   },
   plotOptions: {
@@ -47,9 +49,6 @@ const chartOptions: ApexOptions = reactive({
         position: 'top',
       },
     },
-  },
-  theme: {
-    palette: 'palette7',
   },
   tooltip: {
     enabled: true,
@@ -64,6 +63,9 @@ const chartOptions: ApexOptions = reactive({
   },
   yaxis: {
     labels: {
+      formatter: function (val) {
+        return val.toFixed(0)
+      },
       offsetX: -22,
     },
   },
@@ -119,12 +121,39 @@ const note = computed(() => {
 </script>
 
 <template>
-  <h6 class="q-mb-xs">Total observations over the day</h6>
-  <apexchart
-    width="350"
-    type="bar"
-    :options="chartOptions"
-    :series="chartSeries"
-  />
-  <div v-if="shotTypes.length && note">{{ note }}</div>
+  <q-card class="q-mb-lg">
+    <q-card-section class="q-pa-sm">
+      <div class="row justify-between items-center">
+        <div
+          class="text-h6"
+          role="heading"
+        >
+          Total observations over the day
+        </div>
+        <q-icon
+          v-if="shotTypes.length && note"
+          name="info"
+          size="sm"
+        >
+          <q-tooltip
+            class="text-body2"
+            max-width="350px"
+          >
+            {{ note }}
+          </q-tooltip>
+        </q-icon>
+      </div>
+    </q-card-section>
+    <q-card-section class="q-pa-sm">
+      <div style="height: 200px">
+        <apexchart
+          height="100%"
+          type="bar"
+          width="334"
+          :options="chartOptions"
+          :series="chartSeries"
+        />
+      </div>
+    </q-card-section>
+  </q-card>
 </template>

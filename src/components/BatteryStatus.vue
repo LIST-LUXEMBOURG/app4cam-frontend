@@ -34,6 +34,17 @@ try {
 </script>
 
 <template>
-  <h6 class="q-mb-sm">Battery status</h6>
-  <p>Battery voltage: {{ properties.batteryVoltage }}</p>
+  <q-card class="q-mb-lg overflow-auto">
+    <q-card-section class="q-pa-sm">
+      <div class="row justify-between items-center">
+        <div
+          class="text-h6"
+          role="heading"
+        >
+          Battery status
+        </div>
+        <div>{{ properties.batteryVoltage }} V</div>
+      </div>
+    </q-card-section>
+  </q-card>
 </template>
