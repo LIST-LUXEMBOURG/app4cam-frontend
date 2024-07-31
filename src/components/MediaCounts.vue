@@ -34,7 +34,26 @@ try {
 </script>
 
 <template>
-  <h6 class="q-mb-sm">Media</h6>
-  <p>Pictures: {{ store.pictureCount }}</p>
-  <p>Videos: {{ store.videoCount }}</p>
+  <q-card class="q-mb-lg overflow-auto">
+    <q-card-section class="q-pa-sm">
+      <div
+        class="text-h6"
+        role="heading"
+      >
+        Media
+      </div>
+    </q-card-section>
+    <q-card-section class="q-pa-sm">
+      <ul class="q-my-none no-padding">
+        <li>Pictures: {{ store.pictureCount }}</li>
+        <li>Videos: {{ store.videoCount }}</li>
+      </ul>
+    </q-card-section>
+  </q-card>
 </template>
+
+<style scoped>
+ul {
+  list-style-type: none;
+}
+</style>

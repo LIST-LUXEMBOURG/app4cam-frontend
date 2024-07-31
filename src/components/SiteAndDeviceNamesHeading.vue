@@ -55,5 +55,5 @@ onMounted(async () => {
 </script>
 
 <template>
-  <h5 class="q-mt-none">{{ siteName }} {{ deviceName }}</h5>
+  <h5 class="q-mt-none q-mb-md">{{ siteName }} {{ deviceName }}</h5>
 </template>

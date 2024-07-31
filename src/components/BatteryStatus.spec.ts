@@ -39,6 +39,6 @@ it('displays picture count', async () => {
       batteryVoltage: 1,
     },
   })
-  const pictures = screen.queryByText('Battery voltage: 1')
+  const pictures = screen.queryByText('1 V')
   expect(pictures).toBeInTheDocument()
 })

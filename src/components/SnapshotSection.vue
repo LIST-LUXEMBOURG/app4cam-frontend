@@ -45,36 +45,47 @@ function onTakeSnapshotButtonClick() {
 </script>
 
 <template>
-  <h6 class="q-mb-sm">Snapshot</h6>
-  <q-btn
-    color="primary"
-    label="Take snapshot"
-    @click="onTakeSnapshotButtonClick"
-  />
-  <q-dialog
-    v-model="isSnapshotDialogOpen"
-    maximized
-  >
-    <q-card>
-      <q-card-section class="row items-center q-pb-none">
-        <div class="text-h6">Snapshot</div>
-        <q-space />
+  <q-card class="q-mb-lg overflow-auto">
+    <q-card-section class="q-pa-sm">
+      <div class="row justify-between items-center">
+        <div
+          class="text-h6"
+          role="heading"
+        >
+          Snapshot
+        </div>
         <q-btn
-          v-close-popup
-          dense
-          flat
-          icon="close"
-          round
+          color="primary"
+          label="Take snapshot"
+          @click="onTakeSnapshotButtonClick"
         />
-      </q-card-section>
-      <q-card-section class="q-pt-none">
-        <img
-          class="snapshot"
-          :src="snapshotUrl"
-        />
-      </q-card-section>
-    </q-card>
-  </q-dialog>
+        <q-dialog
+          v-model="isSnapshotDialogOpen"
+          maximized
+        >
+          <q-card>
+            <q-card-section class="row items-center q-pb-none">
+              <div class="text-h6">Snapshot</div>
+              <q-space />
+              <q-btn
+                v-close-popup
+                dense
+                flat
+                icon="close"
+                round
+              />
+            </q-card-section>
+            <q-card-section class="q-pt-none">
+              <img
+                class="snapshot"
+                :src="snapshotUrl"
+              />
+            </q-card-section>
+          </q-card>
+        </q-dialog>
+      </div>
+    </q-card-section>
+  </q-card>
 </template>
 
 <style scoped>
