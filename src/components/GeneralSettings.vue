@@ -208,13 +208,15 @@ function onSubmitGeneralSettings() {
     .catch((error) => {
       if (
         settingsStore.current.general.deviceName !==
-        settingsStore.initial.general.deviceName
+          settingsStore.initial.general.deviceName ||
+        settingsStore.current.general.password !==
+          settingsStore.initial.general.password
       ) {
-        // There is a high chance that the request went through but that the access point has been renamed.
+        // There is a high chance that the request went through but that the access point was renamed or the password updated.
         quasar.dialog({
-          title: 'Connection lost',
+          title: 'Connection Lost',
           message:
-            'You need to connect to the new Wi-Fi network now. The access point name has been updated with the device name, so you lost the connection.',
+            'The access point name was updated with the device name, or the access point password was changed. Please connect to the new Wi-Fi network now and reload this page.',
           persistent: true,
         })
       } else {
