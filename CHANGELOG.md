@@ -4,6 +4,20 @@
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## 5.0.0
+
+### Added
+
 - Write temperature value to metadata `Information` field of MP4 videos on Raspberry Pi
 - Add setting of temperature threshold below whose value the device will not take shots
 - Add latitude and longitude fields to the general settings for setting the device's location
@@ -26,16 +40,10 @@
 - Optimise requests for heading component on dashboard
 - Make dashboard more compact
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 
 - Prevent triggering due to switch from infrared to visible light
 - Update initial state of settings in frontend after a successful update
-
-### Security
 
 ## 4.1.1
 
