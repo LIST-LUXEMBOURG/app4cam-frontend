@@ -10,20 +10,30 @@
 - Display total observations per hour of the day on the dashboard
 - Add read-only location accuracy to the general settings
 - Request location from browser
+- Add GPL3 license
 - Add dialogue with license information that can be opened from footer
+- Write location details as metadata to MP4 and JPG files
+- Add setting for the device to sleep between sunset and sunrise
+- Display connection lost popup also on Wi-Fi password change
 
 ### Changed
 
 - Update dependencies in frontend
 - Return media files sorted by date in descending order
 - Provide one configuration file sample instead of two for both development and production
-- Reorganise scripts folder
+- Reorganise scripts folder in backend
+- Subdivide temp folder for both archive and log file usage in backend
+- Optimise requests for heading component on dashboard
+- Make dashboard more compact
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+- Prevent triggering due to switch from infrared to visible light
+- Update initial state of settings in frontend after a successful update
 
 ### Security
 
