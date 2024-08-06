@@ -38,16 +38,14 @@ const chartOptions: ApexOptions = reactive({
   },
   grid: {
     padding: {
-      left: -25,
+      left: -5,
       top: -15,
+      right: 0,
     },
   },
   plotOptions: {
     bar: {
       columnWidth: '90%',
-      dataLabels: {
-        position: 'top',
-      },
     },
   },
   tooltip: {
@@ -61,12 +59,18 @@ const chartOptions: ApexOptions = reactive({
       },
     },
   },
+  xaxis: {
+    axisTicks: {
+      show: false,
+    },
+    offsetY: -2,
+  },
   yaxis: {
     labels: {
       formatter: function (val) {
         return val.toFixed(0)
       },
-      offsetX: -22,
+      offsetX: -10,
     },
   },
 })
