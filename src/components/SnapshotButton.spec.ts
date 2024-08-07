@@ -15,12 +15,12 @@
  * along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { render, screen } from '@testing-library/vue'
-import SnapshotSection from './SnapshotSection.vue'
+import SnapshotButton from './SnapshotButton.vue'
 
-const renderComponent = () => render(SnapshotSection)
+const renderComponent = () => render(SnapshotButton)
 
-it('displays a heading', () => {
+it('displays take snapshot button', () => {
   renderComponent()
-  const heading = screen.queryByRole('heading', { name: 'Snapshot' })
+  const heading = screen.queryByRole('button', { name: 'Take snapshot' })
   expect(heading).toBeInTheDocument()
 })
