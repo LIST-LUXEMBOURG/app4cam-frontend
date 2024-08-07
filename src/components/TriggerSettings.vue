@@ -16,7 +16,7 @@ along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <script setup lang="ts">
 import { QOptionGroupProps, ValidationRule, useQuasar } from 'quasar'
-import { VNodeRef, computed, onMounted, ref, watch } from 'vue'
+import { VNodeRef, computed, ref, watch } from 'vue'
 import { TRIGGER_THRESHOLD_MINIMUM, useSettingsStore } from '../stores/settings'
 import ApiClientService from 'src/helpers/ApiClientService'
 import NotificationCreator from 'src/helpers/NotificationCreator'
@@ -212,18 +212,21 @@ watch(
 
       // Disable working times when this functionality is enabled.
       workingTimeEnabled.value = false
-
-      // Display next sunset and sunrise times.
-      await getNextSunsetAndSunriseTimes()
     }
   },
 )
 
-onMounted(async () => {
-  if (settingsStore.current.triggering.useSunriseAndSunsetTimes) {
-    await getNextSunsetAndSunriseTimes()
-  }
-})
+watch(
+  () => settingsStore.current.general.latitude,
+  async () => {
+    if (
+      settingsStore.current.general.latitude &&
+      settingsStore.current.general.longitude
+    ) {
+      await getNextSunsetAndSunriseTimes()
+    }
+  },
+)
 </script>
 
 <template>
