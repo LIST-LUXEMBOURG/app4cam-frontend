@@ -17,7 +17,7 @@ stages:
 test:
   stage: test
   tags:
-    - hdce_docker
+    - oceb
   before_script:
     - corepack enable
     - corepack prepare pnpm@latest-9 --activate
@@ -39,7 +39,7 @@ sast:
   stage: analyse
   when: manual
   tags:
-    - hdce_docker
+    - oceb
 
 include:
   - template: Security/SAST.gitlab-ci.yml
@@ -47,7 +47,7 @@ include:
 build:
   stage: build
   tags:
-    - hdce_docker
+    - oceb
   before_script:
     - corepack enable
     - corepack prepare pnpm@latest-9 --activate
@@ -74,7 +74,7 @@ build:
 deploy-raspberry-pi:
   stage: deploy
   tags:
-    - hdce_docker
+    - oceb
   environment:
     name: Raspberry Pi testing
     url: http://$RASPBERRY_PI_HOST
@@ -106,7 +106,7 @@ deploy-raspberry-pi:
 deploy-variscite-newtcam:
   stage: deploy
   tags:
-    - hdce_docker
+    - oceb
   environment:
     name: Variscite NEWTCAM 3 testing
     url: http://$VARISCITE_NEWTCAM_HOST
