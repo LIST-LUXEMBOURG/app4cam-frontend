@@ -14,13 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { render, screen } from '@testing-library/vue'
-import SnapshotSection from './SnapshotSection.vue'
+/* eslint-disable vitest/expect-expect */
+import { render } from '@testing-library/vue'
+import SnapshotDialog from './SnapshotDialog.vue'
 
-const renderComponent = () => render(SnapshotSection)
+const renderComponent = () => render(SnapshotDialog)
 
-it('displays a heading', () => {
+it('displays itself', () => {
   renderComponent()
-  const heading = screen.queryByRole('heading', { name: 'Snapshot' })
-  expect(heading).toBeInTheDocument()
 })

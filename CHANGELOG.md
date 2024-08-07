@@ -4,6 +4,8 @@
 
 ### Added
 
+- Add snapshot button also to bottom of camera settings section
+
 ### Changed
 
 ### Deprecated

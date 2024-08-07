@@ -23,6 +23,7 @@ import {
 } from 'quasar'
 import { VNodeRef, computed, ref, watch } from 'vue'
 import { useSettingsStore } from '../stores/settings'
+import SnapshotButton from './SnapshotButton.vue'
 import NotificationCreator from 'src/helpers/NotificationCreator'
 
 const quasar = useQuasar()
@@ -192,12 +193,14 @@ watch(
         />
       </template>
     </q-field>
-    <q-btn
-      color="primary"
-      class="q-mt-md"
-      :disable="isLoadingSettings"
-      label="Save"
-      type="submit"
-    />
+    <div class="row justify-between items-center q-mt-md">
+      <q-btn
+        color="primary"
+        :disable="isLoadingSettings"
+        label="Save"
+        type="submit"
+      />
+      <SnapshotButton :outline="true" />
+    </div>
   </q-form>
 </template>
