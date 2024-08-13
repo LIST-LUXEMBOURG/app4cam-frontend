@@ -4,6 +4,20 @@
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## 5.1.0
+
+### Added
+
 - Add snapshot button also to bottom of camera settings section
 - Add Motion configuration files to repository and link them
 - Add mask file to DiMON devices
@@ -12,18 +26,12 @@
 
 - Disable git commit hooks when using npm version command
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 
 - Revert use of exiftool argument for overwriting the original file
 - Show truncated Y axis data labels in observations chart
 - Add time zone offset to sunset and sunrise times calculations
 - Fix tomorrow's calculation for sunrise time
-
-### Security
 
 ## 5.0.0
 
