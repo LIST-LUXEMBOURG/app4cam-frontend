@@ -332,7 +332,8 @@ watch(
         v-if="sunset && sunrise"
         class="row q-ml-xl q-pl-sm"
       >
-        Next sunset at {{ sunset }} sunrise at {{ sunrise }}
+        Next sunrise at {{ sunrise }} tomorrow and next sunset at
+        {{ sunset }} today
       </div>
     </div>
     <q-field
