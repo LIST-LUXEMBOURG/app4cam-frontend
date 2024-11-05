@@ -17,7 +17,7 @@
 import { createTestingPinia } from '@pinia/testing'
 import { screen } from '@testing-library/vue'
 import { StateTree } from 'pinia'
-import { renderAsync } from '../../test/vitest/renderAsync'
+import { renderAsync } from '../../../test/vitest/renderAsync'
 import DiskUsage from './DiskUsage.vue'
 
 const renderComponent = (initialState?: StateTree) =>

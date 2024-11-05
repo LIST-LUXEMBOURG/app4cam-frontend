@@ -18,7 +18,7 @@ along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
 import { ApexOptions } from 'apexcharts'
 import { useQuasar } from 'quasar'
 import { reactive, ref } from 'vue'
-import { useStorageStore } from '../stores/storage'
+import { useStorageStore } from '../../stores/storage'
 import NotificationCreator from 'src/helpers/NotificationCreator'
 
 const quasar = useQuasar()
@@ -147,7 +147,7 @@ reloadStatus()
         />
       </div>
       <div
-        class="row q-mt-sm rounded-borders q-pa-sm text-white justify-between"
+        class="row q-mt-sm rounded-borders q-pa-sm text-white justify-between items-center"
         :class="{
           'bg-positive': store.status.isAvailable,
           'bg-negative': !store.status.isAvailable,
