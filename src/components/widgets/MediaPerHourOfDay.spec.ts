@@ -16,8 +16,8 @@
  */
 import { screen } from '@testing-library/vue'
 import { MockInstance } from 'vitest'
-import { renderAsync } from '../../test/vitest/renderAsync'
-import ApiClientService from '../helpers/ApiClientService'
+import { renderAsync } from '../../../test/vitest/renderAsync'
+import ApiClientService from '../../helpers/ApiClientService'
 import MediaPerHourOfDay from './MediaPerHourOfDay.vue'
 
 const renderComponent = () =>

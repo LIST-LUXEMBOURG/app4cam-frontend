@@ -29,6 +29,7 @@ import {
   DeviceNameResponse,
   SiteNameResponse,
   SystemTimeResponse,
+  CameraConnectionStatus,
 } from './ApiTypings'
 import {
   ApplicationSettings,
@@ -93,6 +94,12 @@ export default {
 
   getBatteryVoltage(): Promise<BatteryVoltageResponse> {
     return unwrapAxiosResponse(apiClient.get('/properties/batteryVoltage'))
+  },
+
+  getCameraConnectedStatus(): Promise<CameraConnectionStatus> {
+    return unwrapAxiosResponse(
+      apiClient.get('/properties/cameraConnectionStatus'),
+    )
   },
 
   getDeviceId(): Promise<DeviceIdResponse> {

@@ -19,15 +19,20 @@ import ApiClientService from '../helpers/ApiClientService'
 import {
   BatteryVoltageResponse,
   DeviceIdResponse,
+  CameraConnectionStatus,
   VersionResponse,
 } from '../helpers/ApiTypings'
 
-type State = BatteryVoltageResponse & DeviceIdResponse & VersionResponse
+type State = BatteryVoltageResponse &
+  DeviceIdResponse &
+  CameraConnectionStatus &
+  VersionResponse
 
 export const usePropertiesStore = defineStore('properties', {
   state: (): State => ({
     batteryVoltage: 0,
     commitHash: '',
+    isCameraConnected: false,
     deviceId: '',
     version: '',
   }),
@@ -36,6 +41,12 @@ export const usePropertiesStore = defineStore('properties', {
     fetchBatteryVoltage() {
       return ApiClientService.getBatteryVoltage().then((response) => {
         this.batteryVoltage = response.batteryVoltage
+      })
+    },
+
+    fetchCameraStatus() {
+      return ApiClientService.getCameraConnectedStatus().then((response) => {
+        this.isCameraConnected = response.isCameraConnected
       })
     },
 

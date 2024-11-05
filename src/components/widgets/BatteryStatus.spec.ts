@@ -17,7 +17,7 @@
 import { createTestingPinia } from '@pinia/testing'
 import { screen } from '@testing-library/vue'
 import { StateTree } from 'pinia'
-import { renderAsync } from '../../test/vitest/renderAsync'
+import { renderAsync } from '../../../test/vitest/renderAsync'
 import BatteryStatus from './BatteryStatus.vue'
 
 const renderComponent = (initialState?: StateTree) =>

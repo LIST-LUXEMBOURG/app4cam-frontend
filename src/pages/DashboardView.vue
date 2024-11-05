@@ -17,12 +17,12 @@ along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
 <script setup lang="ts">
 import { useQuasar } from 'quasar'
 import { onErrorCaptured, Ref, ref } from 'vue'
-import DiskUsage from '../components/DiskUsage.vue'
-import MediaCounts from '../components/MediaCounts.vue'
-import SiteAndDeviceNamesHeading from '../components/SiteAndDeviceNamesHeading.vue'
-import SnapshotSection from '../components/SnapshotSection.vue'
-import BatteryStatus from 'src/components/BatteryStatus.vue'
-import MediaPerHourOfDay from 'src/components/MediaPerHourOfDay.vue'
+import BatteryStatus from '../components/widgets/BatteryStatus.vue'
+import CameraStatus from '../components/widgets/CameraStatus.vue'
+import DiskUsage from '../components/widgets/DiskUsage.vue'
+import MediaCounts from '../components/widgets/MediaCounts.vue'
+import MediaPerHourOfDay from '../components/widgets/MediaPerHourOfDay.vue'
+import SiteAndDeviceNamesHeading from '../components/widgets/SiteAndDeviceNamesHeading.vue'
 
 const quasar = useQuasar()
 
@@ -47,7 +47,7 @@ onErrorCaptured((e) => {
         <MediaPerHourOfDay />
         <media-counts />
         <BatteryStatus />
-        <snapshot-section />
+        <camera-status />
       </div>
     </template>
     <template #fallback>

@@ -15,7 +15,7 @@
  * along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { screen } from '@testing-library/vue'
-import { renderAsync } from '../../test/vitest/renderAsync'
+import { renderAsync } from '../../../test/vitest/renderAsync'
 import SiteAndDeviceNamesHeading from './SiteAndDeviceNamesHeading.vue'
 import ApiClientService from 'src/helpers/ApiClientService'
 
