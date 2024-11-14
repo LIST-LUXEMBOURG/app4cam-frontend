@@ -6,6 +6,8 @@
 
 ### Changed
 
+- Confirm compatibility with Node.js 22
+
 ### Deprecated
 
 ### Removed
