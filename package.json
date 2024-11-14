@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "quasar build",
-    "check": "tsc --noEmit --skipLibCheck",
+    "check": "vue-tsc --noEmit --skipLibCheck",
     "concurrently:dev:vitest": "concurrently \"quasar dev\" \"vitest\"",
     "dev": "quasar dev",
     "format": "prettier --write --ignore-unknown .",
