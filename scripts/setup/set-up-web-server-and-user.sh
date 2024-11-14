@@ -4,15 +4,16 @@
 USERNAME="app4cam"
 PASSWORD="app4cam"
 
-MINIMUM_NODE_VERSION="18"
+NODE_VERSION="22"
 
 # Turn echo on.
 set -x
 
-# Make sure to have Node.js installed in version >= 18.x.
-if ! command -v node &> /dev/null || node -v != v"$MINIMUM_NODE_VERSION"* ; then
+# Make sure to have Node.js installed in the right version.
+if ! command -v node &> /dev/null || node -v != v"$NODE_VERSION"* ; then
   sudo apt install curl -y
-  curl -sL https://deb.nodesource.com/setup_"$MINIMUM_NODE_VERSION".x | sudo bash -
+  curl -fsSL https://deb.nodesource.com/setup_"$NODE_VERSION".x -o nodesource_setup.sh
+  bash nodesource_setup.sh
   sudo apt install nodejs -y
 fi
 
