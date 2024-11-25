@@ -4,9 +4,15 @@
 
 ### Added
 
+- Show camera connection status on dashboard
+
 ### Changed
 
-- Confirm compatibility with Node.js 22
+- Clarify wording of sunrise and sunset times displayed
+- Allow access to motion web control and stream websites
+- Update Motion on NewtCAM to version 4.7.0
+- Set initial Motion config values of threshold to 17040, lightswitch_percent to 30, lightswitch_frames to 30 on NewtCAM
+- Confirm compatibility with and use Node.js 22
 
 ### Deprecated
 
@@ -14,7 +20,13 @@
 
 ### Fixed
 
+- Use correct date for calculating offset in sunrise time on daylight saving time change
+- Read WiFi status on startup for correct LED display
+- Prevent triggering due to switch from infrared to visible light by increasing wait time to 15 s
+
 ### Security
+
+- Update root password
 
 ## 5.1.0
 
@@ -116,15 +128,15 @@
 ### Fixed
 
 - Lower disk space usage threshold to 95% to reduce risk of overflown disk
-- Add mask file for NewtCam to auto-deployment
+- Add mask file for NewtCAM to auto-deployment
 - Display error message from request response if it is available
 - Fix Raspberry Pi loosing camera focus on reboot
 - Switch to syslog for Motion logging to not overflow disk
-- Fix broken USB auto-mount on NewtCam by disabling preconfigured udev auto-mount rule
+- Fix broken USB auto-mount on NewtCAM by disabling preconfigured udev auto-mount rule
 - Fix snapshot not being opened on Raspberry Pi by increasing waiting time for saving image to 2s
 - Allow change of only one of both working times if both are set already
-- Fix setting of year in RTC on NewtCam
-- Fix WiFi button on NewtCam not working after auto-deployment
+- Fix setting of year in RTC on NewtCAM
+- Fix WiFi button on NewtCAM not working after auto-deployment
 
 ## 3.0.0
 
@@ -135,12 +147,12 @@
 - Introduce camera focus setting
 - Display connection lost popup when the device name is changed
 - Add Wi-Fi password to settings
-- Enable hardware WiFi toggle button on the NewtCam board
+- Enable hardware WiFi toggle button on the NewtCAM board
 - Add battery voltage to dashboard page
-- Read battery voltage on the NewtCam board
-- Support RTC of the NewtCam board
-- Make NewtCam boards also hibernate
-- Add hardware initialisation scripts for the NewtCam board
+- Read battery voltage on the NewtCAM board
+- Support RTC of the NewtCAM board
+- Make NewtCAM boards also hibernate
+- Add hardware initialisation scripts for the NewtCAM board
 - Display LIST logo in header and note `by LIST` in footer
 - Add copyright notice as comment to source code files
 - Create setup and release scripts for frontend
