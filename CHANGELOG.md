@@ -11,7 +11,7 @@
 - Clarify wording of sunrise and sunset times displayed
 - Allow access to motion web control and stream websites
 - Update Motion on NewtCAM to version 4.7.0
-- Set initial Motion config values of threshold to 17040, lightswitch_percent to 30, lightswitch_frames to 30 on NewtCAM
+- Set initial Motion config values of `threshold` to 17040, `lightswitch_percent` to 30, `lightswitch_frames` to 30 on NewtCAM
 - Confirm compatibility with and use Node.js 22
 - Add self-signed certificate to frontend and enforce HTTPS
 - Add HTTPS reverse proxy to backend for /api
