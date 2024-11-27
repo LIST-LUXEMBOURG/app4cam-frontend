@@ -14,6 +14,7 @@
 - Set initial Motion config values of threshold to 17040, lightswitch_percent to 30, lightswitch_frames to 30 on NewtCAM
 - Confirm compatibility with and use Node.js 22
 - Add self-signed certificate to frontend and enforce HTTPS
+- Add HTTPS reverse proxy to backend for /api
 
 ### Deprecated
 
