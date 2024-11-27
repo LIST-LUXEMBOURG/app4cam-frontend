@@ -37,6 +37,8 @@ mkdir -p /etc/ssl/localcerts
 openssl genpkey -algorithm RSA -out /etc/ssl/localcerts/app4cam.key -pkeyopt rsa_keygen_bits:4096
 openssl req -utf8 -new -key /etc/ssl/localcerts/app4cam.key -subj "/CN=$ip_address/OU=LIST/C=LU" -out /etc/ssl/localcerts/app4cam.csr
 openssl x509 -req -days 9125 -in /etc/ssl/localcerts/app4cam.csr -signkey /etc/ssl/localcerts/app4cam.key -out /etc/ssl/localcerts/app4cam.crt
+chmod ugo+r /etc/ssl/localcerts/app4cam.crt
+chmod ugo+r /etc/ssl/localcerts/app4cam.key
 
 # Backup SSL configuration file and link to certificate and key.
 cp /etc/apache2/sites-available/default-ssl.conf /etc/apache2/sites-available/default-ssl.backup.conf
