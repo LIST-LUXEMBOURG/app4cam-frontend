@@ -40,6 +40,7 @@ async function checkUpgradeStatus() {
       stopUpgradeStatusPolling()
       return
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     // Do nothing as backend could get restarted.
     pollingFailureCounter++
@@ -121,6 +122,7 @@ async function onUpgradeButtonClick() {
   let upgradeFileCheckResult
   try {
     upgradeFileCheckResult = await ApiClientService.getUpgradeFileCheckResult()
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     displayUpgradeNotStartedDialog()
     return
@@ -142,6 +144,7 @@ async function onUpgradeButtonClick() {
         try {
           startingTimestampMs = Date.now()
           await ApiClientService.postPerformUpgrade()
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
           // Consider errors only the first second, discard otherwise as the polling kicks in.
           if (

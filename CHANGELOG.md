@@ -15,6 +15,7 @@
 - Confirm compatibility with and use Node.js 22
 - Add self-signed certificate to frontend and enforce HTTPS
 - Add HTTPS reverse proxy to backend for /api
+- Update dependencies
 
 ### Deprecated
 
