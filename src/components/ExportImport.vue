@@ -108,44 +108,41 @@ function submitImportSettingsForm() {
 </script>
 
 <template>
-  <h6 class="q-mb-md">Export & import settings</h6>
-  <div class="q-px-md">
-    <q-btn
-      color="primary"
-      label="Export"
-      @click="onExportButtonClick"
-    />
-    <q-form
-      autocapitalize="off"
-      autocomplete="off"
-      autocorrect="off"
-      class="q-mt-md row justify-between"
-      @submit="submitImportSettingsForm"
+  <q-btn
+    color="primary"
+    label="Export settings"
+    @click="onExportButtonClick"
+  />
+  <q-form
+    autocapitalize="off"
+    autocomplete="off"
+    autocorrect="off"
+    class="q-mt-md row justify-between"
+    @submit="submitImportSettingsForm"
+  >
+    <q-file
+      v-model="file"
+      accept="application/json"
+      class="col"
+      label="Settings file"
+      lazy-rules="ondemand"
+      outlined
+      :rules="checkNoFile"
     >
-      <q-file
-        v-model="file"
-        accept="application/json"
-        class="col"
-        label="Settings file"
-        lazy-rules="ondemand"
-        outlined
-        :rules="checkNoFile"
-      >
-        <template #prepend>
-          <q-icon
-            name="upload"
-            @click.stop
-          />
-        </template>
-      </q-file>
-      <div class="col-auto q-ml-sm">
-        <q-btn
-          class="q-mt-sm"
-          color="primary"
-          label="Import"
-          type="submit"
+      <template #prepend>
+        <q-icon
+          name="upload"
+          @click.stop
         />
-      </div>
-    </q-form>
-  </div>
+      </template>
+    </q-file>
+    <div class="col-auto q-ml-sm">
+      <q-btn
+        class="q-mt-sm"
+        color="primary"
+        label="Import"
+        type="submit"
+      />
+    </div>
+  </q-form>
 </template>

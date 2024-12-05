@@ -25,10 +25,18 @@ const renderComponent = () =>
     },
   })
 
-it('displays a heading', () => {
+it('displays a export button', () => {
   renderComponent()
-  const heading = screen.queryByRole('heading', {
-    name: 'Export & import settings',
+  const button = screen.queryByRole('button', {
+    name: 'Export settings',
   })
-  expect(heading).toBeInTheDocument()
+  expect(button).toBeInTheDocument()
+})
+
+it('displays a import button', () => {
+  renderComponent()
+  const button = screen.queryByRole('button', {
+    name: 'Import',
+  })
+  expect(button).toBeInTheDocument()
 })

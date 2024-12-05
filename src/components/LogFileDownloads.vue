@@ -53,45 +53,42 @@ function handleFileDownloadError(error: unknown): void {
 </script>
 
 <template>
-  <h6 class="q-mt-sm q-mb-md">Log files</h6>
-  <div class="q-px-md">
-    <q-btn-dropdown
-      color="primary"
-      label="Download log file"
-    >
-      <q-list>
-        <q-item
-          v-close-popup
-          clickable
-          @click="onDownloadAppLogButtonClick"
-        >
-          <q-item-section side>
-            <q-icon
-              color="gray"
-              name="download"
-            />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>App log file</q-item-label>
-          </q-item-section>
-        </q-item>
+  <q-btn-dropdown
+    color="primary"
+    label="Download log file"
+  >
+    <q-list>
+      <q-item
+        v-close-popup
+        clickable
+        @click="onDownloadAppLogButtonClick"
+      >
+        <q-item-section side>
+          <q-icon
+            color="gray"
+            name="download"
+          />
+        </q-item-section>
+        <q-item-section>
+          <q-item-label>App log file</q-item-label>
+        </q-item-section>
+      </q-item>
 
-        <q-item
-          v-close-popup
-          clickable
-          @click="onDownloadMotionLogButtonClick"
-        >
-          <q-item-section side>
-            <q-icon
-              color="gray"
-              name="download"
-            />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Motion log file</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
-    </q-btn-dropdown>
-  </div>
+      <q-item
+        v-close-popup
+        clickable
+        @click="onDownloadMotionLogButtonClick"
+      >
+        <q-item-section side>
+          <q-icon
+            color="gray"
+            name="download"
+          />
+        </q-item-section>
+        <q-item-section>
+          <q-item-label>Motion log file</q-item-label>
+        </q-item-section>
+      </q-item>
+    </q-list>
+  </q-btn-dropdown>
 </template>
