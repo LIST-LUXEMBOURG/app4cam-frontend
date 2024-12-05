@@ -5,6 +5,7 @@
 ### Added
 
 - Show camera connection status on dashboard
+- Add upgrade procedure
 
 ### Changed
 
@@ -15,6 +16,7 @@
 - Confirm compatibility with and use Node.js 22
 - Add self-signed certificate to frontend and enforce HTTPS
 - Add HTTPS reverse proxy to backend for /api
+- Clean up layout of tools on the bottom of the settings pages
 - Update dependencies
 
 ### Deprecated
