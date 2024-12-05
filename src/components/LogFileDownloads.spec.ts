@@ -19,8 +19,8 @@ import LogFileDownloads from './LogFileDownloads.vue'
 
 const renderComponent = () => render(LogFileDownloads)
 
-it('displays a heading', () => {
+it('displays a download button', () => {
   renderComponent()
-  const heading = screen.queryByRole('heading', { name: 'Log files' })
-  expect(heading).toBeInTheDocument()
+  const button = screen.queryByText('Download log file')
+  expect(button).toBeInTheDocument()
 })

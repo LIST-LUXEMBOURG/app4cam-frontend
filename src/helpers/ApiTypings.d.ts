@@ -79,3 +79,12 @@ export interface SunriseAndSunsetResponse {
     minute: number
   }
 }
+
+export interface UpgradeFileCheckResult {
+  isOkay: boolean
+  message: string
+}
+
+export interface UpgradeStatus {
+  inProgress: boolean
+}

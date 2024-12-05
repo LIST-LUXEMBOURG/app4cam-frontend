@@ -21,6 +21,7 @@ import CameraSettings from '../components/CameraSettings.vue'
 import ExportImport from '../components/ExportImport.vue'
 import GeneralSettings from '../components/GeneralSettings.vue'
 import TriggerSettings from '../components/TriggerSettings.vue'
+import UpgradeButton from '../components/UpgradeButton.vue'
 import { useSettingsStore } from '../stores/settings'
 import LogFileDownloads from 'src/components/LogFileDownloads.vue'
 import { usePropertiesStore } from 'src/stores/properties'
@@ -100,7 +101,47 @@ settingsStore
     </q-expansion-item>
   </q-list>
 
-  <ExportImport />
+  <h6 class="q-mt-lg q-mb-sm q-ml-sm">Tools</h6>
 
-  <LogFileDownloads />
+  <q-list bordered>
+    <q-expansion-item
+      group="settings"
+      icon="swap_horiz"
+      label="Export & import settings"
+    >
+      <q-card>
+        <q-card-section>
+          <ExportImport />
+        </q-card-section>
+      </q-card>
+    </q-expansion-item>
+
+    <q-separator />
+
+    <q-expansion-item
+      group="settings"
+      icon="description"
+      label="Log file downloads"
+    >
+      <q-card>
+        <q-card-section>
+          <LogFileDownloads />
+        </q-card-section>
+      </q-card>
+    </q-expansion-item>
+
+    <q-separator />
+
+    <q-expansion-item
+      group="settings"
+      icon="upgrade"
+      label="Upgrade"
+    >
+      <q-card>
+        <q-card-section>
+          <UpgradeButton />
+        </q-card-section>
+      </q-card>
+    </q-expansion-item>
+  </q-list>
 </template>

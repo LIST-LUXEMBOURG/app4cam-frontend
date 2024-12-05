@@ -30,6 +30,8 @@ import {
   SiteNameResponse,
   SystemTimeResponse,
   CameraConnectionStatus,
+  UpgradeFileCheckResult,
+  UpgradeStatus,
 } from './ApiTypings'
 import {
   ApplicationSettings,
@@ -192,5 +194,19 @@ export default {
 
   getVersion(): Promise<VersionResponse> {
     return unwrapAxiosResponse(apiClient.get('/properties/version'))
+  },
+
+  getUpgradeFileCheckResult(): Promise<UpgradeFileCheckResult> {
+    return unwrapAxiosResponse(apiClient.get('/upgrades/fileCheckResult'))
+  },
+
+  postPerformUpgrade(): Promise<void> {
+    return unwrapAxiosResponse(apiClient.post('/upgrades/upgrade'))
+  },
+
+  getUpgradeStatus(): Promise<UpgradeStatus> {
+    return unwrapAxiosResponse(
+      apiClient.get('/upgrades/status', { timeout: 3000 }),
+    )
   },
 }
