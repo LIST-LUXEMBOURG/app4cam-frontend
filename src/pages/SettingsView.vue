@@ -121,7 +121,7 @@ settingsStore
     <q-expansion-item
       group="settings"
       icon="description"
-      label="Log file downloads"
+      label="Download log files"
     >
       <q-card>
         <q-card-section>
@@ -135,7 +135,7 @@ settingsStore
     <q-expansion-item
       group="settings"
       icon="upgrade"
-      label="Upgrade"
+      label="Upgrade App4Cam"
     >
       <q-card>
         <q-card-section>
