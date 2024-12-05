@@ -4,6 +4,20 @@
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## 5.2.0
+
+### Added
+
 - Show camera connection status on dashboard
 - Add upgrade procedure
 
@@ -18,10 +32,6 @@
 - Add HTTPS reverse proxy to backend for /api
 - Clean up layout of tools on the bottom of the settings pages
 - Update dependencies
-
-### Deprecated
-
-### Removed
 
 ### Fixed
 
