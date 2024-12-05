@@ -21,7 +21,6 @@ import ApiClientService from 'src/helpers/ApiClientService'
 
 const quasar = useQuasar()
 
-const DURATION_UPGRADE_START_NO_TIMEOUT_MS = 1000
 const POLLING_FAILURE_THRESHOLD = 2160 // 3 hours
 const POLLING_INTERVAL_MS = 5000
 
@@ -140,22 +139,11 @@ async function onUpgradeButtonClick() {
       .onOk(async () => {
         displayUpgradeInProgressDialog()
         setupUpgradeStatusPolling()
-        let startingTimestampMs
         try {
-          startingTimestampMs = Date.now()
           await ApiClientService.postPerformUpgrade()
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
-          // Consider errors only the first second, discard otherwise as the polling kicks in.
-          if (
-            startingTimestampMs &&
-            Date.now() - startingTimestampMs <
-              DURATION_UPGRADE_START_NO_TIMEOUT_MS
-          ) {
-            stopUpgradeStatusPolling()
-            upgradeInProgressDialog.hide()
-            displayUpgradeNotStartedDialog()
-          }
+          // Ignore errors as the polling kicks in.
         }
       })
   } else {
