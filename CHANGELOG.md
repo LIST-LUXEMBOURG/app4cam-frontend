@@ -6,11 +6,19 @@
 
 ### Changed
 
+- Improve Motion option `video_params` handling
+
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+- Increase Motion option value `minimum_motion_frames` from 1 to 3 to not end videos too early for NewtCAM
+- Correct camera palette in Motion to use maximum resolution and frame rate for NewtCAM
+- Fix logging of triggering times
+- Fix waking up NewtCAM the next day
+- Allow changing focus if camera light is not changed at the same time
 
 ### Security
 
