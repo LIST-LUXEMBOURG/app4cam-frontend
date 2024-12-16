@@ -19,6 +19,8 @@
 - Fix logging of triggering times
 - Fix waking up NewtCAM the next day
 - Allow changing focus if camera light is not changed at the same time
+- Use external ffmpeg to encode movies faster and with a higher frame rate
+- Decrease value of Motion option `framerate` to 10 for lower CPU usage
 
 ### Security
 
