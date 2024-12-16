@@ -6,11 +6,19 @@
 
 ### Changed
 
-- Improve Motion option `video_params` handling
-
 ### Deprecated
 
 ### Removed
+
+### Fixed
+
+### Security
+
+## 5.2.1
+
+### Changed
+
+- Improve Motion option `video_params` handling
 
 ### Fixed
 
@@ -21,8 +29,6 @@
 - Allow changing focus if camera light is not changed at the same time
 - Use external ffmpeg to encode movies faster and with a higher frame rate
 - Decrease value of Motion option `framerate` to 10 for lower CPU usage
-
-### Security
 
 ## 5.2.0
 
