@@ -8,6 +8,12 @@
 # https://hub.docker.com/r/library/node/tags/
 image: node:22-alpine
 
+workflow:
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: manual
+    - when: always
+
 stages:
   - test
   - analyse
