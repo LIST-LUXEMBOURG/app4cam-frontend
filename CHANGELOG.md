@@ -12,6 +12,8 @@
 
 ### Fixed
 
+- Fix NewtCAM device not waking up at the scheduled time
+
 ### Security
 
 ## 5.2.1
