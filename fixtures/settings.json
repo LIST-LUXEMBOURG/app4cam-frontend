@@ -5,6 +5,8 @@
       "focusMaximum": 800,
       "focusMinimum": 1,
       "isLightEnabled": true,
+      "isPictureQualityEnabled": true,
+      "isShotTypesEnabled": true,
       "light": "infrared",
       "pictureQuality": 100,
       "shotTypes": [],

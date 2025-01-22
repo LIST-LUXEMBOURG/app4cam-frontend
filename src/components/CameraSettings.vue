@@ -139,7 +139,7 @@ watch(
     class="q-gutter-sm"
     @submit="onSubmitCameraSettings"
   >
-    <div>
+    <div v-if="settingsStore.current.camera.isShotTypesEnabled">
       Types of shots
       <q-option-group
         v-model="settingsStore.current.camera.shotTypes"
@@ -150,6 +150,7 @@ watch(
       />
     </div>
     <q-select
+      v-if="settingsStore.current.camera.isPictureQualityEnabled"
       v-model="settingsStore.current.camera.pictureQuality"
       :disable="isLoadingSettings"
       emit-value

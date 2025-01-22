@@ -38,21 +38,18 @@ const renderComponent = (isLoadingSettings: boolean) =>
   })
 
 describe('when the settings are not loading', () => {
-  it('shows enabled types of shots fields', () => {
+  it('does not show types of shots fields', () => {
     renderComponent(false)
-    const fieldPictures = screen.getByLabelText('Pictures')
-    const fieldVideos = screen.getByLabelText('Videos')
-    expect(fieldPictures).toBeInTheDocument()
-    expect(fieldPictures).toBeEnabled()
-    expect(fieldVideos).toBeInTheDocument()
-    expect(fieldVideos).toBeEnabled()
+    const fieldPictures = screen.queryByLabelText('Pictures')
+    const fieldVideos = screen.queryByLabelText('Videos')
+    expect(fieldPictures).not.toBeInTheDocument()
+    expect(fieldVideos).not.toBeInTheDocument()
   })
 
-  it('shows an enabled picture quality field', () => {
+  it('does not show an picture quality field', () => {
     renderComponent(false)
-    const field = screen.getByLabelText('Picture quality')
-    expect(field).toBeInTheDocument()
-    expect(field).toBeEnabled()
+    const field = screen.queryByLabelText('Picture quality')
+    expect(field).not.toBeInTheDocument()
   })
 
   it('shows an enabled movie quality field', () => {
@@ -78,14 +75,12 @@ describe('when the settings are not loading', () => {
 })
 
 describe('when the settings are loading', () => {
-  it('shows disabled types of shots fields', () => {
+  it('does not show types of shots fields', () => {
     renderComponent(true)
-    const fieldPictures = screen.getByLabelText('Pictures')
-    const fieldVideos = screen.getByLabelText('Videos')
-    expect(fieldPictures).toBeInTheDocument()
-    expect(fieldPictures).toHaveAttribute('aria-disabled', 'true')
-    expect(fieldVideos).toBeInTheDocument()
-    expect(fieldVideos).toHaveAttribute('aria-disabled', 'true')
+    const fieldPictures = screen.queryByLabelText('Pictures')
+    const fieldVideos = screen.queryByLabelText('Videos')
+    expect(fieldPictures).not.toBeInTheDocument()
+    expect(fieldVideos).not.toBeInTheDocument()
   })
 
   it('shows a disabled focus field', () => {
