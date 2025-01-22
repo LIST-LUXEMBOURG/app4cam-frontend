@@ -66,6 +66,8 @@ export type ApplicationSettings = ApplicationSettingsWithoutFlags & {
     focusMaximum: number
     focusMinimum: number
     isLightEnabled: boolean
+    isPictureQualityEnabled: boolean
+    isShotTypesEnabled: boolean
   }
   triggering: {
     isLightEnabled: boolean

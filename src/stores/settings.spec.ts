@@ -44,6 +44,8 @@ describe('settings store', () => {
           focusMaximum: 1000,
           focusMinimum: 0,
           isLightEnabled: true,
+          isPictureQualityEnabled: true,
+          isShotTypesEnabled: true,
           light: 'visible',
           pictureQuality: 60,
           shotTypes: ['pictures', 'videos'],
@@ -124,12 +126,16 @@ describe('settings store', () => {
           focusMaximum: Number.MAX_SAFE_INTEGER,
           focusMinimum: Number.MIN_SAFE_INTEGER,
           isLightEnabled: false,
+          isPictureQualityEnabled: false,
+          isShotTypesEnabled: false,
         })
         expect(store.initial.camera).toStrictEqual({
           ...settings.camera,
           focusMaximum: Number.MAX_SAFE_INTEGER,
           focusMinimum: Number.MIN_SAFE_INTEGER,
           isLightEnabled: false,
+          isPictureQualityEnabled: false,
+          isShotTypesEnabled: false,
         })
         expect(store.current.general.deviceName).toBe(
           settings.general.deviceName,
