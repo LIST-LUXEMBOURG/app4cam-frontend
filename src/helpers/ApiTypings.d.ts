@@ -20,7 +20,7 @@ export interface BatteryVoltageResponse {
 }
 
 export interface CameraConnectionStatus {
-  isCameraConnected: boolean
+  isCameraConnected: boolean | null
 }
 
 export interface DeviceIdResponse {

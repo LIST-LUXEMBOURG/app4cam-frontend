@@ -24,7 +24,10 @@ const store = usePropertiesStore()
 const message = ref('')
 
 function adaptMessage() {
-  if (store.isCameraConnected) {
+  if (store.isCameraConnected === null) {
+    message.value =
+      'Unknown camera connection status. Try to restart the device.'
+  } else if (store.isCameraConnected) {
     message.value = 'The camera is connected.'
   } else {
     message.value = 'The camera is disconnected.'
@@ -36,7 +39,6 @@ async function reloadStatus() {
     await store.fetchCameraStatus()
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    store.isCameraConnected = false
     let newMessage = 'The camera connection status could not be loaded.'
     if (error.message) {
       newMessage += ' ' + error.message
