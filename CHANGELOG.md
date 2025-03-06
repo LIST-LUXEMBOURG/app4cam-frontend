@@ -4,6 +4,20 @@
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## 5.3.0
+
+### Added
+
 - Support Witty Pi 4
 - Add prettier formatter plugin for Shell scripts
 
@@ -12,16 +26,10 @@
 - Reference AutoHotspot-Installer from its repository
 - Disable recording images on DiMON as videos are required for further analysis
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 
 - Allow switching between working time modes in same settings saving request
 - Add unknown camera connection status
-
-### Security
 
 ## 5.2.2
 
