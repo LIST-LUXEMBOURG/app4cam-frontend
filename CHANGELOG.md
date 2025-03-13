@@ -14,6 +14,12 @@
 
 ### Security
 
+## 5.3.1
+
+### Fixed
+
+- Fix setting time in Witty Pi
+
 ## 5.3.0
 
 ### Added
