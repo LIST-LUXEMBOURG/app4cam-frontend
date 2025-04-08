@@ -17,6 +17,13 @@
 
 ### Security
 
+## 5.3.2
+
+### Fixed
+
+- Fix device not turning on on hardware reset by clearing RTC alarms at boot for NewtCam
+- Fix log loss on NewtCam by reducing log rotation to 2 weeks
+
 ## 5.3.1
 
 ### Fixed
