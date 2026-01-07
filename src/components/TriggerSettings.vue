@@ -341,6 +341,15 @@ watch(
       ref="triggerLightFieldRef"
       v-model="settingsStore.current.triggering.light"
       class="q-mb-md"
+      :disable="
+        isLoadingSettings ||
+        settingsStore.current.general.isAlternatingLightModeEnabled
+      "
+      :hint="
+        settingsStore.current.general.isAlternatingLightModeEnabled
+          ? 'Disabled because the alternating light mode is enabled'
+          : ''
+      "
       label="Trigger light"
       :rules="noInvalidTriggeringLightType"
       stack-label
@@ -348,7 +357,6 @@ watch(
       <template #control>
         <q-option-group
           v-model="settingsStore.current.triggering.light"
-          :disable="isLoadingSettings"
           :options="LIGHT_TYPE_OPTIONS"
         />
       </template>

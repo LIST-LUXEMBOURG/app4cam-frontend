@@ -413,6 +413,27 @@ ApiClientService.getAvailableTimeZones()
       outlined
       :rules="noInvalidWiFiPassword"
     />
+    <div
+      v-if="
+        settingsStore.current.camera.isLightEnabled &&
+        settingsStore.current.triggering.isLightEnabled
+      "
+    >
+      <div class="row">
+        <q-toggle
+          v-model="settingsStore.current.general.isAlternatingLightModeEnabled"
+          :disable="isLoadingSettings"
+          label="Turn on the alternating light mode"
+        />
+      </div>
+      <div
+        class="row q-ml-xl q-pl-sm text-caption text-grey-8"
+        style="letter-spacing: 0; line-height: 12px"
+      >
+        On the odd days, the infrared light is on continuously, and on the even
+        days, the visible light is on continuously.
+      </div>
+    </div>
     <q-btn
       color="primary"
       class="q-mt-md"

@@ -24,6 +24,7 @@ interface TriggeringTime {
 
 interface GeneralSettings {
   deviceName: string
+  isAlternatingLightModeEnabled: boolean
   latitude: number | null
   locationAccuracy: number | null
   longitude: number | null

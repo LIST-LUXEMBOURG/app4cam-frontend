@@ -182,6 +182,15 @@ watch(
       v-if="settingsStore.current.camera.isLightEnabled"
       ref="cameraLightFieldRef"
       v-model="settingsStore.current.camera.light"
+      :disable="
+        isLoadingSettings ||
+        settingsStore.current.general.isAlternatingLightModeEnabled
+      "
+      :hint="
+        settingsStore.current.general.isAlternatingLightModeEnabled
+          ? 'Disabled because the alternating light mode is enabled'
+          : ''
+      "
       label="Recording light"
       :rules="noInvalidCameraLightType"
       stack-label
@@ -189,7 +198,6 @@ watch(
       <template #control>
         <q-option-group
           v-model="settingsStore.current.camera.light"
-          :disable="isLoadingSettings"
           :options="LIGHT_TYPE_OPTIONS"
         />
       </template>

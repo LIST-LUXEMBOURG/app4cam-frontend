@@ -53,6 +53,7 @@ describe('settings store', () => {
         },
         general: {
           deviceName: 'n',
+          isAlternatingLightModeEnabled: false,
           latitude: 1,
           locationAccuracy: 3,
           longitude: 2,
@@ -101,6 +102,7 @@ describe('settings store', () => {
           },
           general: {
             deviceName: 'd',
+            isAlternatingLightModeEnabled: true,
             latitude: 3,
             locationAccuracy: 6,
             longitude: 4,
@@ -143,6 +145,12 @@ describe('settings store', () => {
         expect(store.initial.general.deviceName).toBe(
           settings.general.deviceName,
         )
+        expect(store.current.general.isAlternatingLightModeEnabled).toBe(
+          settings.general.isAlternatingLightModeEnabled,
+        )
+        expect(store.initial.general.isAlternatingLightModeEnabled).toBe(
+          settings.general.isAlternatingLightModeEnabled,
+        )
         expect(store.current.general.latitude).toBe(settings.general.latitude)
         expect(store.initial.general.latitude).toBe(settings.general.latitude)
         expect(store.current.general.locationAccuracy).toBe(
@@ -181,6 +189,7 @@ describe('settings store', () => {
       it('uploads all persistent settings and resets initial state', async () => {
         const cameraLight = 'infrared'
         const deviceName = 'd'
+        const isAlternatingLightModeEnabled = true
         const focus = 200
         const latitude = 1
         const locationAccuracy = 3
@@ -204,6 +213,8 @@ describe('settings store', () => {
         store.current.camera.shotTypes = shotTypes
         store.current.camera.videoQuality = videoQuality
         store.current.general.deviceName = deviceName
+        store.current.general.isAlternatingLightModeEnabled =
+          isAlternatingLightModeEnabled
         store.current.general.latitude = latitude
         store.current.general.locationAccuracy = locationAccuracy
         store.current.general.longitude = longitude
@@ -230,6 +241,7 @@ describe('settings store', () => {
           },
           general: {
             deviceName,
+            isAlternatingLightModeEnabled,
             latitude,
             locationAccuracy,
             longitude,
@@ -252,6 +264,9 @@ describe('settings store', () => {
         expect(store.initial.camera.shotTypes).toStrictEqual(shotTypes)
         expect(store.initial.camera.videoQuality).toBe(videoQuality)
         expect(store.initial.general.deviceName).toBe(deviceName)
+        expect(store.initial.general.isAlternatingLightModeEnabled).toBe(
+          isAlternatingLightModeEnabled,
+        )
         expect(store.initial.general.latitude).toBe(latitude)
         expect(store.initial.general.locationAccuracy).toBe(locationAccuracy)
         expect(store.initial.general.longitude).toBe(longitude)
@@ -311,6 +326,7 @@ describe('settings store', () => {
 
       it('uploads all changed general settings and resets initial state', async () => {
         const deviceName = 'd'
+        const isAlternatingLightModeEnabled = true
         const latitude = 1
         const locationAccuracy = 2
         const longitude = 3
@@ -320,6 +336,8 @@ describe('settings store', () => {
         const timeZone = 't'
         const store = useSettingsStore()
         store.current.general.deviceName = deviceName
+        store.current.general.isAlternatingLightModeEnabled =
+          isAlternatingLightModeEnabled
         store.current.general.latitude = latitude
         store.current.general.locationAccuracy = locationAccuracy
         store.current.general.longitude = longitude
@@ -333,6 +351,7 @@ describe('settings store', () => {
         expect(ApiClientService.patchSettings).toHaveBeenCalledWith({
           general: {
             deviceName,
+            isAlternatingLightModeEnabled,
             latitude,
             locationAccuracy,
             longitude,
@@ -343,6 +362,9 @@ describe('settings store', () => {
           },
         })
         expect(store.initial.general.deviceName).toBe(deviceName)
+        expect(store.initial.general.isAlternatingLightModeEnabled).toBe(
+          isAlternatingLightModeEnabled,
+        )
         expect(store.initial.general.latitude).toBe(latitude)
         expect(store.initial.general.locationAccuracy).toBe(locationAccuracy)
         expect(store.initial.general.longitude).toBe(longitude)
