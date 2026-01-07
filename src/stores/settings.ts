@@ -45,6 +45,7 @@ const PLACEHOLDER_SETTINGS: ApplicationSettings = {
   },
   general: {
     deviceName: '',
+    isAlternatingLightModeEnabled: false,
     latitude: null,
     locationAccuracy: null,
     longitude: null,
@@ -81,6 +82,8 @@ export const useSettingsStore = defineStore('settings', {
         camera: { ...this.current.camera },
         general: {
           deviceName: this.current.general.deviceName,
+          isAlternatingLightModeEnabled:
+            this.current.general.isAlternatingLightModeEnabled,
           latitude: this.current.general.latitude,
           locationAccuracy: this.current.general.locationAccuracy,
           longitude: this.current.general.longitude,
@@ -123,6 +126,10 @@ export const useSettingsStore = defineStore('settings', {
 
         this.current.general.deviceName = settings.general.deviceName
         this.initial.general.deviceName = settings.general.deviceName
+        this.current.general.isAlternatingLightModeEnabled =
+          settings.general.isAlternatingLightModeEnabled
+        this.initial.general.isAlternatingLightModeEnabled =
+          settings.general.isAlternatingLightModeEnabled
         this.current.general.latitude = settings.general.latitude
         this.initial.general.latitude = settings.general.latitude
         this.current.general.locationAccuracy =
@@ -181,6 +188,8 @@ export const useSettingsStore = defineStore('settings', {
 
     updateInitialGeneralSettingsWithCurrentOnes() {
       this.initial.general.deviceName = this.current.general.deviceName
+      this.initial.general.isAlternatingLightModeEnabled =
+        this.current.general.isAlternatingLightModeEnabled
       this.initial.general.latitude = this.current.general.latitude
       this.initial.general.locationAccuracy =
         this.current.general.locationAccuracy
@@ -218,6 +227,10 @@ export const useSettingsStore = defineStore('settings', {
 
       this.current.general.deviceName = settings.general.deviceName
       this.initial.general.deviceName = settings.general.deviceName
+      this.current.general.isAlternatingLightModeEnabled =
+        settings.general.isAlternatingLightModeEnabled
+      this.initial.general.isAlternatingLightModeEnabled =
+        settings.general.isAlternatingLightModeEnabled
       this.current.general.latitude = settings.general.latitude
       this.initial.general.latitude = settings.general.latitude
       this.current.general.locationAccuracy = settings.general.locationAccuracy
@@ -260,6 +273,8 @@ export const useSettingsStore = defineStore('settings', {
         },
         general: {
           deviceName: this.current.general.deviceName,
+          isAlternatingLightModeEnabled:
+            this.current.general.isAlternatingLightModeEnabled,
           latitude: this.current.general.latitude,
           locationAccuracy: this.current.general.locationAccuracy,
           longitude: this.current.general.longitude,
@@ -320,6 +335,13 @@ export const useSettingsStore = defineStore('settings', {
       const settings: Partial<GeneralSettings> & { systemTime?: string } = {}
       if (this.current.general.deviceName !== this.initial.general.deviceName) {
         settings.deviceName = this.current.general.deviceName
+      }
+      if (
+        this.current.general.isAlternatingLightModeEnabled !==
+        this.initial.general.isAlternatingLightModeEnabled
+      ) {
+        settings.isAlternatingLightModeEnabled =
+          this.current.general.isAlternatingLightModeEnabled
       }
       if (this.current.general.latitude !== this.initial.general.latitude) {
         settings.latitude = this.current.general.latitude
