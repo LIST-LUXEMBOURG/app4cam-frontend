@@ -59,11 +59,10 @@ describe('when the settings are not loading', () => {
     expect(field).toBeEnabled()
   })
 
-  it('shows an enabled focus field', () => {
+  it('does not show a focus field', () => {
     renderComponent(false)
-    const field = screen.getByLabelText('Focus')
-    expect(field).toBeInTheDocument()
-    expect(field).toBeEnabled()
+    const field = screen.queryByLabelText('Focus')
+    expect(field).not.toBeInTheDocument()
   })
 
   it('displays an enabled save button', () => {
@@ -81,13 +80,6 @@ describe('when the settings are loading', () => {
     const fieldVideos = screen.queryByLabelText('Videos')
     expect(fieldPictures).not.toBeInTheDocument()
     expect(fieldVideos).not.toBeInTheDocument()
-  })
-
-  it('shows a disabled focus field', () => {
-    renderComponent(true)
-    const field = screen.getByLabelText('Focus')
-    expect(field).toBeInTheDocument()
-    expect(field).toBeDisabled()
   })
 
   it('displays a disabled save button', () => {
