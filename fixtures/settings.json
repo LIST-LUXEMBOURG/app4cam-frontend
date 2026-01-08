@@ -4,6 +4,7 @@
       "focus": 200,
       "focusMaximum": 800,
       "focusMinimum": 1,
+      "isFocusEnabled": true,
       "isLightEnabled": true,
       "isPictureQualityEnabled": true,
       "isShotTypesEnabled": true,

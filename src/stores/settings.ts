@@ -35,6 +35,7 @@ const PLACEHOLDER_SETTINGS: ApplicationSettings = {
     focus: 200,
     focusMaximum: Number.MAX_SAFE_INTEGER,
     focusMinimum: Number.MIN_SAFE_INTEGER,
+    isFocusEnabled: false,
     isLightEnabled: false,
     isPictureQualityEnabled: false,
     isShotTypesEnabled: false,
@@ -105,6 +106,8 @@ export const useSettingsStore = defineStore('settings', {
         this.initial.camera.focusMaximum = settings.camera.focusMaximum
         this.current.camera.focusMinimum = settings.camera.focusMinimum
         this.initial.camera.focusMinimum = settings.camera.focusMinimum
+        this.current.camera.isFocusEnabled = settings.camera.isFocusEnabled
+        this.initial.camera.isFocusEnabled = settings.camera.isFocusEnabled
         this.current.camera.isLightEnabled = settings.camera.isLightEnabled
         this.initial.camera.isLightEnabled = settings.camera.isLightEnabled
         this.current.camera.isPictureQualityEnabled =

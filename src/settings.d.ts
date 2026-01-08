@@ -66,6 +66,7 @@ export type ApplicationSettings = ApplicationSettingsWithoutFlags & {
   camera: {
     focusMaximum: number
     focusMinimum: number
+    isFocusEnabled: boolean
     isLightEnabled: boolean
     isPictureQualityEnabled: boolean
     isShotTypesEnabled: boolean

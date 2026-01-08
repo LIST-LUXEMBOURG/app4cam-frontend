@@ -169,6 +169,7 @@ watch(
       outlined
     />
     <q-input
+      v-if="settingsStore.current.camera.isFocusEnabled"
       v-model.number="settingsStore.current.camera.focus"
       :disable="isLoadingSettings"
       :hint="focusHint"
