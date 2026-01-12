@@ -4,12 +4,7 @@
 
 ### Added
 
-- Support fixed focus cameras by adding configuration option to backend for enabling fixed focus camera, whose enablement will hide the focus setting in the frontend as well
-- Add alternating light mode setting with infrared light on on odd days and visible light on on even days
-
 ### Changed
-
-- Increase framerate on DiMON by changing the following default motion settings for DiMON: movie_quality from 80 to 50, width from 3840 to 1920 px, height from 3840 to 1920 px, framerate from 15 to 20 (theoretical maximum)
 
 ### Deprecated
 
@@ -18,6 +13,17 @@
 ### Fixed
 
 ### Security
+
+## 5.4.0
+
+### Added
+
+- Support fixed focus cameras by adding configuration option to backend for enabling fixed focus camera, whose enablement will hide the focus setting in the frontend as well
+- Add alternating light mode setting with infrared light on on odd days and visible light on on even days
+
+### Changed
+
+- Increase framerate on DiMON by changing the following default motion settings for DiMON: movie_quality from 80 to 50, width from 3840 to 1920 px, height from 3840 to 1920 px, framerate from 15 to 20 (theoretical maximum)
 
 ## 5.3.2
 
