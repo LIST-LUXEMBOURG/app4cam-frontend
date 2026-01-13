@@ -187,8 +187,4 @@ scripts/setup/set-up-continuous-deployment.sh
 scripts/release-version.sh "<version-number>"
 ```
 
-4. Push the pre-version commit to the remote repository once it should be shared:
-
-```shell
-git push
-```
+At the end, the pre-version commit is pushed to the remote repository without running the pipeline.
