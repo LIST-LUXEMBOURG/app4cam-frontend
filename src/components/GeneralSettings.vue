@@ -430,8 +430,9 @@ ApiClientService.getAvailableTimeZones()
         class="row q-ml-xl q-pl-sm text-caption text-grey-8"
         style="letter-spacing: 0; line-height: 12px"
       >
-        On the odd days, the infrared light is on continuously, and on the even
-        days, the visible light is on continuously.
+        The light changes each day at noon. On odd days of the year, visible
+        light is used from midday on. On even days, infrared light is used from
+        midday on.
       </div>
     </div>
     <q-btn

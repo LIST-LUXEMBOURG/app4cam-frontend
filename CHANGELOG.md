@@ -12,6 +12,8 @@
 
 ### Fixed
 
+- Fix running alternating day light change at midday instead of midnight
+
 ### Security
 
 ## 5.4.1
