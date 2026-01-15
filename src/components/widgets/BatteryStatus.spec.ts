@@ -33,12 +33,13 @@ it('displays a heading', async () => {
   expect(heading).toBeInTheDocument()
 })
 
-it('displays picture count', async () => {
+it('displays voltage', async () => {
+  const batteryVoltage = 1
   await renderComponent({
     properties: {
-      batteryVoltage: 1,
+      batteryVoltage,
     },
   })
-  const pictures = screen.queryByText('1 V')
-  expect(pictures).toBeInTheDocument()
+  const voltage = screen.queryByText(batteryVoltage + ' V')
+  expect(voltage).toBeInTheDocument()
 })
