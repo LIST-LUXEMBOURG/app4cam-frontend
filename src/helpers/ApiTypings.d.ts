@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022-2024  Luxembourg Institute of Science and Technology
+ * Copyright (C) 2022-2026 Luxembourg Institute of Science and Technology
  *
  * App4Cam is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
  */
+
+import { LightType } from 'src/settings'
+
+type CurrentLightType = LightType | 'unsupported'
 
 export interface BatteryVoltageResponse {
   batteryVoltage: number
@@ -38,6 +42,10 @@ export interface FileDownloadResponse {
 }
 
 export type FilesDeletedResponse = Record<string, boolean>
+
+export interface LightTypeResponse {
+  lightType: CurrentLightType
+}
 
 export interface SiteNameResponse {
   siteName?: string

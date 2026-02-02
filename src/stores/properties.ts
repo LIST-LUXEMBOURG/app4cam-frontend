@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022-2024  Luxembourg Institute of Science and Technology
+ * Copyright (C) 2022-2026 Luxembourg Institute of Science and Technology
  *
  * App4Cam is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,12 +18,14 @@ import { defineStore } from 'pinia'
 import ApiClientService from '../helpers/ApiClientService'
 import {
   BatteryVoltageResponse,
+  LightTypeResponse,
   DeviceIdResponse,
   CameraConnectionStatus,
   VersionResponse,
 } from '../helpers/ApiTypings'
 
 type State = BatteryVoltageResponse &
+  LightTypeResponse &
   DeviceIdResponse &
   CameraConnectionStatus &
   VersionResponse
@@ -32,6 +34,7 @@ export const usePropertiesStore = defineStore('properties', {
   state: (): State => ({
     batteryVoltage: 0,
     commitHash: '',
+    lightType: 'unsupported',
     isCameraConnected: false,
     deviceId: '',
     version: '',
@@ -53,6 +56,12 @@ export const usePropertiesStore = defineStore('properties', {
     fetchDeviceId() {
       return ApiClientService.getDeviceId().then((response) => {
         this.deviceId = response.deviceId
+      })
+    },
+
+    fetchLightType() {
+      return ApiClientService.getLightType().then((response) => {
+        this.lightType = response.lightType
       })
     },
 

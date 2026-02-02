@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022-2024  Luxembourg Institute of Science and Technology
+ * Copyright (C) 2022-2026 Luxembourg Institute of Science and Technology
  *
  * App4Cam is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,6 +32,7 @@ import {
   CameraConnectionStatus,
   UpgradeFileCheckResult,
   UpgradeStatus,
+  LightTypeResponse,
 } from './ApiTypings'
 import {
   ApplicationSettings,
@@ -114,6 +115,10 @@ export default {
 
   getFileList(): Promise<FileInfo[]> {
     return unwrapAxiosResponse(apiClient.get('/files'))
+  },
+
+  getLightType(): Promise<LightTypeResponse> {
+    return unwrapAxiosResponse(apiClient.get('/properties/lightType'))
   },
 
   getNextSunsetAndSunriseTimes(): Promise<SunriseAndSunsetResponse> {

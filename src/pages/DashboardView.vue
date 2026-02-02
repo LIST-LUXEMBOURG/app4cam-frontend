@@ -19,6 +19,7 @@ import { useQuasar } from 'quasar'
 import { onErrorCaptured, Ref, ref } from 'vue'
 import BatteryStatus from '../components/widgets/BatteryStatus.vue'
 import CameraStatus from '../components/widgets/CameraStatus.vue'
+import CurrentLightType from '../components/widgets/CurrentLightType.vue'
 import DiskUsage from '../components/widgets/DiskUsage.vue'
 import MediaCounts from '../components/widgets/MediaCounts.vue'
 import MediaPerHourOfDay from '../components/widgets/MediaPerHourOfDay.vue'
@@ -48,6 +49,7 @@ onErrorCaptured((e) => {
         <media-counts />
         <BatteryStatus />
         <camera-status />
+        <CurrentLightType />
       </div>
     </template>
     <template #fallback>
