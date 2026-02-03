@@ -4,7 +4,11 @@
 
 ### Added
 
+- Show current light type on dashboard
+
 ### Changed
+
+- Reimplement light control to enable reading current light state and to lock the GPIO resource
 
 ### Deprecated
 
