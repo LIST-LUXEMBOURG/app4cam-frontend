@@ -4,11 +4,7 @@
 
 ### Added
 
-- Show current light type on dashboard
-
 ### Changed
-
-- Reimplement light control to enable reading current light state and to lock the GPIO resource
 
 ### Deprecated
 
@@ -16,9 +12,21 @@
 
 ### Fixed
 
-- Fix running alternating day light change at midday instead of midnight
-
 ### Security
+
+## 5.5.0
+
+### Added
+
+- Show current light type on dashboard
+
+### Changed
+
+- Reimplement light control to enable reading current light state and to lock the GPIO resource
+
+### Fixed
+
+- Fix running alternating day light change at midday instead of midnight
 
 ## 5.4.1
 
