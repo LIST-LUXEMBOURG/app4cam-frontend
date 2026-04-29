@@ -1,5 +1,5 @@
 #!/bin/bash
-# © 2024 Luxembourg Institute of Science and Technology
+# Copyright (C) since 2024 Luxembourg Institute of Science and Technology
 
 NEW_VERSION="$1"
 
