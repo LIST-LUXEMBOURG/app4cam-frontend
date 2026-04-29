@@ -15,7 +15,8 @@ You should have received a copy of the GNU General Public License
 along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <script setup lang="ts">
-import { DialogChainObject, QSpinnerBall, useQuasar } from 'quasar'
+import type { DialogChainObject } from 'quasar'
+import { QSpinnerBall, useQuasar } from 'quasar'
 import UpgradeEndDialog from './UpgradeEndDialog.vue'
 import ApiClientService from 'src/helpers/ApiClientService'
 
@@ -24,30 +25,32 @@ const quasar = useQuasar()
 const POLLING_FAILURE_THRESHOLD = 2160 // 3 hours
 const POLLING_INTERVAL_MS = 5000
 
-let pollingFailureCounter: number
+let pollingFailureCounter = 0
 let pollingInterval: NodeJS.Timeout
 let upgradeInProgressDialog: DialogChainObject
 
-async function checkUpgradeStatus() {
-  try {
-    const status = await ApiClientService.getUpgradeStatus()
-    if (status.inProgress) {
+function checkUpgradeStatus() {
+  void (async () => {
+    try {
+      const status = await ApiClientService.getUpgradeStatus()
+      if (status.inProgress) {
+        pollingFailureCounter++
+      } else {
+        upgradeInProgressDialog.hide()
+        displayUpgradeCompletedDialog()
+        stopUpgradeStatusPolling()
+        return
+      }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      // Do nothing as backend could get restarted.
       pollingFailureCounter++
-    } else {
-      upgradeInProgressDialog.hide()
-      displayUpgradeCompletedDialog()
-      stopUpgradeStatusPolling()
-      return
     }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (error) {
-    // Do nothing as backend could get restarted.
-    pollingFailureCounter++
-  }
-  if (pollingFailureCounter > POLLING_FAILURE_THRESHOLD) {
-    displayUpgradeFailedDialog()
-    stopUpgradeStatusPolling()
-  }
+    if (pollingFailureCounter > POLLING_FAILURE_THRESHOLD) {
+      displayUpgradeFailedDialog()
+      stopUpgradeStatusPolling()
+    }
+  })
 }
 
 function displayUpgradeFileProblemDialog(message: string) {
@@ -136,15 +139,13 @@ async function onUpgradeButtonClick() {
         ok: 'Yes',
         cancel: 'No',
       })
-      .onOk(async () => {
+      .onOk(() => {
         displayUpgradeInProgressDialog()
         setupUpgradeStatusPolling()
-        try {
+        const handler = async () => {
           await ApiClientService.postPerformUpgrade()
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        } catch (error) {
-          // Ignore errors as the polling kicks in.
         }
+        handler().catch(displayUpgradeNotStartedDialog)
       })
   } else {
     displayUpgradeFileProblemDialog(upgradeFileCheckResult.message)

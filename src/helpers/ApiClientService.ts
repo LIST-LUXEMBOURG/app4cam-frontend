@@ -14,9 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
  */
-import axios, { AxiosResponse } from 'axios'
+import type { AxiosHeaderValue, AxiosResponse } from 'axios'
+import axios, { AxiosHeaders } from 'axios'
 import { CONFIG } from '../config'
-import {
+import type {
   AvailableTimeZones,
   DeviceIdResponse,
   StorageResponse,
@@ -34,13 +35,13 @@ import {
   UpgradeStatus,
   LightTypeResponse,
 } from './ApiTypings'
-import {
+import type {
   ApplicationSettings,
   ApplicationSettingsWithoutFlags,
 } from 'src/settings'
 
 const apiClient = axios.create({
-  baseURL: CONFIG.API_SERVER_URL,
+  baseURL: CONFIG.API_SERVER_URL ?? '',
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
@@ -60,11 +61,28 @@ function convertAxiosResponseToFileDownloadResponse(
   if (contentDisposition) {
     name = contentDisposition.split('"')[1]
   }
+  const contentType = axiosHeaderToString(response.headers['content-type'])
   return {
-    contentType: response.headers['content-type'],
+    contentType,
     data: response.data,
     filename: name,
   }
+}
+
+function axiosHeaderToString(header?: AxiosHeaderValue): string | undefined {
+  if (header === undefined || header === null) {
+    return undefined
+  }
+  if (Array.isArray(header)) {
+    return header.join(', ')
+  }
+  if (typeof header === 'boolean' || typeof header === 'number') {
+    return String(header)
+  }
+  if (header instanceof AxiosHeaders) {
+    return JSON.stringify(header.toJSON())
+  }
+  return header
 }
 
 export default {

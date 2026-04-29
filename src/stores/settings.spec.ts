@@ -17,7 +17,11 @@
 import { createPinia, setActivePinia } from 'pinia'
 import ApiClientService from '../helpers/ApiClientService'
 import { useSettingsStore } from './settings'
-import { ApplicationSettings, PersistentSettings, ShotType } from 'src/settings'
+import type {
+  ApplicationSettings,
+  PersistentSettings,
+  ShotType,
+} from 'src/settings'
 
 vi.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
 

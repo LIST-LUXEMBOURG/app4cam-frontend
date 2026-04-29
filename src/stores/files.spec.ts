@@ -15,10 +15,10 @@
  * along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { createPinia, setActivePinia } from 'pinia'
-import { MockInstance } from 'vitest'
+import type { MockInstance } from 'vitest'
 import { files } from '../../fixtures/files.json'
 import ApiClientService from '../helpers/ApiClientService'
-import { FilesDeletedResponse } from '../helpers/ApiTypings'
+import type { FilesDeletedResponse } from '../helpers/ApiTypings'
 import { convertJsonToFiles } from '../test-helpers'
 import { useFilesStore } from './files'
 

@@ -15,7 +15,7 @@
  * along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { AxiosError } from 'axios'
-import { QVueGlobals } from 'quasar'
+import type { QVueGlobals } from 'quasar'
 
 export default class NotificationCreator {
   static extractErrorMessage(error: AxiosError | Error): string {
@@ -35,7 +35,7 @@ export default class NotificationCreator {
     error: unknown,
     message: string,
   ) {
-    let caption = undefined
+    let caption = ''
     if (error instanceof AxiosError || error instanceof Error) {
       caption = this.extractErrorMessage(error)
     }

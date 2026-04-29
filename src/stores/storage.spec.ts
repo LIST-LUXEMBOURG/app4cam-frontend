@@ -16,7 +16,10 @@
  */
 import { createPinia, setActivePinia } from 'pinia'
 import ApiClientService from '../helpers/ApiClientService'
-import { StorageResponse, StorageStatusResponse } from '../helpers/ApiTypings'
+import type {
+  StorageResponse,
+  StorageStatusResponse,
+} from '../helpers/ApiTypings'
 import { useStorageStore } from './storage'
 
 vi.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))

@@ -15,7 +15,8 @@ You should have received a copy of the GNU General Public License
 along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <script setup lang="ts">
-import { ValidationRule, debounce, useQuasar } from 'quasar'
+import type { ValidationRule } from 'quasar'
+import { debounce, useQuasar } from 'quasar'
 import { computed, ref } from 'vue'
 import FilenamePreview from '../components/FilenamePreview.vue'
 import ApiClientService from '../helpers/ApiClientService'
@@ -170,7 +171,7 @@ function localiseMeAndFillCoordinates() {
   function error(error: GeolocationPositionError) {
     localiseMeButtonLoading.value = false
 
-    let caption: string | undefined = undefined
+    let caption: string = ''
     switch (error.code) {
       case GeolocationPositionError.PERMISSION_DENIED:
         caption = 'The permission was not given.'

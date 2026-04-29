@@ -15,23 +15,18 @@
  * along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { createTestingPinia } from '@pinia/testing'
-import { render, screen, waitFor } from '@testing-library/vue'
-import { MockInstance } from 'vitest'
+import { screen, waitFor } from '@testing-library/vue'
+import type { MockInstance } from 'vitest'
+import { renderAsync } from '../../../test/vitest/renderAsync'
 import CameraStatus from './CameraStatus.vue'
 import ApiClientService from 'src/helpers/ApiClientService'
 
 const renderComponent = () =>
-  render(CameraStatus, {
+  renderAsync(CameraStatus, {
     global: {
       plugins: [createTestingPinia({ stubActions: false })],
     },
   })
-
-it('displays a heading', () => {
-  renderComponent()
-  const heading = screen.queryByRole('heading', { name: 'Camera' })
-  expect(heading).toBeInTheDocument()
-})
 
 describe('when the camera is connected', () => {
   let requestSpy: MockInstance
@@ -44,8 +39,14 @@ describe('when the camera is connected', () => {
       })
   })
 
+  it('displays a heading', async () => {
+    await renderComponent()
+    const heading = screen.getByRole('heading', { name: 'Camera' })
+    expect(heading).toBeInTheDocument()
+  })
+
   it('displays text', async () => {
-    renderComponent()
+    await renderComponent()
     await waitFor(() => expect(requestSpy).toHaveBeenCalledTimes(1))
     const status = await screen.findByTestId('status')
     expect(status).toHaveTextContent('The camera is connected.')
@@ -68,7 +69,7 @@ describe('when the camera is disconnected', () => {
   })
 
   it('displays text', async () => {
-    renderComponent()
+    await renderComponent()
     await waitFor(() => expect(requestSpy).toHaveBeenCalledTimes(1))
     const status = await screen.findByTestId('status')
     expect(status).toHaveTextContent('The camera is disconnected.')

@@ -15,7 +15,7 @@
  * along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { screen } from '@testing-library/vue'
-import { MockInstance } from 'vitest'
+import type { MockInstance } from 'vitest'
 import { renderAsync } from '../../../test/vitest/renderAsync'
 import ApiClientService from '../../helpers/ApiClientService'
 import MediaPerHourOfDay from './MediaPerHourOfDay.vue'

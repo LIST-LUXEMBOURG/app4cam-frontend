@@ -16,7 +16,7 @@
  */
 import { defineStore } from 'pinia'
 import ApiClientService from '../helpers/ApiClientService'
-import {
+import type {
   BatteryVoltageResponse,
   LightTypeResponse,
   DeviceIdResponse,

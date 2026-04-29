@@ -17,7 +17,7 @@ along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
 <script setup lang="ts">
 import { useQuasar } from 'quasar'
 import ApiClientService from '../helpers/ApiClientService'
-import { FileDownloadResponse } from '../helpers/ApiTypings'
+import type { FileDownloadResponse } from '../helpers/ApiTypings'
 import SnapshotDialog from './SnapshotDialog.vue'
 
 const quasar = useQuasar()
@@ -27,6 +27,9 @@ defineProps<{ outline: boolean }>()
 function onTakeSnapshotButtonClick() {
   ApiClientService.getSnapshot()
     .then((response: FileDownloadResponse) => {
+      if (response.contentType === undefined) {
+        throw new Error('contentType cannot be undefined.')
+      }
       const file = new Blob([response.data], { type: response.contentType })
       const snapshotUrl = URL.createObjectURL(file)
       quasar.dialog({

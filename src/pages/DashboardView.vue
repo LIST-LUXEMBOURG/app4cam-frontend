@@ -16,7 +16,8 @@ along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <script setup lang="ts">
 import { useQuasar } from 'quasar'
-import { onErrorCaptured, Ref, ref } from 'vue'
+import type { Ref } from 'vue'
+import { onErrorCaptured, ref } from 'vue'
 import BatteryStatus from '../components/widgets/BatteryStatus.vue'
 import CameraStatus from '../components/widgets/CameraStatus.vue'
 import CurrentLightType from '../components/widgets/CurrentLightType.vue'

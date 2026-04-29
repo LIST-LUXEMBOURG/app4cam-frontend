@@ -16,7 +16,7 @@
  */
 import { createPinia, setActivePinia } from 'pinia'
 import ApiClientService from '../helpers/ApiClientService'
-import {
+import type {
   BatteryVoltageResponse,
   DeviceIdResponse,
   VersionResponse,

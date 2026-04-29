@@ -23,9 +23,7 @@ import LicenseDialog from 'components/LicenseDialog.vue'
 const quasar = useQuasar()
 const store = usePropertiesStore()
 
-// eslint-disable-next-line no-undef
 const frontendCommitHash = __COMMIT_HASH__
-// eslint-disable-next-line no-undef
 const frontendVersion = __APP_VERSION__
 
 const backendCommitHash = computed(() => store.commitHash)

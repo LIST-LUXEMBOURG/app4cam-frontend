@@ -16,11 +16,11 @@
  */
 import { createTestingPinia } from '@pinia/testing'
 import { screen } from '@testing-library/vue'
-import { StateTree } from 'pinia'
+import type { StateTree } from 'pinia'
 import { renderAsync } from '../../../test/vitest/renderAsync'
 import CurrentLightType from './CurrentLightType.vue'
 
-const renderComponent = (initialState?: StateTree) =>
+const renderComponent = (initialState: StateTree) =>
   renderAsync(CurrentLightType, {
     global: {
       plugins: [createTestingPinia({ initialState })],
