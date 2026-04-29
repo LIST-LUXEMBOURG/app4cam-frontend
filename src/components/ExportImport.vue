@@ -15,7 +15,8 @@ You should have received a copy of the GNU General Public License
 along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <script setup lang="ts">
-import { QBtn, QFile, QForm, QIcon, useQuasar, ValidationRule } from 'quasar'
+import type { ValidationRule } from 'quasar'
+import { QBtn, QFile, QForm, QIcon, useQuasar } from 'quasar'
 import { ref } from 'vue'
 import { FileDownloader } from '../helpers/FileDownloader'
 import FilenameCreator from '../helpers/FilenameCreator'

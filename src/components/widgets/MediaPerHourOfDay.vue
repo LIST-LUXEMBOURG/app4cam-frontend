@@ -15,9 +15,10 @@ You should have received a copy of the GNU General Public License
 along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <script setup lang="ts">
-import { ApexOptions } from 'apexcharts'
+import type { ApexOptions } from 'apexcharts'
 import { useQuasar } from 'quasar'
-import { Ref, computed, reactive, ref } from 'vue'
+import type { Ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import ApiClientService from 'src/helpers/ApiClientService'
 import NotificationCreator from 'src/helpers/NotificationCreator'
 
@@ -81,11 +82,11 @@ try {
   const response = await ApiClientService.getNumberFilesPerHourOfDay()
   mediaPerHourOfDay = response.hoursOfDayCounts
   chartSeries.slice(0)
-  const data = []
+  const data: { x: number; y: number }[] = []
   for (let i = 0; i < mediaPerHourOfDay.length; i++) {
     data.push({
       x: i,
-      y: mediaPerHourOfDay[i],
+      y: mediaPerHourOfDay[i] ?? 0,
     })
   }
   chartSeries.push({ data })
@@ -97,7 +98,7 @@ try {
   )
 }
 
-let shotTypes: Ref<string[]> = ref([])
+const shotTypes: Ref<string[]> = ref([])
 try {
   const response = await ApiClientService.getShotTypes()
   shotTypes.value = response.shotTypes

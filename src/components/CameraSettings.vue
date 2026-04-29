@@ -15,13 +15,10 @@ You should have received a copy of the GNU General Public License
 along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <script setup lang="ts">
-import {
-  QOptionGroupProps,
-  QSelectOption,
-  ValidationRule,
-  useQuasar,
-} from 'quasar'
-import { VNodeRef, computed, ref, watch } from 'vue'
+import type { QOptionGroupProps, QSelectOption, ValidationRule } from 'quasar'
+import { useQuasar } from 'quasar'
+import type { VNodeRef } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useSettingsStore } from '../stores/settings'
 import SnapshotButton from './SnapshotButton.vue'
 import NotificationCreator from 'src/helpers/NotificationCreator'

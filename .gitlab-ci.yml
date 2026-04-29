@@ -24,6 +24,8 @@ test:
   tags:
     - oceb
   before_script:
+    - apk update
+    - apk add git
     - corepack enable
     - corepack prepare pnpm@latest-9 --activate
     - pnpm config set store-dir .pnpm-store

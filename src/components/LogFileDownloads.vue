@@ -18,7 +18,7 @@ along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
 import { useQuasar } from 'quasar'
 import { FileDownloader } from '../helpers/FileDownloader'
 import ApiClientService from 'src/helpers/ApiClientService'
-import { FileDownloadResponse } from 'src/helpers/ApiTypings'
+import type { FileDownloadResponse } from 'src/helpers/ApiTypings'
 import NotificationCreator from 'src/helpers/NotificationCreator'
 
 const quasar = useQuasar()
@@ -36,6 +36,9 @@ function onDownloadMotionLogButtonClick() {
 }
 
 function handleFileDownloadResponse(response: FileDownloadResponse): void {
+  if (response.contentType === undefined) {
+    throw new Error('contentType cannot be undefined.')
+  }
   FileDownloader.downloadFile(
     [response.data],
     response.contentType,

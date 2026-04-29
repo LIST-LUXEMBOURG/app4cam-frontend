@@ -50,7 +50,7 @@ async function reloadStatus() {
 watch(() => store.isCameraConnected, adaptMessage)
 
 adaptMessage()
-reloadStatus()
+await reloadStatus()
 </script>
 
 <template>

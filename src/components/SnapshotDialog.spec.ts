@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
  */
-/* eslint-disable vitest/expect-expect */
+
 import { render } from '@testing-library/vue'
 import SnapshotDialog from './SnapshotDialog.vue'
 

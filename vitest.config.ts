@@ -17,6 +17,7 @@ export default defineConfig({
       reporter: ['cobertura', 'lcov', 'text'],
       reportsDirectory: 'test/vitest/coverage',
     },
+    dir: './src',
     environment: 'jsdom',
     globals: true,
     setupFiles: './test/vitest/setup.ts',

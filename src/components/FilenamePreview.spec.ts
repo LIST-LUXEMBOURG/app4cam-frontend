@@ -27,13 +27,13 @@ const renderComponent = () =>
     },
   })
 
-it('displays a heading', async () => {
+it('displays a heading', () => {
   renderComponent()
   const heading = screen.queryByRole('heading', { name: 'Filename preview' })
   expect(heading).toBeInTheDocument()
 })
 
-it('displays filename correctly', async () => {
+it('displays filename correctly', () => {
   renderComponent()
   const container = screen.getByTestId('filenamePreview')
   expect(container).toHaveTextContent(

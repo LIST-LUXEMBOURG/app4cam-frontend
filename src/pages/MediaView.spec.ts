@@ -17,27 +17,33 @@
 import { createTestingPinia } from '@pinia/testing'
 import { userEvent } from '@testing-library/user-event'
 import { screen } from '@testing-library/vue'
-import { StateTree } from 'pinia'
+import type { StateTree } from 'pinia'
 import { files } from '../../fixtures/files.json'
 import ApiClientService from '../helpers/ApiClientService'
 import { convertJsonToFiles } from '../test-helpers'
 import MediaView from './MediaView.vue'
 import { renderAsync } from 'app/test/vitest/renderAsync'
 
-const mockFiles = convertJsonToFiles(files)
+let mockFiles: FileInfo[] = []
 
 vi.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
 
 const SELECTED_FILE_CLASS = 'bg-blue-1'
 
-const renderComponent = (initialState?: StateTree) =>
-  renderAsync(MediaView, {
+const renderComponent = (initialState?: StateTree) => {
+  const piniaTestingOptions = {
+    stubActions: false,
+    ...(initialState ? { initialState } : {}),
+  }
+  return renderAsync(MediaView, {
     global: {
-      plugins: [createTestingPinia({ initialState, stubActions: false })],
+      plugins: [createTestingPinia(piniaTestingOptions)],
     },
   })
+}
 
 beforeAll(() => {
+  mockFiles = convertJsonToFiles(files)
   vi.spyOn(ApiClientService, 'getFileList').mockResolvedValue(mockFiles)
 })
 
@@ -52,9 +58,10 @@ describe('when page loads', () => {
     await renderComponent()
     const files = await screen.findAllByTestId('file')
     files.forEach((file, i) => {
-      expect(file).toHaveTextContent(mockFiles[i].name)
+      const fileInfo = mockFiles[i] as FileInfo
+      expect(file).toHaveTextContent(fileInfo.name)
       expect(file).toHaveTextContent(
-        mockFiles[i].creationTime.getUTCFullYear().toString(),
+        fileInfo.creationTime.getUTCFullYear().toString(),
       )
     })
   })
@@ -104,14 +111,14 @@ describe('when first item of multiple is clicked', () => {
   it('toggles its active state', async () => {
     await renderComponent()
     const files = await screen.findAllByTestId('file')
-    await user.click(files[0])
+    await user.click(files[0] as HTMLElement)
     expect(files[0]).toHaveClass(SELECTED_FILE_CLASS)
   })
 
   it('displays select all button as enabled', async () => {
     await renderComponent()
     const files = await screen.findAllByTestId('file')
-    await user.click(files[0])
+    await user.click(files[0] as HTMLElement)
     const button = screen.getByRole('button', { name: 'Select all' })
     expect(button).toBeEnabled()
   })
@@ -119,7 +126,7 @@ describe('when first item of multiple is clicked', () => {
   it('displays unselect all button as enabled', async () => {
     await renderComponent()
     const files = await screen.findAllByTestId('file')
-    await user.click(files[0])
+    await user.click(files[0] as HTMLElement)
     const button = screen.getByRole('button', {
       name: 'Unselect all',
     })
@@ -129,7 +136,7 @@ describe('when first item of multiple is clicked', () => {
   it('displays download button as enabled', async () => {
     await renderComponent()
     const files = await screen.findAllByTestId('file')
-    await user.click(files[0])
+    await user.click(files[0] as HTMLElement)
     const button = screen.getByRole('button', {
       name: 'Download',
     })
@@ -139,7 +146,7 @@ describe('when first item of multiple is clicked', () => {
   it('displays delete button as enabled', async () => {
     await renderComponent()
     const files = await screen.findAllByTestId('file')
-    await user.click(files[0])
+    await user.click(files[0] as HTMLElement)
     const button = screen.getByRole('button', {
       name: 'Delete',
     })
@@ -150,16 +157,16 @@ describe('when first item of multiple is clicked', () => {
     it('toggles its active state', async () => {
       await renderComponent()
       const files = await screen.findAllByTestId('file')
-      await user.click(files[0])
-      await user.click(files[0])
+      await user.click(files[0] as HTMLElement)
+      await user.click(files[0] as HTMLElement)
       expect(files[0]).not.toHaveClass(SELECTED_FILE_CLASS)
     })
 
     it('displays download button as disabled', async () => {
       await renderComponent()
       const files = await screen.findAllByTestId('file')
-      await user.click(files[0])
-      await user.click(files[0])
+      await user.click(files[0] as HTMLElement)
+      await user.click(files[0] as HTMLElement)
       const button = screen.getByRole('button', {
         name: 'Download',
       })
@@ -169,8 +176,8 @@ describe('when first item of multiple is clicked', () => {
     it('displays delete button as disabled', async () => {
       await renderComponent()
       const files = await screen.findAllByTestId('file')
-      await user.click(files[0])
-      await user.click(files[0])
+      await user.click(files[0] as HTMLElement)
+      await user.click(files[0] as HTMLElement)
       const button = screen.getByRole('button', {
         name: 'Delete',
       })
@@ -182,7 +189,7 @@ describe('when first item of multiple is clicked', () => {
     it('displays select all button as disabled', async () => {
       await renderComponent()
       const files = await screen.findAllByTestId('file')
-      await user.click(files[0])
+      await user.click(files[0] as HTMLElement)
       const button = screen.getByRole('button', {
         name: 'Unselect all',
       })

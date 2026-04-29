@@ -16,7 +16,7 @@
  */
 import { defineStore } from 'pinia'
 import ApiClientService from '../helpers/ApiClientService'
-import { StorageResponse } from '../helpers/ApiTypings'
+import type { StorageResponse } from '../helpers/ApiTypings'
 
 type State = StorageResponse
 

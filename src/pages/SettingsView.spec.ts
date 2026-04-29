@@ -17,21 +17,26 @@
 import { createTestingPinia } from '@pinia/testing'
 import { userEvent } from '@testing-library/user-event'
 import { screen } from '@testing-library/vue'
-import { StateTree } from 'pinia'
+import type { StateTree } from 'pinia'
 import { settings } from '../../fixtures/settings.json'
 import SettingsView from './SettingsView.vue'
 import { renderAsync } from 'app/test/vitest/renderAsync'
 import ApiClientService from 'src/helpers/ApiClientService'
-import { ApplicationSettings } from 'src/settings'
+import type { ApplicationSettings } from 'src/settings'
 
 vi.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
 
-const renderComponent = (initialState?: StateTree) =>
-  renderAsync(SettingsView, {
+const renderComponent = (initialState?: StateTree) => {
+  const piniaTestingOptions = {
+    stubActions: false,
+    ...(initialState ? { initialState } : {}),
+  }
+  return renderAsync(SettingsView, {
     global: {
-      plugins: [createTestingPinia({ initialState, stubActions: false })],
+      plugins: [createTestingPinia(piniaTestingOptions)],
     },
   })
+}
 
 beforeAll(() => {
   vi.spyOn(ApiClientService, 'getAvailableTimeZones').mockResolvedValue({

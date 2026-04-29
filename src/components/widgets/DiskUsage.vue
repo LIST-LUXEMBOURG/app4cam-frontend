@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <script setup lang="ts">
-import { ApexOptions } from 'apexcharts'
+import type { ApexOptions } from 'apexcharts'
 import { useQuasar } from 'quasar'
 import { reactive, ref } from 'vue'
 import { useStorageStore } from '../../stores/storage'
@@ -122,7 +122,7 @@ chartSeries.push(
 )
 capacityGb.value = Math.round(usedMb + availableMb)
 
-reloadStatus()
+await reloadStatus()
 </script>
 
 <template>

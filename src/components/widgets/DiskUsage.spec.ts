@@ -16,17 +16,19 @@
  */
 import { createTestingPinia } from '@pinia/testing'
 import { screen } from '@testing-library/vue'
-import { StateTree } from 'pinia'
+import type { StateTree } from 'pinia'
 import { renderAsync } from '../../../test/vitest/renderAsync'
 import DiskUsage from './DiskUsage.vue'
 
-const renderComponent = (initialState?: StateTree) =>
-  renderAsync(DiskUsage, {
+const renderComponent = (initialState?: StateTree) => {
+  const piniaTestingOptions = initialState ? { initialState } : undefined
+  return renderAsync(DiskUsage, {
     global: {
-      plugins: [createTestingPinia({ initialState })],
+      plugins: [createTestingPinia(piniaTestingOptions)],
       stubs: ['apexchart'],
     },
   })
+}
 
 it('displays a heading', async () => {
   await renderComponent()

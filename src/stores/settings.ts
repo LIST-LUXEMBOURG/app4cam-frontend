@@ -16,7 +16,7 @@
  */
 import { defineStore } from 'pinia'
 import ApiClientService from '../helpers/ApiClientService'
-import {
+import type {
   ApplicationSettings,
   CameraSettings,
   GeneralSettings,
@@ -296,9 +296,9 @@ export const useSettingsStore = defineStore('settings', {
         },
       }
       return ApiClientService.patchSettings(settings)
-        .then(this.updateInitialCameraSettingsWithCurrentOnes)
-        .then(this.updateInitialGeneralSettingsWithCurrentOnes)
-        .then(this.updateInitialTriggeringSettingsWithCurrentOnes)
+        .then(() => this.updateInitialCameraSettingsWithCurrentOnes())
+        .then(() => this.updateInitialGeneralSettingsWithCurrentOnes())
+        .then(() => this.updateInitialTriggeringSettingsWithCurrentOnes())
     },
 
     uploadChangedCameraSettings(): Promise<void> {
@@ -329,8 +329,8 @@ export const useSettingsStore = defineStore('settings', {
       if (isEmpty(settings)) {
         return Promise.resolve()
       }
-      return ApiClientService.patchSettings({ camera: settings }).then(
-        this.updateInitialCameraSettingsWithCurrentOnes,
+      return ApiClientService.patchSettings({ camera: settings }).then(() =>
+        this.updateInitialCameraSettingsWithCurrentOnes(),
       )
     },
 
@@ -373,8 +373,8 @@ export const useSettingsStore = defineStore('settings', {
       if (isEmpty(settings)) {
         return Promise.resolve()
       }
-      return ApiClientService.patchSettings({ general: settings }).then(
-        this.updateInitialGeneralSettingsWithCurrentOnes,
+      return ApiClientService.patchSettings({ general: settings }).then(() =>
+        this.updateInitialGeneralSettingsWithCurrentOnes(),
       )
     },
 
@@ -417,8 +417,8 @@ export const useSettingsStore = defineStore('settings', {
       if (isEmpty(settings)) {
         return Promise.resolve()
       }
-      return ApiClientService.patchSettings({ triggering: settings }).then(
-        this.updateInitialTriggeringSettingsWithCurrentOnes,
+      return ApiClientService.patchSettings({ triggering: settings }).then(() =>
+        this.updateInitialTriggeringSettingsWithCurrentOnes(),
       )
     },
   },

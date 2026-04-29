@@ -18,7 +18,7 @@ along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
 import { useQuasar } from 'quasar'
 import { computed, reactive, ref } from 'vue'
 import ApiClientService from '../helpers/ApiClientService'
-import { FileDownloadResponse } from '../helpers/ApiTypings'
+import type { FileDownloadResponse } from '../helpers/ApiTypings'
 import { FileDownloader } from '../helpers/FileDownloader'
 import { useFilesStore } from '../stores/files'
 import NotificationCreator from 'src/helpers/NotificationCreator'
@@ -90,18 +90,20 @@ function onConfirmDeleteButtonClick() {
   if (selectedFiles.length === 0) {
     return
   } else if (selectedFiles.length === 1) {
-    store
-      .deleteFile(selectedFiles[0])
-      .then(handleFileDeleteSuccess)
-      .catch((error) => {
-        quasar.notify({
-          message: 'The file could not be deleted.',
-          caption: error.response.data.message
-            ? error.response.data.message
-            : error.message,
-          color: 'negative',
+    if (selectedFiles[0] !== undefined) {
+      store
+        .deleteFile(selectedFiles[0])
+        .then(handleFileDeleteSuccess)
+        .catch((error) => {
+          quasar.notify({
+            message: 'The file could not be deleted.',
+            caption: error.response.data.message
+              ? error.response.data.message
+              : error.message,
+            color: 'negative',
+          })
         })
-      })
+    }
   } else {
     store
       .deleteFiles(selectedFiles)
@@ -134,9 +136,11 @@ function onConfirmDownloadButtonClick() {
   if (selectedFiles.length === 0) {
     return
   } else if (selectedFiles.length === 1) {
-    ApiClientService.getFile(selectedFiles[0])
-      .then(handleFileDownloadResponse)
-      .catch(handleFileDownloadError)
+    if (selectedFiles[0] !== undefined) {
+      ApiClientService.getFile(selectedFiles[0])
+        .then(handleFileDownloadResponse)
+        .catch(handleFileDownloadError)
+    }
   } else {
     ApiClientService.getFiles(selectedFiles)
       .then(handleFileDownloadResponse)
@@ -145,6 +149,9 @@ function onConfirmDownloadButtonClick() {
 }
 
 function handleFileDownloadResponse(response: FileDownloadResponse): void {
+  if (response.contentType === undefined) {
+    throw new Error('contentType cannot be undefined.')
+  }
   FileDownloader.downloadFile(
     [response.data],
     response.contentType,

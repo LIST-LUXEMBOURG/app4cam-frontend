@@ -16,16 +16,18 @@
  */
 import { createTestingPinia } from '@pinia/testing'
 import { screen } from '@testing-library/vue'
-import { StateTree } from 'pinia'
+import type { StateTree } from 'pinia'
 import { renderAsync } from '../../../test/vitest/renderAsync'
 import BatteryStatus from './BatteryStatus.vue'
 
-const renderComponent = (initialState?: StateTree) =>
-  renderAsync(BatteryStatus, {
+const renderComponent = (initialState?: StateTree) => {
+  const piniaTestingOptions = initialState ? { initialState } : undefined
+  return renderAsync(BatteryStatus, {
     global: {
-      plugins: [createTestingPinia({ initialState })],
+      plugins: [createTestingPinia(piniaTestingOptions)],
     },
   })
+}
 
 it('displays a heading', async () => {
   await renderComponent()

@@ -14,10 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { boot } from 'quasar/wrappers'
+import { defineBoot } from '#q-app/wrappers'
 import VueApexCharts from 'vue3-apexcharts'
 
 // more info on params: https://v2.quasar.dev/quasar-cli/boot-files
-export default boot(({ app }) => {
+export default defineBoot(({ app }) => {
   app.use(VueApexCharts)
 })

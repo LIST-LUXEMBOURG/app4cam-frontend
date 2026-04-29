@@ -24,3 +24,11 @@ declare namespace NodeJS {
 
 declare const __APP_VERSION__: string
 declare const __COMMIT_HASH__: string
+
+// Fix error in src/boot/apexcharts.ts by treating each .vue file import as a Vue component with this type.
+declare module '*.vue' {
+  import type { DefineComponent } from 'vue'
+
+  const component: DefineComponent<object, object, unknown>
+  export default component
+}

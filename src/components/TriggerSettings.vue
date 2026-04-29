@@ -15,8 +15,10 @@ You should have received a copy of the GNU General Public License
 along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <script setup lang="ts">
-import { QOptionGroupProps, ValidationRule, useQuasar } from 'quasar'
-import { VNodeRef, computed, ref, watch } from 'vue'
+import type { QOptionGroupProps, ValidationRule } from 'quasar'
+import { useQuasar } from 'quasar'
+import type { VNodeRef } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { TRIGGER_THRESHOLD_MINIMUM, useSettingsStore } from '../stores/settings'
 import ApiClientService from 'src/helpers/ApiClientService'
 import NotificationCreator from 'src/helpers/NotificationCreator'
@@ -195,7 +197,7 @@ watch(workingTimeEnabled, (value) => {
 
 watch(
   () => settingsStore.current.triggering.useSunriseAndSunsetTimes,
-  async (value) => {
+  (value) => {
     if (value) {
       // Abort and warn when no location is set.
       if (
