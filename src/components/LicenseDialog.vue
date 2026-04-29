@@ -1,5 +1,5 @@
 <!--
-Copyright (C) 2022-2024  Luxembourg Institute of Science and Technology
+Copyright (C) since 2022 Luxembourg Institute of Science and Technology
 
 App4Cam is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ defineEmits([...useDialogPluginComponent.emits])
       </q-card-section>
 
       <q-card-section>
-        Copyright (C) 2022-2024 Luxembourg Institute of Science and
+        Copyright (C) since 2022 Luxembourg Institute of Science and
         Technology<br /><br />
 
         App4Cam is free software: you can redistribute it and/or modify it under
