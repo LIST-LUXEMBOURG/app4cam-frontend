@@ -6,7 +6,8 @@
 
 ### Changed
 
-- Update dependencies in the frontend
+- Update dependencies
+- Update years in copyright notice in code files
 
 ### Deprecated
 
