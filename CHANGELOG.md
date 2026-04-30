@@ -4,12 +4,7 @@
 
 ### Added
 
-- Add app4cam.list.lu website link to footer
-
 ### Changed
-
-- Update dependencies
-- Update years in copyright notice in code files
 
 ### Deprecated
 
@@ -18,6 +13,17 @@
 ### Fixed
 
 ### Security
+
+## 5.6.0
+
+### Added
+
+- Add app4cam.list.lu website link to footer
+
+### Changed
+
+- Update dependencies
+- Update years in copyright notice in code files
 
 ## 5.5.0
 
