@@ -4,6 +4,8 @@
 
 ### Added
 
+- Add app4cam.list.lu website link to footer
+
 ### Changed
 
 - Update dependencies
