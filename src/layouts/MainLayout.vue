@@ -82,13 +82,19 @@ store.fetchVersion().catch((error) => {
       </div>
     </q-page-container>
     <footer class="q-mt-lg q-mb-sm q-mx-auto text-grey-8 text-center">
-      version: frontend {{ frontendVersion }} &ndash;
-      {{ frontendCommitHash }} &mdash; backend {{ backendVersion }} &ndash;
-      {{ backendCommitHash }} &mdash; developed by LIST
+      version: frontend {{ frontendVersion }} ({{ frontendCommitHash }}) &ndash;
+      backend {{ backendVersion }} ({{ backendCommitHash }})<br />
+      App4Cam developed by LIST &ndash;
+      <a
+        href="https://app4cam.list.lu"
+        target="_blank"
+        >app4cam.list.lu</a
+      >
+      &ndash;
       <a
         href="#"
         @click="openLicenseDialog"
-        >(license)</a
+        >license</a
       >
     </footer>
   </q-layout>
