@@ -27,10 +27,11 @@ test:
     - apk update
     - apk add git
     - corepack enable
-    - corepack prepare pnpm@latest-9 --activate
+    - corepack prepare pnpm@latest-11 --activate
     - pnpm config set store-dir .pnpm-store
   script:
     - pnpm install
+    - pnpm postinstall
     - echo "/.pnpm-store" >> .prettierignore
     - pnpm exec prettier --check .
     - pnpm run test:unit:ci
@@ -57,7 +58,7 @@ build:
     - oceb
   before_script:
     - corepack enable
-    - corepack prepare pnpm@latest-9 --activate
+    - corepack prepare pnpm@latest-11 --activate
     - pnpm config set store-dir .pnpm-store
   script:
     - apk add git

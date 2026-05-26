@@ -15,7 +15,7 @@
  * along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
  */
 import type { AxiosHeaderValue, AxiosResponse } from 'axios'
-import axios, { AxiosHeaders } from 'axios'
+import { default as axios, AxiosHeaders } from 'axios'
 import { CONFIG } from '../config'
 import type {
   AvailableTimeZones,
