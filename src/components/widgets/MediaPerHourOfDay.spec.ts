@@ -20,12 +20,7 @@ import { renderAsync } from '../../../test/vitest/renderAsync'
 import ApiClientService from '../../helpers/ApiClientService'
 import MediaPerHourOfDay from './MediaPerHourOfDay.vue'
 
-const renderComponent = () =>
-  renderAsync(MediaPerHourOfDay, {
-    global: {
-      stubs: ['apexchart'],
-    },
-  })
+const renderComponent = () => renderAsync(MediaPerHourOfDay)
 
 let spyGetNumberFilesPerHourOfDay: MockInstance
 let spyGetShotTypes: MockInstance

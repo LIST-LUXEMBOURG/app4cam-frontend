@@ -15,100 +15,62 @@ You should have received a copy of the GNU General Public License
 along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <script setup lang="ts">
-import type { ApexOptions } from 'apexcharts'
+import type { ChartConfiguration, ChartDataset } from 'chart.js'
+import {
+  BarController,
+  BarElement,
+  Chart,
+  LinearScale,
+  Tooltip,
+} from 'chart.js'
 import { useQuasar } from 'quasar'
 import type { Ref } from 'vue'
-import { computed, reactive, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import ApiClientService from 'src/helpers/ApiClientService'
 import NotificationCreator from 'src/helpers/NotificationCreator'
 
+Chart.register(BarController, BarElement, LinearScale, Tooltip)
+
+const CHART_BAR_COLOR = '#FF9800'
+const CHART_CONFIGURATION: ChartConfiguration<'bar'> = {
+  data: {
+    labels: Array.from({ length: 24 }, (_, i) => String(i)),
+    datasets: [],
+  },
+  options: {
+    animation: false,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        callbacks: {
+          title: (items) => `${items[0]!.label}:00 - ${items[0]!.label}:59`,
+        },
+      },
+    },
+    scales: {
+      x: {
+        grid: {
+          display: false,
+        },
+        ticks: {
+          maxRotation: 0,
+        },
+      },
+      y: { border: { display: false }, grid: { drawTicks: false } },
+    },
+  },
+  type: 'bar',
+}
+
 const quasar = useQuasar()
 
-const chartOptions: ApexOptions = reactive({
-  chart: {
-    toolbar: {
-      show: false,
-    },
-    zoom: {
-      enabled: false,
-    },
-  },
-  colors: ['#ff9800'],
-  dataLabels: {
-    enabled: false,
-  },
-  grid: {
-    padding: {
-      left: -5,
-      top: -15,
-      right: 0,
-    },
-  },
-  plotOptions: {
-    bar: {
-      columnWidth: '90%',
-    },
-  },
-  tooltip: {
-    enabled: true,
-    x: {
-      formatter: (value) => `${value}:00 - ${value}:59`,
-    },
-    y: {
-      title: {
-        formatter: () => '',
-      },
-    },
-  },
-  xaxis: {
-    axisTicks: {
-      show: false,
-    },
-    offsetY: -2,
-  },
-  yaxis: {
-    labels: {
-      formatter: function (val) {
-        return val.toFixed(0)
-      },
-      offsetX: -10,
-    },
-  },
-})
-const chartSeries: { data: { x: number; y: number }[] }[] = reactive([])
+let chart: Chart
 
-let mediaPerHourOfDay: number[] = []
-try {
-  const response = await ApiClientService.getNumberFilesPerHourOfDay()
-  mediaPerHourOfDay = response.hoursOfDayCounts
-  chartSeries.slice(0)
-  const data: { x: number; y: number }[] = []
-  for (let i = 0; i < mediaPerHourOfDay.length; i++) {
-    data.push({
-      x: i,
-      y: mediaPerHourOfDay[i] ?? 0,
-    })
-  }
-  chartSeries.push({ data })
-} catch (error: unknown) {
-  NotificationCreator.showErrorNotification(
-    quasar,
-    error,
-    'The numbers of media taken over the day could not be loaded.',
-  )
-}
-
+const canvas = ref(null)
 const shotTypes: Ref<string[]> = ref([])
-try {
-  const response = await ApiClientService.getShotTypes()
-  shotTypes.value = response.shotTypes
-} catch (error: unknown) {
-  NotificationCreator.showErrorNotification(
-    quasar,
-    error,
-    'The shot types could not be loaded.',
-  )
-}
 
 const note = computed(() => {
   if (
@@ -122,6 +84,57 @@ const note = computed(() => {
     return 'Only pictures are counted as no videos are taken.'
   }
   return ''
+})
+
+function addDatasetToChart(dataset: ChartDataset) {
+  chart.data.datasets.push(dataset)
+  chart.update()
+}
+
+function initialiseChart() {
+  if (!canvas.value) {
+    return
+  }
+  chart = new Chart(canvas.value, CHART_CONFIGURATION)
+}
+
+async function loadNumberFilesPerHourOfDay() {
+  let mediaPerHourOfDay: number[] = []
+  try {
+    const response = await ApiClientService.getNumberFilesPerHourOfDay()
+    mediaPerHourOfDay = response.hoursOfDayCounts
+    const datasets: ChartDataset = {
+      backgroundColor: CHART_BAR_COLOR,
+      barPercentage: 1.1,
+      data: mediaPerHourOfDay,
+    }
+    addDatasetToChart(datasets)
+  } catch (error: unknown) {
+    NotificationCreator.showErrorNotification(
+      quasar,
+      error,
+      'The numbers of media taken over the day could not be loaded.',
+    )
+  }
+}
+
+async function loadShotTypes() {
+  try {
+    const response = await ApiClientService.getShotTypes()
+    shotTypes.value = response.shotTypes
+  } catch (error: unknown) {
+    NotificationCreator.showErrorNotification(
+      quasar,
+      error,
+      'The shot types could not be loaded.',
+    )
+  }
+}
+
+onMounted(async () => {
+  initialiseChart()
+  await loadNumberFilesPerHourOfDay()
+  await loadShotTypes()
 })
 </script>
 
@@ -151,13 +164,7 @@ const note = computed(() => {
     </q-card-section>
     <q-card-section class="q-pa-sm">
       <div style="height: 200px">
-        <apexchart
-          height="100%"
-          type="bar"
-          width="334"
-          :options="chartOptions"
-          :series="chartSeries"
-        />
+        <canvas ref="canvas"></canvas>
       </div>
     </q-card-section>
   </q-card>

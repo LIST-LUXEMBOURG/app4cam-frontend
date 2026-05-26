@@ -20,15 +20,14 @@
   },
   "dependencies": {
     "@quasar/extras": "1.18.0",
-    "apexcharts": "4.7.0",
     "axios": "1.16.1",
+    "chart.js": "4.5.1",
     "date-fns": "4.3.0",
     "date-fns-tz": "3.2.0",
     "pinia": "3.0.4",
     "quasar": "2.19.3",
     "vue": "3.5.34",
-    "vue-router": "5.0.7",
-    "vue3-apexcharts": "1.10.0"
+    "vue-router": "5.0.7"
   },
   "devDependencies": {
     "@eslint/js": "9.39.4",

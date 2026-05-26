@@ -1,3 +1,4 @@
+import { resolve } from 'path'
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 import vue from '@vitejs/plugin-vue'
 import { defineConfig } from 'vitest/config'
@@ -10,6 +11,9 @@ export default defineConfig({
     quasar({ sassVariables: 'src/css/quasar.variables.css' }),
   ],
   test: {
+    alias: {
+      'chart.js': resolve(__dirname, 'test/vitest/mocks/chart.ts'),
+    },
     coverage: {
       include: ['src/**'],
       reporter: ['cobertura', 'lcov', 'text'],

@@ -15,76 +15,113 @@ You should have received a copy of the GNU General Public License
 along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <script setup lang="ts">
-import type { ApexOptions } from 'apexcharts'
+import type { ChartConfiguration, ChartDataset } from 'chart.js'
+import {
+  BarController,
+  BarElement,
+  CategoryScale,
+  Chart,
+  Legend,
+  LinearScale,
+} from 'chart.js'
 import { useQuasar } from 'quasar'
-import { reactive, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useStorageStore } from '../../stores/storage'
 import NotificationCreator from 'src/helpers/NotificationCreator'
+
+Chart.register(BarController, BarElement, CategoryScale, Legend, LinearScale)
+
+const CHART_BAR_COLORS = ['#FF9800', '#2196F3']
+const CHART_BAR_THICKNESS = 25
+const CHART_CONFIGURATION: ChartConfiguration<'bar'> = {
+  data: {
+    labels: ['Storage'],
+    datasets: [],
+  },
+  options: {
+    animation: false,
+    indexAxis: 'y',
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        labels: {
+          boxWidth: 12,
+        },
+        onClick: () => {},
+        position: 'bottom',
+      },
+    },
+    scales: {
+      x: {
+        display: false,
+      },
+      y: {
+        display: false,
+        stacked: true,
+      },
+    },
+  },
+  type: 'bar',
+}
 
 const quasar = useQuasar()
 const store = useStorageStore()
 
+let chart: Chart
+
 const capacityGb = ref(0)
-const chartOptions: ApexOptions = reactive({
-  chart: {
-    stacked: true,
-    stackType: '100%',
-    toolbar: {
-      show: false,
-    },
-    type: 'bar',
-  },
-  colors: ['#ff9800', '#2196f3'],
-  fill: {
-    opacity: 1,
-  },
-  grid: {
-    show: false,
-    padding: {
-      bottom: -10,
-      left: -25,
-      right: -5,
-      top: -29,
-    },
-  },
-  legend: {
-    horizontalAlign: 'left',
-    offsetX: -33,
-  },
-  plotOptions: {
-    bar: {
-      barHeight: '100%',
-      horizontal: true,
-    },
-  },
-  tooltip: {
-    enabled: false,
-  },
-  xaxis: {
-    axisBorder: {
-      show: false,
-    },
-    axisTicks: {
-      show: false,
-    },
-    crosshairs: {
-      show: false,
-    },
-    labels: {
-      show: false,
-    },
-    tooltip: {
-      enabled: false,
-    },
-  },
-  yaxis: {
-    show: false,
-  },
-})
-const chartSeries: { name: string; data: number[] }[] = reactive([])
+const canvas = ref(null)
+
+function addDatasetsToChart(datasets: ChartDataset[]) {
+  chart.options.scales!.x!.max = capacityGb.value
+  datasets.forEach((dataset) => {
+    chart.data.datasets.push(dataset)
+  })
+  chart.update()
+}
 
 function convertKbToGb(input: number): number {
   return input / 1024 / 1024
+}
+
+function initialiseChart() {
+  if (!canvas.value) {
+    return
+  }
+  chart = new Chart(canvas.value, CHART_CONFIGURATION)
+}
+
+async function loadStorageUsage() {
+  try {
+    await store.fetchStorage()
+  } catch (error: unknown) {
+    NotificationCreator.showErrorNotification(
+      quasar,
+      error,
+      'The storage usage details could not be loaded.',
+    )
+    return
+  }
+  const usedKb = (store.usage.capacityKb * store.usage.usedPercentage) / 100
+  const usedGb = convertKbToGb(usedKb)
+  const availableKb = store.usage.capacityKb - usedKb
+  const availableGb = convertKbToGb(availableKb)
+  capacityGb.value = Math.round(usedGb + availableGb)
+  const datasets: ChartDataset[] = [
+    {
+      backgroundColor: CHART_BAR_COLORS[0],
+      barThickness: CHART_BAR_THICKNESS,
+      data: [usedGb],
+      label: `${usedGb.toFixed(2)} GB used`,
+    },
+    {
+      backgroundColor: CHART_BAR_COLORS[1],
+      barThickness: CHART_BAR_THICKNESS,
+      data: [availableGb],
+      label: `${availableGb.toFixed(2)} GB available`,
+    },
+  ]
+  addDatasetsToChart(datasets)
 }
 
 async function reloadStatus() {
@@ -101,28 +138,11 @@ async function reloadStatus() {
   }
 }
 
-try {
-  await store.fetchStorage()
-} catch (error: unknown) {
-  NotificationCreator.showErrorNotification(
-    quasar,
-    error,
-    'The storage usage details could not be loaded.',
-  )
-}
-
-chartSeries.splice(0)
-const usedKb = (store.usage.capacityKb * store.usage.usedPercentage) / 100
-const usedMb = convertKbToGb(usedKb)
-const availableKb = store.usage.capacityKb - usedKb
-const availableMb = convertKbToGb(availableKb)
-chartSeries.push(
-  { name: `${usedMb.toFixed(2)} GB used`, data: [usedMb] },
-  { name: `${availableMb.toFixed(2)} GB available`, data: [availableMb] },
-)
-capacityGb.value = Math.round(usedMb + availableMb)
-
-await reloadStatus()
+onMounted(async () => {
+  initialiseChart()
+  await loadStorageUsage()
+  await reloadStatus()
+})
 </script>
 
 <template>
@@ -138,13 +158,7 @@ await reloadStatus()
     <q-card-section class="q-pa-sm">
       <div class="q-mb-sm">Total capacity: {{ capacityGb }} GB</div>
       <div style="height: 55px">
-        <apexchart
-          height="100%"
-          width="334"
-          type="bar"
-          :options="chartOptions"
-          :series="chartSeries"
-        />
+        <canvas ref="canvas"></canvas>
       </div>
       <div
         class="row q-mt-sm rounded-borders q-pa-sm text-white justify-between items-center"

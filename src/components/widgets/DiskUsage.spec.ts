@@ -25,7 +25,6 @@ const renderComponent = (initialState?: StateTree) => {
   return renderAsync(DiskUsage, {
     global: {
       plugins: [createTestingPinia(piniaTestingOptions)],
-      stubs: ['apexchart'],
     },
   })
 }
