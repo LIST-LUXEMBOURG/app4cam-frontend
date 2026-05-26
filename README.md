@@ -59,6 +59,8 @@ The frontend is served via the access point the device provides.
 
 ```shell
 pnpm install
+
+pnpm postinstall
 ```
 
 3. Copy the config file `.env.sample` to `.env`.

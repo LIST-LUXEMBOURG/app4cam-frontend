@@ -1,6 +1,5 @@
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 import vue from '@vitejs/plugin-vue'
-import tsconfigPaths from 'vite-tsconfig-paths'
 import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
@@ -9,7 +8,6 @@ export default defineConfig({
       template: { transformAssetUrls },
     }),
     quasar({ sassVariables: 'src/css/quasar.variables.css' }),
-    tsconfigPaths(),
   ],
   test: {
     coverage: {
@@ -21,5 +19,8 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: './test/vitest/setup.ts',
+  },
+  resolve: {
+    tsconfigPaths: true,
   },
 })
