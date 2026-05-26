@@ -6,6 +6,7 @@
 
 ### Changed
 
+- Replace Apexcharts.js with Charts.js library
 - Update dependencies in the frontend
 
 ### Deprecated
