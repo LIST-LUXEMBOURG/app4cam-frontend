@@ -54,7 +54,7 @@ The frontend is served via the access point the device provides.
 
 ### Development setup
 
-1. Make sure to have Node.js installed in version >= 18.x.
+1. Make sure to have Node.js installed in version >= 22.
 2. Install dependencies:
 
 ```shell
