@@ -50,6 +50,9 @@ const CHART_CONFIGURATION: ChartConfiguration<'bar'> = {
         onClick: () => {},
         position: 'bottom',
       },
+      tooltip: {
+        enabled: false,
+      },
     },
     scales: {
       x: {
