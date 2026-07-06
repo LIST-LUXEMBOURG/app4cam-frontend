@@ -18,7 +18,12 @@
 import { render } from '@testing-library/vue'
 import SnapshotDialog from './SnapshotDialog.vue'
 
-const renderComponent = () => render(SnapshotDialog)
+const renderComponent = () =>
+  render(SnapshotDialog, {
+    props: {
+      snapshotUrl: '',
+    },
+  })
 
 it('displays itself', () => {
   renderComponent()

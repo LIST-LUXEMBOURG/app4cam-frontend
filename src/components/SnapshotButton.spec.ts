@@ -17,7 +17,12 @@
 import { render, screen } from '@testing-library/vue'
 import SnapshotButton from './SnapshotButton.vue'
 
-const renderComponent = () => render(SnapshotButton)
+const renderComponent = () =>
+  render(SnapshotButton, {
+    props: {
+      outline: false,
+    },
+  })
 
 it('displays take snapshot button', () => {
   renderComponent()
