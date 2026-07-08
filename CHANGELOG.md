@@ -23,7 +23,7 @@
 - Do some code refactorings in the backend
 - Switch from jest to vitest for running tests in backend
 
-## 5.6.0
+## 5.6.0 - 2026-04-30
 
 ### Added
 
@@ -34,7 +34,7 @@
 - Update dependencies
 - Update years in copyright notice in code files
 
-## 5.5.0
+## 5.5.0 - 2026-02-03
 
 ### Added
 
@@ -48,13 +48,13 @@
 
 - Fix running alternating day light change at midday instead of midnight
 
-## 5.4.1
+## 5.4.1 - 2026-01-13
 
 ### Fixed
 
 - Fix not running alternating day light change at midnight (without sleep mode)
 
-## 5.4.0
+## 5.4.0 - 2026-01-12
 
 ### Added
 
