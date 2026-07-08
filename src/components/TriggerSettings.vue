@@ -19,9 +19,9 @@ import type { QOptionGroupProps, ValidationRule } from 'quasar'
 import { useQuasar } from 'quasar'
 import type { VNodeRef } from 'vue'
 import { computed, ref, watch } from 'vue'
+import ApiClientService from '../helpers/ApiClientService'
+import NotificationCreator from '../helpers/NotificationCreator'
 import { TRIGGER_THRESHOLD_MINIMUM, useSettingsStore } from '../stores/settings'
-import ApiClientService from 'src/helpers/ApiClientService'
-import NotificationCreator from 'src/helpers/NotificationCreator'
 
 const quasar = useQuasar()
 const settingsStore = useSettingsStore()

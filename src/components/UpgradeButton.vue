@@ -17,8 +17,8 @@ along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
 <script setup lang="ts">
 import type { DialogChainObject } from 'quasar'
 import { QSpinnerBall, useQuasar } from 'quasar'
+import ApiClientService from '../helpers/ApiClientService'
 import UpgradeEndDialog from './UpgradeEndDialog.vue'
-import ApiClientService from 'src/helpers/ApiClientService'
 
 const quasar = useQuasar()
 

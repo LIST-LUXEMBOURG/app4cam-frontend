@@ -26,8 +26,8 @@ import {
 import { useQuasar } from 'quasar'
 import type { Ref } from 'vue'
 import { computed, onMounted, ref } from 'vue'
-import ApiClientService from 'src/helpers/ApiClientService'
-import NotificationCreator from 'src/helpers/NotificationCreator'
+import ApiClientService from '../../helpers/ApiClientService'
+import NotificationCreator from '../../helpers/NotificationCreator'
 
 Chart.register(BarController, BarElement, LinearScale, Tooltip)
 

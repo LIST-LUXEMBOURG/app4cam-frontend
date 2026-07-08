@@ -17,8 +17,8 @@ along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
 <script setup lang="ts">
 import { useQuasar } from 'quasar'
 import { onMounted, ref } from 'vue'
-import ApiClientService from 'src/helpers/ApiClientService'
-import NotificationCreator from 'src/helpers/NotificationCreator'
+import ApiClientService from '../../helpers/ApiClientService'
+import NotificationCreator from '../../helpers/NotificationCreator'
 
 const quasar = useQuasar()
 

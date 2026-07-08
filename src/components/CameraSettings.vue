@@ -19,9 +19,9 @@ import type { QOptionGroupProps, QSelectOption, ValidationRule } from 'quasar'
 import { useQuasar } from 'quasar'
 import type { VNodeRef } from 'vue'
 import { computed, ref, watch } from 'vue'
+import NotificationCreator from '../helpers/NotificationCreator'
 import { useSettingsStore } from '../stores/settings'
 import SnapshotButton from './SnapshotButton.vue'
-import NotificationCreator from 'src/helpers/NotificationCreator'
 
 const quasar = useQuasar()
 const settingsStore = useSettingsStore()

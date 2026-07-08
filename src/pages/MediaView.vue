@@ -20,8 +20,8 @@ import { computed, reactive, ref } from 'vue'
 import ApiClientService from '../helpers/ApiClientService'
 import type { FileDownloadResponse } from '../helpers/ApiTypings'
 import { FileDownloader } from '../helpers/FileDownloader'
+import NotificationCreator from '../helpers/NotificationCreator'
 import { useFilesStore } from '../stores/files'
-import NotificationCreator from 'src/helpers/NotificationCreator'
 
 const DISPLAY_DOWNLOAD_MULTIPLE_FILES_DIALOG_THRESHOLD = 10
 

@@ -16,10 +16,10 @@ along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <script setup lang="ts">
 import { useQuasar } from 'quasar'
+import ApiClientService from '../helpers/ApiClientService'
+import type { FileDownloadResponse } from '../helpers/ApiTypings'
 import { FileDownloader } from '../helpers/FileDownloader'
-import ApiClientService from 'src/helpers/ApiClientService'
-import type { FileDownloadResponse } from 'src/helpers/ApiTypings'
-import NotificationCreator from 'src/helpers/NotificationCreator'
+import NotificationCreator from '../helpers/NotificationCreator'
 
 const quasar = useQuasar()
 

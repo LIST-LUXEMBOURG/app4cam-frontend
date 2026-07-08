@@ -16,8 +16,8 @@ along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <script setup lang="ts">
 import { useQuasar } from 'quasar'
-import NotificationCreator from 'src/helpers/NotificationCreator'
-import { usePropertiesStore } from 'src/stores/properties'
+import NotificationCreator from '../../helpers/NotificationCreator'
+import { usePropertiesStore } from '../../stores/properties'
 
 const quasar = useQuasar()
 const properties = usePropertiesStore()

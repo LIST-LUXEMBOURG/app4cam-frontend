@@ -20,8 +20,8 @@ import { QBtn, QFile, QForm, QIcon, useQuasar } from 'quasar'
 import { ref } from 'vue'
 import { FileDownloader } from '../helpers/FileDownloader'
 import FilenameCreator from '../helpers/FilenameCreator'
+import NotificationCreator from '../helpers/NotificationCreator'
 import { useSettingsStore } from '../stores/settings'
-import NotificationCreator from 'src/helpers/NotificationCreator'
 
 const EXPORT_FILENAME_SUFFIX = 'settings'
 

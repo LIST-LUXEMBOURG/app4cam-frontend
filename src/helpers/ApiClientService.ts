@@ -18,6 +18,10 @@ import type { AxiosHeaderValue, AxiosResponse } from 'axios'
 import { default as axios, AxiosHeaders } from 'axios'
 import { CONFIG } from '../config'
 import type {
+  ApplicationSettings,
+  ApplicationSettingsWithoutFlags,
+} from '../settings'
+import type {
   AvailableTimeZones,
   DeviceIdResponse,
   StorageResponse,
@@ -35,10 +39,6 @@ import type {
   UpgradeStatus,
   LightTypeResponse,
 } from './ApiTypings'
-import type {
-  ApplicationSettings,
-  ApplicationSettingsWithoutFlags,
-} from 'src/settings'
 
 const apiClient = axios.create({
   baseURL: CONFIG.API_SERVER_URL ?? '',

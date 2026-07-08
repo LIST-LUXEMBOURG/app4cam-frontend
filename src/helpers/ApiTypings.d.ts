@@ -15,7 +15,7 @@
  * along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type { LightType } from 'src/settings'
+import type { LightType } from '../settings'
 
 type CurrentLightType = LightType | 'unsupported'
 

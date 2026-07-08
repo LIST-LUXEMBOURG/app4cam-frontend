@@ -16,8 +16,8 @@
  */
 import { screen } from '@testing-library/vue'
 import { renderAsync } from '../../../test/vitest/renderAsync'
+import ApiClientService from '../../helpers/ApiClientService'
 import SiteAndDeviceNamesHeading from './SiteAndDeviceNamesHeading.vue'
-import ApiClientService from 'src/helpers/ApiClientService'
 
 const renderComponent = () => renderAsync(SiteAndDeviceNamesHeading)
 

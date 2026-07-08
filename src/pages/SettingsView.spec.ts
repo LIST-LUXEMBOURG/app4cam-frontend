@@ -19,10 +19,10 @@ import { userEvent } from '@testing-library/user-event'
 import { screen } from '@testing-library/vue'
 import type { StateTree } from 'pinia'
 import { settings } from '../../fixtures/settings.json'
+import ApiClientService from '../helpers/ApiClientService'
+import type { ApplicationSettings } from '../settings'
 import SettingsView from './SettingsView.vue'
 import { renderAsync } from 'app/test/vitest/renderAsync'
-import ApiClientService from 'src/helpers/ApiClientService'
-import type { ApplicationSettings } from 'src/settings'
 
 vi.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
 
