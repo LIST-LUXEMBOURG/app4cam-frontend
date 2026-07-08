@@ -21,9 +21,9 @@ import { computed, ref } from 'vue'
 import FilenamePreview from '../components/FilenamePreview.vue'
 import ApiClientService from '../helpers/ApiClientService'
 import DateConverter from '../helpers/DateConverter'
+import NotificationCreator from '../helpers/NotificationCreator'
 import { usePropertiesStore } from '../stores/properties'
 import { useSettingsStore } from '../stores/settings'
-import NotificationCreator from 'src/helpers/NotificationCreator'
 
 const propertiesStore = usePropertiesStore()
 const quasar = useQuasar()

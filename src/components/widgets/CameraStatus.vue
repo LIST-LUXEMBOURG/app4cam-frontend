@@ -16,8 +16,8 @@ along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+import { usePropertiesStore } from '../../stores/properties'
 import SnapshotButton from '../SnapshotButton.vue'
-import { usePropertiesStore } from 'src/stores/properties'
 
 const store = usePropertiesStore()
 

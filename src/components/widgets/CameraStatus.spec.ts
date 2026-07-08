@@ -18,8 +18,8 @@ import { createTestingPinia } from '@pinia/testing'
 import { screen, waitFor } from '@testing-library/vue'
 import type { MockInstance } from 'vitest'
 import { renderAsync } from '../../../test/vitest/renderAsync'
+import ApiClientService from '../../helpers/ApiClientService'
 import CameraStatus from './CameraStatus.vue'
-import ApiClientService from 'src/helpers/ApiClientService'
 
 const renderComponent = () =>
   renderAsync(CameraStatus, {

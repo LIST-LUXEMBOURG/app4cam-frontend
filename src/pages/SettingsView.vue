@@ -20,11 +20,11 @@ import { ref } from 'vue'
 import CameraSettings from '../components/CameraSettings.vue'
 import ExportImport from '../components/ExportImport.vue'
 import GeneralSettings from '../components/GeneralSettings.vue'
+import LogFileDownloads from '../components/LogFileDownloads.vue'
 import TriggerSettings from '../components/TriggerSettings.vue'
 import UpgradeButton from '../components/UpgradeButton.vue'
+import { usePropertiesStore } from '../stores/properties'
 import { useSettingsStore } from '../stores/settings'
-import LogFileDownloads from 'src/components/LogFileDownloads.vue'
-import { usePropertiesStore } from 'src/stores/properties'
 
 const propertiesStore = usePropertiesStore()
 const quasar = useQuasar()

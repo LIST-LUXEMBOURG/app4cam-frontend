@@ -26,8 +26,8 @@ import {
 } from 'chart.js'
 import { useQuasar } from 'quasar'
 import { onMounted, ref } from 'vue'
+import NotificationCreator from '../../helpers/NotificationCreator'
 import { useStorageStore } from '../../stores/storage'
-import NotificationCreator from 'src/helpers/NotificationCreator'
 
 Chart.register(BarController, BarElement, CategoryScale, Legend, LinearScale)
 
