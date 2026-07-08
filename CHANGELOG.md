@@ -7,7 +7,9 @@
 ### Changed
 
 - Replace Apexcharts.js with Charts.js library
-- Update dependencies in the frontend
+- Update dependencies
+- Do some code refactorings in the backend
+- Switch from jest to vitest for running tests in backend
 
 ### Deprecated
 
