@@ -1,15 +1,10 @@
 # Changelog
 
-## Upcoming version
+## Upcoming version - YYYY-MM-DD
 
 ### Added
 
 ### Changed
-
-- Replace Apexcharts.js with Charts.js library
-- Update dependencies
-- Do some code refactorings in the backend
-- Switch from jest to vitest for running tests in backend
 
 ### Deprecated
 
@@ -18,6 +13,15 @@
 ### Fixed
 
 ### Security
+
+## 5.7.0 - 2026-07-08
+
+### Changed
+
+- Replace Apexcharts.js with Charts.js library
+- Update dependencies
+- Do some code refactorings in the backend
+- Switch from jest to vitest for running tests in backend
 
 ## 5.6.0
 

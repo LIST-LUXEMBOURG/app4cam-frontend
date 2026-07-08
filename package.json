@@ -1,6 +1,6 @@
 {
   "name": "app4cam-frontend",
-  "version": "5.6.0-next",
+  "version": "5.7.0",
   "productName": "App4Cam",
   "private": true,
   "type": "module",
