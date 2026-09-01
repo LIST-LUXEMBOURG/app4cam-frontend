@@ -10,6 +10,8 @@
 
 ### Removed
 
+- Remove console.log statement in import settings form
+
 ### Fixed
 
 - Fix error message text when getting site name fails on dashboard

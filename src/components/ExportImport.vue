@@ -99,7 +99,6 @@ function importSettings(event: ProgressEvent<FileReader>) {
 
 function submitImportSettingsForm() {
   if (!file.value) {
-    console.log('empty')
     return
   }
   const reader = new FileReader()
