@@ -12,6 +12,9 @@
 
 ### Fixed
 
+- Fix error message text when getting site name fails on dashboard
+- Fix error message text when no GPS position is available
+
 ### Security
 
 ## 5.7.0 - 2026-07-08

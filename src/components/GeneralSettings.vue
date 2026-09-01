@@ -177,7 +177,7 @@ function localiseMeAndFillCoordinates() {
         caption = 'The permission was not given.'
         break
       case GeolocationPositionError.POSITION_UNAVAILABLE:
-        caption = 'The position is not unavailable on the device.'
+        caption = 'The position is unavailable on the device.'
         break
     }
 

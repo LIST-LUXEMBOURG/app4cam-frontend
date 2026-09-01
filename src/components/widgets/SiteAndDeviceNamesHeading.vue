@@ -48,7 +48,7 @@ onMounted(async () => {
     NotificationCreator.showErrorNotification(
       quasar,
       error,
-      'The device name could not be loaded.',
+      'The site name could not be loaded.',
     )
   }
 })
