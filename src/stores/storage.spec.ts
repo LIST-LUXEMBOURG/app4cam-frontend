@@ -78,4 +78,13 @@ describe('storage store', () => {
       getSettingsSpy.mockClear()
     })
   })
+
+  describe('set status error', () => {
+    it('saves storage status after fetching', () => {
+      const store = useStorageStore()
+      store.setStatusError('a')
+      expect(store.status.isAvailable).toBe(false)
+      expect(store.status.message).toBe('a')
+    })
+  })
 })

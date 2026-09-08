@@ -49,5 +49,10 @@ export const useStorageStore = defineStore('storage', {
         this.status.message = response.message
       })
     },
+
+    setStatusError(message: string) {
+      this.status.isAvailable = false
+      this.status.message = message
+    },
   },
 })

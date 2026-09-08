@@ -132,12 +132,11 @@ async function reloadStatus() {
     await store.fetchStorageStatus()
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    store.status.isAvailable = false
     let message = 'The storage status could not be loaded.'
     if (error.message) {
       message += ' ' + error.message
     }
-    store.status.message = message
+    store.setStatusError(message)
   }
 }
 
