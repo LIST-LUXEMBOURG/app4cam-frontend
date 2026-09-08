@@ -19,6 +19,7 @@ import { useQuasar } from 'quasar'
 import { computed } from 'vue'
 import LicenseDialog from '../components/LicenseDialog.vue'
 import { usePropertiesStore } from '../stores/properties'
+import NotificationCreator from '../helpers/NotificationCreator.js'
 
 const quasar = useQuasar()
 const store = usePropertiesStore()
@@ -36,13 +37,11 @@ function openLicenseDialog() {
 }
 
 store.fetchVersion().catch((error) => {
-  quasar.notify({
-    message: 'The backend version could not be loaded.',
-    caption: error.response.data.message
-      ? error.response.data.message
-      : error.message,
-    color: 'negative',
-  })
+  NotificationCreator.showErrorNotification(
+    quasar,
+    error,
+    'The backend version could not be loaded.',
+  )
 })
 </script>
 
