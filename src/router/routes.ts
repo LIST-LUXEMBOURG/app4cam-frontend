@@ -19,21 +19,21 @@ import type { RouteRecordRaw } from 'vue-router'
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    component: () => import('layouts/MainLayout.vue'),
+    component: () => import('@/layouts/MainLayout.vue'),
     children: [
       {
         path: '',
-        component: () => import('pages/DashboardView.vue'),
+        component: () => import('@/pages/DashboardView.vue'),
         name: 'Dashboard',
       },
       {
         path: 'settings',
-        component: () => import('pages/SettingsView.vue'),
+        component: () => import('@/pages/SettingsView.vue'),
         name: 'Settings',
       },
       {
         path: 'media',
-        component: () => import('pages/MediaView.vue'),
+        component: () => import('@/pages/MediaView.vue'),
         name: 'Media',
       },
     ],
@@ -43,7 +43,7 @@ const routes: RouteRecordRaw[] = [
   // but you can also remove it
   {
     path: '/:catchAll(.*)*',
-    component: () => import('pages/ErrorNotFound.vue'),
+    component: () => import('@/pages/ErrorNotFound.vue'),
   },
 ]
 

@@ -17,8 +17,8 @@ along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
 <script setup lang="ts">
 import { useQuasar } from 'quasar'
 import { computed } from 'vue'
+import LicenseDialog from '../components/LicenseDialog.vue'
 import { usePropertiesStore } from '../stores/properties'
-import LicenseDialog from 'components/LicenseDialog.vue'
 
 const quasar = useQuasar()
 const store = usePropertiesStore()

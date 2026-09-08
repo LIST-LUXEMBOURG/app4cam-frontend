@@ -23,7 +23,7 @@ import type {
 } from '../settings'
 import { useSettingsStore } from './settings'
 
-vi.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
+vi.mock('../config', () => ({ CONFIG: { APP_API_SERVER_URL: '' } }))
 
 describe('settings store', () => {
   beforeEach(() => {

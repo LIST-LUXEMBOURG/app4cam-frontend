@@ -22,7 +22,7 @@ import type {
 } from '../helpers/ApiTypings'
 import { useStorageStore } from './storage'
 
-vi.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
+vi.mock('../config', () => ({ CONFIG: { APP_API_SERVER_URL: '' } }))
 
 describe('storage store', () => {
   beforeEach(() => {

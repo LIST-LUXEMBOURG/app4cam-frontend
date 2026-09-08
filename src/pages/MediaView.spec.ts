@@ -19,14 +19,14 @@ import { userEvent } from '@testing-library/user-event'
 import { screen } from '@testing-library/vue'
 import type { StateTree } from 'pinia'
 import { files } from '../../fixtures/files.json'
+import { renderAsync } from '../../test/vitest/renderAsync'
 import ApiClientService from '../helpers/ApiClientService'
 import { convertJsonToFiles } from '../test-helpers'
 import MediaView from './MediaView.vue'
-import { renderAsync } from 'app/test/vitest/renderAsync'
 
 let mockFiles: FileInfo[] = []
 
-vi.mock('../config', () => ({ CONFIG: { API_SERVER_URL: '' } }))
+vi.mock('../config', () => ({ CONFIG: { APP_API_SERVER_URL: '' } }))
 
 const SELECTED_FILE_CLASS = 'bg-blue-1'
 

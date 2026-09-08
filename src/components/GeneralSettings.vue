@@ -18,12 +18,12 @@ along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
 import type { ValidationRule } from 'quasar'
 import { debounce, useQuasar } from 'quasar'
 import { computed, ref } from 'vue'
-import FilenamePreview from '../components/FilenamePreview.vue'
 import ApiClientService from '../helpers/ApiClientService'
 import DateConverter from '../helpers/DateConverter'
 import NotificationCreator from '../helpers/NotificationCreator'
 import { usePropertiesStore } from '../stores/properties'
 import { useSettingsStore } from '../stores/settings'
+import FilenamePreview from './FilenamePreview.vue'
 
 const propertiesStore = usePropertiesStore()
 const quasar = useQuasar()

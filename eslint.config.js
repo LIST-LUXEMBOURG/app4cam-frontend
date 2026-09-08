@@ -70,7 +70,7 @@ export default defineConfigWithVueTs([
   },
 
   {
-    files: ['src/**/*.spec.{js,jsx,ts,tsx}'],
+    files: ['src/**/*.spec.ts'],
     extends: [
       jestDom.configs['flat/recommended'],
       testingLibrary.configs['flat/vue'],
