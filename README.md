@@ -125,14 +125,10 @@ pnpm run format
 The following copyright notice must be included as a comment at the beginning of every source code file:
 
 ```
-© <year> Luxembourg Institute of Science and Technology
+Copyright (C) since <year> Luxembourg Institute of Science and Technology
 ```
 
-As year, indicate the year of creation. When making changes to code with an existing notice, retain the earliest copyright year, and optionally add the current copyright year, e.g.:
-
-```
-© 2022-2024 Luxembourg Institute of Science and Technology
-```
+As year, indicate the year of creation.
 
 ## Production setup
 
