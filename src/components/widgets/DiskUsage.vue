@@ -57,6 +57,7 @@ const CHART_CONFIGURATION: ChartConfiguration<'bar'> = {
     scales: {
       x: {
         display: false,
+        stacked: true,
       },
       y: {
         display: false,

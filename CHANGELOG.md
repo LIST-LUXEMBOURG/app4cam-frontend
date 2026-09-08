@@ -20,6 +20,7 @@
 
 ### Fixed
 
+- Let disk usage chart use all available horizontal space
 - Clear selection when filter is changed in media view
 - Fix rerendering file list in media view by using filename as key
 - Safeguard error message access in multiple error handlers
