@@ -32,12 +32,16 @@ function onTakeSnapshotButtonClick() {
       }
       const file = new Blob([response.data], { type: response.contentType })
       const snapshotUrl = URL.createObjectURL(file)
-      quasar.dialog({
-        component: SnapshotDialog,
-        componentProps: {
-          snapshotUrl,
-        },
-      })
+      quasar
+        .dialog({
+          component: SnapshotDialog,
+          componentProps: {
+            snapshotUrl,
+          },
+        })
+        .onDismiss(() => {
+          URL.revokeObjectURL(snapshotUrl)
+        })
     })
     .catch((error) => {
       quasar.notify({

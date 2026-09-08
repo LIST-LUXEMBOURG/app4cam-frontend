@@ -16,6 +16,7 @@
 
 ### Fixed
 
+- Clean up snapshot blob URL when dialog is closed
 - Fix error message text when getting site name fails on dashboard
 - Fix error message text when no GPS position is available
 
