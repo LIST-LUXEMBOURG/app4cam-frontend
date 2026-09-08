@@ -37,7 +37,7 @@ export default defineConfigWithVueTs([
       'import/newline-after-import': 'error',
       'import/no-empty-named-blocks': 'error',
       'import/order': [
-        'error',
+        'off', // workaround until compatibility with eslint 10 is guaranteed
         { alphabetize: { order: 'asc', caseInsensitive: true } },
       ],
     },
