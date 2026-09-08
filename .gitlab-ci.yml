@@ -84,7 +84,7 @@ build:
   tags:
     - oceb
   environment:
-    name: Raspberry Pi testing
+    name: $DEPLOY_NAME
     url: http://$DEPLOY_HOST
   script:
     ## Install ssh-agent if not already installed, it is required by Docker.
@@ -114,6 +114,7 @@ build:
 deploy-raspberry-pi:
   extends: .deploy
   variables:
+    DEPLOY_NAME: Raspberry Pi testing
     DEPLOY_HOST: $RASPBERRY_PI_HOST
     DEPLOY_PRIVATE_KEY: $RASPBERRY_PI_PRIVATE_KEY
     DEPLOY_FOLDER: spa_raspberry_pi
@@ -121,6 +122,7 @@ deploy-raspberry-pi:
 deploy-variscite-newtcam:
   extends: .deploy
   variables:
+    DEPLOY_NAME: Variscite NEWTCAM 3 testing
     DEPLOY_HOST: $VARISCITE_NEWTCAM_HOST
     DEPLOY_PRIVATE_KEY: $VARISCITE_NEWTCAM_PRIVATE_KEY
     DEPLOY_FOLDER: spa_variscite_newtcam
