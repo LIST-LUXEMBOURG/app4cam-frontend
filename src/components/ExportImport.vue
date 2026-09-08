@@ -58,13 +58,11 @@ function onExportButtonClick() {
       )
     })
     .catch((error) => {
-      quasar.notify({
-        message: 'The settings could not be exported.',
-        caption: error.response.data.message
-          ? error.response.data.message
-          : error.message,
-        color: 'negative',
-      })
+      NotificationCreator.showErrorNotification(
+        quasar,
+        error,
+        'The settings could not be exported.',
+      )
     })
 }
 

@@ -23,6 +23,7 @@ import GeneralSettings from '../components/GeneralSettings.vue'
 import LogFileDownloads from '../components/LogFileDownloads.vue'
 import TriggerSettings from '../components/TriggerSettings.vue'
 import UpgradeButton from '../components/UpgradeButton.vue'
+import NotificationCreator from '../helpers/NotificationCreator.js'
 import { usePropertiesStore } from '../stores/properties'
 import { useSettingsStore } from '../stores/settings'
 
@@ -33,25 +34,21 @@ const settingsStore = useSettingsStore()
 const isLoadingSettings = ref(true)
 
 propertiesStore.fetchDeviceId().catch((error) => {
-  quasar.notify({
-    message: 'The device ID could not be loaded.',
-    caption: error.response.data.message
-      ? error.response.data.message
-      : error.message,
-    color: 'negative',
-  })
+  NotificationCreator.showErrorNotification(
+    quasar,
+    error,
+    'The device ID could not be loaded.',
+  )
 })
 
 settingsStore
   .fetchSettings()
   .catch((error) => {
-    quasar.notify({
-      message: 'The settings could not be loaded.',
-      caption: error.response.data.message
-        ? error.response.data.message
-        : error.message,
-      color: 'negative',
-    })
+    NotificationCreator.showErrorNotification(
+      quasar,
+      error,
+      'The settings could not be loaded.',
+    )
   })
   .finally(() => {
     isLoadingSettings.value = false

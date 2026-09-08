@@ -29,13 +29,11 @@ const quasar = useQuasar()
 const store = useFilesStore()
 
 store.fetchFiles().catch((error) => {
-  quasar.notify({
-    message: 'The files could not be loaded.',
-    caption: error.response.data.message
-      ? error.response.data.message
-      : error.message,
-    color: 'negative',
-  })
+  NotificationCreator.showErrorNotification(
+    quasar,
+    error,
+    'The files could not be loaded.',
+  )
 })
 
 const typeFilterOptions = ['Pictures', 'Videos']
@@ -95,13 +93,11 @@ function onConfirmDeleteButtonClick() {
         .deleteFile(selectedFiles[0])
         .then(handleFileDeleteSuccess)
         .catch((error) => {
-          quasar.notify({
-            message: 'The file could not be deleted.',
-            caption: error.response.data.message
-              ? error.response.data.message
-              : error.message,
-            color: 'negative',
-          })
+          NotificationCreator.showErrorNotification(
+            quasar,
+            error,
+            'The file could not be deleted.',
+          )
         })
     }
   } else {
@@ -109,13 +105,11 @@ function onConfirmDeleteButtonClick() {
       .deleteFiles(selectedFiles)
       .then(handleFileDeleteSuccess)
       .catch((error) => {
-        quasar.notify({
-          message: 'One or more files could not be deleted.',
-          caption: error.response.data.message
-            ? error.response.data.message
-            : error.message,
-          color: 'negative',
-        })
+        NotificationCreator.showErrorNotification(
+          quasar,
+          error,
+          'One or more files could not be deleted.',
+        )
       })
   }
 }

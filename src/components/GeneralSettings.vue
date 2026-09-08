@@ -251,13 +251,11 @@ ApiClientService.getAvailableTimeZones()
     filteredTimeZones.value = data.timeZones
   })
   .catch((error) => {
-    quasar.notify({
-      message: 'The available time zones could not be loaded.',
-      caption: error.response?.data.message
-        ? error.response.data.message
-        : error.message,
-      color: 'negative',
-    })
+    NotificationCreator.showErrorNotification(
+      quasar,
+      error,
+      'The available time zones could not be loaded.',
+    )
   })
 </script>
 

@@ -16,6 +16,7 @@
 
 ### Fixed
 
+- Safeguard error message access in multiple error handlers
 - Prevent deleting last file in the list in the frontend when the filename is not found
 - Clean up snapshot blob URL when dialog is closed
 - Fix error message text when getting site name fails on dashboard
