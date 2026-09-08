@@ -16,5 +16,5 @@
  */
 interface FileInfo {
   readonly name: string
-  creationTime: Date
+  readonly creationTime: Date
 }
