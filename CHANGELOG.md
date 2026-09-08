@@ -20,6 +20,7 @@
 
 ### Fixed
 
+- Stop upgrade status polling when the component is unmounted
 - Let disk usage chart use all available horizontal space
 - Clear selection when filter is changed in media view
 - Fix rerendering file list in media view by using filename as key

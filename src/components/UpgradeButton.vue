@@ -19,6 +19,7 @@ import type { DialogChainObject } from 'quasar'
 import { QSpinnerBall, useQuasar } from 'quasar'
 import ApiClientService from '../helpers/ApiClientService'
 import UpgradeEndDialog from './UpgradeEndDialog.vue'
+import { onUnmounted } from 'vue'
 
 const quasar = useQuasar()
 
@@ -159,6 +160,10 @@ function setupUpgradeStatusPolling() {
 function stopUpgradeStatusPolling() {
   clearInterval(pollingInterval)
 }
+
+onUnmounted(() => {
+  stopUpgradeStatusPolling()
+})
 </script>
 
 <template>
