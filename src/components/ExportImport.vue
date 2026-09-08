@@ -16,7 +16,7 @@ along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <script setup lang="ts">
 import type { ValidationRule } from 'quasar'
-import { QBtn, QFile, QForm, QIcon, useQuasar } from 'quasar'
+import { useQuasar } from 'quasar'
 import { ref } from 'vue'
 import { FileDownloader } from '../helpers/FileDownloader'
 import FilenameCreator from '../helpers/FilenameCreator'
