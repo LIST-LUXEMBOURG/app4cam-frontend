@@ -6,6 +6,7 @@
 
 ### Changed
 
+- Replace any cast with explicitly typing two Quasar field refs
 - Improve store state mutation of an error handler in the DiskUsage component
 - Remove a few explicit imports that are auto-imported anyway
 - Mark FileInfo's second property creationTime as readonly too

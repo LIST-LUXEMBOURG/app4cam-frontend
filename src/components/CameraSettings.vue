@@ -15,9 +15,13 @@ You should have received a copy of the GNU General Public License
 along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <script setup lang="ts">
-import type { QOptionGroupProps, QSelectOption, ValidationRule } from 'quasar'
+import type {
+  QField,
+  QOptionGroupProps,
+  QSelectOption,
+  ValidationRule,
+} from 'quasar'
 import { useQuasar } from 'quasar'
-import type { VNodeRef } from 'vue'
 import { computed, ref, watch } from 'vue'
 import NotificationCreator from '../helpers/NotificationCreator'
 import { useSettingsStore } from '../stores/settings'
@@ -87,7 +91,7 @@ const notEmptyAndBetweenMinMaxFocus: ValidationRule[] = [
     `Please provide a value between ${settingsStore.current.camera.focusMinimum} and ${settingsStore.current.camera.focusMaximum}.`,
 ]
 
-const cameraLightFieldRef = ref<VNodeRef>()
+const cameraLightFieldRef = ref<InstanceType<typeof QField>>()
 
 const focusHint = computed(
   () =>
@@ -121,8 +125,7 @@ watch(
   () => settingsStore.current.triggering.light,
   () => {
     if (cameraLightFieldRef.value) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ;(cameraLightFieldRef.value as any).resetValidation()
+      cameraLightFieldRef.value.resetValidation()
     }
   },
 )

@@ -15,9 +15,8 @@ You should have received a copy of the GNU General Public License
 along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <script setup lang="ts">
-import type { QOptionGroupProps, ValidationRule } from 'quasar'
+import type { QField, QOptionGroupProps, ValidationRule } from 'quasar'
 import { useQuasar } from 'quasar'
-import type { VNodeRef } from 'vue'
 import { computed, ref, watch } from 'vue'
 import ApiClientService from '../helpers/ApiClientService'
 import NotificationCreator from '../helpers/NotificationCreator'
@@ -58,7 +57,7 @@ const notEmptyAndBetweenMinMaxThreshold: ValidationRule[] = [
 const sleepingTime = ref('')
 const sunrise = ref('')
 const sunset = ref('')
-const triggerLightFieldRef = ref<VNodeRef>()
+const triggerLightFieldRef = ref<InstanceType<typeof QField>>()
 const wakingUpTime = ref('')
 const workingTimeEnabled = ref(false)
 
@@ -152,8 +151,7 @@ watch(
   () => settingsStore.current.camera.light,
   () => {
     if (triggerLightFieldRef.value) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ;(triggerLightFieldRef.value as any).resetValidation()
+      triggerLightFieldRef.value.resetValidation()
     }
   },
 )
