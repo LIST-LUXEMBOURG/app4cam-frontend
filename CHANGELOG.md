@@ -18,6 +18,7 @@
 
 ### Fixed
 
+- Clear selection when filter is changed in media view
 - Fix rerendering file list in media view by using filename as key
 - Safeguard error message access in multiple error handlers
 - Prevent deleting last file in the list in the frontend when the filename is not found

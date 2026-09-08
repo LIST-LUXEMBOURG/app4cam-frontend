@@ -16,7 +16,7 @@ along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <script setup lang="ts">
 import { useQuasar } from 'quasar'
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import ApiClientService from '../helpers/ApiClientService'
 import type { FileDownloadResponse } from '../helpers/ApiTypings'
 import { FileDownloader } from '../helpers/FileDownloader'
@@ -170,6 +170,10 @@ function onSelectAllButtonClick() {
 function onUnselectAllButtonClick() {
   selectedFiles.splice(0)
 }
+
+watch(typeFilterSelectedOption, () => {
+  selectedFiles.splice(0)
+})
 </script>
 
 <template>
