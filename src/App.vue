@@ -17,10 +17,10 @@ along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
 <script setup lang="ts">
 import { useQuasar } from 'quasar'
 import { onMounted } from 'vue'
+import TimeOutOfSyncDialog from './components/TimeOutOfSyncDialog.vue'
 import ApiClientService from './helpers/ApiClientService'
 import DateConverter from './helpers/DateConverter'
 import NotificationCreator from './helpers/NotificationCreator'
-import TimeOutOfSyncDialog from 'components/TimeOutOfSyncDialog.vue'
 
 const quasar = useQuasar()
 

@@ -1,8 +1,9 @@
 .DS_Store
-.env
 .thumbs.db
+node_modules
 
-/node_modules
+# .env file
+.env
 
 # Quasar core related directories
 .quasar
@@ -29,6 +30,3 @@
 *.ntvs*
 *.njsproj
 *.sln
-
-# local .env files
-.env.local

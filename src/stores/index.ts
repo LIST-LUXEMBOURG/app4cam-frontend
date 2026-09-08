@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { defineStore } from '#q-app/wrappers'
+import { defineStore } from '#q-app'
 import { createPinia } from 'pinia'
 
 /*

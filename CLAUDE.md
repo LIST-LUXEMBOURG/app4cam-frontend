@@ -25,7 +25,7 @@ pnpm vitest run src/helpers/DateConverter.spec.ts
 
 ## Architecture
 
-App4Cam is a Vue 3 + Quasar 2 SPA that acts as a frontend for a wildlife camera backend API. It communicates exclusively via the REST API defined in `src/helpers/ApiClientService.ts`, with the backend URL configured through the `API_SERVER_URL` environment variable (`src/config.ts`).
+App4Cam is a Vue 3 + Quasar 2 SPA that acts as a frontend for a wildlife camera backend API. It communicates exclusively via the REST API defined in `src/helpers/ApiClientService.ts`, with the backend URL configured through the `APP_API_SERVER_URL` environment variable (`src/config.ts`).
 
 ### Layers
 

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
  */
-const API_SERVER_URL = process.env.API_SERVER_URL
+const API_SERVER_URL = import.meta.env.APP_API_SERVER_URL
 
 export const CONFIG = {
   API_SERVER_URL,

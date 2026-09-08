@@ -28,3 +28,12 @@ const options: Partial<QuasarPluginOptions> = {
   },
 }
 config.global.plugins.unshift([Quasar, options])
+
+// Mock ResizeObserver as jsdom does not implement it natively.
+beforeAll(() => {
+  global.ResizeObserver = class ResizeObserver {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  }
+})

@@ -99,10 +99,9 @@ function initialiseChart() {
 }
 
 async function loadNumberFilesPerHourOfDay() {
-  let mediaPerHourOfDay: number[] = []
   try {
     const response = await ApiClientService.getNumberFilesPerHourOfDay()
-    mediaPerHourOfDay = response.hoursOfDayCounts
+    const mediaPerHourOfDay = response.hoursOfDayCounts
     const datasets: ChartDataset = {
       backgroundColor: CHART_BAR_COLOR,
       barPercentage: 1.1,

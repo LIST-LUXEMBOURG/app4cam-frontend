@@ -12,7 +12,7 @@ export default defineConfig({
   ],
   test: {
     alias: {
-      'chart.js': resolve(__dirname, 'test/vitest/mocks/chart.ts'),
+      'chart.js': resolve(import.meta.dirname, 'test/vitest/mocks/chart.ts'),
     },
     coverage: {
       include: ['src/**'],
