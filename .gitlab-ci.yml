@@ -79,13 +79,13 @@ build:
       - node_modules/
       - .pnpm-store/
 
-deploy-raspberry-pi:
+.deploy:
   stage: deploy
   tags:
     - oceb
   environment:
     name: Raspberry Pi testing
-    url: http://$RASPBERRY_PI_HOST
+    url: http://$DEPLOY_HOST
   script:
     ## Install ssh-agent if not already installed, it is required by Docker.
     - 'which ssh-agent || ( apk update && apk add openssh-client )'
@@ -96,49 +96,31 @@ deploy-raspberry-pi:
     ## Add the SSH key variable to the agent store. We're using tr to fix line
     ## endings which makes ed25519 keys work without extra base64 encoding.
     ## https://gitlab.com/gitlab-examples/ssh-private-key/issues/1#note_48526556
-    - echo "$RASPBERRY_PI_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - echo "$DEPLOY_PRIVATE_KEY" | tr -d '\r' | ssh-add -
 
     ## Create the SSH directory and give it the right permissions.
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
 
     ## Use ssh-keyscan to scan the keys of your private server.
-    - ssh-keyscan $RASPBERRY_PI_HOST >> ~/.ssh/known_hosts
+    - ssh-keyscan $DEPLOY_HOST >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
 
     # Deploy.
-    - ssh $APP4CAM_USER@$RASPBERRY_PI_HOST "rm --force --recursive /var/www/html/* && exit"
+    - ssh $APP4CAM_USER@$DEPLOY_HOST "rm --force --recursive /var/www/html/* && exit"
     - apk add rsync
-    - rsync --recursive dist/spa_raspberry_pi/ $APP4CAM_USER@$RASPBERRY_PI_HOST:/var/www/html
+    - rsync --recursive dist/$DEPLOY_FOLDER/ $APP4CAM_USER@$DEPLOY_HOST:/var/www/html
+
+deploy-raspberry-pi:
+  extends: .deploy
+  variables:
+    DEPLOY_HOST: $RASPBERRY_PI_HOST
+    DEPLOY_PRIVATE_KEY: $RASPBERRY_PI_PRIVATE_KEY
+    DEPLOY_FOLDER: spa_raspberry_pi
 
 deploy-variscite-newtcam:
-  stage: deploy
-  tags:
-    - oceb
-  environment:
-    name: Variscite NEWTCAM 3 testing
-    url: http://$VARISCITE_NEWTCAM_HOST
-  script:
-    ## Install ssh-agent if not already installed, it is required by Docker.
-    - 'which ssh-agent || ( apk update && apk add openssh-client )'
-
-    ## Run ssh-agent (inside the build environment).
-    - eval $(ssh-agent -s)
-
-    ## Add the SSH key variable to the agent store. We're using tr to fix line
-    ## endings which makes ed25519 keys work without extra base64 encoding.
-    ## https://gitlab.com/gitlab-examples/ssh-private-key/issues/1#note_48526556
-    - echo "$VARISCITE_NEWTCAM_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-
-    ## Create the SSH directory and give it the right permissions.
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-
-    ## Use ssh-keyscan to scan the keys of your private server.
-    - ssh-keyscan $VARISCITE_NEWTCAM_HOST >> ~/.ssh/known_hosts
-    - chmod 644 ~/.ssh/known_hosts
-
-    # Deploy.
-    - ssh $APP4CAM_USER@$VARISCITE_NEWTCAM_HOST "rm --force --recursive /var/www/html/* && exit"
-    - apk add rsync
-    - rsync --recursive dist/spa_variscite_newtcam/ $APP4CAM_USER@$VARISCITE_NEWTCAM_HOST:/var/www/html
+  extends: .deploy
+  variables:
+    DEPLOY_HOST: $VARISCITE_NEWTCAM_HOST
+    DEPLOY_PRIVATE_KEY: $VARISCITE_NEWTCAM_PRIVATE_KEY
+    DEPLOY_FOLDER: spa_variscite_newtcam
