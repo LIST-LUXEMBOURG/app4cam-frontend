@@ -58,7 +58,11 @@ describe('files store', () => {
   })
 
   describe('delete file', () => {
-    vi.spyOn(ApiClientService, 'deleteFile').mockResolvedValue()
+    let spy: MockInstance
+
+    beforeAll(() => {
+      spy = vi.spyOn(ApiClientService, 'deleteFile').mockResolvedValue()
+    })
 
     it('removes a file', async () => {
       const filename = 'a'
@@ -81,6 +85,10 @@ describe('files store', () => {
       })
       await store.deleteFile('b')
       expect(store.files).toHaveLength(1)
+    })
+
+    afterAll(() => {
+      spy.mockRestore()
     })
   })
 
@@ -168,12 +176,22 @@ describe('files store', () => {
   })
 
   describe('fetch files', () => {
-    vi.spyOn(ApiClientService, 'getFileList').mockResolvedValue(mockFiles)
+    let spy: MockInstance
+
+    beforeAll(() => {
+      spy = vi
+        .spyOn(ApiClientService, 'getFileList')
+        .mockResolvedValue(mockFiles)
+    })
 
     it('stores files', async () => {
       const store = useFilesStore()
       await store.fetchFiles()
       expect(store.files).toEqual(mockFiles)
+    })
+
+    afterAll(() => {
+      spy.mockRestore()
     })
   })
 })
