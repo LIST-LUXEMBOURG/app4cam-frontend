@@ -45,7 +45,9 @@ export const useFilesStore = defineStore('files', {
     deleteFile(filename: string) {
       return ApiClientService.deleteFile(filename).then(() => {
         const index = this.files.findIndex((file) => file.name === filename)
-        this.files.splice(index, 1)
+        if (index !== -1) {
+          this.files.splice(index, 1)
+        }
       })
     },
 

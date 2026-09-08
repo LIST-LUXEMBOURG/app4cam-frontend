@@ -71,6 +71,17 @@ describe('files store', () => {
       await store.deleteFile(filename)
       expect(store.files).toHaveLength(0)
     })
+
+    it('does not remove any file when filename is not found', async () => {
+      const filename = 'a'
+      const store = useFilesStore()
+      store.files.push({
+        name: filename,
+        creationTime: new Date(),
+      })
+      await store.deleteFile('b')
+      expect(store.files).toHaveLength(1)
+    })
   })
 
   describe('delete files', () => {
