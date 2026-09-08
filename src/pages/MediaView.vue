@@ -192,8 +192,8 @@ function onUnselectAllButtonClick() {
     visible
   >
     <div
-      v-for="(file, index) in files"
-      :key="index"
+      v-for="file in files"
+      :key="file.name"
     >
       <q-item
         v-ripple
