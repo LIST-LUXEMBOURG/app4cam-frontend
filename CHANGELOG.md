@@ -20,6 +20,7 @@
 
 ### Fixed
 
+- Fix setting wrong time when browser of user device is in different time zone
 - Stop upgrade status polling when the component is unmounted
 - Let disk usage chart use all available horizontal space
 - Clear selection when filter is changed in media view

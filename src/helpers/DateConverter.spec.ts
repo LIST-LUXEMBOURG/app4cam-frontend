@@ -93,4 +93,48 @@ describe(DateConverter.getAbsoluteDifferenceInMinutes.name, () => {
       ),
     ).toBe(2)
   })
+
+  describe(DateConverter.replaceDateInTimeZone.name, () => {
+    it('replaces only the date part and preserves time of day in UTC', () => {
+      const date = new Date('2022-12-11T14:48:37.500Z')
+      expect(
+        DateConverter.replaceDateInTimeZone(
+          date,
+          '2022-12-20',
+          'UTC',
+        ).toISOString(),
+      ).toBe('2022-12-20T14:48:37.500Z')
+    })
+
+    it('interprets the new date as wall-clock in the configured time zone', () => {
+      const date = new Date('2022-12-11T23:30:00.000Z')
+      expect(
+        DateConverter.replaceDateInTimeZone(
+          date,
+          '2022-12-20',
+          'America/New_York',
+        ).toISOString(),
+      ).toBe('2022-12-20T23:30:00.000Z')
+    })
+  })
+
+  describe(DateConverter.replaceTimeInTimeZone.name, () => {
+    it('replaces only the time part and preserves seconds and milliseconds in UTC', () => {
+      const date = new Date('2022-12-11T14:48:37.250Z')
+      expect(
+        DateConverter.replaceTimeInTimeZone(date, '09:15', 'UTC').toISOString(),
+      ).toBe('2022-12-11T09:15:37.250Z')
+    })
+
+    it('interprets the new time as wall-clock in the configured time zone', () => {
+      const date = new Date('2022-12-11T14:00:00.000Z')
+      expect(
+        DateConverter.replaceTimeInTimeZone(
+          date,
+          '15:00',
+          'America/New_York',
+        ).toISOString(),
+      ).toBe('2022-12-11T20:00:00.000Z')
+    })
+  })
 })

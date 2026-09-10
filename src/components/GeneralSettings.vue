@@ -90,19 +90,18 @@ const date = computed({
     )
   },
   set: (value) => {
-    const year = parseInt(value.slice(0, 4))
-    const month = parseInt(value.slice(5, 7))
-    const day = parseInt(value.slice(8, 10))
-    let date
-    if (settingsStore.current.general.systemTime) {
-      date = new Date(settingsStore.current.general.systemTime.valueOf())
-    } else {
-      date = new Date()
+    const timeZone = settingsStore.current.general.timeZone
+    if (!timeZone) {
+      return
     }
-    date.setFullYear(year)
-    date.setMonth(month - 1)
-    date.setDate(day)
-    systemTimeAsDate.value = date
+    const base = settingsStore.current.general.systemTime
+      ? systemTimeAsDate.value
+      : new Date()
+    systemTimeAsDate.value = DateConverter.replaceDateInTimeZone(
+      base,
+      value,
+      timeZone,
+    )
   },
 })
 const systemTimeAsDate = computed({
@@ -125,17 +124,18 @@ const time = computed({
     )
   },
   set: debounce((value) => {
-    const hours = parseInt(value.slice(0, 2))
-    const minutes = parseInt(value.slice(3, 5))
-    let date
-    if (settingsStore.current.general.systemTime) {
-      date = new Date(settingsStore.current.general.systemTime.valueOf())
-    } else {
-      date = new Date()
+    const timeZone = settingsStore.current.general.timeZone
+    if (!timeZone) {
+      return
     }
-    date.setHours(hours)
-    date.setMinutes(minutes)
-    systemTimeAsDate.value = date
+    const base = settingsStore.current.general.systemTime
+      ? systemTimeAsDate.value
+      : new Date()
+    systemTimeAsDate.value = DateConverter.replaceTimeInTimeZone(
+      base,
+      value,
+      timeZone,
+    )
   }, 200),
 })
 

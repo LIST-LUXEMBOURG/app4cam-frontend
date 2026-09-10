@@ -15,7 +15,7 @@
  * along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { differenceInMinutes } from 'date-fns'
-import { formatInTimeZone } from 'date-fns-tz'
+import { formatInTimeZone, toDate } from 'date-fns-tz'
 
 export default class DateConverter {
   static formatDateAsDashedYearMonthDayInTimeZone(
@@ -38,5 +38,24 @@ export default class DateConverter {
 
   static getAbsoluteDifferenceInMinutes(firstDate: Date, secondDate: Date) {
     return Math.abs(differenceInMinutes(firstDate, secondDate))
+  }
+
+  static replaceDateInTimeZone(
+    date: Date,
+    dashedYearMonthDay: string,
+    timeZone: string,
+  ): Date {
+    const timeOfDay = formatInTimeZone(date, timeZone, 'HH:mm:ss.SSS')
+    return toDate(`${dashedYearMonthDay}T${timeOfDay}`, { timeZone })
+  }
+
+  static replaceTimeInTimeZone(
+    date: Date,
+    hoursColonMinutes: string,
+    timeZone: string,
+  ): Date {
+    const datePart = formatInTimeZone(date, timeZone, 'yyyy-MM-dd')
+    const seconds = formatInTimeZone(date, timeZone, 'ss.SSS')
+    return toDate(`${datePart}T${hoursColonMinutes}:${seconds}`, { timeZone })
   }
 }
