@@ -59,7 +59,15 @@ function convertAxiosResponseToFileDownloadResponse(
   const contentDisposition = response.headers['content-disposition']
   let name = ''
   if (contentDisposition) {
-    name = contentDisposition.split('"')[1]
+    const contentDispositionParts = contentDisposition.split("UTF-8''")
+    if (contentDispositionParts < 2) {
+      throw new Error('Invalid UTF-8 filename')
+    }
+    try {
+      name = decodeURIComponent(contentDispositionParts[1])
+    } catch {
+      throw new Error('Invalid percent-encoded UTF-8 filename')
+    }
   }
   const contentType = axiosHeaderToString(response.headers['content-type'])
   return {
