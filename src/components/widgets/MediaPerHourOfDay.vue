@@ -59,7 +59,11 @@ const CHART_CONFIGURATION: ChartConfiguration<'bar'> = {
           maxRotation: 0,
         },
       },
-      y: { border: { display: false }, grid: { drawTicks: false } },
+      y: {
+        border: { display: false },
+        grid: { drawTicks: false },
+        ticks: { stepSize: 1 },
+      },
     },
   },
   type: 'bar',

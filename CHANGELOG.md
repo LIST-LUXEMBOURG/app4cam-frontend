@@ -23,6 +23,7 @@
 - Fix setting wrong time when browser of user device is in different time zone
 - Stop upgrade status polling when the component is unmounted
 - Let disk usage chart use all available horizontal space
+- Use entire numbers only on the y axis in the disk usage chart
 - Clear selection when filter is changed in media view
 - Fix rerendering file list in media view by using filename as key
 - Safeguard error message access in multiple error handlers
