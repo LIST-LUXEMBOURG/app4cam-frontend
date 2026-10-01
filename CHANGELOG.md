@@ -4,8 +4,12 @@
 
 ### Added
 
+- Add shutdown and restart buttons to new tools page
+
 ### Changed
 
+- Move tools from settings page to new dedicated page
+- Change icon of download log files section
 - Replace any cast with explicitly typing two Quasar field refs
 - Improve store state mutation of an error handler in the DiskUsage component
 - Remove a few explicit imports that are auto-imported anyway

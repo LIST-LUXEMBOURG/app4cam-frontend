@@ -27,14 +27,19 @@ const routes: RouteRecordRaw[] = [
         name: 'Dashboard',
       },
       {
+        path: 'media',
+        component: () => import('@/pages/MediaView.vue'),
+        name: 'Media',
+      },
+      {
         path: 'settings',
         component: () => import('@/pages/SettingsView.vue'),
         name: 'Settings',
       },
       {
-        path: 'media',
-        component: () => import('@/pages/MediaView.vue'),
-        name: 'Media',
+        path: 'tools',
+        component: () => import('@/pages/ToolsView.vue'),
+        name: 'Tools',
       },
     ],
   },

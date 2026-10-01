@@ -10,6 +10,12 @@ export default defineConfig({
     }),
     quasar({ sassVariables: 'src/css/quasar.variables.css' }),
   ],
+  resolve: {
+    alias: {
+      '@': resolve(import.meta.dirname, './src'),
+    },
+    tsconfigPaths: true,
+  },
   test: {
     alias: {
       'chart.js': resolve(import.meta.dirname, 'test/vitest/mocks/chart.ts'),
@@ -23,8 +29,5 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: './test/vitest/setup.ts',
-  },
-  resolve: {
-    tsconfigPaths: true,
   },
 })

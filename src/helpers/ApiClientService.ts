@@ -94,6 +94,14 @@ function axiosHeaderToString(header?: AxiosHeaderValue): string | undefined {
 }
 
 export default {
+  postReboot(): Promise<void> {
+    return unwrapAxiosResponse(apiClient.post('/device/reboot'))
+  },
+
+  postShutDown(): Promise<void> {
+    return unwrapAxiosResponse(apiClient.post('/device/shutDown'))
+  },
+
   deleteFile(filename: string): Promise<void> {
     return unwrapAxiosResponse(apiClient.delete('/files/' + filename))
   },
