@@ -16,7 +16,6 @@
  */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-/* eslint-disable testing-library/no-debugging-utils, testing-library/no-node-access */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * WARNING 01-12-2021: Vue testing library doesn't support <Suspense> see:
@@ -29,12 +28,8 @@
  * https://gist.github.com/sand4rt/5da4dda9b1aec636c92b83b83cc95aee
  */
 
-import {
-  getQueriesForElement,
-  prettyDOM,
-  RenderOptions,
-  RenderResult,
-} from '@testing-library/vue'
+import type { RenderOptions, RenderResult } from '@testing-library/vue'
+import { getQueriesForElement, prettyDOM } from '@testing-library/vue'
 import { mount, flushPromises } from '@vue/test-utils'
 import { h, defineComponent, Suspense } from 'vue'
 
@@ -91,13 +86,13 @@ async function renderAsync(
     debug: (el = baseElement, maxLength, options) =>
       Array.isArray(el)
         ? el.forEach((e) =>
-            console.log(prettyDOM(e as any, maxLength, options as any)),
+            console.log(prettyDOM(e as any, maxLength, options)),
           )
-        : console.log(prettyDOM(el as any, maxLength, options as any)),
+        : console.log(prettyDOM(el as any, maxLength, options)),
     unmount: () => wrapper.unmount(),
     html: () => wrapper.html(),
     emitted: () => wrapper.emitted(),
-    rerender: (props) => wrapper.setProps(props as any),
+    rerender: (props) => wrapper.setProps(props),
     ...getQueriesForElement(baseElement as HTMLElement),
   } as RenderResult
 }

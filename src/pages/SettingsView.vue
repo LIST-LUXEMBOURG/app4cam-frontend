@@ -18,11 +18,8 @@ along with App4Cam.  If not, see <https://www.gnu.org/licenses/>.
 import { useQuasar } from 'quasar'
 import { ref } from 'vue'
 import CameraSettings from '../components/CameraSettings.vue'
-import ExportImport from '../components/ExportImport.vue'
 import GeneralSettings from '../components/GeneralSettings.vue'
-import LogFileDownloads from '../components/LogFileDownloads.vue'
 import TriggerSettings from '../components/TriggerSettings.vue'
-import UpgradeButton from '../components/UpgradeButton.vue'
 import NotificationCreator from '../helpers/NotificationCreator.js'
 import { usePropertiesStore } from '../stores/properties'
 import { useSettingsStore } from '../stores/settings'
@@ -93,50 +90,6 @@ settingsStore
       <q-card>
         <q-card-section>
           <TriggerSettings :is-loading-settings="isLoadingSettings" />
-        </q-card-section>
-      </q-card>
-    </q-expansion-item>
-  </q-list>
-
-  <h6 class="q-mt-lg q-mb-sm q-ml-sm">Tools</h6>
-
-  <q-list bordered>
-    <q-expansion-item
-      group="settings"
-      icon="swap_horiz"
-      label="Export & import settings"
-    >
-      <q-card>
-        <q-card-section>
-          <ExportImport />
-        </q-card-section>
-      </q-card>
-    </q-expansion-item>
-
-    <q-separator />
-
-    <q-expansion-item
-      group="settings"
-      icon="description"
-      label="Download log files"
-    >
-      <q-card>
-        <q-card-section>
-          <LogFileDownloads />
-        </q-card-section>
-      </q-card>
-    </q-expansion-item>
-
-    <q-separator />
-
-    <q-expansion-item
-      group="settings"
-      icon="upgrade"
-      label="Upgrade App4Cam"
-    >
-      <q-card>
-        <q-card-section>
-          <UpgradeButton />
         </q-card-section>
       </q-card>
     </q-expansion-item>

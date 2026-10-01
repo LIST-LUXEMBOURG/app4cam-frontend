@@ -73,6 +73,10 @@ store.fetchVersion().catch((error) => {
           :to="{ name: 'Settings' }"
           label="Settings"
         />
+        <q-route-tab
+          :to="{ name: 'Tools' }"
+          label="Tools"
+        />
       </q-tabs>
     </q-header>
     <q-page-container>
