@@ -156,7 +156,7 @@ export default {
   },
 
   getNextSunsetAndSunriseTimes(): Promise<SunriseAndSunsetResponse> {
-    return unwrapAxiosResponse(apiClient.get('/properties/sunsetAndSunrise'))
+    return unwrapAxiosResponse(apiClient.get('/settings/sunsetAndSunrise'))
   },
 
   getNumberFilesPerHourOfDay(): Promise<{ hoursOfDayCounts: number[] }> {
