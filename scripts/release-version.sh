@@ -21,7 +21,7 @@ fi
 git add CHANGELOG.md
 
 # Update version in package files, commit and tag.
-npm version "$NEW_VERSION" -fm "release version $NEW_VERSION"
+pnpm version "$NEW_VERSION" --no-git-checks -m "release version $NEW_VERSION"
 
 # Push the commit to the remote repository.
 git push
@@ -30,7 +30,7 @@ git push
 git push --tags
 
 # Append -next to the version number in package files, and commit.
-npm version "$NEW_VERSION-next" --no-git-tag-version
+pnpm version "$NEW_VERSION-next" --no-git-tag-version
 git commit -am "prepare next release" --no-verify
 
 # Push the commit to the remote repository without running the pipeline.
