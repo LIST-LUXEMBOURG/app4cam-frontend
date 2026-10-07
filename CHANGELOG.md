@@ -68,6 +68,7 @@
 - Encode filename sent to motion in backend
 - Allow 0, 0 coordinates
 - Fix path to archive folder in Witty pi setup script
+- Add `fake-hwclock` package for covering situations of cell button failure resulting in time being reset and messed up logs on NewtCam
 
 ### Security
 
