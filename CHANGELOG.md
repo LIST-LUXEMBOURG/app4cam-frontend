@@ -4,6 +4,20 @@
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## 5.8.0 - 2026-10-07
+
+### Added
+
 - Add shutdown and restart buttons to new tools page
 - Add config environment variable `DISABLE_ACCESS_POINT_UPDATE` to backend for skipping access point reset in test context for NewtCAM
 - Log battery voltage every 15 min
@@ -28,8 +42,6 @@
 - Move sunsetAndSunrise endpoint from properties to settings for better decoupling
 - Load device type from config file instead of requesting it from the API in LED changing scripts in backend
 - Make getting and setting settings independent of availability of camera and motion
-
-### Deprecated
 
 ### Removed
 
