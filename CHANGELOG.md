@@ -5,22 +5,36 @@
 ### Added
 
 - Add shutdown and restart buttons to new tools page
+- Add config environment variable `DISABLE_ACCESS_POINT_UPDATE` to backend for skipping access point reset in test context for NewtCAM
+- Log battery voltage every 15 min
+- Log CPU temperature every 15 min
+- Add nestjs doctor to development environment and pipeline
 
 ### Changed
 
 - Move tools from settings page to new dedicated page
-- Change icon of download log files section
-- Replace any cast with explicitly typing two Quasar field refs
+- Change icon of download log files section with a lighter one for better harmony
+- Improve type annotation in frontend by replacing two any casts with Quasar field refs
 - Improve store state mutation of an error handler in the DiskUsage component
-- Remove a few explicit imports that are auto-imported anyway
+- Remove a few explicit imports that auto-imported in the frontend
 - Mark FileInfo's second property creationTime as readonly too
 - Upgrade dependencies
+- Hide error console output when running unit tests in backend
+- Improve settings DTO type validation in backend
+- Reuse logger in exception catcher in backend
+- Move business logic of deleteFiles from controller to service
+- Make `Content-Disposition` attachment header value compliant with RFC 6266 for better handling of non-ASCII characters
+- Make some tests in the files service unit test in the backend more robust
+- Move sunsetAndSunrise endpoint from properties to settings for better decoupling
+- Load device type from config file instead of requesting it from the API in LED changing scripts in backend
+- Make getting and setting settings independent of availability of camera and motion
 
 ### Deprecated
 
 ### Removed
 
-- Remove console.log statement in import settings form
+- Remove `console.log` statement in import settings form
+- Remove useless logrotate settings from the setup guide
 
 ### Fixed
 
@@ -30,13 +44,22 @@
 - Use entire numbers only on the y axis in the disk usage chart
 - Clear selection when filter is changed in media view
 - Fix rerendering file list in media view by using filename as key
-- Safeguard error message access in multiple error handlers
+- Safeguard error message access in multiple error handlers in the frontend
 - Prevent deleting last file in the list in the frontend when the filename is not found
 - Clean up snapshot blob URL when dialog is closed
 - Fix error message text when getting site name fails on dashboard
 - Fix error message text when no GPS position is available
+- Fix logging errors in storage service in the backend
+- Add a few missing await operators in the backend
+- Set `SyncIntervalSec=5s` for journald in setup script
+- Fix sending negative values to Witty Pi when sleeping time is earlier than waking up time
+- Encode filename sent to motion in backend
+- Allow 0, 0 coordinates
+- Fix path to archive folder in Witty pi setup script
 
 ### Security
+
+- Block path traversal in single-file endpoints
 
 ## 5.7.0 - 2026-07-08
 
